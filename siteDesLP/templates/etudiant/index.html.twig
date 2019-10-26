@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>Création d'un étudiant</h1>
+{{ form_start(form_create_etudiant) }}
+<div class="form-group">
+  <label for="">Nom de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.nomEtudiant) }}
+</div>
+
+<div class="form-group">
+  <label for="">Prénom de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.prenomEtudiant) }}
+</div>
+
+<div class="form-group">
+  <label for="">Mail de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.mail) }}
+</div>
+
+<div class="form-group">
+  <label for="">Mail académique de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.mailAcademique) }}
+</div>
+
+<div class="form-group">
+  <label for="">Login de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.login) }}
+</div>
+
+<div class="form-group">
+  <label for="">Mot de passe de l'étudiant</label>
+    {{ form_widget(form_create_etudiant.password) }}
+</div>
+
+
+
+{{ form_end(form_create_etudiant) }}
+{% endblock %}
