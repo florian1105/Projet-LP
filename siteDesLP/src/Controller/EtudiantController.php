@@ -4,65 +4,41 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Etudiants;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class EtudiantController extends AbstractController
 {
   /**
   * @Route("/etudiant_create", name="create")
   */
-  public function create()
+  public function create(Request $request, ObjectManager $manager)
   {
     $etudiant = new Etudiants();
 
     $form = $this->createFormBuilder($etudiant)
-    ->add('nomEtudiant',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Nom de l'étudiant",
-        'class' => 'form-control'
-      ]
-    ])
-    ->add('prenomEtudiant',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Prénom de l'étudiant",
-        'class' => 'form-control'
-      ]
-    ])
-    ->add('login',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Login de l'étudiant",
-        'class' => 'form-control'
-      ]
-    ])
-    ->add('password',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Password de l'étudiant",
-        'class' => 'form-control'
-      ]
-    ])
+    ->add('nomEtudiant')
+    ->add('prenomEtudiant')
+    ->add('login')
+    ->add('password')
+    ->add('mail')
+    ->add('mailAcademique')
 
-    ->add('mail',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Mail personnel de l'étudiant",
-        'class' => 'form-control'
-      ]
-    ])
-    ->add('mailAcademique',TextType::class,[
-      'attr' => [
-        'placeholder'=>"Mail académique",
-        'class' => 'form-control'
-      ]
-    ])
-    ->add('save', SubmitType::class,[
-      'label' => 'Créer l\'étudiant',
-      'attr' => ['class' =>'btn btn-success']
-    ])
     ->getForm();
 
+    $form->handleRequest($request);
 
 
+
+    if($form->isSubmitted() && $form->isValid())
+    {
+      $etudiant -> setDateNaissance(new \DateTime());
+      $manager->persist($etudiant);
+      $manager->flush();
+    }
 
     return $this->render('etudiant/index.html.twig', [
       'form_create_etudiant' => $form->createView(),
