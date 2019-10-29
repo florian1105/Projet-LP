@@ -41,15 +41,17 @@ class Etudiants
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateNaissance;
+
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $login;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateNaissance;
 
     public function getId(): ?int
     {
@@ -116,17 +118,7 @@ class Etudiants
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeInterface
-    {
-        return $this->dateNaissance;
-    }
-
-    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
-    {
-        $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
+  
 
     public function getLogin(): ?string
     {
@@ -136,6 +128,18 @@ class Etudiants
     public function setLogin(string $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    {
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }
