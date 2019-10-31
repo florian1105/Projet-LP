@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Modifier un étudiant</h1>
+<table class="table">
+<thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Nom</th>
+    <th scope="col">Prenom</th>
+    <th scope="col">Date de naissance</th>
+    </tr>
+</thead>
+<tbody>
+{% for etudiant in etudiants %}
+    <tr>
+    <th scope="row">{{ etudiant.id }}</th>
+    <td>{{ etudiant.nomEtudiant }}</td>
+    <td>{{ etudiant.prenomEtudiant }}</td>
+    <td>{{ etudiant.dateNaissance | date('d/m/Y') }}</td>
+    <td><a href="{{ path('edit_show', {'id': etudiant.id}) }}"><input type="button" value="Modifier l'étudiant"></a></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
