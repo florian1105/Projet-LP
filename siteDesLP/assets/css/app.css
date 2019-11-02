@@ -10,3 +10,9 @@
 {
   color: white !important;
 }
+
+.table, .form
+{
+  margin-top: 3%;
+}
+

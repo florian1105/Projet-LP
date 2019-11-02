@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Modifier l'étudiant n°{{ etudiant.id }}</h1>
+<!--<form class="form">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="nom">Nom</label>
+      <input type="text" class="form-control" name="nom" value="{{ etudiant.nomEtudiant }}" placeholder="Nom">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="prenom">Prenom</label>
+      <input type="text" class="form-control" name="prenom" value="{{ etudiant.prenomEtudiant }}" placeholder="Prenom">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="mail">E-mail</label>
+      <input type="email" class="form-control" name="mail" value="{{ etudiant.mail }}" placeholder="E-mail">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="mailAcademique">E-mail académique</label>
+      <input type="email" class="form-control" name="mailAcademique" value="{{ etudiant.mailAcademique }}" placeholder="E-mail Académique">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="login">Login</label>
+      <input type="text" class="form-control" name="login" value="{{ etudiant.login }}" placeholder="Login">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="password">Mot de passe</label>
+      <input type="password" class="form-control" name="password" value="{{ etudiant.password }}" placeholder="Mot de passe">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="date">Date de naissance</label>
+      <input type="date" class="form-control" name="date" value="{{ etudiant.dateNaissance | date('Y-m-d') }}">
+    </div>
+    <div class="form-group col-md-6">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
+  </div>
+</form>-->
+
+{{ form_start(form_create_etudiant) }}
+
+{{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.prenomEtudiant, {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.login, {'attr' : {'placeholder' : "Login" }}) }}
+{{ form_row(form_create_etudiant.password, {'attr' : {'placeholder' : "Password de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+
+<button type="submit" class="btn btn-success">Modifier l'étudiant</button>
+{{ form_end(form_create_etudiant) }}
+{% endblock %}
