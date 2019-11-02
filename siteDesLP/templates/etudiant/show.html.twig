@@ -3,7 +3,7 @@
 {% block body %}
 
 <h1>Modifier l'étudiant n°{{ etudiant.id }}</h1>
-<form class="form">
+<!--<form class="form">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nom">Nom</label>
@@ -43,7 +43,7 @@
         <button type="submit" class="btn btn-primary">Modifier</button>
     </div>
   </div>
-</form>
+</form>-->
 
 {{ form_start(form_create_etudiant) }}
 
@@ -55,6 +55,6 @@
 {{ form_row(form_create_etudiant.password, {'attr' : {'placeholder' : "Password de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
 
-<button type="submit" class="btn btn-success">Créer l'étudiant</button>
+<button type="submit" class="btn btn-success">Modifier l'étudiant</button>
 {{ form_end(form_create_etudiant) }}
 {% endblock %}

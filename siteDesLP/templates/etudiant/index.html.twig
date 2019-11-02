@@ -5,13 +5,12 @@
 <h1>Création d'un étudiant</h1>
 {{ form_start(form_create_etudiant) }}
 
-{{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}, , {'label' : "Nom de l'étudiant" }  }}
-{{ form_row(form_create_etudiant.prenomEtudiant, {'attr' : {'placeholder' : "Prénom de l'étudiant" }} }}
-{{ form_row(form_create_etudiant.login, {'attr' : {'placeholder' : "Login" }}) }}
-{{ form_row(form_create_etudiant.password, {'attr' : {'placeholder' : "Password de l'étudiant" }} }}
-{{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }} }}
-{{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }} }}
-{{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }} }}
+{{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.prenomEtudiant, {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.password, {'attr' : {'placeholder' : "Password de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
 
 <button type="submit" class="btn btn-success">Créer l'étudiant</button>
 

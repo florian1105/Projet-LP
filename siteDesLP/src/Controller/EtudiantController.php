@@ -87,21 +87,20 @@ class EtudiantController extends AbstractController
     $etudiant = $repo->find($id);
 
     $form = $this->createFormBuilder($etudiant)
-    ->add('nomEtudiant')
-    ->add('prenomEtudiant')
-    ->add('mail')
-    ->add('mailAcademique')
+    ->add('nomEtudiant', TextType::class, ['label' => 'Nom étudiant'])
+    ->add('prenomEtudiant', TextType::class, ['label' => 'Prénom étudiant'])
+    ->add('mail', TextType::class, ['label' => 'E-mail'])
+    ->add('mailAcademique', TextType::class, ['label' => 'E-mail académique'])
     ->add('login')
-    ->add('password', PasswordType::class)
+    ->add('password', PasswordType::class, ['label' => 'Mot de passe'])
     ->add('dateNaissance', DateType::class, [
-      'widget' => 'single_text'
+      'widget' => 'single_text',
+      'label' => 'Date de naissance'
     ])
 
     ->getForm();
 
     $form->handleRequest($request);
-
-
 
     if($form->isSubmitted() && $form->isValid())
     {
