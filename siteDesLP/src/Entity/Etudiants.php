@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EtudiantsRepository")
+ * @UniqueEntity("login", message="Ce login est déjà utilisé, veuillez en choisir un autre")
  */
-class Etudiants
+class Etudiants implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,30 +23,35 @@ class Etudiants
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom")
      */
     private $nomEtudiant;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un prénom")
      */
     private $prenomEtudiant;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
      */
     private $mailAcademique;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un password")
      */
     private $password;
-
-
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -118,8 +128,6 @@ class Etudiants
         return $this;
     }
 
-  
-
     public function getLogin(): ?string
     {
         return $this->login;
@@ -143,4 +151,25 @@ class Etudiants
 
         return $this;
     }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function getRoles()
+    {
+      return ['ROLE_USER'];
+    }
+
+    public function getUsername()
+    {
+      return $this->login;
+    }
+
 }
