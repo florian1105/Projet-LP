@@ -19,7 +19,7 @@
     <td>{{ etudiant.nomEtudiant }}</td>
     <td>{{ etudiant.prenomEtudiant }}</td>
     <td>{{ etudiant.dateNaissance | date('d/m/Y') }}</td>
-    <td><a href="{{ path('edit_show', {'id': etudiant.id}) }}"><input type="button" value="Modifier l'étudiant"></a></td>
+    <td><a href="{{ path('etudiant_edit', {'id': etudiant.id}) }}"><input type="button" value="Modifier l'étudiant"></a></td>
     </tr>
 {% endfor %}
 </tbody>

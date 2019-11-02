@@ -2,7 +2,11 @@
 {% form_theme form_create_etudiant 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-<h1>Création d'un étudiant</h1>
+{% if editMode %}
+    <h1>Modification de l'étudiant n°{{ etudiant.id }}</h1>
+{% else %}
+    <h1>Création d'un étudiant</h1>
+{% endif %}
 {{ form_start(form_create_etudiant) }}
 
 {{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
@@ -13,7 +17,13 @@
 {{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
 
-<button type="submit" class="btn btn-success">Créer l'étudiant</button>
+<button type="submit" class="btn btn-success">
+    {% if editMode %}
+        Modifier l'étudiant
+    {% else %}
+        Créer l'étudiant
+    {% endif %}
+</button>
 
 {{ form_end(form_create_etudiant) }}
 {% endblock %}
