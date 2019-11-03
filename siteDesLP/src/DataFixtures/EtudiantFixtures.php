@@ -13,7 +13,7 @@ class EtudiantFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
-        for ($i=0; $i <10 ; $i++){
+        for ($i=0; $i <100 ; $i++){
             $etudiant=new Etudiants();
             $int= rand(1262055681,1262055681);
              $date= new \DateTime("21-10-1990");

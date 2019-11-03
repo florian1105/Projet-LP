@@ -77,4 +77,26 @@ class EtudiantController extends AbstractController
     ]);
   }
 
+    /**
+     * @Route("etudiant/etudiant/{id}", name="etudiant_info")
+     * @param EtudiantsRepository $repo
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+  public function showEtudiantInfo(Etudiants $etudiant){
+      return $this->render('etudiant/info.html.twig', [
+          'etudiant' => $etudiant,
+      ]);
+  }
+    /**
+     * @Route("etudiant/etudiant_research", name="research")
+     * @param EtudiantsRepository $repo
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+  public function researchEtudiant(EtudiantsRepository $repo){
+      $etudiants =$repo->findAll();
+      return $this->render('etudiant/research.html.twig', [
+          'etudiants' => $etudiants,
+      ]);
+  }
+
 }
