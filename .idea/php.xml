@@ -108,6 +108,10 @@
       <path value="$PROJECT_DIR$/siteDesLP/vendor/phpdocumentor/reflection-common" />
       <path value="$PROJECT_DIR$/siteDesLP/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/siteDesLP/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/siteDesLP/vendor/symfony/apache-pack" />
+      <path value="$PROJECT_DIR$/siteDesLP/vendor/omines/datatables-bundle" />
+      <path value="$PROJECT_DIR$/siteDesLP/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/siteDesLP/vendor/doctrine/doctrine-fixtures-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
