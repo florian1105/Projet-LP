@@ -19,8 +19,8 @@
     </thead>
     <tbody>
     {% for etudiant in etudiants %}
-    <tr>
-        <th>{{etudiant.login}}</th>
+    <tr onmouseover="showModifs(this)" onmouseout="restoreModifs(this)" >
+        <th id="{{ etudiant.id }}" >{{etudiant.login}}</th>
         <td>{{etudiant.nomEtudiant}}</td>
         <td>{{etudiant.prenomEtudiant}}</td>
         <td>{{etudiant.mailAcademique}}</td>
@@ -39,12 +39,23 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script  type="text/javascript">
     $(document).ready(function() {
-        $('#example').DataTable({
+        const table = $('#example').DataTable({
+            buttons:[
+              'supprmié','modifié'
+            ],
             select: true,
             scroll : 2000,
             lengthChange : false ,
             pageLength : 50,
+
         });
+        function showModifs(tr){
+
+        }
+        function restoreModifs(tr){
+
+        }
     } );
+
 </script>
 {% endblock %}

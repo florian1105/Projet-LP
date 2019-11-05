@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -78,11 +79,25 @@ class EtudiantController extends AbstractController
   }
 
     /**
+     * @Route("etudiant/etudiant_delete/{id}", name="deleteEtu")
+     * @param Etudiants $etudiant
+     * @return Response
+     */
+  public function deleteEtudiant(Etudiants $etudiant)
+  {
+      $em = $this->getDoctrine()->getManager();
+      $em->remove($etudiant);
+      $em->flush();
+      return new Response("Etudiant supprimer");
+  }
+
+    /**
      * @Route("etudiant/etudiant/{id}", name="etudiant_info")
      * @param EtudiantsRepository $repo
      * @return \Symfony\Component\HttpFoundation\Response
      */
-  public function showEtudiantInfo(Etudiants $etudiant){
+  public function showEtudiantInfo(Etudiants $etudiant)
+  {
       return $this->render('etudiant/info.html.twig', [
           'etudiant' => $etudiant,
       ]);
@@ -92,7 +107,8 @@ class EtudiantController extends AbstractController
      * @param EtudiantsRepository $repo
      * @return \Symfony\Component\HttpFoundation\Response
      */
-  public function researchEtudiant(EtudiantsRepository $repo){
+  public function researchEtudiant(EtudiantsRepository $repo)
+  {
       $etudiants =$repo->findAll();
       return $this->render('etudiant/research.html.twig', [
           'etudiants' => $etudiants,
