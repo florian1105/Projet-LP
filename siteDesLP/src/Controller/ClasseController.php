@@ -21,7 +21,7 @@ class ClasseController extends AbstractController
   {
     $editMode = true;
 
-    if(!$classe) 
+    if(!$classe)
     {
       $classe = new Classes();
       $editMode = false;
@@ -52,7 +52,7 @@ class ClasseController extends AbstractController
       $manager->persist($classe);
       $manager->flush();
 
-      return new Response('Classe créer');
+      return $this->redirectToRoute('classe_list');
 
     }
 

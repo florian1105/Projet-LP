@@ -28,7 +28,7 @@ class EtudiantController extends AbstractController
   {
     $editMode = true;
 
-    if(!$etudiant) 
+    if(!$etudiant)
     {
       $etudiant = new Etudiants();
       $editMode = false;
@@ -42,7 +42,8 @@ class EtudiantController extends AbstractController
       ->add('password', PasswordType::class)
       ->add('mail')
       ->add('dateNaissance', DateType::class, [
-        'widget' => 'single_text'])
+        'widget' => 'single_text'
+      ])
       ->add('classeEtudiant', EntityType::class, [
         'class' => Classes::class,
         'choice_label' => 'nomClasse',
@@ -56,7 +57,7 @@ class EtudiantController extends AbstractController
       $prenomLogin1 = substr($prenomLogin, 0,1);
       $login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
       $mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());
-      
+
       $i = "";
       $j = "";
 

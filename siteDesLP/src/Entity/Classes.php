@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClassesRepository")
+ * @UniqueEntity("nomClasse", message="Ce nom de classe est déjà utilisé, veuillez en saisir un autre")
  */
 class Classes
 {

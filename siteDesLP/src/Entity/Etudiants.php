@@ -59,6 +59,7 @@ class Etudiants implements UserInterface
 
     /**
      * @ORM\Column(type="date")
+     *@Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
      */
     private $dateNaissance;
 
