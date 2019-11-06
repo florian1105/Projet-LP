@@ -120,7 +120,7 @@ class EtudiantController extends AbstractController
       $manager->persist($etudiant);
       $manager->flush();
 
-      return $this->redirectToRoute('list');
+      return $this->redirectToRoute('etudiant_list');
 
     }
     return $this->render('etudiant/index.html.twig', [
