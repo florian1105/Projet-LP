@@ -10,11 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Etudiants;
 use App\Entity\Classes;
 use App\Repository\EtudiantsRepository;
-use App\Repository\ClassesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -25,7 +24,7 @@ class EtudiantController extends AbstractController
   * @Route("/etudiant/new", name="etudiant_create")
   * @Route("/etudiant/{id}/edit", name="etudiant_edit")
   */
-  public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, Classesrepository $repoC, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+  public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
   {
     $editMode = true;
 
@@ -42,28 +41,39 @@ class EtudiantController extends AbstractController
       ->add('prenomEtudiant')
       ->add('password', PasswordType::class)
       ->add('mail')
-      ->add('mailAcademique')
       ->add('dateNaissance', DateType::class, [
         'widget' => 'single_text'])
-      ->add('classeEtudiant', ChoiceType::class, [ 'choices' => [ 'nomClasse' => $repoC->findAll()]])
+      ->add('classeEtudiant', EntityType::class, [
+        'class' => Classes::class,
+        'choice_label' => 'nomClasse',
+    ])
 
       ->getForm();
 
       $form->handleRequest($request);
 
-      $prenom = strtolower($form['prenomEtudiant']->getData());
-      $prenom1 = substr($prenom, 0,1);
-      $login = strtolower($form['nomEtudiant']->getData()).$prenom1;
+      $prenomLogin = strtolower($form['prenomEtudiant']->getData());
+      $prenomLogin1 = substr($prenomLogin, 0,1);
+      $login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
+      $mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());
       
       $i = "";
+      $j = "";
 
       while($repoE->findBy(['login' => $login.$i]))
       {
-        if($i == "") $i = 1;
+        if($i == "") $i = 0;
         $i++;
       }
 
+      while($repoE->findBy(['mailAcademique' => $mailAcademique.$j."@etu.umontpellier.fr"]))
+      {
+        if($j == "") $j = 0;
+        $j++;
+      }
+
       $etudiant->setLogin($login.$i);
+      $etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
 
     }
     else
@@ -77,13 +87,26 @@ class EtudiantController extends AbstractController
       ->add('dateNaissance', DateType::class, [
         'widget' => 'single_text'
       ])
+      ->add('classeEtudiant', EntityType::class, [
+        'class' => Classes::class,
+        'choice_label' => 'nomClasse',
+      ])
 
       ->getForm();
+
+      $form->handleRequest($request);
+
+      $mailAca = strtolower($form['mailAcademique']->getData());
+      $etudiant->setMailAcademique($mailAca);
     }
 
-    //$form->handleRequest($request);
+    $mail = strtolower($form['mail']->getData());
+    $prenom = ucfirst(strtolower($form['prenomEtudiant']->getData()));
+    $nom = strtoupper($form['nomEtudiant']->getData());
 
-    $classes = $repoC->findAll();
+    $etudiant->setMail($mail);
+    $etudiant->setNomEtudiant($nom);
+    $etudiant->setPrenomEtudiant($prenom);
 
     if($editMode == false)
     {
@@ -103,12 +126,11 @@ class EtudiantController extends AbstractController
       'form_create_etudiant' => $form->createView(),
       'editMode' => $etudiant->getId() !== null,
       'etudiant' => $etudiant,
-      'classes' => $classes,
     ]);
   }
 
   /**
-  * @Route("etudiant/etudiant_list", name="list")
+  * @Route("etudiant/etudiant_list", name="etudiant_list")
   */
   public function showEtudiants(EtudiantsRepository $repoE)
   {

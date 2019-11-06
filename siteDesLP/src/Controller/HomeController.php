@@ -12,16 +12,6 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        $form = $this->createFormBuilder($etudiant)
-      ->add('nomEtudiant')
-      ->add('prenomEtudiant')
-      ->add('password', PasswordType::class)
-      ->add('mail')
-      ->add('mailAcademique')
-      ->add('dateNaissance', DateType::class, [
-        'widget' => 'single_text'
-      ])
-
-      ->getForm();
+        
     }
 }

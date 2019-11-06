@@ -30,7 +30,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href={{ path('etudiant_create') }}>Créer un étudiant</a>
-            <a class="dropdown-item" href={{ path('list') }}>Modifier un étudiant</a>
+            <a class="dropdown-item" href={{ path('etudiant_list') }}>Modifier un étudiant</a>
             <a class="dropdown-item" href="#">Supprimer un étudiant</a>
             <a class="dropdown-item" href="{{ path('research') }}">Rechercher un étudiant</a>
           </div>
@@ -42,8 +42,9 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ path('classe_create') }}">Créer une classe</a>
-            <a class="dropdown-item" href="#">Modifier une classe</a>
+            <a class="dropdown-item" href="{{ path('classe_list') }}">Modifier une classe</a>
             <a class="dropdown-item" href="#">Supprimer une classe</a>
+            <a class="dropdown-item" href="#">Rechercher une classe</a>
           </div>
         </li>
 

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Modifier une classe</h1>
+    <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom classe</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for classe in classes %}
+        <tr>
+        <th scope="row">{{ classe.id }}</th>
+        <td>{{ classe.nomClasse }}</td>
+        <td><a href="{{ path('classe_edit', {'id': classe.id}) }}"><input type="button" value="Modifier la classe"></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+{%  endblock %}

@@ -12,8 +12,9 @@
 {{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.prenomEtudiant , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 
-{% if editMode%} 
+{% if editMode %} 
 {{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mailAcademique , {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {% endif %}
 
 {% if editMode == false %}
@@ -21,13 +22,8 @@
 {% endif %}
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
-<select>
-{% for classe in classes %}
-<option>{{ classe.nomClasse }}</option>
-{% endfor %}
-</select>
+{{ form_row(form_create_etudiant.classeEtudiant) }}
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}

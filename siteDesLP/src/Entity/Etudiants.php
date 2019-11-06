@@ -35,7 +35,6 @@ class Etudiants implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner un mail")
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
      */
     private $mailAcademique;

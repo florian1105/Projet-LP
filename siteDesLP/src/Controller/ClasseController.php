@@ -43,10 +43,9 @@ class ClasseController extends AbstractController
       ->add('nomClasse')
 
       ->getForm();
+
+      $form->handleRequest($request);
     }
-
-    //$form->handleRequest($request);
-
 
     if($form->isSubmitted() && $form->isValid())
     {
@@ -61,6 +60,17 @@ class ClasseController extends AbstractController
       'form_create_classe' => $form->createView(),
       'editMode' => $classe->getId() !== null,
       'classe' => $classe,
+    ]);
+  }
+
+  /**
+  * @Route("classe/classe_list", name="classe_list")
+  */
+  public function showClasses(ClassesRepository $repoC)
+  {
+    $classes = $repoC->findAll();
+    return $this->render('classe/list.html.twig', [
+      'classes' => $classes,
     ]);
   }
 }
