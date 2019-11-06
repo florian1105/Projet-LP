@@ -23,6 +23,11 @@
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.mailAcademique, {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+<select>
+{% for classe in classes %}
+<option>{{ classe.nomClasse }}</option>
+{% endfor %}
+</select>
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}

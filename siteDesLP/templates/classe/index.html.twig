@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% form_theme form_create_classe 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+{% if editMode %}
+    <h1>Modification de la classe n°{{ classe.id }}</h1>
+{% else %}
+    <h1>Création d'une classe</h1>
+{% endif %}
+{{ form_start(form_create_classe) }}
+
+{{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe" }}) }}
+
+
+<button type="submit" class="btn btn-success">
+    {% if editMode %}
+        Modifier la classe
+    {% else %}
+        Créer la classe
+    {% endif %}
+</button>
+
+{{ form_end(form_create_classe) }}
+{% endblock %}

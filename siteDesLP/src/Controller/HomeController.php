@@ -12,8 +12,16 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        $form = $this->createFormBuilder($etudiant)
+      ->add('nomEtudiant')
+      ->add('prenomEtudiant')
+      ->add('password', PasswordType::class)
+      ->add('mail')
+      ->add('mailAcademique')
+      ->add('dateNaissance', DateType::class, [
+        'widget' => 'single_text'
+      ])
+
+      ->getForm();
     }
 }

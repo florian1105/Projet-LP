@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Etudiants;
+use App\Entity\Classes;
 use App\Repository\EtudiantsRepository;
+use App\Repository\ClassesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,7 +25,7 @@ class EtudiantController extends AbstractController
   * @Route("/etudiant/new", name="etudiant_create")
   * @Route("/etudiant/{id}/edit", name="etudiant_edit")
   */
-  public function form(Etudiants $etudiant = null, Etudiantsrepository $repo, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+  public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, Classesrepository $repoC, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
   {
     $editMode = true;
 
@@ -41,8 +44,8 @@ class EtudiantController extends AbstractController
       ->add('mail')
       ->add('mailAcademique')
       ->add('dateNaissance', DateType::class, [
-        'widget' => 'single_text'
-      ])
+        'widget' => 'single_text'])
+      ->add('classeEtudiant', ChoiceType::class, [ 'choices' => [ 'nomClasse' => $repoC->findAll()]])
 
       ->getForm();
 
@@ -54,7 +57,7 @@ class EtudiantController extends AbstractController
       
       $i = "";
 
-      while($repo->findBy(['login' => $login.$i]))
+      while($repoE->findBy(['login' => $login.$i]))
       {
         if($i == "") $i = 1;
         $i++;
@@ -80,6 +83,8 @@ class EtudiantController extends AbstractController
 
     //$form->handleRequest($request);
 
+    $classes = $repoC->findAll();
+
     if($editMode == false)
     {
       $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
@@ -98,37 +103,34 @@ class EtudiantController extends AbstractController
       'form_create_etudiant' => $form->createView(),
       'editMode' => $etudiant->getId() !== null,
       'etudiant' => $etudiant,
+      'classes' => $classes,
     ]);
   }
 
   /**
   * @Route("etudiant/etudiant_list", name="list")
   */
-  public function showEtudiants(EtudiantsRepository $repo)
+  public function showEtudiants(EtudiantsRepository $repoE)
   {
-    $etudiants = $repo->findAll();
+    $etudiants = $repoE->findAll();
     return $this->render('etudiant/list.html.twig', [
       'etudiants' => $etudiants,
     ]);
   }
 
     /**
-     * @Route("etudiant/etudiant_delete/{id}", name="deleteEtu")
-     * @param Etudiants $etudiant
-     * @return Response
+     * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
      */
   public function deleteEtudiant(Etudiants $etudiant)
   {
       $em = $this->getDoctrine()->getManager();
       $em->remove($etudiant);
       $em->flush();
-      return new Response("Etudiant supprimer");
+      return $this->redirectToRoute('list');
   }
 
     /**
      * @Route("etudiant/etudiant/{id}", name="etudiant_info")
-     * @param EtudiantsRepository $repo
-     * @return \Symfony\Component\HttpFoundation\Response
      */
   public function showEtudiantInfo(Etudiants $etudiant)
   {
@@ -138,12 +140,10 @@ class EtudiantController extends AbstractController
   }
     /**
      * @Route("etudiant/etudiant_research", name="research")
-     * @param EtudiantsRepository $repo
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-  public function researchEtudiant(EtudiantsRepository $repo)
+  public function researchEtudiant(EtudiantsRepository $repoE)
   {
-      $etudiants =$repo->findAll();
+      $etudiants =$repoE->findAll();
       return $this->render('etudiant/research.html.twig', [
           'etudiants' => $etudiants,
       ]);

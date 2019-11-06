@@ -63,6 +63,12 @@ class Etudiants implements UserInterface
      */
     private $dateNaissance;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classeEtudiant;
+
     public function getId(): ?int
     {
         return $this->numEtudiant;
@@ -170,6 +176,18 @@ class Etudiants implements UserInterface
     public function getUsername()
     {
       return $this->login;
+    }
+
+    public function getClasseEtudiant(): ?Classes
+    {
+        return $this->classeEtudiant;
+    }
+
+    public function setClasseEtudiant(?Classes $classeEtudiant): self
+    {
+        $this->classeEtudiant = $classeEtudiant;
+
+        return $this;
     }
 
 }
