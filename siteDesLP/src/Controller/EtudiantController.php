@@ -120,7 +120,7 @@ class EtudiantController extends AbstractController
       $manager->persist($etudiant);
       $manager->flush();
 
-      return $this->redirectToRoute('research');
+      return $this->redirectToRoute('research_etudiant');
 
     }
     return $this->render('etudiant/index.html.twig', [
@@ -149,7 +149,7 @@ class EtudiantController extends AbstractController
       $em = $this->getDoctrine()->getManager();
       $em->remove($etudiant);
       $em->flush();
-      return $this->redirectToRoute("research");
+      return $this->redirectToRoute("research_etudiant");
   }
 
     /**

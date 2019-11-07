@@ -52,7 +52,7 @@ class ClasseController extends AbstractController
       $manager->persist($classe);
       $manager->flush();
 
-      return $this->redirectToRoute('classe_list');
+      return $this->redirectToRoute('classe_research');
 
     }
 
@@ -82,11 +82,11 @@ class ClasseController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($classe);
         $em->flush();
-        return $this->redirectToRoute("research");
+        return $this->redirectToRoute("classe_research");
     }
 
     /**
-     * @Route("classe/classe_research", name="research_classe")
+     * @Route("classe/classe_research", name="classe_research")
      */
     public function researchClasse(ClassesRepository $repoC)
     {

@@ -60,7 +60,7 @@
                 const newCellSupp = tr.insertCell(-1);
                 const newCellModif = tr.insertCell(-1);
                 newCellSupp.innerHTML = "<a id=\"modifEtu"+etuId+"\" href=\"/etudiant/" + etuId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
-                newCellModif.innerHTML = "<a id=\"suppEtu"+etuId+"\" href=\"/etudiant/etudiant_delete/" + etuId +"/edit\" class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
+                newCellModif.innerHTML = "<a id=\"suppEtu"+etuId+"\" href=\"/etudiant/etudiant_delete/" + etuId +"\" onclick=\'return confirm(\" Voulez vous supprimer cette étudiant ?\")\' class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
                 $infoModif=true;
                 $trSelect = tr ;
                 $etuIdSelect = etuId;
