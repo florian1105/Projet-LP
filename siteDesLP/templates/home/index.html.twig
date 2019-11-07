@@ -4,4 +4,65 @@
 
 {% block body %}
 
+	<div class="jumbotron p-3 p-md-5 text-white rounded bg-image-home">
+		<div class="col-md-8 rounded bg-dark-opacity p-3">
+			<h1 class="display-4 font-italic">Bienvenue sur le site de l'<strong>IUT</strong></h1>
+			<p class="lead my-3">Futur candidat ? Ou simple curieux... Découvrez dès maintenant l'école et ses formations !</p>
+			<p class="lead mb-0"><a href="#" class="text-white font-weight-bold">En savoir plus...</a></p>
+		</div>
+	</div>
+
+
+	<div class="nav-scroller py-1 mb-2">
+		<nav class="nav d-flex justify-content-start">
+			<a class="p-2 text-muted" href="{{ path('home') }}">Accueil</a>
+			<a class="p-2 text-muted" href="{{ path('etudiant_list') }}">Liste des étudiants</a>
+			<a class="p-2 text-muted" href="{{ path('classe_list') }}">Liste des classes</a>
+		</nav>
+	</div>
+
+
+	<main role="main" class="container">
+		<div class="row">
+			<div class="col-md-8 blog-main">
+				<h3 class="pb-3 mb-4 font-italic border-bottom">Actualités</h3>
+
+				<div class="blog-post">
+					<a href="#"><h2 class="blog-post-title">Lorem Ipsum</h2></a>
+					<p class="blog-post-meta font-italic">10 janvier 2019</p>
+
+					<p>Pellentesque a erat ut dui tempus eleifend non a metus. Nunc non leo et mauris sollicitudin tempus. Aenean vehicula velit sollicitudin, interdum massa eget, convallis turpis. In tincidunt mollis elit eu tempus. Mauris id tincidunt risus.</p>
+					<hr>
+					<p>Pellentesque ullamcorper, risus ut maximus porttitor, justo sem pellentesque ligula, ac efficitur felis lectus a tellus.</p>
+				</div><!-- /.blog-post -->
+
+				<div class="blog-post">
+					<a href="#"><h2 class="blog-post-title">Lorem Ipsum</h2></a>
+					<p class="blog-post-meta font-italic">10 janvier 2019</p>
+
+					<p>Pellentesque a erat ut dui tempus eleifend non a metus. Nunc non leo et mauris sollicitudin tempus. Aenean vehicula velit sollicitudin, interdum massa eget, convallis turpis. In tincidunt mollis elit eu tempus. Mauris id tincidunt risus.</p>
+					<hr>
+					<p>Pellentesque ullamcorper, risus ut maximus porttitor, justo sem pellentesque ligula, ac efficitur felis lectus a tellus.</p>
+				</div><!-- /.blog-post -->
+
+			</div><!-- /.blog-main -->
+
+
+			<aside class="col-md-4 blog-sidebar">
+				<h3 class="pb-3 mb-4 font-italic border-bottom">À la une</h3>
+				<div class="p-3 mb-3 bg-light rounded">
+					<a href="#"><h4 class="font-italic">Forum IUT entreprises</h4></a>
+					<p class="mb-0">Recrutez vos stagiaires BAC+2
+					Mardi 19 Novembre 2019</p>
+					<div class="bg-image-home w-100" style="height:100px;"></div>
+				</div>
+				<div class="p-3 mb-3 bg-light rounded">
+					<a href="#"><h4 class="font-italic">Visite guidée d'Ob.i LAB, notre laboratoire d'objets numériques</h4></a>
+					<p class="mb-0"></p>
+					<div class="bg-image-home w-100" style="height:100px;"></div>
+				</div>
+			</aside><!-- /.blog-sidebar -->
+		</div><!-- /.row -->
+	</main><!-- /.container -->
+
 {% endblock %}
