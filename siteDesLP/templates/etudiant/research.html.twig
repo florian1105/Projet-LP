@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
+
+{% endblock %}
 {% block body %}
 <h1>Rechercher un étudiant</h1>
 
 
 
-<table id="example" class="table table-striped table-bordered" style="width:100%">
+<table id="tab_etudiant" class="table table-striped table-bordered" style="width:100%">
     <thead>
     <tr>
         <th scope="col">Login</th>
@@ -19,7 +23,7 @@
     </thead>
     <tbody>
     {% for etudiant in etudiants %}
-    <tr onmouseover="showModifs(this)" onmouseout="restoreModifs(this)" >
+    <tr onmouseover="showModifs(this,{{ etudiant.id }})"  >
         <th id="{{ etudiant.id }}" >{{etudiant.login}}</th>
         <td>{{etudiant.nomEtudiant}}</td>
         <td>{{etudiant.prenomEtudiant}}</td>
@@ -27,10 +31,52 @@
         <td>{{etudiant.mail}}</td>
         <td>{{etudiant.dateNaissance | date('d/m/Y')}}</td>
     </tr>
+
     {% endfor %}
     </tbody>
 </table>
+<script>
+    let $infoModif=false;
+    let $trSelect;
+    let $etuIdSelect;
+    function showModifs(tr,etuId){
+        if($infoModif==false) {
+            tr.setAttribute("data-color-start", tr.style.background);
+            tr.style.background = "gray";
+            console.log(tr.cells.item(0));
+            const newCellSupp = tr.insertCell(-1);
+            const newCellModif = tr.insertCell(-1);
+            newCellSupp.innerHTML = "<a id=\"modifEtu"+etuId+"\" href=\"/etudiant/" + etuId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
+            newCellModif.innerHTML = "<a id=\"suppEtu"+etuId+"\" href=\"/etudiant/etudiant_delete/" + etuId +"\" onclick=\'return confirm(\" Voulez vous supprimer cette étudiant ?\")\' class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
+            $infoModif=true;
+            $trSelect = tr ;
+            $etuIdSelect = etuId;
+        }else{
+            if($etuIdSelect!=etuId) {
+                restoreModifs($trSelect, $etuIdSelect);
+                tr.setAttribute("data-color-start", tr.style.background);
+                tr.style.background = "gray";
+                console.log(tr.cells.item(0));
+                const newCellSupp = tr.insertCell(-1);
+                const newCellModif = tr.insertCell(-1);
+                newCellSupp.innerHTML = "<a id=\"modifEtu"+etuId+"\" href=\"/etudiant/" + etuId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
+                newCellModif.innerHTML = "<a id=\"suppEtu"+etuId+"\" href=\"/etudiant/etudiant_delete/" + etuId +"/edit\" class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
+                $infoModif=true;
+                $trSelect = tr ;
+                $etuIdSelect = etuId;
+            }
+        }
+    }
+    function restoreModifs(tr, etuId){
+        setTimeout(tr.style.background = tr.getAttribute("data-color-start"),1000);
 
+        setTimeout(tr.deleteCell(-1),1000);
+        setTimeout(tr.deleteCell(-1),1000);
+        $infoModif=false;
+    }
+
+
+</script>
 
 {% endblock %}
 {%  block javascripts %}
@@ -39,22 +85,14 @@
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script  type="text/javascript">
     $(document).ready(function() {
-        const table = $('#example').DataTable({
-            buttons:[
-              'supprmié','modifié'
-            ],
+        const table = $('#tab_etudiant').DataTable({
             select: true,
             scroll : 2000,
             lengthChange : false ,
             pageLength : 50,
 
         });
-        function showModifs(tr){
 
-        }
-        function restoreModifs(tr){
-
-        }
     } );
 
 </script>

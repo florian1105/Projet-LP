@@ -120,7 +120,7 @@ class EtudiantController extends AbstractController
       $manager->persist($etudiant);
       $manager->flush();
 
-      return $this->redirectToRoute('etudiant_list');
+      return $this->redirectToRoute('research');
 
     }
     return $this->render('etudiant/index.html.twig', [
@@ -149,7 +149,7 @@ class EtudiantController extends AbstractController
       $em = $this->getDoctrine()->getManager();
       $em->remove($etudiant);
       $em->flush();
-      return $this->redirectToRoute('list');
+      return $this->redirectToRoute("research");
   }
 
     /**
@@ -162,7 +162,7 @@ class EtudiantController extends AbstractController
       ]);
   }
     /**
-     * @Route("etudiant/etudiant_research", name="research")
+     * @Route("etudiant/etudiant_research", name="research_etudiant")
      */
   public function researchEtudiant(EtudiantsRepository $repoE)
   {

@@ -73,4 +73,27 @@ class ClasseController extends AbstractController
       'classes' => $classes,
     ]);
   }
+
+    /**
+     * @Route("classe/classe_delete/{id}", name="classe_delete")
+     */
+    public function deleteClasse(Classes $classe)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($classe);
+        $em->flush();
+        return $this->redirectToRoute("research");
+    }
+
+    /**
+     * @Route("classe/classe_research", name="research_classe")
+     */
+    public function researchClasse(ClassesRepository $repoC)
+    {
+        $classes =$repoC->findAll();
+        return $this->render('classe/research.html.twig', [
+            'classes' => $classes,
+        ]);
+    }
+
 }

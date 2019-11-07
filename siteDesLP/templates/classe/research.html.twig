@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+{% endblock %}
+{% block body %}
+<h1>Rechercher une classe</h1>
+
+
+
+<table id="tab_classe" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nom Classe</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for classe in classes %}
+    <tr onmouseover="showModifs(this,{{ classe.id }})"  >
+        <th id="{{ classe.id }}" >{{classe.id}}</th>
+        <td>{{classe.nomClasse}}</td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+    let $infoModif=false;
+    let $trSelect;
+    let $classeIdSelect;
+    function showModifs(tr,classeId){
+        if($infoModif==false) {
+            tr.setAttribute("data-color-start", tr.style.background);
+            tr.style.background = "gray";
+            console.log(tr.cells.item(0));
+            const newCellSupp = tr.insertCell(-1);
+            const newCellModif = tr.insertCell(-1);
+            newCellSupp.innerHTML = "<a id=\"modifClasse"+classeId+"\" href=\"/classe/" + classeId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
+            newCellModif.innerHTML = "<a id=\"suppClasse"+classeId+"\" href=\"/classe/classe_delete/" + classeId +"\" onclick=\'return confirm(\" Voulez vous supprimer cette étudiant ?\")\' class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
+            $infoModif=true;
+            $trSelect = tr ;
+            $classeIdSelect = classeId;
+        }else{
+            if($classeIdSelect!=classeId) {
+                restoreModifs($trSelect, $classeIdSelect);
+                tr.setAttribute("data-color-start", tr.style.background);
+                tr.style.background = "gray";
+                console.log(tr.cells.item(0));
+                const newCellSupp = tr.insertCell(-1);
+                const newCellModif = tr.insertCell(-1);
+                newCellSupp.innerHTML = "<a id=\"modifClasse"+classeId+"\" href=\"/classe/" + classeId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
+                newCellModif.innerHTML = "<a id=\"suppClasse"+classeId+"\" href=\"/classe/classe_delete/" + classeId +"/edit\" class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">supprimer</a>";
+                $infoModif=true;
+                $trSelect = tr ;
+                $classeIdSelect = classeId;
+            }
+        }
+    }
+    function restoreModifs(tr, classeId){
+        setTimeout(tr.style.background = tr.getAttribute("data-color-start"),1000);
+
+        setTimeout(tr.deleteCell(-1),1000);
+        setTimeout(tr.deleteCell(-1),1000);
+        $infoModif=false;
+    }
+
+
+</script>
+
+{% endblock %}
+{%  block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script  type="text/javascript">
+    $(document).ready(function() {
+        const table = $('#tab_classe').DataTable({
+            select: true,
+            scroll : 2000,
+            lengthChange : false ,
+            pageLength : 50,
+
+        });
+
+    } );
+
+</script>
+{% endblock %}
