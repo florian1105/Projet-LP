@@ -22,44 +22,46 @@ class Etudiants implements UserInterface
     private $numEtudiant;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
+     * @Assert\Regex(pattern="/^[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits.")
      */
     private $nomEtudiant;
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un prénom")
+     * @Assert\Regex(pattern="/^[[:alpha:]]+-?+[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits.")
+     *
      */
     private $prenomEtudiant;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
      */
     private $mailAcademique;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un mail")
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
      */
     private $mail;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un password")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $login;
 
     /**
      * @ORM\Column(type="date")
-     *@Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
+     * @Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
      */
     private $dateNaissance;
 
