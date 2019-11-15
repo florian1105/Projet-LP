@@ -130,17 +130,6 @@ class EtudiantController extends AbstractController
     ]);
   }
 
-  /**
-  * @Route("etudiant/etudiant_list", name="etudiant_list")
-  */
-  public function showEtudiants(EtudiantsRepository $repoE)
-  {
-    $etudiants = $repoE->findAll();
-    return $this->render('etudiant/list.html.twig', [
-      'etudiants' => $etudiants,
-    ]);
-  }
-
     /**
      * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
      */
@@ -152,15 +141,6 @@ class EtudiantController extends AbstractController
       return $this->redirectToRoute("research_etudiant");
   }
 
-    /**
-     * @Route("etudiant/etudiant/{id}", name="etudiant_info")
-     */
-  public function showEtudiantInfo(Etudiants $etudiant)
-  {
-      return $this->render('etudiant/info.html.twig', [
-          'etudiant' => $etudiant,
-      ]);
-  }
     /**
      * @Route("etudiant/etudiant_research", name="research_etudiant")
      */

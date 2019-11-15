@@ -63,17 +63,6 @@ class ClasseController extends AbstractController
     ]);
   }
 
-  /**
-  * @Route("classe/classe_list", name="classe_list")
-  */
-  public function showClasses(ClassesRepository $repoC)
-  {
-    $classes = $repoC->findAll();
-    return $this->render('classe/list.html.twig', [
-      'classes' => $classes,
-    ]);
-  }
-
     /**
      * @Route("classe/classe_delete/{id}", name="classe_delete")
      */

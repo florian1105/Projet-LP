@@ -23,7 +23,6 @@ class Classes
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Assert\Regex(pattern="/^[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits")
      */
     private $nomClasse;
 
