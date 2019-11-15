@@ -20,6 +20,10 @@ security:
                 login_path: connexion
                 check_path: connexion
 
+            logout:
+                path: deconnexion
+                target: /
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
