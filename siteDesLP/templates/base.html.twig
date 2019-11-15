@@ -24,6 +24,9 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('home') }}>Accueil <span class="sr-only"></span></a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('connexion') }}>Connexion <span class="sr-only"></span></a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Etudiants
@@ -36,11 +39,20 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Classe
+            Classes
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ path('classe_create') }}">Créer une classe</a>
             <a class="dropdown-item" href="{{ path('classe_research') }}">Rechercher une classe</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Professeurs
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href={{ path('etudiant_create') }}>Créer un professeur</a>
+            <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un professeur</a>
           </div>
         </li>
 
