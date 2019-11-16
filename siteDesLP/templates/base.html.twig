@@ -24,15 +24,7 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('home') }}">Accueil <span class="sr-only"></span></a>
         </li>
-        {% if not app.user %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
-        </li>
-        {% else %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('deconnexion') }}">Déconnexion <span class="sr-only"></span></a>
-        </li>
-        {% endif %}
+         {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Etudiants
@@ -42,7 +34,6 @@
             <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un étudiant</a>
           </div>
         </li>
-
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Classes
@@ -61,7 +52,16 @@
             <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un professeur</a>
           </div>
         </li>
-
+ {% endif %}
+ {% if not app.user %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('deconnexion') }}">Déconnexion <span class="sr-only"></span></a>
+        </li>
+        {% endif %}
       </ul>
 
     </div>

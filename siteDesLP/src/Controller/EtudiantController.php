@@ -20,6 +20,29 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EtudiantController extends AbstractController
 {
+  
+  public function str_to_noaccent($str)
+  {
+    $url = $str;
+    $url = preg_replace('#Ç#', 'C', $url);
+    $url = preg_replace('#ç#', 'c', $url);
+    $url = preg_replace('#è|é|ê|ë#', 'e', $url);
+    $url = preg_replace('#È|É|Ê|Ë#', 'E', $url);
+    $url = preg_replace('#à|á|â|ã|ä|å#', 'a', $url);
+    $url = preg_replace('#@|À|Á|Â|Ã|Ä|Å#', 'A', $url);
+    $url = preg_replace('#ì|í|î|ï#', 'i', $url);
+    $url = preg_replace('#Ì|Í|Î|Ï#', 'I', $url);
+    $url = preg_replace('#ð|ò|ó|ô|õ|ö#', 'o', $url);
+    $url = preg_replace('#Ò|Ó|Ô|Õ|Ö#', 'O', $url);
+    $url = preg_replace('#ù|ú|û|ü#', 'u', $url);
+    $url = preg_replace('#Ù|Ú|Û|Ü#', 'U', $url);
+    $url = preg_replace('#ý|ÿ#', 'y', $url);
+    $url = preg_replace('#Ý#', 'Y', $url);
+     
+    return ($url);
+  }
+  
+
   /**
   * @Route("/etudiant/new", name="etudiant_create")
   * @Route("/etudiant/{id}/edit", name="etudiant_edit")
@@ -53,7 +76,7 @@ class EtudiantController extends AbstractController
 
       $form->handleRequest($request);
 
-      $prenomLogin = strtolower($form['prenomEtudiant']->getData());
+      $prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
       $prenomLogin1 = substr($prenomLogin, 0,1);
       $login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
       $mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());

@@ -50,8 +50,16 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        ROLE_ETUDIANT: ROLE_USER
+        ROLE_PROFESSEUR: ROLE_USER
+        ROLE_PROFESSEURRESPONSABLE: ROLE_USER
+        ROLE_ADMIN: [ROLE_ETUDIANT, ROLE_PROFESSEUR, ROLE_PROFESSEURRESPONSABLE, ROLE_USER]
+
     access_control:
-        - { path: ^/yaqueladminquiasledroit, role: ROLE_ADMIN }
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/etudiant, role: [ROLE_ETUDIANT, ROLE_ADMIN] }
-        - { path: ^/commercial, role: ROLE_COM }
+        - { path: ^/professeur, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
+        - { path: ^/classe, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
+        
+

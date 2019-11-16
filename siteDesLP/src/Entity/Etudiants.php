@@ -77,6 +77,11 @@ class Etudiants implements UserInterface
      */
     private $classeEtudiant;
 
+    public function getRole()
+    {
+        return "ROLE_ETUDIANT";
+    }
+
     public function getId(): ?int
     {
         return $this->numEtudiant;
