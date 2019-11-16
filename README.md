@@ -8,6 +8,8 @@
 * `git checkout dev`
 * `cd siteDesLP`
 * `php composer install`
+* Configurer les accès BD dans le fichier **.env**
+* `php bin/console doctrine:migrations:migrate`
 * `yarn install` (disponible sur le [site officiel de yarn](https://yarnpkg.com/lang/fr/docs/install/))
 * `yarn encore dev --watch`
 
