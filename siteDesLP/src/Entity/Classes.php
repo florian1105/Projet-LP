@@ -35,9 +35,20 @@ class Classes
      */
     private $etudiants;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Professeurs", mappedBy="classes")
+     */
+    private $professeurs;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable", cascade={"persist", "remove"})
+     */
+    private $professeurResponsable;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
+        $this->professeurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +95,46 @@ class Classes
                 $etudiant->setClasseEtudiant(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Professeurs[]
+     */
+    public function getProfesseurs(): Collection
+    {
+        return $this->professeurs;
+    }
+
+    public function addProfesseur(Professeurs $professeur): self
+    {
+        if (!$this->professeurs->contains($professeur)) {
+            $this->professeurs[] = $professeur;
+            $professeur->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseur(Professeurs $professeur): self
+    {
+        if ($this->professeurs->contains($professeur)) {
+            $this->professeurs->removeElement($professeur);
+            $professeur->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function getProfesseurResponsable(): ?Professeurs
+    {
+        return $this->professeurResponsable;
+    }
+
+    public function setProfesseurResponsable(?Professeurs $professeurResponsable): self
+    {
+        $this->professeurResponsable = $professeurResponsable;
 
         return $this;
     }

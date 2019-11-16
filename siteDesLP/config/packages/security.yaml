@@ -2,15 +2,47 @@ security:
     encoders:
         App\Entity\Etudiants:
             algorithm: bcrypt
+        App\Entity\Professeurs:
+            algorithm: bcrypt
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        chain_provider:
+                chain:
+                    providers: [in_memory, in_database_etudiant, in_database_professeur]
+        in_memory:
+            memory:
+                users:
+                    admin: 
+                        password: $2y$13$Vd4GmwFUStv9pkqrf/7uu.N6.QWuCQrXetSGjXWnVQehWIgt/2V2q 
+                        roles: 'ROLE_ADMIN'
+
+        in_database_etudiant:
+            entity:
+                class: App\Entity\Etudiants
+                property: mailAcademique
+           
+
+        in_database_professeur:
+            entity:
+                class: App\Entity\Professeurs
+                property: mailAcademique
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            provider: chain_provider
+            form_login:
+                login_path: connexion
+                check_path: connexion
+
+            logout:
+                path: deconnexion
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -18,8 +50,8 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/yaqueladminquiasledroit, role: ROLE_ADMIN }
+        - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/etudiant, role: [ROLE_ETUDIANT, ROLE_ADMIN] }
+        - { path: ^/commercial, role: ROLE_COM }

@@ -35,6 +35,7 @@ class Etudiants implements UserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un prénom")
+     * @Assert\Regex(pattern="/^[[:alpha:]]+-?+[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits. pour les noms composés, il est possible de mettre - .")
      *
      * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")

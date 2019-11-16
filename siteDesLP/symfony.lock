@@ -133,7 +133,10 @@
             "branch": "master",
             "version": "0.1",
             "ref": "467488ddc00aa190c37a4357f226457d4dd6b339"
-        }
+        },
+        "files": [
+            "./config/packages/datatables.yaml"
+        ]
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
