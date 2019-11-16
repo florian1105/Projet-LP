@@ -24,14 +24,22 @@ class Etudiants implements UserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
-     * @Assert\Regex(pattern="/^[[:alpha:]]+-?+[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits. pour les noms composés, il est possible de mettre - .")
+     *
+     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
+     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
+     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
+     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
+     * @Assert\Regex(pattern="/\pS/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nomEtudiant;
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un prénom")
-     * @Assert\Regex(pattern="/^[[:alpha:]]+-?+[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits. pour les noms composés, il est possible de mettre - .")
      *
+     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
+     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
+     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
+     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
      */
     private $prenomEtudiant;
 
