@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfesseursRepository")
  */
-class Professeurs
+class Professeurs implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -182,5 +183,26 @@ class Professeurs
         }
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function getRoles()
+    {
+        if($this->getClasseResponsable() == null) return ['ROLE_PROFESSEUR'];
+        else return ['ROLE_PROFESSEURRESPONSABLE'];
+    }
+
+    public function getUsername()
+    {
+      return $this->login;
     }
 }

@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EtudiantsRepository")
- * @UniqueEntity("login", message="Ce login est déjà utilisé, veuillez en choisir un autre")
  */
 class Etudiants implements UserInterface
 {
@@ -73,14 +72,9 @@ class Etudiants implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="classe_etudiant_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $classeEtudiant;
-
-    public function getRole()
-    {
-        return "ROLE_ETUDIANT";
-    }
 
     public function getId(): ?int
     {
@@ -183,7 +177,7 @@ class Etudiants implements UserInterface
 
     public function getRoles()
     {
-      return ['ROLE_USER'];
+      return ['ROLE_ETUDIANT'];
     }
 
     public function getUsername()
@@ -193,7 +187,7 @@ class Etudiants implements UserInterface
 
     public function getClasseEtudiant(): ?Classes
     {
-        return $this->classeEtudiant;
+       return $this->classeEtudiant;
     }
 
     public function setClasseEtudiant(?Classes $classeEtudiant): self
@@ -202,5 +196,7 @@ class Etudiants implements UserInterface
 
         return $this;
     }
+
+    
 
 }
