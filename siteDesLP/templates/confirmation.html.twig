@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<h1>{{ titre }}</h1>
+
+<h3>{{ message }}</h3>
+
+<form action="" method="post">
+	<button type="submit" name="oui" class="btn btn-secondary">
+	   Oui (Valider)
+	</button>
+	<button type="submit" name="non" class="btn btn-danger">
+	   Non (Annuler)
+	</button>
+</form>
+
+{% endblock %}

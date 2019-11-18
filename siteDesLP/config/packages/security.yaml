@@ -1,5 +1,7 @@
 security:
     encoders:
+        App\Entity\Professeurs:
+            algorithm: bcrypt
         App\Entity\Etudiants:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers

@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Rechercher un professeur</h1>
+
+    <table id="tab_professeurs" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+            <th scope="col">Login</th>
+            <th scope="col">NomProfesseur</th>
+            <th scope="col">PrenomProfesseur</th>
+            <th scope="col">MailAcademique</th>
+            <th scope="col">DateNaissance</th>
+            <th scope="col">Modifier</th>
+            <th scope="col">Supprimer</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for prof in profs %}
+            <tr onmouseover="showModifs(this,{{ prof.id }})"  >
+                <th id="{{ prof.id }}" >{{prof.login}}</th>
+                <td>{{prof.nomProfesseur}}</td>
+                <td>{{prof.prenomProfesseur}}</td>
+                <td>{{prof.mailAcademique}}</td>
+                <td>{{prof.dateNaissance | date('d/m/Y')}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<script>
+    let $infoModif=false;
+    let $trSelect;
+    let $idSelect;
+    function showModifs(tr,id){
+        if($infoModif==false) {
+            tr.setAttribute("data-color-start", tr.style.background);
+            tr.style.background = "lightgray";
+            const newCellSupp = tr.insertCell(-1);
+            const newCellModif = tr.insertCell(-1);
+            newCellSupp.innerHTML = "<a id=\"modif"+id+"\" href=\"../professeur/edit/" + id +"\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">✎</a>";
+            newCellModif.innerHTML = "<a id=\"supp"+id+"\" href=\"../professeur/remove/" + id +"\" onclick=\'return confirm(\" Voulez vous supprimer ce professeur ?\")\' class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">❌</a>";
+            $infoModif=true;
+            $trSelect = tr ;
+            $idSelect = id;
+        }else{
+            if($idSelect!=id) {
+                restoreModifs($trSelect, $idSelect);
+                tr.setAttribute("data-color-start", tr.style.background);
+                tr.style.background = "lightgray";
+                console.log(tr.cells.item(0));
+                const newCellSupp = tr.insertCell(-1);
+                const newCellModif = tr.insertCell(-1);
+                newCellSupp.innerHTML = "<a id=\"modif"+id+"\" href=\"../professeur/edit/" + id +"\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">✎</a>";
+                newCellModif.innerHTML = "<a id=\"supp"+id+"\" href=\"../professeur/remove/" + id +"\" onclick=\'return confirm(\" Voulez vous supprimer ce professeur ?\")\' class=\"btn btn-danger active\" role=\"button\" aria-pressed=\"true\">❌</a>";
+                $infoModif=true;
+                $trSelect = tr ;
+                $idSelect = id;
+            }
+        }
+    }
+    function restoreModifs(tr, id){
+        setTimeout(tr.style.background = tr.getAttribute("data-color-start"),1000);
+
+        setTimeout(tr.deleteCell(-1),1000);
+        setTimeout(tr.deleteCell(-1),1000);
+        $infoModif=false;
+    }
+</script>
+{% endblock %}
+
+{%  block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script  type="text/javascript">
+        $(document).ready(function() {
+            const table = $('#tab_professeurs').DataTable({
+                select: true,
+                scroll : 2000,
+                lengthChange : false ,
+                pageLength : 50,
+
+            });
+        } );
+    </script>
+{% endblock %}
