@@ -58,6 +58,7 @@ security:
 
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/etudiant_account, role: ROLE_ETUDIANT }
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }

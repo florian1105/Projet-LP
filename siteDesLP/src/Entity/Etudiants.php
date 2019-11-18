@@ -55,10 +55,11 @@ class Etudiants implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un password")
+     * @Assert\NotBlank(message="Veuillez renseigner un mot de passe")
      */
     private $password;
 
+    public $confirm_password;
     /**
      * @ORM\Column(type="string", length=64)
      */
