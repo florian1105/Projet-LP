@@ -73,9 +73,9 @@ class ProfesseurController extends AbstractController
 					trim($prof->getNomProfesseur())
 				)
 			);
-			
+
 			$mailAcademique = $prenom.".".$nom;
-			
+
 			$prenom = substr($prenom, 0,1);
 			$login = strtolower($nom).$prenom;
 
@@ -97,7 +97,14 @@ class ProfesseurController extends AbstractController
 			$prof->setLogin($login.$i);
 			$prof->setMailAcademique($mailAcademique.$j."@umontpellier.fr");
 
-			// Ajouts des classes d'un prof			
+      $prenom = ucfirst(strtolower($form['prenomProfesseur']->getData()));
+      $nom = strtoupper($form['nomProfesseur']->getData());
+
+      $prof->setNomProfesseur($nom);
+      $prof->setprenomProfesseur($prenom);
+
+
+			// Ajouts des classes d'un prof
 			$classesProf = $form['classes']->getData();
 			if ($classesProf) {
 				for ($i=0; $i < sizeof($classesProf); $i++) {
@@ -110,8 +117,8 @@ class ProfesseurController extends AbstractController
 			$hash = $encoder->encodePassword($prof, $prof->getPassword());
 			$prof->setPassword($hash);
 
-		} else { // Mode edit 
-			
+		} else { // Mode edit
+
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
@@ -199,7 +206,7 @@ class ProfesseurController extends AbstractController
             'profs' => $repo->findAll(),
         ]);
 	}
-	
+
 	 /**
      * @Route("professeur_account", name="professeur_account")
      */
@@ -209,7 +216,7 @@ class ProfesseurController extends AbstractController
 			// Sinon on déclenche une exception « Accès interdit »
 			throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
 		  }
-		  
+
         $prof = $this->getUser();
         return $this->render('professeur/moncompte.html.twig', [
             'prof' => $prof,
