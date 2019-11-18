@@ -9,7 +9,7 @@
 
 
 
-<table id="tab_classe" class="table table-striped table-bordered" style="width:100%">
+<table id="tab_classe" class="table table-striped table-bordered" style="width:100%" >
     <thead>
     <tr>
         <th scope="col">Id</th>
@@ -30,11 +30,11 @@
     let $infoModif=false;
     let $trSelect;
     let $classeIdSelect;
+
     function showModifs(tr,classeId){
         if($infoModif==false) {
             tr.setAttribute("data-color-start", tr.style.background);
             tr.style.background = "gray";
-            console.log(tr.cells.item(0));
             const newCellSupp = tr.insertCell(-1);
             const newCellModif = tr.insertCell(-1);
             newCellSupp.innerHTML = "<a id=\"modifClasse"+classeId+"\" href=\"../classe/" + classeId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
@@ -47,7 +47,6 @@
                 restoreModifs($trSelect, $classeIdSelect);
                 tr.setAttribute("data-color-start", tr.style.background);
                 tr.style.background = "gray";
-                console.log(tr.cells.item(0));
                 const newCellSupp = tr.insertCell(-1);
                 const newCellModif = tr.insertCell(-1);
                 newCellSupp.innerHTML = "<a id=\"modifClasse"+classeId+"\" href=\"../classe/" + classeId +"/edit\" class=\"btn btn-warning active\" role=\"button\" aria-pressed=\"true\">modifier</a>";
@@ -58,12 +57,24 @@
             }
         }
     }
-    function restoreModifs(tr, classeId){
+    function restoreModifs(tr){
         setTimeout(tr.style.background = tr.getAttribute("data-color-start"),1000);
 
         setTimeout(tr.deleteCell(-1),1000);
         setTimeout(tr.deleteCell(-1),1000);
         $infoModif=false;
+    }
+
+    function restoreAllModifs(){
+        let $tr=$trSelect;
+        if($tr!=null && $infoModif){
+            setTimeout($tr.style.background = $tr.getAttribute("data-color-start"),1000);
+
+            setTimeout($tr.deleteCell(-1),1000);
+            setTimeout($tr.deleteCell(-1),1000);
+            $infoModif=false;
+        }
+
     }
 
 
