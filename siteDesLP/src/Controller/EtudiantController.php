@@ -195,26 +195,24 @@ class EtudiantController extends AbstractController
         $etudiant = $this->getUser();
 
         $form = $this->createFormBuilder($etudiant)
-      ->add('password', PasswordType::class)
-      ->add('confirm_password', PasswordType::class)
+        ->add('password', PasswordType::class)
+        ->add('confirm_password', PasswordType::class)
     
 
-      ->getForm();
+        ->getForm();
 
-      $form->handleRequest($request);
+        $form->handleRequest($request);
 
-      $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
-      $etudiant->setPassword($hash);
+        $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
+        $etudiant->setPassword($hash);
     
 
-    if($form->isSubmitted() && $form->isValid())
-    {
-      $em->persist($etudiant);
-      $em->flush();
-
-      return $this->redirectToRoute('etudiant_account');
-
-    }
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $em->persist($etudiant);
+          $em->flush();
+          return $this->redirectToRoute('etudiant_account');
+        }
 
         return $this->render('etudiant/changepassword.html.twig', [
             'etudiant' => $etudiant,
@@ -239,18 +237,19 @@ class EtudiantController extends AbstractController
       $form->handleRequest($request);
     
 
-    if($form->isSubmitted() && $form->isValid())
-    {
-      $em->persist($etudiant);
-      $em->flush();
+      if($form->isSubmitted() && $form->isValid())
+      {
+          $em->persist($etudiant);
+          $em->flush();
 
-      return $this->redirectToRoute('etudiant_account');
+          return $this->redirectToRoute('etudiant_account');
 
-    }
+      }
 
-        return $this->render('etudiant/changepassword.html.twig', [
-            'etudiant' => $etudiant,
-        ]);
+      return $this->render('etudiant/changeemail.html.twig', [
+          'etudiant' => $etudiant,
+          'form_change_email' => $form->createView()
+      ]);
     }
 
 }
