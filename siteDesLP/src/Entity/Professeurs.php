@@ -203,7 +203,8 @@ class Professeurs implements UserInterface
 
     public function getRoles()
     {
-      return ['ROLE_USER'];
+        if($this->getClasseResponsable() == null) return ['ROLE_PROFESSEUR'];
+        else return ['ROLE_PROFESSEURRESPONSABLE'];
     }
 
     public function getUsername()
