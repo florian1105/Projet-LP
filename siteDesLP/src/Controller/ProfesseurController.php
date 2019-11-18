@@ -60,6 +60,15 @@ class ProfesseurController extends AbstractController
 
 	        $form->handleRequest($request);
 
+			// Ajouts des classes d'un prof			
+			$classesProf = $form['classes']->getData();
+			if ($classesProf) {
+				for ($i=0; $i < sizeof($classesProf); $i++) {
+					$classe=$classesProf[$i];
+					$prof->getClasses()->add($classe);
+				}
+			}
+
 	        // Gestion des champs générés
 			$prenom = preg_replace(
 				'/[^A-Za-z0-9\-]/', '',strtolower(
@@ -95,15 +104,6 @@ class ProfesseurController extends AbstractController
 			$prof->setLogin($login.$i);
 			$prof->setMailAcademique($mailAcademique.$j."@umontpellier.fr");
 
-			// Ajouts des classes d'un prof			
-			$classesProf = $form['classes']->getData();
-			if ($classesProf) {
-				for ($i=0; $i < sizeof($classesProf); $i++) {
-					$classe=$classesProf[$i];
-					$prof->getClasses()->add($classe);
-				}
-			}
-
 			// Encodage du mot de passe
 			$hash = $encoder->encodePassword($prof, $prof->getPassword());
 			$prof->setPassword($hash);
@@ -124,18 +124,28 @@ class ProfesseurController extends AbstractController
 			        'label' => 'Classes du professeur',
 			        'expanded' => true,
 			        'multiple' => true,
-			        //'data' => '',
-			        //'mapped' => false,
-			        'by_reference' => false,
-			        ])
+			        'mapped' => true,
+			        //'by_reference' => false,
+			    ])
 				->add('classeResponsable',
 	    			EntityType::class,
 	    			[
 	    				'class' => Classes::class,
 	    				'choice_label' => 'nomClasse',
 	    				'required' => false,
-	    			])
-			    ->getForm();;
+		'query_builder' => function (ClassesRepository $repoC) use ( $prof ) {
+				return $repoC->createQueryBuilder('c')
+					->innerJoin('c.professeurs', 'p')
+					->where('c.professeurResponsable is NULL')
+					->orWhere('c.professeurResponsable = :id')
+					->orderBy('c.nomClasse','ASC')
+    				->setParameter('id', $prof->getId());
+			},
+		'group_by' => function($choice, $key, $val) {
+			return strtoupper(substr($choice->getNomClasse(), 0, 1));
+		},
+	    		])
+			    ->getForm();
 
 	        $form->handleRequest($request);
 		}
@@ -182,10 +192,10 @@ class ProfesseurController extends AbstractController
 				$prof->getLogin().')';
 
     		return $this->render('confirmation.html.twig', [
-			'titre' => $title,
-			'message' => $message
-        	]);
-    	}
+					'titre' => $title,
+					'message' => $message
+	        	]);
+	    	}
     }
 
     /**

@@ -47,12 +47,31 @@ class ClasseController extends AbstractController
     /**
      * @Route("classe/classe_delete/{id}", name="classe_delete")
      */
-    public function deleteClasse(Classes $classe)
+    public function deleteClasse(Classes $classe, Request $req)
     {
-        $em = $this->getDoctrine()->getManager();
+
+    //Si le formulaire à été soumis
+    if($req->isMethod('POST')){
+        // En cas de validation on supprime et on redirige
+      if($req->request->has('oui')) {
+        $em=$this->getDoctrine()->getManager();
         $em->remove($classe);
         $em->flush();
-        return $this->redirectToRoute("classe_research");
+      }
+      // Sinon on redirige simplement
+      return $this->redirectToRoute('classe_research');
+    } else {
+      //Si le formulaire n'a pas été soumis alors on l'affiche
+      $title = 'Êtes-vous sûr(e) de vouloir supprimer ce professeur ?';
+
+      $message = 'N°'.$classe->getId().' : '.
+        $classe->getNomClasse();
+
+        return $this->render('confirmation.html.twig', [
+          'titre' => $title,
+          'message' => $message
+            ]);
+        }
     }
 
     /**

@@ -37,7 +37,7 @@ class Classes
     private $professeurs;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable")
      */
     private $professeurResponsable;
 

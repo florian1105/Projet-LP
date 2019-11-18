@@ -158,11 +158,32 @@ class EtudiantController extends AbstractController
     /**
      * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
      */
-  public function deleteEtudiant(Etudiants $etudiant, ObjectManager $em)
+  public function deleteEtudiant(Etudiants $etu, Request $req)
   {
-      $em->remove($etudiant);
+    //Si le formulaire à été soumis
+    if($req->isMethod('POST')){
+    // En cas de validation on supprime et on redirige
+      if($req->request->has('oui')) {
+      $em=$this->getDoctrine()->getManager();
+      $em->remove($etu);
       $em->flush();
-      return $this->redirectToRoute("research_etudiant");
+      }
+      // Sinon on redirige simplement
+      return $this->redirectToRoute('research_etudiant');
+    } else {
+      //Si le formulaire n'a pas été soumis alors on l'affiche
+      $title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
+
+      $message = 'N°'.$etu->getId().' : '.
+      $etu->getPrenomEtudiant().' '.
+      $etu->getNomEtudiant(). ' ('.
+      $etu->getLogin().')';
+
+      return $this->render('confirmation.html.twig', [
+      'titre' => $title,
+      'message' => $message
+      ]);
+    }
   }
 
     /**
