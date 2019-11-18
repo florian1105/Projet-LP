@@ -198,4 +198,13 @@ class ProfesseurController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/professeur/importCsv",name="prof_importCsv")
+     *
+     */
+    public function importCsv(){
+        $file=$_POST['importProf'];
+        return $this->render("importConfirmation.html.twig",
+            ['file'=> $file]);
+    }
 }
