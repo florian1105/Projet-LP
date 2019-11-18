@@ -33,12 +33,19 @@
 	box-shadow: 0px 0px 15px 3px rgba(30, 30, 30, 0.7);
 }
 
-footer 
+/* footer
 {
-  position: absolute; 
-  bottom: 0; 
-  left: 0; 
+  position: absolute;
+  bottom: 0;
+  left: 0;
   right: 0;
+  color: white;
+  background-color: #FF5563;
+} */
+
+footer
+{
+  margin-top: 3%;
   color: white;
   background-color: #FF5563;
 }
