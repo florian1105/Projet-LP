@@ -28,24 +28,26 @@ class Etudiants implements UserInterface
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
      * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
-     * @Assert\Regex(pattern="/\pS/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nomEtudiant;
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un prénom")
-     * @Assert\Regex(pattern="/^[[:alpha:]]+-?+[[:alpha:]]+$/", match=true, message="Les caractères spéciaux et les chiffres sont interdits. pour les noms composés, il est possible de mettre - .")
      *
      * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
      * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $prenomEtudiant;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailAcademique;
 
@@ -53,18 +55,22 @@ class Etudiants implements UserInterface
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un mail")
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mail;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un mot de passe")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $password;
 
     public $confirm_password;
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un login")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $login;
 

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfesseursRepository")
@@ -21,31 +22,52 @@ class Professeurs implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom")
+     *
+     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
+     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
+     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
+     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
      */
     private $nomProfesseur;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un prénom")
+     *
+     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
+     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
+     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
+     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
      */
     private $prenomProfesseur;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un Email")
+     *
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailAcademique;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un login")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $login;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Range(max="now", maxMessage="Ce Professeur ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
      */
     private $dateNaissance;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un password")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $password;
 
