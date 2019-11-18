@@ -62,8 +62,7 @@ class Etudiants implements UserInterface
      * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $password;
-
-    public $confirm_password;
+    
     /**
      * @ORM\Column(type="string", length=64)
      */

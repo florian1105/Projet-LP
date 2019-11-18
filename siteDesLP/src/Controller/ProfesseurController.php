@@ -2,24 +2,26 @@
 namespace App\Controller;
 
 /** Symfony **/
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Classes;
+use App\Entity\Professeurs;
+use App\Repository\ClassesRepository;
+use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /** Doctrine **/
-use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 /** Propriétaire **/
-use App\Entity\Professeurs;
-use App\Entity\Classes;
-use App\Repository\ProfesseursRepository;
-use App\Repository\ClassesRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class ProfesseurController extends AbstractController
 {
@@ -195,6 +197,22 @@ class ProfesseurController extends AbstractController
     {
         return $this->render('professeur/research.html.twig', [
             'profs' => $repo->findAll(),
+        ]);
+	}
+	
+	 /**
+     * @Route("professeur_account", name="professeur_account")
+     */
+    public function monCompte(UserInterface $prof)
+    {
+		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+			// Sinon on déclenche une exception « Accès interdit »
+			throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
+		  }
+		  
+        $prof = $this->getUser();
+        return $this->render('professeur/moncompte.html.twig', [
+            'prof' => $prof,
         ]);
     }
 
