@@ -14,7 +14,7 @@
     <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light my_nav">
-    <a class="navbar-brand my_nav_item" href="#">Site des lp</a>
+    <a class="navbar-brand my_nav_item" href="{{ path('home') }}">Site des lp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,15 +24,12 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('home') }}">Accueil <span class="sr-only"></span></a>
         </li>
-        {% if not app.user %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
+         {% if is_granted('ROLE_ETUDIANT') %}
+         <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('etudiant_account') }}">Mon compte<span class="sr-only"></span></a>
         </li>
-        {% else %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('deconnexion') }}">Déconnexion <span class="sr-only"></span></a>
-        </li>
-        {% endif %}
+          {% endif %}
+         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Etudiants
@@ -42,7 +39,6 @@
             <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un étudiant</a>
           </div>
         </li>
-
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Classes
@@ -57,11 +53,20 @@
             Professeurs
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('etudiant_create') }}">Créer un professeur</a>
-            <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un professeur</a>
+            <a class="dropdown-item" href="{{ path('prof_add') }}">Créer un professeur</a>
+            <a class="dropdown-item" href="{{ path('prof_search') }}">Rechercher un professeur</a>
           </div>
         </li>
-
+ {% endif %}
+ {% if not app.user %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('deconnexion') }}" onclick='return confirm("Êtes vous sûr de vouloir vous déconnecter ?")'>Déconnexion <span class="sr-only"></span></a>
+        </li>
+        {% endif %}
       </ul>
 
     </div>
@@ -70,6 +75,16 @@
         {% block body %}
         {% endblock %}
   </div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© {{"now"|date("Y") }} Copyright - Site des LP
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
   {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

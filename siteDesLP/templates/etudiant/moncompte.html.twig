@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="btn-group" role="group" aria-label="Basic example">
+  <a href="{{ path('change_password') }}"><button type="button" class="btn btn-secondary">Modifier mon mot de passe</button></a>
+  <a href="{{ path('change_mail') }}"><button type="button" class="btn btn-secondary">Modifier mon mail</button></a>
+</div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Informations utilisateur</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Nom</th>
+      <td>{{ etudiant.nomEtudiant }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Prénom</th>
+      <td>{{ etudiant.prenomEtudiant }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Classe</th>
+      <td>
+        {% if etudiant.classeEtudiant == "" %}
+            non identifiée
+        {% else %}
+        {{ etudiant.classeEtudiant }}
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Mail académique</th>
+      <td>{{ etudiant.mailAcademique }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Mail personnel</th>
+      <td>{{ etudiant.mail }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Login</th>
+      <td>{{ etudiant.login }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Date de naissance</th>
+      <td>{{ etudiant.dateNaissance | date('d/m/Y')}}</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

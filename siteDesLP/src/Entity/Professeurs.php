@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfesseursRepository")
  */
-class Professeurs
+class Professeurs implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -173,14 +174,41 @@ class Professeurs
 
     public function setClasseResponsable(?Classes $classeResponsable): self
     {
-        $this->classeResponsable = $classeResponsable;
+        //$this->classeResponsable = $classeResponsable;
 
         // set (or unset) the owning side of the relation if necessary
         $newProfesseurResponsable = null === $classeResponsable ? null : $this;
-        if ($classeResponsable->getProfesseurResponsable() !== $newProfesseurResponsable) {
-            $classeResponsable->setProfesseurResponsable($newProfesseurResponsable);
+        if($classeResponsable !== null) {
+            if ($classeResponsable->getProfesseurResponsable() !== $newProfesseurResponsable) {
+                $classeResponsable->setProfesseurResponsable($newProfesseurResponsable);
+            }
+        } else {
+            $this->classeResponsable->setProfesseurResponsable(null);
         }
 
+        $this->classeResponsable = $classeResponsable;
+
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function getRoles()
+    {
+        if($this->getClasseResponsable() == null) return ['ROLE_PROFESSEUR'];
+        else return ['ROLE_PROFESSEURRESPONSABLE'];
+    }
+
+    public function getUsername()
+    {
+      return $this->login;
     }
 }

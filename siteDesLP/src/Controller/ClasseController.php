@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Classes;
@@ -19,33 +19,15 @@ class ClasseController extends AbstractController
      */
   public function form(Classes $classe = null, ClassesRepository $repo, Request $request, ObjectManager $manager)
   {
-    $editMode = true;
-
     if(!$classe)
     {
       $classe = new Classes();
-      $editMode = false;
     }
 
-    if($editMode == false)
-    {
-      $form = $this->createFormBuilder($classe)
-      ->add('nomClasse')
-
-      ->getForm();
-
-      $form->handleRequest($request);
-
-    }
-    else
-    {
-      $form = $this->createFormBuilder($classe)
-      ->add('nomClasse')
-
-      ->getForm();
-
-      $form->handleRequest($request);
-    }
+    $form = $this->createFormBuilder($classe)
+    ->add('nomClasse')
+    ->getForm();
+    $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid())
     {
@@ -53,13 +35,12 @@ class ClasseController extends AbstractController
       $manager->flush();
 
       return $this->redirectToRoute('classe_research');
-
     }
 
     return $this->render('classe/index.html.twig', [
       'form_create_classe' => $form->createView(),
       'editMode' => $classe->getId() !== null,
-      'classe' => $classe,
+      'classe' => $classe
     ]);
   }
 
