@@ -45,9 +45,6 @@ class Etudiants implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un mail")
-     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailAcademique;
 
@@ -69,8 +66,6 @@ class Etudiants implements UserInterface
     public $confirm_password;
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un login")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $login;
 
