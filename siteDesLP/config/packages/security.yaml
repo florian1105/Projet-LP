@@ -53,14 +53,15 @@ security:
     role_hierarchy:
         ROLE_ETUDIANT: ROLE_USER
         ROLE_PROFESSEUR: ROLE_USER
-        ROLE_PROFESSEURRESPONSABLE: ROLE_USER
-        ROLE_ADMIN: [ROLE_PROFESSEUR, ROLE_PROFESSEURRESPONSABLE, ROLE_USER]
+        ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
+        ROLE_ADMIN: [ROLE_PROFESSEURRESPONSABLE, ROLE_USER]
 
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/etudiant_account, role: ROLE_ETUDIANT }
+        - { path: ^/professeur_account, role: ROLE_PROFESSEUR }
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
-        - { path: ^/professeur, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
-        - { path: ^/classe, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
+        - { path: ^/professeur, role: [ROLE_ADMIN] }
+        - { path: ^/classe, role: [ROLE_ADMIN] }
         
 

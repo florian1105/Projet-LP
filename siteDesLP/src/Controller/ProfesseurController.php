@@ -2,24 +2,26 @@
 namespace App\Controller;
 
 /** Symfony **/
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Classes;
+use App\Entity\Professeurs;
+use App\Repository\ClassesRepository;
+use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /** Doctrine **/
-use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 /** Propriétaire **/
-use App\Entity\Professeurs;
-use App\Entity\Classes;
-use App\Repository\ProfesseursRepository;
-use App\Repository\ClassesRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class ProfesseurController extends AbstractController
 {
@@ -71,9 +73,9 @@ class ProfesseurController extends AbstractController
 					trim($prof->getNomProfesseur())
 				)
 			);
-			
+
 			$mailAcademique = $prenom.".".$nom;
-			
+
 			$prenom = substr($prenom, 0,1);
 			$login = strtolower($nom).$prenom;
 
@@ -95,7 +97,14 @@ class ProfesseurController extends AbstractController
 			$prof->setLogin($login.$i);
 			$prof->setMailAcademique($mailAcademique.$j."@umontpellier.fr");
 
-			// Ajouts des classes d'un prof			
+      $prenom = ucfirst(strtolower($form['prenomProfesseur']->getData()));
+      $nom = strtoupper($form['nomProfesseur']->getData());
+
+      $prof->setNomProfesseur($nom);
+      $prof->setprenomProfesseur($prenom);
+
+
+			// Ajouts des classes d'un prof
 			$classesProf = $form['classes']->getData();
 			if ($classesProf) {
 				for ($i=0; $i < sizeof($classesProf); $i++) {
@@ -108,8 +117,8 @@ class ProfesseurController extends AbstractController
 			$hash = $encoder->encodePassword($prof, $prof->getPassword());
 			$prof->setPassword($hash);
 
-		} else { // Mode edit 
-			
+		} else { // Mode edit
+
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
@@ -196,6 +205,31 @@ class ProfesseurController extends AbstractController
         return $this->render('professeur/research.html.twig', [
             'profs' => $repo->findAll(),
         ]);
+	}
+
+	 /**
+     * @Route("professeur_account", name="professeur_account")
+     */
+    public function monCompte(UserInterface $prof)
+    {
+		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+			// Sinon on déclenche une exception « Accès interdit »
+			throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
+		  }
+
+        $prof = $this->getUser();
+        return $this->render('professeur/moncompte.html.twig', [
+            'prof' => $prof,
+        ]);
     }
 
+    /**
+     * @Route("/professeur/importCsv",name="prof_importCsv")
+     *
+     */
+    public function importCsv(){
+        $file=$_POST['importProf'];
+        return $this->render("importConfirmation.html.twig",
+            ['file'=> $file]);
+    }
 }
