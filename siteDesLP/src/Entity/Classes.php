@@ -44,6 +44,7 @@ class Classes
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable")
+     * @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $professeurResponsable;
 
