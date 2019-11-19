@@ -220,20 +220,23 @@ class EtudiantController extends AbstractController
         $etudiant = $this->getUser();
 
         $form = $this->createFormBuilder($etudiant)
-        ->add('password', PasswordType::class)
+        ->add('password', PasswordType::class, array('mapped' => false))
+        ->add('new_password', PasswordType::class)
         ->add('confirm_password', PasswordType::class)
 
 
         ->getForm();
 
+        //$encoderService = $this->container->get('security.password_encoder');
+        
+        //$match = $encoderService->isPasswordValid($form['password']->getData(), $etudiant->getPassword());
+
         $form->handleRequest($request);
-
-        $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
-        $etudiant->setPassword($hash);
-
 
         if($form->isSubmitted() && $form->isValid())
         {
+          $hash = $encoder->encodePassword($etudiant, $form['new_password']->getData());
+          $etudiant->setPassword($hash);
           $em->persist($etudiant);
           $em->flush();
           return $this->redirectToRoute('etudiant_account');
