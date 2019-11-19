@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EtudiantController extends AbstractController
 {
-  
+
   public function str_to_noaccent($str)
   {
     $url = $str;
@@ -39,10 +39,10 @@ class EtudiantController extends AbstractController
     $url = preg_replace('#Ù|Ú|Û|Ü#', 'U', $url);
     $url = preg_replace('#ý|ÿ#', 'y', $url);
     $url = preg_replace('#Ý#', 'Y', $url);
-     
+
     return ($url);
   }
-  
+
 
   /**
   * @Route("/etudiant/new", name="etudiant_create")
@@ -63,7 +63,9 @@ class EtudiantController extends AbstractController
       $form = $this->createFormBuilder($etudiant)
       ->add('nomEtudiant')
       ->add('prenomEtudiant')
-      ->add('password', PasswordType::class)
+      ->add('password', PasswordType::class, [
+        'attr' => ['maxlength' => '64']
+      ])
       ->add('mail')
       ->add('dateNaissance', DateType::class, [
         'widget' => 'single_text'
@@ -133,14 +135,16 @@ class EtudiantController extends AbstractController
     $etudiant->setNomEtudiant($nom);
     $etudiant->setPrenomEtudiant($prenom);
 
-    if($editMode == false)
-    {
-      $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
-      $etudiant->setPassword($hash);
-    }
+
 
     if($form->isSubmitted() && $form->isValid())
     {
+      if($editMode == false)
+      {
+        $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
+        $etudiant->setPassword($hash);
+      }
+
       $em->persist($etudiant);
       $em->flush();
 
@@ -218,7 +222,7 @@ class EtudiantController extends AbstractController
         $form = $this->createFormBuilder($etudiant)
         ->add('password', PasswordType::class)
         ->add('confirm_password', PasswordType::class)
-    
+
 
         ->getForm();
 
@@ -226,7 +230,7 @@ class EtudiantController extends AbstractController
 
         $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
         $etudiant->setPassword($hash);
-    
+
 
         if($form->isSubmitted() && $form->isValid())
         {
@@ -251,12 +255,12 @@ class EtudiantController extends AbstractController
 
         $form = $this->createFormBuilder($etudiant)
       ->add('mail')
-    
+
 
       ->getForm();
 
       $form->handleRequest($request);
-    
+
 
       if($form->isSubmitted() && $form->isValid())
       {

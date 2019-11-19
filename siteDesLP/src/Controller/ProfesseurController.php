@@ -45,7 +45,9 @@ class ProfesseurController extends AbstractController
 			    ->add('prenomProfesseur')
 				->add('dateNaissance', DateType::class,
 					['widget' => 'single_text'])
-				->add('password', PasswordType::class)
+          ->add('password', PasswordType::class, [
+            'attr' => ['maxlength' => '64']
+          ])
 			    ->add('classes', EntityType::class, [
 			        'class' => Classes::class,
 			        'choice_label' => 'nomClasse',
@@ -62,7 +64,7 @@ class ProfesseurController extends AbstractController
 
 	        $form->handleRequest($request);
 
-			// Ajouts des classes d'un prof			
+			// Ajouts des classes d'un prof
 			$classesProf = $form['classes']->getData();
 			if ($classesProf) {
 				for ($i=0; $i < sizeof($classesProf); $i++) {
@@ -113,8 +115,7 @@ class ProfesseurController extends AbstractController
 			$prof->setprenomProfesseur($prenom);
 
 			// Encodage du mot de passe
-			$hash = $encoder->encodePassword($prof, $prof->getPassword());
-			$prof->setPassword($hash);
+
 
 		} else { // Mode edit
 
@@ -160,6 +161,10 @@ class ProfesseurController extends AbstractController
 
 		// Réception du form valide -> add/update
 		if($form->isSubmitted() && $form->isValid()){
+
+      $hash = $encoder->encodePassword($prof, $prof->getPassword());
+      $prof->setPassword($hash);
+
 			$manager->persist($prof);
 			$manager->flush();
 
