@@ -144,7 +144,7 @@ class ProfesseurController extends AbstractController
 	    				'required' => false,
 		'query_builder' => function (ClassesRepository $repoC) use ( $prof ) {
 				return $repoC->createQueryBuilder('c')
-					->innerJoin('c.professeurs', 'p')
+					->leftJoin('c.professeurs', 'p')
 					->where('c.professeurResponsable is NULL')
 					->orWhere('c.professeurResponsable = :id')
 					->orderBy('c.nomClasse','ASC')
