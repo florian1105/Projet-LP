@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClassesRepository")
  * @UniqueEntity("nomClasse", message="Ce nom de classe est déjà utilisé, veuillez en saisir un autre")
+ * @UniqueEntity("professeurResponsable", message="Ce professeur est déjà responsable d'une autre classe")
  */
 class Classes
 {
@@ -23,7 +24,7 @@ class Classes
 
     /**
      * @ORM\Column(type="string", length=32)
-      * @Assert\NotBlank(message="Veuillez renseigner un nom pour cette classe")
+     * @Assert\NotBlank(message="Veuillez renseigner un nom pour cette classe")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés au début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a la fin.")
      * @Assert\Regex(pattern="/^[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés au début.")
@@ -41,10 +42,11 @@ class Classes
      * @ORM\ManyToMany(targetEntity="App\Entity\Professeurs", mappedBy="classes")
      */
     private $professeurs;
-
+//* @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id", onDelete="SET NULL")
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable")
      * @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id")
+     * @Assert\NotBlank(message="Veuillez renseigner un professeur responsable")
      */
     private $professeurResponsable;
 

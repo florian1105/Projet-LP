@@ -5,6 +5,8 @@
 {% block body %}
     {{ form_start(form_change_email) }}
     {{ form_widget(form_change_email) }}
-    <button type="submit" class="btn btn-primary">Changer l'email</button>
+    <span>
+    <button type="submit" class="btn btn-success">Changer l'email</button>
     {{ form_end(form_change_email) }}
+    <a class="btn btn-primary" href= {{ path('etudiant_account')}} role="button">Annuler</a>
 {% endblock %}

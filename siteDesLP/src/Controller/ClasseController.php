@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Classes;
-//use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Professeurs;
-
-use App\Repository\ClassesRepository;
 use App\Repository\ProfesseursRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use App\Repository\ClassesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormBuilder;
 
 class ClasseController extends AbstractController

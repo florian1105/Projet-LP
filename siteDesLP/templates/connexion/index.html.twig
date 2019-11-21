@@ -5,8 +5,11 @@
 {% block body %}
 <h1>Connexion</h1>
 <br>
+
 {% if error %}
-    <h4 class="is-error">Erreur login ou mot de passe incorrect </h4>
+<div class="alert alert-primary" role="alert">
+    Identifiant ou mot de passe incorrect
+</div>
 {% endif %}
 
 <form action=" {{ path('connexion') }}" method="post">
