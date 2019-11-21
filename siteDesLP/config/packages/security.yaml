@@ -10,24 +10,33 @@ security:
     providers:
         chain_provider:
                 chain:
-                    providers: [in_memory, in_database_etudiant, in_database_professeur]
+                    providers: [in_memory, in_database_etudiant_login,in_database_etudiant_mail, in_database_professeur_login, in_database_professeur_mail]
         in_memory:
             memory:
                 users:
-                    admin: 
-                        password: $2y$13$Vd4GmwFUStv9pkqrf/7uu.N6.QWuCQrXetSGjXWnVQehWIgt/2V2q 
+                    admin:
+                        password: $2y$13$Vd4GmwFUStv9pkqrf/7uu.N6.QWuCQrXetSGjXWnVQehWIgt/2V2q
                         roles: 'ROLE_ADMIN'
 
-        in_database_etudiant:
+        in_database_etudiant_mail:
             entity:
                 class: App\Entity\Etudiants
                 property: mailAcademique
-           
 
-        in_database_professeur:
+        in_database_etudiant_login:
+            entity:
+                class: App\Entity\Etudiants
+                property: login
+
+        in_database_professeur_mail:
             entity:
                 class: App\Entity\Professeurs
                 property: mailAcademique
+
+        in_database_professeur_login:
+            entity:
+                class: App\Entity\Professeurs
+                property: login
 
     firewalls:
         dev:
@@ -63,5 +72,3 @@ security:
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
-        
-
