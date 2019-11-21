@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{% for msg in app.session.flashBag.get('success') %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+
 <div class="btn-group" role="group" aria-label="Basic example">
   <a href="{{ path('professeur_change_password') }}"><button type="button" class="btn btn-secondary">Modifier mon mot de passe</button></a>
 </div>
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -39,4 +47,5 @@
     </tr>
   </tbody>
 </table>
+
 {% endblock %}

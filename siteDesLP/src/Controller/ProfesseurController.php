@@ -235,12 +235,13 @@ class ProfesseurController extends AbstractController
             'prof' => $prof,
         ]);
 	}
-	
+
 	/**
      * @Route("professeur_account/change_password", name="professeur_change_password")
      */
     public function changePassword(UserInterface $prof, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
+
         $prof = $this->getUser();
 
         $form = $this->createFormBuilder($prof)
@@ -254,6 +255,9 @@ class ProfesseurController extends AbstractController
 
         $form->handleRequest($request);
 
+        $mdpChange = "";
+        $mdpNonChange = "";
+
         if($form->isSubmitted() && $form->isValid())
         {
           $match = $encoder->isPasswordValid($prof, $form['password']->getData());
@@ -264,15 +268,22 @@ class ProfesseurController extends AbstractController
             $prof->setPassword($hash);
             $em->persist($prof);
             $em->flush();
+            $this->addFlash('success', 'Mot de passe modifié ! ');
             return $this->redirectToRoute('professeur_account');
           }
+
+          else {
+            $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+          }
+
         }
 
-        
+
 
         return $this->render('professeur/changepassword.html.twig', [
             'prof' => $prof,
-            'form_change_password' => $form->createView()
+            'form_change_password' => $form->createView(),
+            'error' => $mdpNonChange,
         ]);
     }
 
