@@ -63,8 +63,11 @@ class EtudiantController extends AbstractController
       $form = $this->createFormBuilder($etudiant)
       ->add('nomEtudiant')
       ->add('prenomEtudiant')
-      ->add('password', PasswordType::class, [
+      ->add('new_password', PasswordType::class, [
         'attr' => ['maxlength' => '64']
+      ])
+      ->add('confirm_password', PasswordType::class, [
+        'attr' => ['maxlength' => '64'],
       ])
       ->add('mail')
       ->add('dateNaissance', DateType::class, [
@@ -141,10 +144,9 @@ class EtudiantController extends AbstractController
     {
       if($editMode == false)
       {
-        $hash = $encoder->encodePassword($etudiant, $etudiant->getPassword());
+        $hash = $encoder->encodePassword($etudiant, $etudiant->getNewPassword());
         $etudiant->setPassword($hash);
       }
-
       $em->persist($etudiant);
       $em->flush();
 
@@ -239,7 +241,8 @@ class EtudiantController extends AbstractController
           $etudiant->setPassword($hash);
           $em->persist($etudiant);
           $em->flush();
-          return $this->redirectToRoute('etudiant_account');
+          $this->addFlash('notice', 'Votre mot de passe à bien été changé !');
+          //return $this->redirectToRoute('etudiant_account');
         }
 
         return $this->render('etudiant/changepassword.html.twig', [

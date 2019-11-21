@@ -9,21 +9,22 @@
 {% endif %}
 {{ form_start(form_create_etudiant) }}
 
-{{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.prenomEtudiant , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.nomEtudiant , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.prenomEtudiant , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 
 {% if editMode %}
 {{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.mailAcademique , {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.mailAcademique , {'label': 'Mail académique','attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {% endif %}
 
 {% if editMode == false %}
-{{ form_row(form_create_etudiant.password, {'attr' : {'placeholder' : "Password de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.new_password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe de l'étudiant" }}) }}
 {% endif %}
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.classeEtudiant) }}
+{{ form_row(form_create_etudiant.classeEtudiant,{'label': 'Classe'}) }}
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}
