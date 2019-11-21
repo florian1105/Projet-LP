@@ -32,6 +32,7 @@
     {% endfor %}
     </tbody>
 </table>
+<a class="btn btn-success" href= {{ path('classe_create')}} role="button">Créer une classe</a>
 <script>
 function showModifs(tr,id){
     // Get all list buttons and pass them invisible
@@ -45,7 +46,7 @@ function showModifs(tr,id){
     const editBtn = tr.getElementsByClassName('edit-btn')[0];
     const deleteBtn = tr.getElementsByClassName('delete-btn')[0];
     editBtn.classList.remove("invisible");
-    deleteBtn.classList.remove("invisible");   
+    deleteBtn.classList.remove("invisible");
 }
 </script>
 
