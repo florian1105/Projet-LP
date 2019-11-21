@@ -214,8 +214,8 @@ class EtudiantController extends AbstractController
         ]);
     }
 
-      /**
-     * @Route("etudiant_account/change_password", name="change_password")
+    /**
+     * @Route("etudiant_account/change_password", name="etudiant_change_password")
      */
     public function changePassword(UserInterface $etudiant, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -229,27 +229,31 @@ class EtudiantController extends AbstractController
 
         ->getForm();
 
-        //$encoderService = $this->container->get('security.password_encoder');
-        
-        //$match = $encoderService->isPasswordValid($form['password']->getData(), $etudiant->getPassword());
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
-          $hash = $encoder->encodePassword($etudiant, $form['new_password']->getData());
-          $etudiant->setPassword($hash);
-          $em->persist($etudiant);
-          $em->flush();
-          $this->addFlash('notice', 'Votre mot de passe à bien été changé !');
-          //return $this->redirectToRoute('etudiant_account');
+          $match = $encoder->isPasswordValid($etudiant, $form['password']->getData());
+          //si password valide
+          if($match)
+          {
+            $hash = $encoder->encodePassword($etudiant, $form['new_password']->getData());
+            $etudiant->setPassword($hash);
+            $em->persist($etudiant);
+            $em->flush();
+            return $this->redirectToRoute('etudiant_account');
+          }
         }
+
+        
 
         return $this->render('etudiant/changepassword.html.twig', [
             'etudiant' => $etudiant,
             'form_change_password' => $form->createView()
         ]);
     }
+
 
 
      /**

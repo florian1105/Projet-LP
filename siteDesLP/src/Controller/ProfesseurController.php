@@ -43,9 +43,12 @@ class ProfesseurController extends AbstractController
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
-          ->add('password', PasswordType::class, [
+          ->add('new_password', PasswordType::class, [
             'attr' => ['maxlength' => '64']
-          ])
+		  ])
+		  ->add('confirm_password', PasswordType::class, [
+			'attr' => ['maxlength' => '64'],
+		  ])
 			    ->add('classes', EntityType::class, [
 			        'class' => Classes::class,
 			        'choice_label' => 'nomClasse',
@@ -158,7 +161,7 @@ class ProfesseurController extends AbstractController
 		// Réception du form valide -> add/update
 		if($form->isSubmitted() && $form->isValid()){
 
-      $hash = $encoder->encodePassword($prof, $prof->getPassword());
+      $hash = $encoder->encodePassword($prof, $prof->getNewPassword());
       $prof->setPassword($hash);
 
 			$manager->persist($prof);
@@ -230,6 +233,46 @@ class ProfesseurController extends AbstractController
         $prof = $this->getUser();
         return $this->render('professeur/moncompte.html.twig', [
             'prof' => $prof,
+        ]);
+	}
+	
+	/**
+     * @Route("professeur_account/change_password", name="professeur_change_password")
+     */
+    public function changePassword(UserInterface $prof, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    {
+        $prof = $this->getUser();
+
+        $form = $this->createFormBuilder($prof)
+        ->add('password', PasswordType::class, array('mapped' => false))
+        ->add('new_password', PasswordType::class)
+        ->add('confirm_password', PasswordType::class)
+
+
+        ->getForm();
+
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $match = $encoder->isPasswordValid($prof, $form['password']->getData());
+          //si password valide
+          if($match)
+          {
+            $hash = $encoder->encodePassword($prof, $form['new_password']->getData());
+            $prof->setPassword($hash);
+            $em->persist($prof);
+            $em->flush();
+            return $this->redirectToRoute('professeur_account');
+          }
+        }
+
+        
+
+        return $this->render('professeur/changepassword.html.twig', [
+            'prof' => $prof,
+            'form_change_password' => $form->createView()
         ]);
     }
 

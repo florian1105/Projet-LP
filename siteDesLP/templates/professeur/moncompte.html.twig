@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-secondary">Modifier mon mot de passe</button>
+  <a href="{{ path('professeur_change_password') }}"><button type="button" class="btn btn-secondary">Modifier mon mot de passe</button></a>
 </div>
 <table class="table">
   <thead class="thead-dark">
@@ -36,10 +36,6 @@
     <tr>
       <th scope="row">Login</th>
       <td>{{ prof.login }}</td>
-    </tr>
-    <tr>
-      <th scope="row">Date de naissance</th>
-      <td>{{ prof.dateNaissance | date('d/m/Y')}}</td>
     </tr>
   </tbody>
 </table>
