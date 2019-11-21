@@ -55,11 +55,6 @@ class Professeurs implements UserInterface
      */
     private $login;
 
-    /**
-     * @ORM\Column(type="date")
-     * @Assert\Range(max="now", maxMessage="Ce Professeur ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
-     */
-    private $dateNaissance;
 
     /**
      * @ORM\Column(type="string", length=64)
