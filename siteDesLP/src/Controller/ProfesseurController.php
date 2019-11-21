@@ -43,8 +43,6 @@ class ProfesseurController extends AbstractController
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
-				->add('dateNaissance', DateType::class,
-					['widget' => 'single_text'])
           ->add('password', PasswordType::class, [
             'attr' => ['maxlength' => '64']
           ])
@@ -124,8 +122,6 @@ class ProfesseurController extends AbstractController
 			    ->add('prenomProfesseur')
 			    ->add('login')
       			->add('mailAcademique')
-				->add('dateNaissance', DateType::class,
-					['widget' => 'single_text'])
 				//->add('password', PasswordType::class)
 			    ->add('classes', EntityType::class, [
 			        'class' => Classes::class,

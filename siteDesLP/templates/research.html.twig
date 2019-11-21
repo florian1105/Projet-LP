@@ -14,6 +14,7 @@
             <th scope="col">Nom</th>
             <th scope="col">Prénom</th>
             <th scope="col">Mail Academique</th>
+            <th scope="col">Date Naissance</th>
             <th scope="col">Modifier</th>
             <th scope="col">Supprimer</th>
         </tr>
@@ -26,6 +27,7 @@
                 <td>{{prof.nomProfesseur}}</td>
                 <td>{{prof.prenomProfesseur}}</td>
                 <td>{{prof.mailAcademique}}</td>
+                <td>{{prof.dateNaissance | date('d/m/Y')}}</td>
                 <td><a href="{{ path('prof_edit', {'id' : prof.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
                 <td><a href="{{ path('prof_delete', {'id' : prof.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
             </tr>
@@ -45,7 +47,7 @@
         const editBtn = tr.getElementsByClassName('edit-btn')[0];
         const deleteBtn = tr.getElementsByClassName('delete-btn')[0];
         editBtn.classList.remove("invisible");
-        deleteBtn.classList.remove("invisible");
+        deleteBtn.classList.remove("invisible");   
     }
 </script>
 {% endblock %}

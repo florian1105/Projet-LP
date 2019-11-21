@@ -55,7 +55,7 @@
 			'placeholder' : "Prénom"
 		}
 	}) }}
-	
+
 	{% if editMode %}
 		{{ form_row(form.login, {
 			'label':'Login de connexion',
@@ -71,7 +71,6 @@
 		}) }}
 	{% endif %}
 
-	{{ form_row(form.dateNaissance, { 'label':'Date de naissance' }) }}
 
 	{% if editMode==false %}
 		{{ form_row(form.password, {
@@ -113,7 +112,7 @@
 			</button>
 		</div>
 	</div>
-	
+
 	<div class="col">
 		<h3>Toutes les classes disponibles</h3>
         {% for classe in form.classes %}
