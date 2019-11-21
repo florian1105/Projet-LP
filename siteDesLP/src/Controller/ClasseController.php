@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Professeurs;
+use App\Repository\ProfesseursRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 //use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +29,22 @@ class ClasseController extends AbstractController
 
     $form = $this->createFormBuilder($classe)
     ->add('nomClasse')
+    ->add('professeurResponsable',EntityType::class, [
+                        'class' => Professeurs::class,
+                        'choice_label' => 'prenomProfesseur',
+                        'required' => false,
+                        'query_builder' => function (ProfesseursRepository $repoP) use ( $classe ) {
+            return $repoP->createQueryBuilder('p')
+                ->leftJoin('p.classes', 'c')
+                ->where('c.professeurResponsable is NULL')
+                ->orWhere('c.professeurResponsable = :id')
+                ->orderBy('p.prenomProfesseur','ASC')
+                ->setParameter('id', $classe->getId());
+        },
+        'group_by' => function($choice, $key, $val) {
+            return strtoupper(substr($choice->getPrenomProfesseur(), 0, 1));
+        },
+    ])
     ->getForm();
     $form->handleRequest($request);
 

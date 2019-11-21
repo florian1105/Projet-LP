@@ -158,8 +158,8 @@ class Etudiants implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-        $this->new_password = "";
-        $this->confirm_password = "";
+        $this->new_password = "XXXXXX";
+        $this->confirm_password = "XXXXXX";
         return $this;
     }
 

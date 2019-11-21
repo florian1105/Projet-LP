@@ -60,10 +60,9 @@ class Professeurs implements UserInterface
      * @ORM\Column(type="string", length=64)
      */
     private $password;
-    
+
     /**
      * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
-     * @Assert\NotBlank(message="Veuillez renseigner un mot de passe")
      * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     public $new_password;
@@ -157,7 +156,6 @@ class Professeurs implements UserInterface
     {
         return $this->password;
     }
-
     public function getNewPassword(): ?string
     {
         return $this->new_password;
@@ -166,11 +164,12 @@ class Professeurs implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-        $this->new_password = "";
-        $this->confirm_password = "";
+        $this->new_password = "XXXXXX";
+        $this->confirm_password = "XXXXXX";
+
         return $this;
-    
     }
+
     /**
      * @return Collection|Classes[]
      */

@@ -235,7 +235,7 @@ class ProfesseurController extends AbstractController
             'prof' => $prof,
         ]);
 	}
-	
+
 	/**
      * @Route("professeur_account/change_password", name="professeur_change_password")
      */
@@ -268,7 +268,7 @@ class ProfesseurController extends AbstractController
           }
         }
 
-        
+
 
         return $this->render('professeur/changepassword.html.twig', [
             'prof' => $prof,
