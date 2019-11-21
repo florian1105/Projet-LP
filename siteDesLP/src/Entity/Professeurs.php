@@ -79,7 +79,7 @@ class Professeurs implements UserInterface
     private $classes;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Classes", mappedBy="professeurResponsable")//, cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Classes", inversedBy="professeurs", mappedBy="professeurResponsable")//, cascade={"persist"})
      */
     private $classeResponsable;
 
@@ -240,5 +240,10 @@ class Professeurs implements UserInterface
     public function getUsername()
     {
       return $this->login;
+    }
+
+    public function __toString()
+    {
+        return $this->nomProfesseur." ".$this->prenomProfesseur;
     }
 }

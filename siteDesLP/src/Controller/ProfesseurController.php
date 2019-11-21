@@ -8,14 +8,15 @@ use App\Repository\ClassesRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /** Doctrine **/
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /** Propriétaire **/
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -37,54 +38,53 @@ class ProfesseurController extends AbstractController
 		UserPasswordEncoderInterface $encoder
 	)
     {
-		if(!$prof/*Mode ajout*/){
+		if(!$prof)
+		{
 			$prof = new Professeurs();
 
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
-          ->add('new_password', PasswordType::class, [
-            'attr' => ['maxlength' => '64']
-		  ])
-		  ->add('confirm_password', PasswordType::class, [
-			'attr' => ['maxlength' => '64'],
-		  ])
-			    ->add('classes', EntityType::class, [
-			        'class' => Classes::class,
-			        'choice_label' => 'nomClasse',
-			        'label' => 'Classes du professeur',
-			        'expanded' => true,
-			        'multiple' => true,
-			        'mapped' => false, //décoché par défaut
-			        'by_reference' => false,
-			        /*'group_by' => function($choice, $key, $val) {
-			            return strtoupper(substr($choice->getNomClasse(), 0, 1));
-			        },*/
-			        ])
-			    ->getForm();
+				->add('new_password', PasswordType::class, 
+				[
+					'attr' => ['maxlength' => '64']
+				])
+				->add('confirm_password', PasswordType::class, 
+				[
+					'attr' => ['maxlength' => '64'],
+				])
+				->add('classes', EntityType::class, 
+				[
+					'class' => Classes::class,
+					'choice_label' => 'nomClasse',
+					'label' => 'Classes du professeur',
+					'expanded' => true,
+					'multiple' => true,
+					'mapped' => false, //décoché par défaut
+					'by_reference' => false,
+					/*'group_by' => function($choice, $key, $val) {
+						return strtoupper(substr($choice->getNomClasse(), 0, 1));
+					},*/
+				])
+		 	->getForm();
 
 	        $form->handleRequest($request);
 
 			// Ajouts des classes d'un prof
 			$classesProf = $form['classes']->getData();
-			if ($classesProf) {
-				for ($i=0; $i < sizeof($classesProf); $i++) {
+			if ($classesProf) 
+			{
+				for ($i=0; $i < sizeof($classesProf); $i++) 
+				{
 					$classe=$classesProf[$i];
 					$prof->getClasses()->add($classe);
 				}
 			}
 
 	        // Gestion des champs générés
-			$prenom = preg_replace(
-				'/[^A-Za-z0-9\-]/', '',strtolower(
-					trim($prof->getPrenomProfesseur())
-				)
-			);
-			$nom = preg_replace(
-				'/[^A-Za-z0-9\-]/', '',strtolower(
-					trim($prof->getNomProfesseur())
-				)
-			);
+			$prenom = preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(trim($prof->getPrenomProfesseur())));
+
+			$nom = preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(trim($prof->getNomProfesseur())));
 
 			$mailAcademique = $prenom.".".$nom;
 
@@ -96,14 +96,14 @@ class ProfesseurController extends AbstractController
 
 			while($repoP->findBy(['login' => $login.$i]))
 			{
-			if($i == "") $i = 0;
-			$i++;
+				if($i == "") $i = 0;
+				$i++;
 			}
 
 			while($repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
 			{
-			if($j == "") $j = 0;
-			$j++;
+				if($j == "") $j = 0;
+				$j++;
 			}
 
 			$prof->setLogin($login.$i);
@@ -118,7 +118,9 @@ class ProfesseurController extends AbstractController
 			// Encodage du mot de passe
 
 
-		} else { // Mode edit
+		} 
+		else 
+		{ // Mode edit
 
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
@@ -126,7 +128,8 @@ class ProfesseurController extends AbstractController
 			    ->add('login')
       			->add('mailAcademique')
 				//->add('password', PasswordType::class)
-			    ->add('classes', EntityType::class, [
+				->add('classes', EntityType::class, 
+				[
 			        'class' => Classes::class,
 			        'choice_label' => 'nomClasse',
 			        'label' => 'Classes du professeur',
@@ -135,34 +138,37 @@ class ProfesseurController extends AbstractController
 			        'mapped' => true,
 			        //'by_reference' => false,
 			    ])
-				->add('classeResponsable',
-	    			EntityType::class,
+				->add('classeResponsable', EntityType::class,
 	    			[
 	    				'class' => Classes::class,
 	    				'choice_label' => 'nomClasse',
 	    				'required' => false,
-		'query_builder' => function (ClassesRepository $repoC) use ( $prof ) {
-				return $repoC->createQueryBuilder('c')
-					->leftJoin('c.professeurs', 'p')
-					->where('c.professeurResponsable is NULL')
-					->orWhere('c.professeurResponsable = :id')
-					->orderBy('c.nomClasse','ASC')
-    				->setParameter('id', $prof->getId());
-			},
-		'group_by' => function($choice, $key, $val) {
-			return strtoupper(substr($choice->getNomClasse(), 0, 1));
-		},
-	    		])
+						'query_builder' => function (ClassesRepository $repoC) use ( $prof ) 
+						{
+							return $repoC->createQueryBuilder('c')
+							->leftJoin('c.professeurs', 'p')
+							->where('c.professeurResponsable is NULL')
+							->orWhere('c.professeurResponsable = :id')
+							->orderBy('c.nomClasse','ASC')
+							->setParameter('id', $prof->getId());
+						},
+						'group_by' => function($choice, $key, $val) 
+						{
+							return strtoupper(substr($choice->getNomClasse(), 0, 1));
+						},
+					])
+					
 			    ->getForm();
 
 	        $form->handleRequest($request);
 		}
 
 		// Réception du form valide -> add/update
-		if($form->isSubmitted() && $form->isValid()){
+		if($form->isSubmitted() && $form->isValid())
+		{
 
-      $hash = $encoder->encodePassword($prof, $prof->getNewPassword());
-      $prof->setPassword($hash);
+			$hash = $encoder->encodePassword($prof, $prof->getNewPassword());
+			$prof->setPassword($hash);
 
 			$manager->persist($prof);
 			$manager->flush();
@@ -185,16 +191,27 @@ class ProfesseurController extends AbstractController
     public function delete(Professeurs $prof, Request $req)
     {
     	//Si le formulaire à été soumis
-    	if($req->isMethod('POST')){
+		if($req->isMethod('POST'))
+		{
     		// En cas de validation on supprime et on redirige
-			if($req->request->has('oui')) {
-				$em=$this->getDoctrine()->getManager();
-				$em->remove($prof);
-				$em->flush();
+			if($req->request->has('oui')) 
+			{
+				if($prof->getClasseResponsable() != null)
+				{
+					return new Response("Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
+				}
+				else
+				{
+					$em=$this->getDoctrine()->getManager();
+					$em->remove($prof);
+					$em->flush();
+					return $this->redirectToRoute('prof_search');
+				}
 			}
-			// Sinon on redirige simplement
-			return $this->redirectToRoute('prof_search');
-		} else {
+			
+		} 
+		else 
+		{
 			//Si le formulaire n'a pas été soumis alors on l'affiche
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce professeur ?';
 
@@ -207,7 +224,7 @@ class ProfesseurController extends AbstractController
 					'titre' => $title,
 					'message' => $message
 	        	]);
-	    	}
+	    }
     }
 
     /**
@@ -225,12 +242,14 @@ class ProfesseurController extends AbstractController
      */
     public function monCompte(UserInterface $prof)
     {
-		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
+		{
 			// Sinon on déclenche une exception « Accès interdit »
 			throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
-		  }
+		}
 
-        $prof = $this->getUser();
+		$prof = $this->getUser();
+		
         return $this->render('professeur/moncompte.html.twig', [
             'prof' => $prof,
         ]);

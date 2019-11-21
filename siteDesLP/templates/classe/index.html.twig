@@ -10,7 +10,7 @@
 {{ form_start(form_create_classe) }}
 
 {{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe" }}) }}
-
+{{ form_row(form_create_classe.professeurResponsable , {'attr' : {'label' : "Professeur responsable" }}) }}
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}

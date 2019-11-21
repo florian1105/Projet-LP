@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\Classes;
+//use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Professeurs;
+
 use App\Repository\ClassesRepository;
+use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormBuilder;
 
 class ClasseController extends AbstractController
 {
@@ -17,7 +21,7 @@ class ClasseController extends AbstractController
      * @Route("/classe/new", name="classe_create")
      * @Route("/classe/{id}/edit", name="classe_edit")
      */
-  public function form(Classes $classe = null, ClassesRepository $repo, Request $request, ObjectManager $manager)
+  public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     if(!$classe)
     {
@@ -26,7 +30,34 @@ class ClasseController extends AbstractController
 
     $form = $this->createFormBuilder($classe)
     ->add('nomClasse')
-    ->getForm();
+    ->add('professeurResponsable',
+	  EntityType::class,
+	  [
+    'class' => Professeurs::class,
+    'required' => true,
+		'query_builder' => function (ProfesseursRepository $repoP) use ($repoC) {
+    $g = $repoC->createQueryBuilder('c')
+			->select('IDENTITY(c.professeurResponsable)')
+			->getQuery()
+      ->getArrayResult();
+      
+    $intcast = [];
+    foreach ($g as $key => $value) 
+    {
+        foreach ($value as $key2 => $value2) 
+        {
+          if($value2 === null)  $intcast[] = null;
+          else $intcast[] = intval($value2);
+        }
+      }
+
+    $query = $repoP->createQueryBuilder('p')
+    ->where($repoP->createQueryBuilder('p')->expr()->notIn('p.id', $intcast));
+
+    return $query; }])
+
+      ->getForm();
+
     $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid())

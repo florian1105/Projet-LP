@@ -44,7 +44,7 @@ class Classes
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable")
-     * @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id")
      */
     private $professeurResponsable;
 
@@ -128,6 +128,12 @@ class Classes
         }
 
         return $this;
+    }
+
+    public function isClasseResponsable()
+    {
+        if($this->professeurResponsable != null) return true;
+        else return false;
     }
 
     public function getProfesseurResponsable(): ?Professeurs
