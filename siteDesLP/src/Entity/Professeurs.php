@@ -169,8 +169,8 @@ class Professeurs implements UserInterface
         $this->new_password = "";
         $this->confirm_password = "";
         return $this;
+    
     }
-
     /**
      * @return Collection|Classes[]
      */
