@@ -3,7 +3,7 @@
 
 {% block body %}
 {% if editMode %}
-    <h1>Modification de l'étudiant n°{{ etudiant.id }}</h1>
+    <h1>Modification de l'étudiant {{ etudiant.nomEtudiant }} {{ etudiant.prenomEtudiant }}</h1>
 {% else %}
     <h1>Création d'un étudiant</h1>
 {% endif %}
@@ -12,7 +12,7 @@
 {{ form_row(form_create_etudiant.nomEtudiant , {'attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.prenomEtudiant , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 
-{% if editMode %} 
+{% if editMode %}
 {{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.mailAcademique , {'attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
 {% endif %}

@@ -4,7 +4,7 @@
 {% block body %}
 
 {% if editMode %}
-    <h1>Modification du professeur n°{{ prof.id }}</h1>
+    <h1>Modification du professeur {{ prof.nomProfesseur }} {{ prof.prenomProfesseur }}</h1>
 {% else %}
     <h1>Création d'un professeur</h1>
 {% endif %}
