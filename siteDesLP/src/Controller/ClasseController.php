@@ -81,7 +81,8 @@ class ClasseController extends AbstractController
     {
 
     //Si le formulaire à été soumis
-    if($req->isMethod('POST')){
+    if($req->isMethod('POST'))
+    {
         // En cas de validation on supprime et on redirige
       if($req->request->has('oui')) {
         $em=$this->getDoctrine()->getManager();
@@ -90,12 +91,14 @@ class ClasseController extends AbstractController
       }
       // Sinon on redirige simplement
       return $this->redirectToRoute('classe_research');
-    } else {
+    } 
+    else 
+    {
       //Si le formulaire n'a pas été soumis alors on l'affiche
-      $title = 'Êtes-vous sûr(e) de vouloir supprimer ce professeur ?';
+      $title = 'Êtes-vous sûr(e) de vouloir supprimer cette classe ?';
 
       $message = 'N°'.$classe->getId().' : '.
-        $classe->getNomClasse();
+      $classe->getNomClasse();
 
         return $this->render('confirmation.html.twig', [
           'titre' => $title,
