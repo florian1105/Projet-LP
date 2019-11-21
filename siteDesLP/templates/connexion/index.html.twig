@@ -4,6 +4,11 @@
 
 {% block body %}
 <h1>Connexion</h1>
+<br>
+{% if error %}
+    <h4 class="is-error">Erreur login ou mot de passe incorrect </h4>
+{% endif %}
+
 <form action=" {{ path('connexion') }}" method="post">
     <div class="form-group">
         <input placeholder="Identifiant" type="text" name="_username" class="form-control" required>

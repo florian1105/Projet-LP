@@ -74,3 +74,8 @@ footer a:hover
 {
   background-color: #FF5563;
 }
+
+.is-error
+{
+  color : red;
+}
