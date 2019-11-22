@@ -22,7 +22,7 @@ class ClasseController extends AbstractController
      */
   public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
-    $editMode = true; 
+    $editMode = true;
 
     if(!$classe)
     {
@@ -44,11 +44,11 @@ class ClasseController extends AbstractController
         ->select('IDENTITY(c.professeurResponsable)')
         ->getQuery()
         ->getArrayResult();
-        
+
       $idprofs = [];
-      foreach ($profResps as $key => $value) 
+      foreach ($profResps as $key => $value)
       {
-          foreach ($value as $key2 => $value2) 
+          foreach ($value as $key2 => $value2)
           {
             if($value2 === null)  $idprofs[] = null;
             else $idprofs[] = intval($value2);
@@ -79,11 +79,11 @@ class ClasseController extends AbstractController
         ->select('IDENTITY(c.professeurResponsable)')
         ->getQuery()
         ->getArrayResult();
-        
+
       $idprofs = [];
-      foreach ($profResps as $key => $value) 
+      foreach ($profResps as $key => $value)
       {
-          foreach ($value as $key2 => $value2) 
+          foreach ($value as $key2 => $value2)
           {
             if($value2 === null)  $idprofs[] = null;
             else $idprofs[] = intval($value2);
@@ -127,23 +127,24 @@ class ClasseController extends AbstractController
     if($req->isMethod('POST'))
     {
         // En cas de validation on supprime et on redirige
-      if($req->request->has('oui')) 
+      if($req->request->has('oui'))
       {
         if(sizeof($classe->getEtudiants()) != 0)
 				{
-					return new Response("Cette classe ne peut pas être supprimée car elle possède un ou plusieurs étudiants");
+					$this->addFlash('errorSuppressionClasse',"Cette classe ne peut pas être supprimé car elle contient des étudiants");
 				}
 				else
 				{
           $em=$this->getDoctrine()->getManager();
           $em->remove($classe);
           $em->flush();
+          $this->addFlash('validSuppressionClasse',"La classe a été supprimé avec succès");
         }
       }
       // Sinon on redirige simplement
       return $this->redirectToRoute('classe_research');
-    } 
-    else 
+    }
+    else
     {
       //Si le formulaire n'a pas été soumis alors on l'affiche
       $title = 'Êtes-vous sûr(e) de vouloir supprimer cette classe ?';

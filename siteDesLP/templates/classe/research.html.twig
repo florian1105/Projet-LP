@@ -6,6 +6,18 @@
 
 {% block body %}
 <h1>Rechercher une classe</h1>
+<br>
+{% for msg in app.session.flashBag.get('errorSuppressionClasse') %}
+  <div class="alert alert-primary">
+    {{ msg }}
+    </div>
+{% endfor %}
+
+{% for msg in app.session.flashBag.get('validSuppressionClasse') %}
+  <div class="alert alert-success">
+    {{ msg }}
+</div>
+{% endfor %}
 
 <table id="tab_classe" class="table table-striped table-bordered table-hover" style="width:100%">
     <thead>
