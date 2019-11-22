@@ -30,13 +30,7 @@ class ProfesseurController extends AbstractController
      * @Route("/professeur/new", name="prof_add")
      * @Route("/professeur/edit/{id}", name="prof_edit")
      */
-    public function form(
-    	Professeurs $prof = null,
-		ProfesseursRepository $repoP,
-		Request $request,
-		ObjectManager $manager,
-		UserPasswordEncoderInterface $encoder
-	)
+    public function form(Professeurs $prof = null, ProfesseursRepository $repoP, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
 		if(!$prof)
 		{
