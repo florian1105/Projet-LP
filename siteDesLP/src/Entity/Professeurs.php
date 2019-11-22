@@ -78,7 +78,7 @@ class Professeurs implements UserInterface
     private $classes;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Classes", inversedBy="professeurs", mappedBy="professeurResponsable")//, cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Classes", mappedBy="professeurResponsable")
      */
     private $classeResponsable;
 

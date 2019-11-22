@@ -42,7 +42,7 @@ class Classes
      * @ORM\ManyToMany(targetEntity="App\Entity\Professeurs", mappedBy="classes")
      */
     private $professeurs;
-//* @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id", onDelete="SET NULL")
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Professeurs", inversedBy="classeResponsable")
      * @ORM\JoinColumn(name="professeur_responsable_id", referencedColumnName="id")

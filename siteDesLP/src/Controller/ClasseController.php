@@ -127,10 +127,18 @@ class ClasseController extends AbstractController
     if($req->isMethod('POST'))
     {
         // En cas de validation on supprime et on redirige
-      if($req->request->has('oui')) {
-        $em=$this->getDoctrine()->getManager();
-        $em->remove($classe);
-        $em->flush();
+      if($req->request->has('oui')) 
+      {
+        if(sizeof($classe->getEtudiants()) != 0)
+				{
+					return new Response("Cette classe ne peut pas être supprimée car elle possède un ou plusieurs étudiants");
+				}
+				else
+				{
+          $em=$this->getDoctrine()->getManager();
+          $em->remove($classe);
+          $em->flush();
+        }
       }
       // Sinon on redirige simplement
       return $this->redirectToRoute('classe_research');
