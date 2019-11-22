@@ -232,6 +232,8 @@ class EtudiantController extends AbstractController
 
         $form->handleRequest($request);
 
+        $mdpNonChange = "";
+
         if($form->isSubmitted() && $form->isValid())
         {
           $match = $encoder->isPasswordValid($etudiant, $form['password']->getData());
@@ -242,15 +244,20 @@ class EtudiantController extends AbstractController
             $etudiant->setPassword($hash);
             $em->persist($etudiant);
             $em->flush();
+            $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
             return $this->redirectToRoute('etudiant_account');
+          }
+          else {
+            $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
           }
         }
 
-        
+
 
         return $this->render('etudiant/changepassword.html.twig', [
             'etudiant' => $etudiant,
-            'form_change_password' => $form->createView()
+            'form_change_password' => $form->createView(),
+            'error' => $mdpNonChange,
         ]);
     }
 
@@ -276,7 +283,7 @@ class EtudiantController extends AbstractController
       {
           $em->persist($etudiant);
           $em->flush();
-
+          $this->addFlash('mail_change','Votre mail a été modifié avec succès');
           return $this->redirectToRoute('etudiant_account');
 
       }

@@ -1,10 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{% for msg in app.session.flashBag.get('mdp_change') %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+
+            {% for msg in app.session.flashBag.get('mail_change') %}
+                            <div class="alert alert-success">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+
 <div class="btn-group" role="group" aria-label="Basic example">
   <a href="{{ path('etudiant_change_password') }}"><button type="button" class="btn btn-secondary">Modifier mon mot de passe</button></a>
   <a href="{{ path('change_mail') }}"><button type="button" class="btn btn-secondary">Modifier mon mail</button></a>
 </div>
+
+
+
+
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
