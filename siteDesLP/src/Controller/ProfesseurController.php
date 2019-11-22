@@ -8,7 +8,6 @@ use App\Repository\ClassesRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -39,15 +38,15 @@ class ProfesseurController extends AbstractController
 			$form = $this->createFormBuilder($prof)
 				->add('nomProfesseur')
 			    ->add('prenomProfesseur')
-				->add('new_password', PasswordType::class, 
+				->add('new_password', PasswordType::class,
 				[
 					'attr' => ['maxlength' => '64']
 				])
-				->add('confirm_password', PasswordType::class, 
+				->add('confirm_password', PasswordType::class,
 				[
 					'attr' => ['maxlength' => '64'],
 				])
-				->add('classes', EntityType::class, 
+				->add('classes', EntityType::class,
 				[
 					'class' => Classes::class,
 					'choice_label' => 'nomClasse',
@@ -66,9 +65,9 @@ class ProfesseurController extends AbstractController
 
 			// Ajouts des classes d'un prof
 			$classesProf = $form['classes']->getData();
-			if ($classesProf) 
+			if ($classesProf)
 			{
-				for ($i=0; $i < sizeof($classesProf); $i++) 
+				for ($i=0; $i < sizeof($classesProf); $i++)
 				{
 					$classe=$classesProf[$i];
 					$prof->getClasses()->add($classe);
@@ -112,8 +111,8 @@ class ProfesseurController extends AbstractController
 			// Encodage du mot de passe
 
 
-		} 
-		else 
+		}
+		else
 		{ // Mode edit
 
 			$form = $this->createFormBuilder($prof)
@@ -122,7 +121,7 @@ class ProfesseurController extends AbstractController
 			    ->add('login')
       			->add('mailAcademique')
 				//->add('password', PasswordType::class)
-				->add('classes', EntityType::class, 
+				->add('classes', EntityType::class,
 				[
 			        'class' => Classes::class,
 			        'choice_label' => 'nomClasse',
@@ -137,7 +136,7 @@ class ProfesseurController extends AbstractController
 	    				'class' => Classes::class,
 	    				'choice_label' => 'nomClasse',
 	    				'required' => false,
-						'query_builder' => function (ClassesRepository $repoC) use ( $prof ) 
+						'query_builder' => function (ClassesRepository $repoC) use ( $prof )
 						{
 							return $repoC->createQueryBuilder('c')
 							->leftJoin('c.professeurs', 'p')
@@ -146,12 +145,12 @@ class ProfesseurController extends AbstractController
 							->orderBy('c.nomClasse','ASC')
 							->setParameter('id', $prof->getId());
 						},
-						'group_by' => function($choice, $key, $val) 
+						'group_by' => function($choice, $key, $val)
 						{
 							return strtoupper(substr($choice->getNomClasse(), 0, 1));
 						},
 					])
-					
+
 			    ->getForm();
 
 	        $form->handleRequest($request);
@@ -188,23 +187,25 @@ class ProfesseurController extends AbstractController
 		if($req->isMethod('POST'))
 		{
     		// En cas de validation on supprime et on redirige
-			if($req->request->has('oui')) 
+			if($req->request->has('oui'))
 			{
 				if($prof->getClasseResponsable() != null)
 				{
-					return new Response("Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
+          $this->addFlash('notDelete',"Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
+					return $this->redirectToRoute('prof_search');
 				}
 				else
 				{
 					$em=$this->getDoctrine()->getManager();
 					$em->remove($prof);
 					$em->flush();
+          $this->addFlash('delete',"Ce professeur a été supprimé avec succès");
 					return $this->redirectToRoute('prof_search');
 				}
 			}
-			
-		} 
-		else 
+
+		}
+		else
 		{
 			//Si le formulaire n'a pas été soumis alors on l'affiche
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce professeur ?';
@@ -236,14 +237,14 @@ class ProfesseurController extends AbstractController
      */
     public function monCompte(UserInterface $prof)
     {
-		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) 
+		if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
 		{
 			// Sinon on déclenche une exception « Accès interdit »
 			throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
 		}
 
 		$prof = $this->getUser();
-		
+
         return $this->render('professeur/moncompte.html.twig', [
             'prof' => $prof,
         ]);
