@@ -131,25 +131,6 @@ class ProfesseurController extends AbstractController
 			        'mapped' => true,
 			        //'by_reference' => false,
 			    ])
-				->add('classeResponsable', EntityType::class,
-	    			[
-	    				'class' => Classes::class,
-	    				'choice_label' => 'nomClasse',
-	    				'required' => false,
-						'query_builder' => function (ClassesRepository $repoC) use ( $prof )
-						{
-							return $repoC->createQueryBuilder('c')
-							->leftJoin('c.professeurs', 'p')
-							->where('c.professeurResponsable is NULL')
-							->orWhere('c.professeurResponsable = :id')
-							->orderBy('c.nomClasse','ASC')
-							->setParameter('id', $prof->getId());
-						},
-						'group_by' => function($choice, $key, $val)
-						{
-							return strtoupper(substr($choice->getNomClasse(), 0, 1));
-						},
-					])
 
 			    ->getForm();
 
@@ -191,7 +172,7 @@ class ProfesseurController extends AbstractController
 			{
 				if($prof->getClasseResponsable() != null)
 				{
-          $this->addFlash('notDelete',"Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
+          			$this->addFlash('notDelete',"Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
 					return $this->redirectToRoute('prof_search');
 				}
 				else
@@ -199,7 +180,7 @@ class ProfesseurController extends AbstractController
 					$em=$this->getDoctrine()->getManager();
 					$em->remove($prof);
 					$em->flush();
-          $this->addFlash('delete',"Ce professeur a été supprimé avec succès");
+          			$this->addFlash('delete',"Ce professeur a été supprimé avec succès");
 					return $this->redirectToRoute('prof_search');
 				}
 			}
