@@ -22,42 +22,85 @@ class ClasseController extends AbstractController
      */
   public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
+    $editMode = true; 
+
     if(!$classe)
     {
       $classe = new Classes();
+      $editMode = false;
     }
-
-    $form = $this->createFormBuilder($classe)
-    ->add('nomClasse')
-    ->add('professeurResponsable',
-	  EntityType::class,
-	  [
-    'class' => Professeurs::class,
-    'required' => true,
-		'query_builder' => function (ProfesseursRepository $repoP) use ($repoC) {
-    $g = $repoC->createQueryBuilder('c')
-			->select('IDENTITY(c.professeurResponsable)')
-			->getQuery()
-      ->getArrayResult();
-      
-    $intcast = [];
-    foreach ($g as $key => $value) 
+    if(!$editMode)
     {
-        foreach ($value as $key2 => $value2) 
-        {
-          if($value2 === null)  $intcast[] = null;
-          else $intcast[] = intval($value2);
-        }
+      $prof = $classe->getProfesseurResponsable();
+      $form = $this->createFormBuilder($classe)
+      ->add('nomClasse')
+      ->add('professeurResponsable',
+      EntityType::class,
+      [
+      'class' => Professeurs::class,
+      'required' => true,
+      'query_builder' => function (ProfesseursRepository $repoP) use ($repoC) {
+      $profResps = $repoC->createQueryBuilder('c')
+        ->select('IDENTITY(c.professeurResponsable)')
+        ->getQuery()
+        ->getArrayResult();
+        
+      $idprofs = [];
+      foreach ($profResps as $key => $value) 
+      {
+          foreach ($value as $key2 => $value2) 
+          {
+            if($value2 === null)  $idprofs[] = null;
+            else $idprofs[] = intval($value2);
+          }
       }
 
-    $query = $repoP->createQueryBuilder('p')
-    ->where($repoP->createQueryBuilder('p')->expr()->notIn('p.id', $intcast));
+      $query = $repoP->createQueryBuilder('p')
+      ->where($repoP->createQueryBuilder('p')->expr()->notIn('p.id', $idprofs));
 
-    return $query; }])
+      return $query; }])
 
-      ->getForm();
+        ->getForm();
 
-    $form->handleRequest($request);
+      $form->handleRequest($request);
+    }
+    else
+    {
+      $prof = $classe->getProfesseurResponsable();
+      $form = $this->createFormBuilder($classe)
+      ->add('nomClasse')
+      ->add('professeurResponsable',
+      EntityType::class,
+      [
+      'class' => Professeurs::class,
+      'required' => true,
+      'query_builder' => function (ProfesseursRepository $repoP) use ($repoC, $prof) {
+      $profResps = $repoC->createQueryBuilder('c')
+        ->select('IDENTITY(c.professeurResponsable)')
+        ->getQuery()
+        ->getArrayResult();
+        
+      $idprofs = [];
+      foreach ($profResps as $key => $value) 
+      {
+          foreach ($value as $key2 => $value2) 
+          {
+            if($value2 === null)  $idprofs[] = null;
+            else $idprofs[] = intval($value2);
+          }
+      }
+
+      $query = $repoP->createQueryBuilder('p')
+      ->where($repoP->createQueryBuilder('p')->expr()->notIn('p.id', $idprofs))
+      ->orWhere('p.id = :id')
+      ->setParameter('id', $prof->getId());
+
+      return $query; }])
+
+        ->getForm();
+
+      $form->handleRequest($request);
+    }
 
     if($form->isSubmitted() && $form->isValid())
     {
