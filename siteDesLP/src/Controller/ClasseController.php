@@ -34,6 +34,7 @@ class ClasseController extends AbstractController
       $prof = $classe->getProfesseurResponsable();
       $form = $this->createFormBuilder($classe)
       ->add('nomClasse')
+      ->add('nomComplet')
       ->add('professeurResponsable',
       EntityType::class,
       [
@@ -63,12 +64,27 @@ class ClasseController extends AbstractController
         ->getForm();
 
       $form->handleRequest($request);
+      $nomClasse = "LP - ".strtoupper($form['nomClasse']->getData());
+
+      if($repoC->findBy(['nomClasse' => $nomClasse]) == null)
+      { 
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $classe->setNomClasse($nomClasse);
+          $manager->persist($classe);
+          $manager->flush();
+
+          return $this->redirectToRoute('classe_research');
+        }
+      }
+      else $this->addFlash('errorAjouterClasse',"Ce nom de classe existe déjà");
     }
     else
     {
       $prof = $classe->getProfesseurResponsable();
       $form = $this->createFormBuilder($classe)
       ->add('nomClasse')
+      ->add('nomComplet')
       ->add('professeurResponsable',
       EntityType::class,
       [
@@ -99,16 +115,30 @@ class ClasseController extends AbstractController
 
         ->getForm();
 
+      $nomClasse0 = explode( 'LP - ',$form['nomClasse']->getData()); //On enlève le "LP - " devant le nom de classe
+
+      $form['nomClasse']->setData($nomClasse0[1]); //On set l'input avec le nom classe sans le "LP - "
+
+      $nomClasse = "LP - ".strtoupper($form['nomClasse']->getData()); //On rajoute le "LP - " pour le if suivant
+
       $form->handleRequest($request);
+
+      if($repoC->findBy(['nomClasse' => "LP - ".$classe->getNomClasse()]) == null || $nomClasse == "LP - ".strtoupper($form['nomClasse']->getData())) //Si ce nom n'existe pas encore ou qu'il est l'actuel 
+      { 
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));
+          $manager->persist($classe);
+          $manager->flush();
+
+          return $this->redirectToRoute('classe_research');
+        }
+      }
+      else $this->addFlash('errorAjouterClasse',"Ce nom de classe existe déjà");
+
     }
 
-    if($form->isSubmitted() && $form->isValid())
-    {
-      $manager->persist($classe);
-      $manager->flush();
 
-      return $this->redirectToRoute('classe_research');
-    }
 
     return $this->render('classe/index.html.twig', [
       'form_create_classe' => $form->createView(),

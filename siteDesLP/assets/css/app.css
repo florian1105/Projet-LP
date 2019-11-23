@@ -28,7 +28,7 @@
 .lesClasses
 {
   display: flex;
-
+  flex-direction: column;
 }
 .bg-dark-opacity
 {

@@ -2,6 +2,11 @@
 {% form_theme form_create_classe 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+{% for msg in app.session.flashBag.get('errorAjouterClasse') %}
+  <div class="alert alert-primary">
+    {{ msg }}
+    </div>
+{% endfor %}
 {% if editMode %}
     <h1>Modification de la classe {{ classe.nomClasse }}</h1>
 {% else %}
@@ -9,7 +14,8 @@
 {% endif %}
 {{ form_start(form_create_classe) }}
 
-{{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe" }}) }}
+{{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe (ex : APIDAE)" }}) }}
+{{ form_row(form_create_classe.nomComplet , {'attr' : {'placeholder' : "Nom complet de la classe (ex : Assistant de projet informatique, développement d’application e-business)" }}) }}
 {{ form_row(form_create_classe.professeurResponsable , {'attr' : {'label' : "Professeur responsable" }}) }}
 
 <button type="submit" class="btn btn-success">

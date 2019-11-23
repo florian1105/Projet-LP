@@ -55,6 +55,11 @@ class Classes
      */
     private $informationsClasses;
 
+    /**
+     * @ORM\Column(type="string", length=150)
+     */
+    private $nomComplet;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
@@ -173,6 +178,18 @@ class Classes
         if ($informationsClasses->getClasse() !== $this) {
             $informationsClasses->setClasse($this);
         }
+
+        return $this;
+    }
+
+    public function getNomComplet(): ?string
+    {
+        return $this->nomComplet;
+    }
+
+    public function setNomComplet(string $nomComplet): self
+    {
+        $this->nomComplet = $nomComplet;
 
         return $this;
     }
