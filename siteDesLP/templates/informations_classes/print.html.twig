@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion informations LP{% endblock %}
+
+{% block body %}
+{% for msg in app.session.flashBag.get('errorModificationInformationsClasses') %}
+  <div class="alert alert-primary">
+    {{ msg }}
+    </div>
+{% endfor %}
+{% for msg in app.session.flashBag.get('validModificationInformationsClasses') %}
+  <div class="alert alert-success">
+    {{ msg }}
+</div>
+{% endfor %}
+
+<a  href="{{ path('informations_classes_edit', {'id' : idInfo}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
+
+{% endblock %}

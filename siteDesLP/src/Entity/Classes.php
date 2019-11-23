@@ -50,6 +50,11 @@ class Classes
      */
     private $professeurResponsable;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\InformationsClasses", mappedBy="classe", cascade={"persist", "remove"})
+     */
+    private $informationsClasses;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
@@ -153,5 +158,22 @@ class Classes
     public function __toString()
     {
         return $this->nomClasse;
+    }
+
+    public function getInformationsClasses(): ?InformationsClasses
+    {
+        return $this->informationsClasses;
+    }
+
+    public function setInformationsClasses(InformationsClasses $informationsClasses): self
+    {
+        $this->informationsClasses = $informationsClasses;
+
+        // set the owning side of the relation if necessary
+        if ($informationsClasses->getClasse() !== $this) {
+            $informationsClasses->setClasse($this);
+        }
+
+        return $this;
     }
 }

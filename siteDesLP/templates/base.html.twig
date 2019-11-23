@@ -24,12 +24,16 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('home') }}">Accueil <span class="sr-only"></span></a>
         </li>
-         {% if not is_granted('ROLE_ADMIN') and app.user %}
-         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            À propos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path('informations_globales') }}">L'IUT</a>
+            <a class="dropdown-item" href="{{ path('informations_classes') }}">Les licences</a>
+          </div>
         </li>
-          {% endif %}
-         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Etudiants
@@ -38,6 +42,10 @@
             <a class="dropdown-item" href="{{ path('etudiant_create') }}">Créer un étudiant</a>
             <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un étudiant</a>
           </div>
+        {% endif %}
+        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('informations_classes_print') }}">Informations licence<span class="sr-only"></span></a>
         </li>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
@@ -59,7 +67,15 @@
             <a class="dropdown-item" href="{{ path('prof_search') }}">Rechercher un professeur</a>
           </div>
         </li>
+         <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('informations_globales_edit', {'id' : 1}) }}">Informations globales<span class="sr-only"></span></a>
+        </li>
  {% endif %}
+  {% if not is_granted('ROLE_ADMIN') and app.user %}
+         <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
+        </li>
+          {% endif %}
  {% if not app.user %}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>

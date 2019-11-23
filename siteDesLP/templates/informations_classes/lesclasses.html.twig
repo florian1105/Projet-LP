@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les LP de l'IUT{% endblock %}
+
+{% block body %}
+<div class="lesClasses">
+    {% for classe in classes %}
+    <div class="card text-center">
+  <div class="card-body">
+    <h5 class="card-title">{{ classe.nomClasse }}</h5>
+    <p class="card-text">PETITE DESCRIPTION DE LA CLASSE A RAJOUTER</p>
+    <a href="{{ path('informations_classes_id', {'id' : classe.informationsClasses.id }) }}" class="btn btn-primary">Découvrir</a>
+  </div>
+</div>
+    {% endfor %}
+</div>
+
+{% endblock %}
