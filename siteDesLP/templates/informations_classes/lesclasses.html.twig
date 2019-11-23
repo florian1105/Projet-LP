@@ -8,7 +8,7 @@
     <div class="card text-center">
   <div class="card-body">
     <h5 class="card-title">{{ classe.nomClasse }}</h5>
-    <p class="card-text">PETITE DESCRIPTION DE LA CLASSE A RAJOUTER</p>
+    <p class="card-text">{{ classe.nomComplet }}</p>
     <a href="{{ path('informations_classes_id', {'id' : classe.informationsClasses.id }) }}" class="btn btn-primary">Découvrir</a>
   </div>
 </div>
