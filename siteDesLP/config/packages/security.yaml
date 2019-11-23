@@ -4,13 +4,15 @@ security:
             algorithm: bcrypt
         App\Entity\Etudiants:
             algorithm: bcrypt
+        App\Entity\Secretaire:
+            algorithm: bcrypt
         Symfony\Component\Security\Core\User\User:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         chain_provider:
                 chain:
-                    providers: [in_memory, in_database_etudiant_login,in_database_etudiant_mail, in_database_professeur_login, in_database_professeur_mail]
+                    providers: [in_memory, in_database_etudiant_login,in_database_etudiant_mail,in_database_secretaire_login,in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail]
         in_memory:
             memory:
                 users:
@@ -38,6 +40,16 @@ security:
                 class: App\Entity\Professeurs
                 property: login
 
+        in_database_secretaire_mail:
+            entity:
+                class: App\Entity\Secretaire
+                property: mailAcademique
+
+        in_database_secretaire_login:
+            entity:
+                class: App\Entity\Secretaire
+                property: login
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -62,6 +74,7 @@ security:
     role_hierarchy:
         ROLE_ETUDIANT: ROLE_USER
         ROLE_PROFESSEUR: ROLE_USER
+        ROLE_SECRETAIRE: ROLE_USER
         ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
         ROLE_ADMIN: [ROLE_USER]
 
@@ -72,7 +85,9 @@ security:
         - { path: ^informations/classes, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/etudiant_account, role: ROLE_ETUDIANT }
         - { path: ^/professeur_account, role: ROLE_PROFESSEUR }
+        - { path: ^/secretaire_account, role: ROLE_SECRETAIRE }
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
+        - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
 
