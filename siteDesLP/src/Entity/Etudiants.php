@@ -63,6 +63,8 @@ class Etudiants implements UserInterface
      */
     private $password;
 
+
+
     /**
      * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
      * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
@@ -73,6 +75,20 @@ class Etudiants implements UserInterface
      * @Assert\EqualTo(propertyPath="new_password", message="Vous n'avez pas tapé le même mot de passe !")
      */
     public $confirm_password;
+
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * 
+     */
+    private $passwordRequestedAt;
+
+
+    /**
+    *
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $token;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -162,6 +178,28 @@ class Etudiants implements UserInterface
         return $this;
     }
 
+    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    {
+      return $this->passwordRequestedAt;
+    }
+
+    public function getToken()
+    {
+      return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    public function setPasswordRequestedAt($passwordRequestedAt)
+   {
+       $this->passwordRequestedAt = $passwordRequestedAt;
+       return $this;
+   }
+
     public function getLogin(): ?string
     {
         return $this->login;
@@ -217,7 +255,5 @@ class Etudiants implements UserInterface
 
         return $this;
     }
-
-
 
 }

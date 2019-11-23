@@ -12,6 +12,18 @@
 </div>
 {% endif %}
 
+{% for msg in app.session.flashBag.get('goodMail') %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+
+        {% for msg in app.session.flashBag.get('mdpReset') %}
+                            <div class="alert alert-success">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+
 <form action=" {{ path('connexion') }}" method="post">
     <div class="form-group">
         <input placeholder="Identifiant" type="text" name="_username" class="form-control" required>
@@ -23,4 +35,5 @@
         <button type="submit" class="btn btn-success">Connexion</button>
     </div>
 </form>
+<a href="{{ path('etudiant_reset_password_request') }}" class="edit-btn btn btn-danger">Mot de passe oublié</a>
 {% endblock %}

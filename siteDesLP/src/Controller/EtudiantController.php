@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Classes;
 use App\Entity\Etudiants;
 use App\Repository\EtudiantsRepository;
+use App\Services\Mailer;
+use App\Form\ResettingPasswordType;
+
 
 
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 
 class EtudiantController extends AbstractController
 {
@@ -150,6 +157,7 @@ class EtudiantController extends AbstractController
       $em->persist($etudiant);
       $em->flush();
 
+
       return $this->redirectToRoute('research_etudiant');
 
     }
@@ -184,6 +192,7 @@ class EtudiantController extends AbstractController
       $etu->getPrenomEtudiant().' '.
       $etu->getNomEtudiant(). ' ('.
       $etu->getLogin().')';
+
 
       return $this->render('confirmation.html.twig', [
       'titre' => $title,
@@ -293,5 +302,120 @@ class EtudiantController extends AbstractController
           'form_change_email' => $form->createView()
       ]);
     }
+
+
+    /**
+   * @Route("etudiant/resetpasswordrequest", name="etudiant_reset_password_request")
+   */
+    public function resetPasswordRequest(UserInterface $etudiant = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, ObjectManager $em, EtudiantsRepository $repoE)
+    {
+      $form = $this->createFormBuilder()
+      ->add('email', EmailType::class)
+      ->getForm();
+
+      $form->handleRequest($request);
+
+      if($form->isSubmitted() && $form->isValid())
+      {
+        $etudiant = $repoE->findOneBy(['mail' => $form['email']->getData()]);
+
+        //aucun étudiant n'existe avec ce mail
+        if(!$etudiant)
+        {
+          $this->addFlash('badMail',"Cet email n'existe pas, veuillez réessayer");
+          return $this->redirectToRoute('etudiant_reset_password_request');
+        }
+
+        $etudiant->setToken($tokenGenerator->generateToken());
+        $etudiant->setPasswordRequestedAt(new \Datetime());
+        $em->flush();
+
+        $bodyMail = $mailer->createBodyMail('etudiant/mail_reset_password.html.twig', [
+          'etudiant' => $etudiant
+        ]);
+
+        $mailer->sendMessage('l.escavia@gmail.com', $etudiant->getMail(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
+        $this->addFlash('goodMail',"Un mail va vous être envoyé afin que vous puissez renouveller votre mot de passe, le lien que vous recevrez sera valide 24h.");
+        return $this->redirectToRoute('connexion');
+
+      }
+
+      return $this->render('etudiant/reset_password_request.html.twig',[
+        'form' => $form->createView()
+      ]);
+
+    }
+
+    //si la rêquete de mot de passe a été envoyé il y a plus de 10 minutes retourne false
+    //sinon retourne true
+    private function isRequestedInTime(\Datetime $passwordRequestedAt = null)
+    {
+      if($passwordRequestedAt === null)
+      {
+        return false;
+      }
+
+      $now = new \Datetime();
+      $interval = $now->getTimeStamp() - $passwordRequestedAt->getTimeStamp();
+
+      $daySeconds = 60 * 10;
+      if($interval > $daySeconds)
+      {
+        $response =  false;
+      }
+      $response = true;
+
+      return $response;
+    }
+
+
+    /**
+   * @Route("etudiant/resetpassword{id}/{token}", name="resetting_password_etudiant")
+   */
+    public function resetPassword(Etudiants $etudiant, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ObjectManager $em)
+    {
+      // interdit l'accès à la page si:
+        // le token associé au membre est null
+        // le token de l'étudiant et le token présent dans l'url ne sont pas égaux
+        // le token date de plus de 10 minutes
+
+        dump($etudiant->getToken());
+
+        if($etudiant->getToken() === null || $token != $etudiant->getToken() || !$this->isRequestedInTime($etudiant->getPasswordRequestedAt()))
+        {
+
+          throw new AccessDeniedHttpException();
+        }
+
+
+        $form = $this->createForm(ResettingPasswordType::class, $etudiant);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $hash = $passwordEncoder->encodePassword($etudiant, $form['password']->getData());
+          $etudiant->setPassword($hash);
+
+          //réinitialisation du token à null pour qu'il ne soit plus réutilisable
+          $etudiant->setToken(null);
+          $etudiant->setPasswordRequestedAt(null);
+
+          $em->persist($etudiant);
+          $em->flush();
+
+          $this->addFlash('mdpReset',"Votre mot de passe a été modifié");
+
+          return $this->redirectToRoute('connexion');
+
+        }
+
+        return $this->render('etudiant/reset_password.html.twig',[
+          'form' => $form->createView()
+        ]);
+
+
+    }
+
+
 
 }
