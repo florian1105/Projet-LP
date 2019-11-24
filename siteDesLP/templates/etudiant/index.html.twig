@@ -7,7 +7,40 @@
 {% else %}
     <h1>Création d'un étudiant</h1>
 {% endif %}
-{{ form_start(form_create_etudiant) }}
+
+{% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: relative ;left: 1000px">Import File</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Importer un CSV</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{path("etu_importCsv")}}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" id="inputGroupFile01"
+                                       aria-describedby="inputGroupFileAddon01" name="importEtu" >
+                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mb-5" name="sub" >Importer</button>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+    {{ form_start(form_create_etudiant) }}
 
 {{ form_row(form_create_etudiant.nomEtudiant , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.prenomEtudiant , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}

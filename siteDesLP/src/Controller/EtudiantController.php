@@ -9,7 +9,7 @@ use App\Services\Mailer;
 use App\Form\ResettingPasswordType;
 
 
-
+use League\Csv\Reader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -412,6 +412,31 @@ class EtudiantController extends AbstractController
         return $this->render('etudiant/reset_password.html.twig',[
           'form' => $form->createView()
         ]);
+
+
+    }
+
+    /**
+     * @Route("/etudiant/importCsv",name="etu_importCsv")
+     *
+     */
+    public function importCsv(UserInterface $profResp){
+        $profResp=$this->getUser();
+        if(isset($_POST['sub'])){
+            $cpt=0;
+            $file=$_FILES['importEtu'];
+            $csv = Reader::createFromPath($file['tmp_name'], 'r');
+            $csv->setHeaderOffset(0); //set the CSV header offset
+            foreach ($csv as $row) {
+                //TODO creer un etudiant par ligne et l'enregistrer dans la bd
+                $cpt++;
+            }
+            return $this->render("importConfirmation.html.twig",
+                ['nbRow'=> $cpt,
+                    'profResp'=>$profResp]);
+        }else{
+            return $this->render("index.html.twig");
+        }
 
 
     }
