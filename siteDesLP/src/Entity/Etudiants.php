@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EtudiantsRepository")
+ * @UniqueEntity("login",message="ce login est déjà utilisé")
+ * @UniqueEntity("mailAcademique",message="ce mail académique est déjà utilisé")
  */
 class Etudiants implements UserInterface
 {
