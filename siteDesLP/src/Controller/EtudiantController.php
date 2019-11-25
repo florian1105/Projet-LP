@@ -57,6 +57,7 @@ class EtudiantController extends AbstractController
   */
   public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
   {
+    $classe = "";
     $editMode = true;
 
     if(!$etudiant)
@@ -64,8 +65,100 @@ class EtudiantController extends AbstractController
       $etudiant = new Etudiants();
       $editMode = false;
     }
+    if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
+    {
+      if($editMode == false)
+      {
+        $form = $this->createFormBuilder($etudiant)
+        ->add('nomEtudiant')
+        ->add('prenomEtudiant')
+        ->add('new_password', PasswordType::class, [
+          'attr' => ['maxlength' => '64']
+        ])
+        ->add('confirm_password', PasswordType::class, [
+          'attr' => ['maxlength' => '64'],
+        ])
+        ->add('mail')
+        ->add('dateNaissance', DateType::class, [
+          'widget' => 'single_text'
+        ])
 
-    if($editMode == false)
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        $prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
+        $prenomLogin1 = substr($prenomLogin, 0,1);
+        $login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
+        $mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());
+
+        $i = "";
+        $j = "";
+
+        while($repoE->findBy(['login' => $login.$i]))
+        {
+          if($i == "") $i = 0;
+          $i++;
+        }
+
+        while($repoE->findBy(['mailAcademique' => $mailAcademique.$j."@etu.umontpellier.fr"]))
+        {
+          if($j == "") $j = 0;
+          $j++;
+        }
+
+        $etudiant->setLogin($login.$i);
+        $etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
+        $classe = $this->getUser()->getClasseResponsable();
+
+      }
+      else
+      {
+
+        $form = $this->createFormBuilder($etudiant)
+        ->add('nomEtudiant')
+        ->add('prenomEtudiant')
+        ->add('login')
+        ->add('mail')
+        ->add('mailAcademique')
+        ->add('dateNaissance', DateType::class, [
+          'widget' => 'single_text'
+        ])
+
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        $mailAca = strtolower($form['mailAcademique']->getData());
+        $etudiant->setMailAcademique($mailAca);
+      }
+
+      $mail = strtolower($form['mail']->getData());
+      $prenom = ucfirst(strtolower($form['prenomEtudiant']->getData()));
+      $nom = strtoupper($form['nomEtudiant']->getData());
+
+      $etudiant->setMail($mail);
+      $etudiant->setNomEtudiant($nom);
+      $etudiant->setPrenomEtudiant($prenom);
+
+
+      if($form->isSubmitted() && $form->isValid())
+      {
+        if($editMode == false)
+        {
+          $hash = $encoder->encodePassword($etudiant, $etudiant->getNewPassword());
+          $etudiant->setPassword($hash);
+        }
+        $etudiant->setClasseEtudiant($this->getUser()->getClasseResponsable());
+        $em->persist($etudiant);
+        $em->flush();
+
+
+        return $this->redirectToRoute('research_etudiant');
+
+      }
+    }
+    else if($editMode == false) //Sinon si l'utilisateur n'est pas prof responsable
     {
       $form = $this->createFormBuilder($etudiant)
       ->add('nomEtudiant')
@@ -166,6 +259,7 @@ class EtudiantController extends AbstractController
       'form_create_etudiant' => $form->createView(),
       'editMode' => $etudiant->getId() !== null,
       'etudiant' => $etudiant,
+      'classe' => $classe
     ]);
   }
 
@@ -205,8 +299,13 @@ class EtudiantController extends AbstractController
      * @Route("etudiant/etudiant_research", name="research_etudiant")
      */
   public function researchEtudiant(EtudiantsRepository $repoE)
-  {
-      $etudiants =$repoE->findAll();
+  { 
+    if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
+    {
+      $etudiants = $repoE->findBy(['classeEtudiant' => $this->getUser()->getClasseResponsable()]);
+    }
+    else $etudiants = $repoE->findAll();
+
       return $this->render('etudiant/research.html.twig', [
           'etudiants' => $etudiants,
       ]);

@@ -5,7 +5,11 @@
 {% if editMode %}
     <h1>Modification de l'étudiant {{ etudiant.nomEtudiant }} {{ etudiant.prenomEtudiant }}</h1>
 {% else %}
-    <h1>Création d'un étudiant</h1>
+    {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+        <h1>Création d'un étudiant de la {{ classe.nomClasse }}</h1>
+    {% else %}
+         <h1>Création d'un étudiant</h1>
+    {% endif %}
 {% endif %}
 
 {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
@@ -57,7 +61,9 @@
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+{% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
 {{ form_row(form_create_etudiant.classeEtudiant,{'label': 'Classe'}) }}
+{% endif %}
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}
