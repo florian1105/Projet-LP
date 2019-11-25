@@ -6,6 +6,7 @@
 /public/bundles/
 /var/
 /vendor/
+/ent/
 ###< symfony/framework-bundle ###
 /.env
 ###> symfony/phpunit-bridge ###
