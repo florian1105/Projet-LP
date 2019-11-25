@@ -38,6 +38,12 @@
 	box-shadow: 0px 0px 15px 3px rgba(30, 30, 30, 0.7);
 }
 
+#userItem
+{
+  background-color: transparent;
+  border-color: transparent;
+}
+
 footer
 {
   position: absolute;
