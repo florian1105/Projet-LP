@@ -16,7 +16,9 @@
         <th scope="col">Mail Academique</th>
         <th scope="col">Mail Personnel</th>
         <th scope="col">Date Naissance</th>
+        {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <th scope="col">Classe</th>
+        {% endif %}
         <th scope="col">Modifier</th>
         <th scope="col">Supprimer</th>
     </tr>
@@ -30,7 +32,9 @@
         <td>{{etudiant.mailAcademique}}</td>
         <td>{{etudiant.mail}}</td>
         <td>{{etudiant.dateNaissance | date('d/m/Y')}}</td>
+        {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <td>{{etudiant.classeEtudiant}}
+        {% endif %}
         <td><a href="{{ path('etudiant_edit', {'id' : etudiant.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
         <td><a href="{{ path('etudiant_delete', {'id' : etudiant.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
     </tr>
