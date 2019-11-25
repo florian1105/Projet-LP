@@ -34,14 +34,9 @@
           </div>
         </li>
          {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Etudiants
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('etudiant_create') }}">Créer un étudiant</a>
-            <a class="dropdown-item" href="{{ path('research_etudiant') }}">Rechercher un étudiant</a>
-          </div>
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('research_etudiant') }}">Étudiants <span class="sr-only"></span></a>
+        </li>
         {% endif %}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <li class="nav-item active">
@@ -49,32 +44,14 @@
         </li>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Classes
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('classe_create') }}">Créer une classe</a>
-            <a class="dropdown-item" href="{{ path('classe_research') }}">Rechercher une classe</a>
-          </div>
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('classe_research') }}">Classes <span class="sr-only"></span></a>
         </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Professeurs
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ path('prof_add') }}">Créer un professeur</a>
-              <a class="dropdown-item" href="{{ path('prof_search') }}">Rechercher un professeur</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Secretaires
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('secretaire_add') }}">Créer une secrétaire</a>
-            <a class="dropdown-item" href="{{ path('secretaire_search') }}">Rechercher une secrétaire</a>
-          </div>
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('prof_search') }}">Professeurs <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('secretaire_search') }}">Secretaires <span class="sr-only"></span></a>
         </li>
          <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('informations_globales_edit', {'id' : 1}) }}">Informations globales<span class="sr-only"></span></a>
