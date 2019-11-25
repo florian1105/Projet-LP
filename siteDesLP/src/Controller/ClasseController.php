@@ -4,15 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Classes;
 use App\Entity\Professeurs;
-use App\Repository\ProfesseursRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
+use Symfony\Component\Form\FormBuilder;
+use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ClasseController extends AbstractController
 {
@@ -71,7 +72,11 @@ class ClasseController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
           $classe->setNomClasse($nomClasse);
+          $info = new InformationsClasses();
+          $info->setClasse($classe);
+          $info->setDescription("Non définie");
           $manager->persist($classe);
+          $manager->persist($info);
           $manager->flush();
 
           return $this->redirectToRoute('classe_research');
