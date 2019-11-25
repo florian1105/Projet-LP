@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div>
+	{{form_start(form)}}
+	{{form_row(form)}}
+	<button type="submit">Envoyer le fichier</button>
+	{{form_end(form)}}
+</div>
+<script>
+	/* Affichage du nom du fichier sélectionné dans le label */
+	(function () {
+		document.getElementById('fichiers_filePath').onchange = function(){
+			// Suppression du chemin pour ne garder que le nom du fichier
+			const val = this.value.split('\\').pop().split('/').pop()
+			const labels = document.getElementsByClassName('custom-file-label')
+			for (let i = labels.length - 1; i >= 0; i--) {
+				labels[i].innerHTML = val
+			}
+	}
+	})();
+</script>
+{% endblock %}
