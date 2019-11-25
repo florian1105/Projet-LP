@@ -4,11 +4,7 @@
 
 {% block body %}
 <h1>Informations sur la {{ classe.nomClasse }}</h1>
-{% for msg in app.session.flashBag.get('validModificationInformationsClasses') %}
-  <div class="alert alert-success">
-    {{ msg }}
-</div>
-{% endfor %}
+
 {{ form_start(form) }}
 
 {{ form_row(form.description , {'label': 'Description'}) }}
