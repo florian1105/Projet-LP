@@ -57,20 +57,27 @@
           <a class="nav-link my_nav_item" href="{{ path('informations_globales_edit', {'id' : 1}) }}">Informations globales<span class="sr-only"></span></a>
         </li>
  {% endif %}
-  {% if not is_granted('ROLE_ADMIN') and app.user %}
-         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
-        </li>
-          {% endif %}
- {% if not app.user %}
+      </ul>
+      <ul class="nav navbar-nav ml-auto">
+        {% if not app.user %}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
         </li>
         {% else %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('deconnexion') }}" onclick='return confirm("Êtes vous sûr de vouloir vous déconnecter ?")'>Déconnexion <span class="sr-only"></span></a>
-        </li>
-        {% endif %}
+<div class="dropdown dropleft float-right">
+    <button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
+      {{ app.user }}
+    </button>
+    <div class="dropdown-menu">
+       {% if is_granted('ROLE_ADMIN') %}
+                <a class="dropdown-item" href="">Modifier mon mot de passe</a>
+      {% elseif not is_granted('ROLE_ADMIN') and app.user %}
+      <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
+      {% endif %}
+                <a class="dropdown-item" href="{{ path('deconnexion') }}" onclick='return confirm("Êtes vous sûr de vouloir vous déconnecter ?")'>Déconnexion <span class="sr-only"></span></a>
+    </div>
+</div>
+    {% endif %}
       </ul>
 
     </div>
