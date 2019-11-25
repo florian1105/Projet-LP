@@ -76,6 +76,20 @@ class Professeurs implements UserInterface
     public $confirm_password;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    private $passwordRequestedAt;
+
+
+    /**
+    *
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $token;
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="professeurs")
      */
     private $classes;
@@ -160,6 +174,28 @@ class Professeurs implements UserInterface
 
         return $this;
     }
+
+    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    {
+      return $this->passwordRequestedAt;
+    }
+
+    public function getToken()
+    {
+      return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    public function setPasswordRequestedAt($passwordRequestedAt)
+   {
+       $this->passwordRequestedAt = $passwordRequestedAt;
+       return $this;
+   }
 
     /**
      * @return Collection|Classes[]
