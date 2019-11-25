@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Rechercher un secretaire</h1>
+<h1>Rechercher un(e) secrétaire</h1>
 
 {% for msg in app.session.flashBag.get('notDelete') %}
   <div class="alert alert-primary">
@@ -46,7 +46,7 @@
 {% endfor %}
 </tbody>
 </table>
-<a class="btn btn-success" href= {{ path('secretaire_add')}} role="button">Créer un secretaire</a>
+<a class="btn btn-success" href= {{ path('secretaire_add')}} role="button">Créer un(e) secrétaire</a>
 <script>
 function showModifs(tr,id){
 // Get all list buttons and pass them invisible
@@ -71,13 +71,44 @@ deleteBtn.classList.remove("invisible");
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script  type="text/javascript">
 $(document).ready(function() {
-const table = $('#tab_secretaire').DataTable({
-select: true,
-scroll : 2000,
-lengthChange : false ,
-pageLength : 50,
+    const table = $('#tab_secretaire').DataTable({
+        select: true,
+        scroll : 2000,
+        lengthChange : false ,
+        pageLength : 50,
+        "language": {
+        "sEmptyTable":     "Aucune donnée disponible dans le tableau",
+ "sInfo":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+ "sInfoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
+ "sInfoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
+ "sInfoPostFix":    "",
+ "sInfoThousands":  ",",
+ "sLengthMenu":     "Afficher _MENU_ éléments",
+ "sLoadingRecords": "Chargement...",
+ "sProcessing":     "Traitement...",
+ "sSearch":         "Rechercher :",
+ "sZeroRecords":    "Aucun élément correspondant trouvé",
+ "oPaginate": {
+     "sFirst":    "Premier",
+     "sLast":     "Dernier",
+     "sNext":     "Suivant",
+     "sPrevious": "Précédent"
+ },
+ "oAria": {
+     "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+     "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
+ },
+ "select": {
+         "rows": {
+             "_": "%d lignes sélectionnées",
+             "0": "Aucune ligne sélectionnée",
+             "1": "1 ligne sélectionnée"
+         }
+ }
+   }
 
-});
+    });
+
 } );
 </script>
 {% endblock %}

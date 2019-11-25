@@ -4,9 +4,9 @@
 {% block body %}
 
     {% if editMode %}
-        <h1>Modification de la Secretaire {{ secretaire.nomSecretaire }} {{ secretaire.prenomSecretaire }}</h1>
+        <h1>Modification du/de la secrétaire {{ secretaire.nomSecretaire }} {{ secretaire.prenomSecretaire }}</h1>
     {% else %}
-        <h1>Création d'une secretaire</h1>
+        <h1>Création d'un(e) secrétaire</h1>
     {% endif %}
     {{ form_start(form) }}
 
@@ -54,7 +54,7 @@
         {% if editMode %}
             Modifier
         {% else %}
-            Créer la secretaire
+            Créer le/la secrétaire
         {% endif %}
     </button>
 

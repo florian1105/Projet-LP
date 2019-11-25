@@ -33,8 +33,6 @@ class InformationsClassesController extends AbstractController
      */
     public function afficher(InformationsClasses $info)
     {
-            
-        
         return $this->render('informations_classes/info.html.twig', [
             'info' => $info,
         ]);
@@ -47,11 +45,11 @@ class InformationsClassesController extends AbstractController
     {
         $classe = $this->getUser()->getClasseResponsable();
 
-        $idInfo = $repoI->findBy(['classe' => $classe->getId()]);
+        $info = $repoI->findBy(['classe' => $classe->getId()]);
 
         
         return $this->render('informations_classes/print.html.twig', [
-            'idInfo' => $idInfo[0]->getId(),
+            'info' => $info[0],
             'classe' => $classe
         ]);
     }
@@ -85,7 +83,8 @@ class InformationsClassesController extends AbstractController
                 $manager->persist($info);
                 $manager->flush();
 
-                $this->addFlash('validModificationInformationsClasses',"Les informations ont été modifié avec succès");;
+                $this->addFlash('validModificationInformationsClasses',"Les informations ont été modifié avec succès");
+                return $this->redirectToRoute('informations_classes_print');
             }
 
 

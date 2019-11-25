@@ -13,7 +13,8 @@
     {{ msg }}
 </div>
 {% endfor %}
-
-<a  href="{{ path('informations_classes_edit', {'id' : idInfo}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
+<h1>Informations actuelles : </h1>
+<p>{{ info.description|raw }}</p>
+<a  href="{{ path('informations_classes_edit', {'id' : info.id}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
 
 {% endblock %}

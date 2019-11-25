@@ -60,10 +60,16 @@ class Classes
      */
     private $nomComplet;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Articles", mappedBy="classes")
+     */
+    private $articles;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
         $this->professeurs = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,6 +196,34 @@ class Classes
     public function setNomComplet(string $nomComplet): self
     {
         $this->nomComplet = $nomComplet;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Articles[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Articles $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Articles $article): self
+    {
+        if ($this->articles->contains($article)) {
+            $this->articles->removeElement($article);
+            $article->removeClass($this);
+        }
 
         return $this;
     }
