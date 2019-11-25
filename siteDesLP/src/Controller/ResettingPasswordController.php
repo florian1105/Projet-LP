@@ -71,7 +71,7 @@ class ResettingPasswordController extends AbstractController
           'user' => $user
         ]);
         //envoie du mai
-        $mailer->sendMessage('l.escavia@gmail.com', $user->getMailAcademique(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
+        $mailer->sendMessage('sitedeslp@gmail.com', $user->getMailAcademique(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
         $this->addFlash('goodMail',"Un mail va vous être envoyé afin que vous puissez renouveller votre mot de passe, le lien que vous recevrez sera valide 24h.");
         return $this->redirectToRoute('connexion');
 

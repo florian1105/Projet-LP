@@ -3,6 +3,6 @@ swiftmailer:
     auth_mode: login
     port: 465
     host: smtp.gmail.com
-    username: 'adressegmail.com'
-    password: 'motdepasse'
+    username: 'sitedeslp@gmail.com'
+    password: 'agiletour'
     spool: { type: 'memory' }
