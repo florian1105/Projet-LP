@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Classes;
 use App\Entity\Etudiants;
 use App\Repository\EtudiantsRepository;
+use App\Repository\ProfesseursRepository;
+use App\Repository\SecretaireRepository;
 use App\Services\Mailer;
 use App\Form\ResettingPasswordType;
 
@@ -55,7 +57,7 @@ class EtudiantController extends AbstractController
   * @Route("/etudiant/new", name="etudiant_create")
   * @Route("/etudiant/{id}/edit", name="etudiant_edit")
   */
-  public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+  public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
   {
     $classe = "";
     $editMode = true;
@@ -95,7 +97,7 @@ class EtudiantController extends AbstractController
         $i = "";
         $j = "";
 
-        while($repoE->findBy(['login' => $login.$i]))
+        while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]) )
         {
           if($i == "") $i = 0;
           $i++;
@@ -190,7 +192,7 @@ class EtudiantController extends AbstractController
       $i = "";
       $j = "";
 
-      while($repoE->findBy(['login' => $login.$i]))
+      while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]))
       {
         if($i == "") $i = 0;
         $i++;

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Secretaire;
+use App\Repository\EtudiantsRepository;
+use App\Repository\ProfesseursRepository;
 use App\Repository\SecretaireRepository;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -22,7 +24,7 @@ class SecretaireController extends AbstractController
      * @Route("/secretaire/new", name="secretaire_add")
      * @Route("/secretaire/edit/{id}", name="secretaire_edit")
      */
-    public function form(Secretaire $secretaire = null, SecretaireRepository $repoS, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function form(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
         if(!$secretaire)
         {
@@ -57,13 +59,13 @@ class SecretaireController extends AbstractController
             $i = "";
             $j = "";
 
-            while($repoS->findBy(['login' => $login.$i]))
+            while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]))
             {
                 if($i == "") $i = 0;
                 $i++;
             }
 
-            while($repoS->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
+            while($repoS->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]) || $repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
             {
                 if($j == "") $j = 0;
                 $j++;

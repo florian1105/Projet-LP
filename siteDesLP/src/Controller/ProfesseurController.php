@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Classes;
 use App\Entity\Professeurs;
 use App\Repository\ClassesRepository;
+use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
+use App\Repository\SecretaireRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +31,7 @@ class ProfesseurController extends AbstractController
      * @Route("/professeur/new", name="prof_add")
      * @Route("/professeur/edit/{id}", name="prof_edit")
      */
-    public function form(Professeurs $prof = null, ProfesseursRepository $repoP, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function form(Professeurs $prof = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
 		if(!$prof)
 		{
@@ -87,13 +89,13 @@ class ProfesseurController extends AbstractController
 			$i = "";
 			$j = "";
 
-			while($repoP->findBy(['login' => $login.$i]))
+			while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]))
 			{
 				if($i == "") $i = 0;
 				$i++;
 			}
 
-			while($repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
+			while($repoS->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]) || $repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
 			{
 				if($j == "") $j = 0;
 				$j++;
