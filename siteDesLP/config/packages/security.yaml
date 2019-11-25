@@ -1,13 +1,13 @@
 security:
     encoders:
         App\Entity\Professeurs:
-            algorithm: bcrypt
+            algorithm: 'auto'
         App\Entity\Etudiants:
-            algorithm: bcrypt
+            algorithm: 'auto'
         App\Entity\Secretaire:
-            algorithm: bcrypt
+            algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:
-            algorithm: bcrypt
+            algorithm: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         chain_provider:
