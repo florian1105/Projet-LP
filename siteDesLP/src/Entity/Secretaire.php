@@ -57,7 +57,7 @@ class Secretaire implements UserInterface
     private $login;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
