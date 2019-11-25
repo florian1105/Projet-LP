@@ -74,7 +74,7 @@ class ClasseController extends AbstractController
           $classe->setNomClasse($nomClasse);
           $info = new InformationsClasses();
           $info->setClasse($classe);
-          $info->setDescription("Non définie");
+          $info->setDescription("Non définies");
           $manager->persist($classe);
           $manager->persist($info);
           $manager->flush();

@@ -47,11 +47,11 @@ class InformationsClassesController extends AbstractController
     {
         $classe = $this->getUser()->getClasseResponsable();
 
-        $idInfo = $repoI->findBy(['classe' => $classe->getId()]);
+        $info = $repoI->findBy(['classe' => $classe->getId()]);
 
         
         return $this->render('informations_classes/print.html.twig', [
-            'idInfo' => $idInfo[0]->getId(),
+            'info' => $info[0],
             'classe' => $classe
         ]);
     }
