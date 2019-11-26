@@ -33,6 +33,11 @@
             <a class="dropdown-item" href="{{ path('informations_classes') }}">Les licences</a>
           </div>
         </li>
+        {% if is_granted('ROLE_SECRETAIRE') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="">Articles <span class="sr-only"></span></a>
+        </li>
+        {% endif %}
          {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href="{{ path('research_etudiant') }}">Étudiants <span class="sr-only"></span></a>
@@ -69,6 +74,7 @@
       {{ app.user }}
     </button>
     <div class="dropdown-menu">
+    <h6 class="dropdown-header">{{ app.user }}</h6>
        {% if is_granted('ROLE_ADMIN') %}
                 <a class="dropdown-item" href="">Modifier mon mot de passe</a>
       {% elseif not is_granted('ROLE_ADMIN') and app.user %}
