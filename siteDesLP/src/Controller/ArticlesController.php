@@ -17,7 +17,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class ArticlesController extends AbstractController
 {
     /**
-     * @Route("/articles", name="articles")
+     * @Route("/article", name="article")
      */
     public function create(Request $request, ObjectManager $em)
     {

@@ -8,10 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InformationsClassesRepository;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class InformationsClassesController extends AbstractController
 {
@@ -63,16 +63,17 @@ class InformationsClassesController extends AbstractController
         $classe = $this->getUser()->getClasseResponsable();
 
         $idInfo = $repoI->findBy(['classe' => $info->getClasse()]);
-
-
+        
         //Si le professeur est bien responsable de cette classe
         if($idInfo[0]->getClasse()->getProfesseurResponsable()->getId() == $this->getUser()->getId())
         {
             $form = $this->createFormBuilder($info)
-            ->add('description', TextareaType::class, [
-                'help_html' => true,
-                'attr' => ['rows' => 23]
-            ])
+            ->add('description', CKEditorType::class, [
+                'config' => [
+                  'uiColor' => '#e2e2e2',
+                  'toolabar' => 'full',
+                  'required' => 'true'
+                ]])
             ->getForm();
 
             $form->handleRequest($request);
