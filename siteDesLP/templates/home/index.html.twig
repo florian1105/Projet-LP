@@ -12,28 +12,21 @@
 		</div>
 	</div>
 
+
 	<main role="main" class="container">
 		<div class="row">
 			<div class="col-md-8 blog-main">
 				<h3 class="pb-3 mb-4 font-italic border-bottom">Actualités</h3>
 
+{% for article in articles %}
 				<div class="blog-post">
-					<a href="#"><h2 class="blog-post-title">Lorem Ipsum</h2></a>
-					<p class="blog-post-meta font-italic">10 janvier 2019</p>
+					<a href="#"><h2 class="blog-post-title">{{ article.titre}}</h2></a>
+					<p class="blog-post-meta font-italic">{{article.date | date('d/m/Y') }}</p>
+					{{ article.description | raw }}
 
-					<p>Pellentesque a erat ut dui tempus eleifend non a metus. Nunc non leo et mauris sollicitudin tempus. Aenean vehicula velit sollicitudin, interdum massa eget, convallis turpis. In tincidunt mollis elit eu tempus. Mauris id tincidunt risus.</p>
-					<hr>
-					<p>Pellentesque ullamcorper, risus ut maximus porttitor, justo sem pellentesque ligula, ac efficitur felis lectus a tellus.</p>
 				</div><!-- /.blog-post -->
+    {% endfor %}
 
-				<div class="blog-post">
-					<a href="#"><h2 class="blog-post-title">Lorem Ipsum</h2></a>
-					<p class="blog-post-meta font-italic">10 janvier 2019</p>
-
-					<p>Pellentesque a erat ut dui tempus eleifend non a metus. Nunc non leo et mauris sollicitudin tempus. Aenean vehicula velit sollicitudin, interdum massa eget, convallis turpis. In tincidunt mollis elit eu tempus. Mauris id tincidunt risus.</p>
-					<hr>
-					<p>Pellentesque ullamcorper, risus ut maximus porttitor, justo sem pellentesque ligula, ac efficitur felis lectus a tellus.</p>
-				</div><!-- /.blog-post -->
 
 			</div><!-- /.blog-main -->
 

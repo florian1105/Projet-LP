@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use App\Entity\Classes;
 use App\Entity\Articles;
+use App\Repository\ArticlesRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
@@ -44,13 +45,14 @@ class ArticlesController extends AbstractController
 
         $form->handleRequest($request);
         $article->setDate(new \DateTime());
+
+
         if($form->isSubmitted() && $form->isValid())
         {
+
           $em->persist($article);
           $em->flush();
         }
-        dump($article);
-        $this->redirectToRoute('connexion');
 
         return $this->render('articles/index.html.twig', [
             'form_article' => $form->createView()
