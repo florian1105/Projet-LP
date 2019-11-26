@@ -13,7 +13,7 @@
 {% endif %}
 
 {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: relative ;left: 1000px">Import File</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: relative ;left: 1000px">Import CSV</button>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -30,11 +30,11 @@
                             <div class="custom-file">
                                 <input type="file" id="inputGroupFile01"
                                        aria-describedby="inputGroupFileAddon01" name="importEtu" >
-                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success mb-5" name="sub" >Importer</button>
+                    <button type="submit" class="btn btn-success mb-5" name="sub" style="margin-left: 15px">Importer</button>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

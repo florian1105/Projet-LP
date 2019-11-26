@@ -11,6 +11,7 @@ use App\Services\Mailer;
 use App\Form\ResettingPasswordType;
 
 
+use DateTime;
 use League\Csv\Reader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -410,20 +411,20 @@ class EtudiantController extends AbstractController
      * @Route("/etudiant/importCsv",name="etu_importCsv")
      *
      */
-    public function importCsv(UserInterface $profResp){
-        $profResp=$this->getUser();
+    public function importCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+        $classe=$this->getUser()->getClasseResponsable();;
         if(isset($_POST['sub'])){
             $cpt=0;
             $file=$_FILES['importEtu'];
             $csv = Reader::createFromPath($file['tmp_name'], 'r');
             $csv->setHeaderOffset(0); //set the CSV header offset
             foreach ($csv as $row) {
-                //TODO creer un etudiant par ligne et l'enregistrer dans la bd
+                $this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
                 $cpt++;
             }
             return $this->render("importConfirmation.html.twig",
                 ['nbRow'=> $cpt,
-                    'profResp'=>$profResp]);
+                    'classe'=>$classe]);
         }else{
             return $this->render("index.html.twig");
         }
@@ -431,6 +432,48 @@ class EtudiantController extends AbstractController
 
     }
 
+
+    public function createEtudiant($nomEtudiant,$prenomEtudiant,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+
+        $etudiant = new Etudiants();
+
+        $prenomLogin = strtolower($this->str_to_noaccent($prenomEtudiant));
+        $prenomLogin1 = substr($prenomLogin, 0,1);
+        $login = strtolower($nomEtudiant).$prenomLogin1;
+        $mailAcademique = $prenomLogin.".".strtolower($nomEtudiant);
+
+        $i = "";
+        $j = "";
+
+        while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]) )
+        {
+            if($i == "") $i = 0;
+            $i++;
+        }
+
+        while($repoE->findBy(['mailAcademique' => $mailAcademique.$j."@etu.umontpellier.fr"]))
+        {
+            if($j == "") $j = 0;
+            $j++;
+        }
+
+
+        $mail = strtolower($mail);
+        $prenom = ucfirst(strtolower($prenomEtudiant));
+        $nom = strtoupper($nomEtudiant);
+        $hash = $encoder->encodePassword($etudiant,$mdpEtudiant);
+
+        $etudiant->setMail($mail);
+        $etudiant->setNomEtudiant($nom);
+        $etudiant->setPrenomEtudiant($prenom);
+        $etudiant->setLogin($login.$i);
+        $etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
+        $etudiant->setPassword($hash);
+        $etudiant->setClasseEtudiant($this->getUser()->getClasseResponsable());
+        $etudiant->setDateNaissance($date);
+        $em->persist($etudiant);
+        $em->flush();
+    }
 
 
 }
