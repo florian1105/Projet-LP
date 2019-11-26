@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InformationsGlobalesRepository;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class InformationsGlobalesController extends AbstractController
 {
@@ -31,10 +31,12 @@ class InformationsGlobalesController extends AbstractController
     {
 
 			$form = $this->createFormBuilder($info)
-				->add('description', TextareaType::class, [
-                    'help_html' => true,
-                    'attr' => ['rows' => 23]
-                ])
+            ->add('description', CKEditorType::class, [
+                'config' => [
+                  'uiColor' => '#e2e2e2',
+                  'toolabar' => 'full',
+                  'required' => 'true'
+                ]])
 		 	->getForm();
 
 	        $form->handleRequest($request);

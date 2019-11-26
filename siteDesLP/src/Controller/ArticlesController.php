@@ -13,7 +13,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 class ArticlesController extends AbstractController
 {
     /**
-     * @Route("/articles", name="articles")
+     * @Route("/article", name="article")
      */
     public function create()
     {

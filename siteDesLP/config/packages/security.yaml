@@ -89,4 +89,5 @@ security:
         - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
+        - { path: ^/article, role: [ROLE_SECRETAIRE] }
 
