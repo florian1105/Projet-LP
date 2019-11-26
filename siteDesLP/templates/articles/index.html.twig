@@ -3,8 +3,21 @@
 {% block title %}Hello ArticlesController!{% endblock %}
 
 {% block body %}
-  {{form_start(form) }}
-  {{ form_end(form) }}
+  {{form_start(form_article) }}
+  {{ form_row(form_article.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'article" }}) }}
+  {{ form_row(form_article.description, {'label': 'Contenu','attr' : {'placeholder' : "Contenu de l'article" }}) }}
+  {{ form_row(form_article.classes,{'label': 'Classe','attr' : {'placeholder' : "Classes pour lesquelles l'article est visible" }}) }}
+  <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" value="">
+          Public
+        </label>
+      </div>
+    <button type="submit" class="btn btn-success">Créer l'article</button>
+    <br>
+  {{ form_end(form_article) }}
+
+
 
 
 {% endblock %}
