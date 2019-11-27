@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticlesController!{% endblock %}
+{% block title %}Gestion des articles{% endblock %}
 
 {% block body %}
   {{form_start(form_article) }}
@@ -14,7 +14,13 @@
         </label>
       </div>
       <br>
-    <button type="submit" class="btn btn-success">Créer l'article</button>
+    <button type="submit" class="btn btn-success mb-5">
+  	    {% if editMode %}
+  	        Modifier
+  	    {% else %}
+  	        Créer l'article
+  	    {% endif %}
+    </button>
 
   {{ form_end(form_article) }}
 

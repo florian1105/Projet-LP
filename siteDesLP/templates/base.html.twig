@@ -35,7 +35,7 @@
         </li>
         {% if is_granted('ROLE_SECRETAIRE') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="">Articles <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href="{{path('article_search') }}">Articles <span class="sr-only"></span></a>
         </li>
         {% endif %}
          {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
