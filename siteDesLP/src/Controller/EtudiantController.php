@@ -12,6 +12,7 @@ use App\Form\ResettingPasswordType;
 
 
 use DateTime;
+use League\Csv\Exception;
 use League\Csv\Reader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -412,19 +413,29 @@ class EtudiantController extends AbstractController
      *
      */
     public function importCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
-        $classe=$this->getUser()->getClasseResponsable();;
+        $classe=$this->getUser()->getClasseResponsable();
         if(isset($_POST['sub'])){
-            $cpt=0;
             $file=$_FILES['importEtu'];
             $csv = Reader::createFromPath($file['tmp_name'], 'r');
+            $csv->skipEmptyRecords();
             $csv->setHeaderOffset(0); //set the CSV header offset
-            foreach ($csv as $row) {
-                $this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
-                $cpt++;
+            if(empty($csv->getHeader()) ||count($csv)==0) {
+                $this->addFlash('error','Erreur lors du chargement du fichier');
+                $this->addFlash('info','veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                return $this->redirectToRoute("research_etudiant");
             }
-            return $this->render("importConfirmation.html.twig",
-                ['nbRow'=> $cpt,
-                    'classe'=>$classe]);
+            foreach ($csv as $row) {
+                try{$this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],
+                    new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
+                }
+                    catch (\Exception $errorException){
+                        $this->addFlash('error','Erreur lors du chargement du fichier');
+                        $this->addFlash('info','Veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                        return $this->redirectToRoute("research_etudiant");
+                }
+            }
+            $this->addFlash('success','La liste de '.count($csv).' étudiants à bien été importé');
+            return $this->redirectToRoute("research_etudiant");
         }else{
             return $this->render("index.html.twig");
         }
@@ -436,7 +447,6 @@ class EtudiantController extends AbstractController
     public function createEtudiant($nomEtudiant,$prenomEtudiant,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
 
         $etudiant = new Etudiants();
-
         $prenomLogin = strtolower($this->str_to_noaccent($prenomEtudiant));
         $prenomLogin1 = substr($prenomLogin, 0,1);
         $login = strtolower($nomEtudiant).$prenomLogin1;
