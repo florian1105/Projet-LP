@@ -6,10 +6,10 @@
   {{form_start(form_article) }}
   {{ form_row(form_article.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'article" }}) }}
   {{ form_row(form_article.description, {'label': 'Contenu','attr' : {'placeholder' : "Contenu de l'article" }}) }}
-  {{ form_row(form_article.classes,{'label': 'Classe','attr' : {'placeholder' : "Classes pour lesquelles l'article est visible" }}) }}
+  {{ form_row(form_article.classes,{'label': 'Classe(s) concernée(s) par l\'article','attr' : {'placeholder' : "Classes pour lesquelles l'article est visible" }}) }}
   <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" name"article_public" type="checkbox" value="">
+          <input class="form-check-input" name="article_public" type="checkbox" value="">
           Public
         </label>
       </div>
