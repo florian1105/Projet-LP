@@ -13,8 +13,16 @@ class HomeController extends AbstractController
      */
     public function index(ArticlesRepository $repoA)
     {
-
+      if($this->getUser() && $this->getUser()->getRoles()[0] == "ROLE_ETUDIANT") //Si l'utilisateur est connecté et est un étudiant
+      {
+        $currentClasse = $this->getUser()->getClasseEtudiant();
+        $articles = $repoA->getArticleByClasse($currentClasse);
+      }
+      else
+      {
         $articles = $repoA->findAll();
+      }
+
         return $this->render('home/index.html.twig', [
           'articles' => $articles
         ]);

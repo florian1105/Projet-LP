@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Classes;
 use App\Entity\Articles;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -17,6 +18,15 @@ class ArticlesRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Articles::class);
+    }
+
+    public function getArticleByClasse(Classes $classe)
+    {
+      $qb = $this->createQueryBuilder("p")
+          ->where(':classe MEMBER OF p.classes')
+          ->setParameters(array('classe' => $classe))
+          ;
+        return $qb->getQuery()->getResult();
     }
 
     // /**

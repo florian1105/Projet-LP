@@ -75,7 +75,7 @@ security:
         ROLE_PROFESSEUR: ROLE_USER
         ROLE_SECRETAIRE: ROLE_USER
         ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
-        ROLE_ADMIN: [ROLE_USER]
+        ROLE_ADMIN: ROLE_USER
 
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -89,4 +89,3 @@ security:
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
         - { path: ^/article, role: [ROLE_SECRETAIRE] }
-
