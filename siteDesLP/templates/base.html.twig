@@ -76,7 +76,7 @@
     <div class="dropdown-menu">
     <h6 class="dropdown-header">{{ app.user }}</h6>
        {% if is_granted('ROLE_ADMIN') %}
-                <a class="dropdown-item" href="">Modifier mon mot de passe</a>
+                <a class="dropdown-item" href="{{ path('admin_change_password') }}">Modifier mon mot de passe</a>
       {% elseif not is_granted('ROLE_ADMIN') and app.user %}
       <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
       {% endif %}

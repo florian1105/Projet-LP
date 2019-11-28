@@ -6,20 +6,19 @@ security:
             algorithm: 'auto'
         App\Entity\Secretaire:
             algorithm: 'auto'
+        App\Entity\Admin:
+            algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:
             algorithm: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         chain_provider:
                 chain:
-                    providers: [in_memory, in_database_etudiant_login,in_database_etudiant_mail,in_database_secretaire_login,in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail]
-        in_memory:
-            memory:
-                users:
-                    admin:
-                        password: $2y$13$Vd4GmwFUStv9pkqrf/7uu.N6.QWuCQrXetSGjXWnVQehWIgt/2V2q
-                        roles: 'ROLE_ADMIN'
-
+                    providers: [in_database_admin_login, in_database_etudiant_login,in_database_etudiant_mail,in_database_secretaire_login,in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail]
+        in_database_admin_login:
+            entity:
+                class: App\Entity\Admin
+                property: login
         in_database_etudiant_mail:
             entity:
                 class: App\Entity\Etudiants
