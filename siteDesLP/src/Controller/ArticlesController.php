@@ -68,7 +68,7 @@ class ArticlesController extends AbstractController
         'label' => 'Classes de l\'article',
         'expanded' => true,
         'multiple' => true,
-        'mapped' => false, //décoché par défaut
+        'mapped' => true, //décoché par défaut
         'by_reference' => false,
       ])
       ->getForm();
