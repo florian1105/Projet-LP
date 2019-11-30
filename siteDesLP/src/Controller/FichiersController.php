@@ -27,7 +27,7 @@ class FichiersController extends AbstractController
     	// Réception du formulaire
     	if ($form->isSubmitted() && $form->isValid()) {
     		// Création du fichier local
-    		$fichier = $upload->getFilePath();
+    		$fichier = $upload->getEmplacement();
     		
     		// Vérification du nom du fichier
     		$nomfichier = $verifFileName($fichier->getClientOriginalName());
@@ -39,7 +39,7 @@ class FichiersController extends AbstractController
     		$fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
 
     		// Màj des données de la bd
-    		$upload->setFilePath($cheminFichier.$nomfichier);
+    		$upload->setEmplacement($cheminFichier.$nomfichier);
 
     		//return $this->redirectToRoute('upload');
     	}

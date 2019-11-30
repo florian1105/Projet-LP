@@ -65,11 +65,17 @@ class Classes
      */
     private $articles;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Cours", mappedBy="classes")
+     */
+    private $cours;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
         $this->professeurs = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +229,34 @@ class Classes
         if ($this->articles->contains($article)) {
             $this->articles->removeElement($article);
             $article->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cours[]
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): self
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours[] = $cour;
+            $cour->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): self
+    {
+        if ($this->cours->contains($cour)) {
+            $this->cours->removeElement($cour);
+            $cour->removeClass($this);
         }
 
         return $this;

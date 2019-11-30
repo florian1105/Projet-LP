@@ -99,9 +99,15 @@ class Professeurs implements UserInterface
      */
     private $classeResponsable;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cours", mappedBy="prof", orphanRemoval=true)
+     */
+    private $dossiersCours;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
+        $this->dossiersCours = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,5 +277,36 @@ class Professeurs implements UserInterface
     public function __toString()
     {
         return $this->nomProfesseur." ".$this->prenomProfesseur;
+    }
+
+    /**
+     * @return Collection|Cours[]
+     */
+    public function getDossiersCours(): Collection
+    {
+        return $this->dossiersCours;
+    }
+
+    public function addDossiersCour(Cours $dossiersCour): self
+    {
+        if (!$this->dossiersCours->contains($dossiersCour)) {
+            $this->dossiersCours[] = $dossiersCour;
+            $dossiersCour->setProf($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDossiersCour(Cours $dossiersCour): self
+    {
+        if ($this->dossiersCours->contains($dossiersCour)) {
+            $this->dossiersCours->removeElement($dossiersCour);
+            // set the owning side to null (unless already changed)
+            if ($dossiersCour->getProf() === $this) {
+                $dossiersCour->setProf(null);
+            }
+        }
+
+        return $this;
     }
 }

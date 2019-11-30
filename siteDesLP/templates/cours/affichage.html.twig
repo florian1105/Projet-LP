@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% macro genereArborescence(dossiers) %}
+	{% for dossier in dossiers %}
+		<div class="alert alert-secondary">
+			> {{dossier.nom}}
+
+			{% for fichier in dossier.fichiers %}
+				{% if fichier.visible %}
+					<div class="alert alert-light">
+				  		<li><a href="#">{{ fichier.nom }}</a></li>
+					</div>
+				{% endif %}
+			{% endfor %}
+
+			{{ _self.genereArborescence(dossier.coursEnfants) }}
+		</div>
+	{% endfor %}
+{% endmacro %}
+
+{% block body %}
+	{{ _self.genereArborescence(data) }}
+{% endblock %}

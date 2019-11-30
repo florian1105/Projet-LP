@@ -1,18 +1,90 @@
 <?php
+
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\FichiersRepository")
+ */
 class Fichiers
 {
-    private $filePath;
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-    public function getFilePath()
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emplacement;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cours", inversedBy="fichiers")
+     */
+    private $cours;
+
+    public function getId(): ?int
     {
-        return $this->filePath;
+        return $this->id;
     }
 
-    public function setFilePath($filePath)
+    public function getNom(): ?string
     {
-        $this->filePath = $filePath;
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?string
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(string $emplacement): self
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    public function getCours(): ?Cours
+    {
+        return $this->cours;
+    }
+
+    public function setCours(?Cours $cours): self
+    {
+        $this->cours = $cours;
 
         return $this;
     }

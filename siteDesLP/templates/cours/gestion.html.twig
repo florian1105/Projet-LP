@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% macro genereArborescence(dossiers) %}
+	{% for dossier in dossiers %}
+		<div class="alert alert-secondary">
+			<div class="pb-2">
+				> {{dossier.nom}}
+			  	<a class="btn btn-light btn-sm" href="{{path('upload')}}">Ajouter un cours</a>
+			</div>
+			{% for fichier in dossier.fichiers %}
+				<div class="alert alert-light">
+			  	<li>
+			  		{{ fichier.nom }}
+			  		<div class="btn-group" role="group">
+						<button id="{{ dossier.id }}" type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
+						<div class="dropdown-menu" aria-labelledby="{{ dossier.id }}">
+						<a class="dropdown-item" href="#">Changer la visibilité</a>
+						<a class="dropdown-item" href="#">Renommer</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item red" href="#">Supprimer</a>
+						</div>
+					</div>
+				</li>
+				</div>
+			{% endfor %}
+
+			{{ _self.genereArborescence(dossier.coursEnfants) }}
+		</div>
+	{% endfor %}
+{% endmacro %}
+
+{% block body %}
+	{{ _self.genereArborescence(dossiersRacines) }}
+{% endblock %}

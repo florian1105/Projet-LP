@@ -13,7 +13,7 @@ class FichiersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('filePath', FileType::class, [
+            ->add('emplacement', FileType::class, [
                 'label' => 'Sélectionnez votre document'
             ])
         ;
