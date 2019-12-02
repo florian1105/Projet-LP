@@ -15,6 +15,7 @@
 {% endfor %}
 <h1>Informations actuelles : </h1>
 <p>{{ info.description|raw }}</p>
+<p>Cliquez ici afin de voir la plaquette de la licence pro <a href="{{ asset('uploads/plaquette/' ~ info.cheminPlaquette) }}">Voir la plaquette(PDF)</a>
 <a  href="{{ path('informations_classes_edit', {'id' : info.id}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
 
 {% endblock %}
