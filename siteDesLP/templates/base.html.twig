@@ -69,29 +69,51 @@
           <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
         </li>
         {% else %}
-<div class="dropdown dropleft float-right">
-    <button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
-      {{ app.user }}
-    </button>
-    <div class="dropdown-menu">
-    <h6 class="dropdown-header">{{ app.user }}</h6>
-       {% if is_granted('ROLE_ADMIN') %}
-                <a class="dropdown-item" href="{{ path('admin_change_password') }}">Modifier mon mot de passe</a>
-      {% elseif not is_granted('ROLE_ADMIN') and app.user %}
-      <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
-      {% endif %}
-                <a class="dropdown-item" href="{{ path('deconnexion') }}" onclick='return confirm("Êtes vous sûr de vouloir vous déconnecter ?")'>Déconnexion <span class="sr-only"></span></a>
-    </div>
-</div>
+            <div class="dropdown dropleft float-right">
+                <button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
+                  {{ app.user }}
+                </button>
+                <div class="dropdown-menu">
+                <h6 class="dropdown-header">{{ app.user }}</h6>
+                   {% if is_granted('ROLE_ADMIN') %}
+                            <a class="dropdown-item" href="{{ path('admin_change_password') }}">Modifier mon mot de passe</a>
+                  {% elseif not is_granted('ROLE_ADMIN') and app.user %}
+                  <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
+                  {% endif %}
+                            <a class="dropdown-item" href="{{ path('deconnexion') }}" data-toggle="modal" data-target="#exampleModal" id="deconnect" onclick="showModal()">Déconnexion <span class="sr-only"></span></a>
+                </div>
+            </div>
     {% endif %}
       </ul>
 
     </div>
   </nav>
+
   <div class="container">
         {% block body %}
+
         {% endblock %}
   </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Deconnexion</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Vous allez être deconnecté
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                  <a role="button" class="btn btn-success" href=" {{ path('deconnexion') }}" >Continuer</a>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <br/>
   <br/>
   <br/>
@@ -109,6 +131,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        {% endblock %}
+      <script type="javascript"> function showModal() {
+              $('#exampleModal').on('shown.bs.modal', function () {
+                  $('#deconnect').trigger('focus')
+              })
+          }</script>
+      
+  {% endblock %}
     </body>
 </html>
