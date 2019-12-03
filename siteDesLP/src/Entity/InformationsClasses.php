@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InformationsClassesRepository")
  */
@@ -23,6 +23,8 @@ class InformationsClasses
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $cheminPlaquette;
 
@@ -49,12 +51,12 @@ class InformationsClasses
         return $this;
     }
 
-    public function getCheminPlaquette(): ?string
+    public function getCheminPlaquette()
     {
         return $this->cheminPlaquette;
     }
 
-    public function setCheminPlaquette(?string $cheminPlaquette): self
+    public function setCheminPlaquette($cheminPlaquette): self
     {
         $this->cheminPlaquette = $cheminPlaquette;
 

@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class InformationsClassesController extends AbstractController
 {
@@ -22,7 +24,7 @@ class InformationsClassesController extends AbstractController
     public function afficherLes(ClassesRepository $repoC)
     {
             $classes = $repoC->findAll();
-            
+
         return $this->render('informations_classes/lesclasses.html.twig', [
             'classes' => $classes,
         ]);
@@ -47,7 +49,7 @@ class InformationsClassesController extends AbstractController
 
         $info = $repoI->findBy(['classe' => $classe->getId()]);
 
-        
+
         return $this->render('informations_classes/print.html.twig', [
             'info' => $info[0],
             'classe' => $classe
@@ -63,10 +65,15 @@ class InformationsClassesController extends AbstractController
         $classe = $this->getUser()->getClasseResponsable();
 
         $idInfo = $repoI->findBy(['classe' => $info->getClasse()]);
-        
+
         //Si le professeur est bien responsable de cette classe
         if($idInfo[0]->getClasse()->getProfesseurResponsable()->getId() == $this->getUser()->getId())
         {
+          // if($info->getCheminPlaquette())
+          // {
+          //     $info->setCheminPlaquette(new File($this->getParameter('plaquette_directory').'/'.$info->getCheminPlaquette()));
+          // }
+
             $form = $this->createFormBuilder($info)
             ->add('description', CKEditorType::class, [
                 'config' => [
@@ -74,13 +81,22 @@ class InformationsClassesController extends AbstractController
                   'toolabar' => 'full',
                   'required' => 'true'
                 ]])
+            ->add('cheminPlaquette', FileType::class , [
+              'data_class' => null
+            ])
             ->getForm();
-
+            dump($info);
             $form->handleRequest($request);
 
 
             if($form->isSubmitted() && $form->isValid())
             {
+              // $file stores the uploaded PDF file
+                // $file = $form->get('cheminPlaquette')->getData();
+                $file = $info->getCheminPlaquette();
+                $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+                $file->move($this->getParameter('plaquette_directory'),$fileName);
+                $info->setCheminPlaquette($fileName);
                 $manager->persist($info);
                 $manager->flush();
 
@@ -97,9 +113,14 @@ class InformationsClassesController extends AbstractController
         else //Sinon il n'y a pas accès
         {
             $this->addFlash('errorModificationInformationsClasses',"Vous n'êtes pas responsable de cette licence");
-     
+
             return $this->redirectToRoute('informations_classes_print');
-        
+
         }
+    }
+
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 }
