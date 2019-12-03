@@ -5,7 +5,10 @@
 		<div class="alert alert-secondary">
 			<div class="pb-2">
 				> {{dossier.nom}}
-			  	<a class="btn btn-light btn-sm" href="{{path('upload')}}">Ajouter un cours</a>
+				<div class="btn-group" role="group">
+			  		<a class="btn btn-light btn-sm" href="{{path('upload')}}">Ajouter un cours</a>
+			  		<a class="btn btn-light btn-sm" href="#">Créer un dossier</a>
+				</div>
 			</div>
 			{% for fichier in dossier.fichiers %}
 				<div class="alert alert-light">
@@ -30,5 +33,32 @@
 {% endmacro %}
 
 {% block body %}
+	<div class="row mb-2">
+		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier">Créer un dossier</button>
+	</div>
+
 	{{ _self.genereArborescence(dossiersRacines) }}
+
+<div class="modal fade" id="creerDossier" tabindex="-1" role="dialog" aria-labelledby="creerDossierLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="creerDossierLabel">Ajouter un dossier</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{{ form_start(form) }}
+		<div class="modal-body">
+			{{ form_row(form.nom) }}
+			{{ form_row(form.classes) }}
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+			<button type="submit" class="btn btn-primary">Créer</button>
+		</div>
+		{{ form_end(form) }}
+	</div>
+</div>
+</div>
 {% endblock %}

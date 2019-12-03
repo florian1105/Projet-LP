@@ -4,55 +4,91 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
-use App\Repository\ProfesseursRepository;
-use App\Repository\ClassesRepository;
+use App\Entity\Professeurs;
+use App\Entity\Etudiants;
+use App\Entity\Cours;
 
 class CoursController extends AbstractController
 {
     /**
      * @Route("/ent/gestion", name="cours_gest")
      */
-    public function gererCours(ProfesseursRepository $repoProfs)
+    public function gererCours(Request $request)
     {
-    	/* Récupère le prof connecté */
-    	$prof = "palleja";
-    	$prof = $repoProfs->findByNomProfesseur($prof)[0];
+		/* Récupère le prof connecté */
+		$prof = $this->getUser();
+
+		if(! $prof instanceof Professeurs)
+			return $this->redirectToRoute('connexion');
+
+       	/* Formulaire d'ajout d'un dossier
+       	   de cours */
+		$cours = new Cours();
+
+		$form = $this->createFormBuilder($cours)
+			->add('nom')
+			->add('classes') // classe qui peuvent avoir acces au cours
+			/*
+			->add('coursParent') - champ caché
+			->add('coursEnfants') - null
+			->add('prof') - user
+			*/
+	 	->getForm();
+
+        $form->handleRequest($request);
+
+		// Réception du form valide -> add/update
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$cours->setProf($prof);
+
+			$manager = $this->getDoctrine()->getManager();
+			$manager->persist($cours);
+			$manager->flush();
+		}
 
     	/* Récupère ses dossiers de cours */
     	$cours = $prof->getDossiersCours();
 		
-		// Va chercher les dossiers sans parent
-    	// -> les dossiers racines
+		/* Va chercher les dossiers racines
+		   (sans parent) */
+    	// -> faire une requete dans le modele
+		$dossiersPrincipaux = [];
     	foreach ($cours as $dossier) {
 	    	if($dossier->getCoursParent() == null)
     			$dossiersPrincipaux[] = $dossier;
        	}
-
+       	
     	/* Affichage */
 		return $this->render('cours/gestion.html.twig', [
             'dossiersRacines' => $dossiersPrincipaux,
+            'form' => $form->createView(),
         ]);
     }
-
 
     /**
      * @Route("/ent/cours", name="cours_affi")
      */
-    public function afficherCours(ClassesRepository $repoClasses)
+    public function afficherCours()
     {
     	/* Récuperation de l'étudiant connecté */
-    	$etu = "schallerm";
+		$etu = $this->getUser();
+
+		//$etu->getRoles()
+		if(! $etu instanceof Etudiants)
+			return $this->redirectToRoute('connexion');
 
     	/* Va chercher la classe de l'étudiant */
-    	$classe = "apidae";//"dgsdg";
-    	$classe = $repoClasses->findByNomClasse($classe);
+    	$classe = $etu->getClasseEtudiant();
 
     	/* Va chercher les dossiers de cours
     	   auquels la classe à accès */
-    	$cours = $classe[0]->getCours();
+    	$cours = $classe->getCours();
 
     	// Crée l'arborescence des dossiers accessibles
+    	//-> simplifier avec requete modele
     	$dossiers = [];
     	foreach ($cours as $dossier) {
 			//Vérifie si parent est déjà dans la liste
@@ -99,8 +135,6 @@ class CoursController extends AbstractController
 				$dossiers[] = $dossier;
 			}
 		}
-
-       	//var_dump($dossiers);
 
     	/* Affichage */
 		return $this->render('cours/affichage.html.twig', [
