@@ -5,10 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\Professeurs;
 use App\Entity\Etudiants;
 use App\Entity\Cours;
+use App\Entity\Classes;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class CoursController extends AbstractController
 {
@@ -51,7 +54,7 @@ class CoursController extends AbstractController
 
     	/* Récupère ses dossiers de cours */
     	$cours = $prof->getDossiersCours();
-		
+
 		/* Va chercher les dossiers racines
 		   (sans parent) */
     	// -> faire une requete dans le modele
@@ -60,7 +63,7 @@ class CoursController extends AbstractController
 	    	if($dossier->getCoursParent() == null)
     			$dossiersPrincipaux[] = $dossier;
        	}
-       	
+
     	/* Affichage */
 		return $this->render('cours/gestion.html.twig', [
             'dossiersRacines' => $dossiersPrincipaux,
@@ -117,9 +120,9 @@ class CoursController extends AbstractController
 						if($enfant->getId() == $dir->getId()){
 							// Enleve enfant de la liste finale si il a deja ete ajouté
 							$id = array_search($enfant, $dossiers);
-							if($id !== false) 
+							if($id !== false)
 								array_splice($dossiers, $id);
-							
+
 							// Le déplace dans son parent
 							$dossier->addCoursEnfant($enfant);
 							//$parentID = array_search($dossier, $dossiers);
@@ -141,5 +144,41 @@ class CoursController extends AbstractController
             'data' => $dossiers,
         ]);
     }
-}
 
+    /**
+     * @Route("/ent/edit/{id}", name="dossier_edit")
+     */
+    public function edit(Request $request, Cours $cours, ObjectManager $em)
+    {
+        $form = $this->createFormBuilder($cours)
+        ->add('nom')
+        ->add('classes', EntityType::class,
+        [
+          'class' => Classes::class,
+          'choice_label' => 'nomClasse',
+          'label' => 'Classes de l\'article',
+          'expanded' => true,
+          'multiple' => true,
+          'mapped' => true, //décoché par défaut
+          'by_reference' => false,
+        ])
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+          $em->persist($cours);
+          $em->flush();
+          $this->addFlash('editTrue','Le dossier a été modifié avec succès');
+
+          return $this->redirectToRoute('cours_gest');
+        }
+
+        return $this->render('cours/edit.html.twig', [
+          'form' => $form->createView(),
+          'cours' => $cours
+        ]);
+
+    }
+}

@@ -19,7 +19,7 @@ class FichiersController extends AbstractController
     {
     	// Fichier envoyé par l'utilisateur
     	$upload = new Fichiers();
-    	
+
     	// Création du formulaire
     	$form = $this->createForm(FichiersType::class, $upload);
     	$form->handleRequest($request);
@@ -28,13 +28,13 @@ class FichiersController extends AbstractController
     	if ($form->isSubmitted() && $form->isValid()) {
     		// Création du fichier local
     		$fichier = $upload->getEmplacement();
-    		
+
     		// Vérification du nom du fichier
-    		$nomfichier = $verifFileName($fichier->getClientOriginalName());
+    		$nomfichier = verifFileName($upload->getClientOriginalName());
 
     		// Emplacement dans l'arborescence
     		$cheminFichier = 'tests_upload/';
-    		
+
     		// Déplacement dans son répertorie
     		$fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
 
@@ -48,6 +48,7 @@ class FichiersController extends AbstractController
         	'form' => $form->createView(),
         ]);
     }
+
 }
 
 /* Verifie par sécurité le nom du ficheir transmit */
@@ -56,7 +57,7 @@ function verifFileName($filename) {
 	$filename = @stripslashes(@strip_tags($filename));
 	if ($fichier->guessExtension())
 		$filename .= '.'.$fichier->guessExtension();
-	else 
+	else
 		$filename .= '.unknown';
 	return $filename;
 }
