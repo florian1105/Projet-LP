@@ -85,7 +85,6 @@ class InformationsClassesController extends AbstractController
               'data_class' => null
             ])
             ->getForm();
-            dump($info);
             $form->handleRequest($request);
 
 
