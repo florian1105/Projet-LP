@@ -64,6 +64,7 @@ class ArticlesController extends AbstractController
           'required' => 'true'
         ]
       ])
+      ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
       ->add('classes', EntityType::class,
       [
         'class' => Classes::class,

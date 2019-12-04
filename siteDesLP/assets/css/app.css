@@ -16,6 +16,11 @@
   margin-top: 3%;
 }
 
+.blog-post
+{
+  margin-bottom: 7%;
+}
+
 .bg-image-home
 {
   background-image: url("http://lorempixel.com/1024/800/business");
