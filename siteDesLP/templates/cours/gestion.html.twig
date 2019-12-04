@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% macro genereArborescence(dossiers) %}
 	{% for dossier in dossiers %}
 		<div class="alert alert-secondary">
@@ -8,6 +10,7 @@
 				<div class="btn-group" role="group">
 			  		<a class="btn btn-success btn-sm" href="{{path('upload')}}">+ Ajouter un cours</a>
 					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent({{dossier.id}})">Créer un sous-dossier</button>
+					<a class="btn btn-light btn-sm" href={{ path('dossier_edit', {'id' : dossier.id}) }}>Editer le dossier</a>
 			  		<a class="btn btn-danger btn-sm" href="{{path('cours_delete', {'id':dossier.id})}}">❌</a>
 				</div>
 			</div>
@@ -34,6 +37,11 @@
 {% endmacro %}
 
 {% block body %}
+{% for msg in app.session.flashBag.get('editTrue') %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                </div>
+            {% endfor %}
 	<div class="row mb-2">
 		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent(null)">Créer un dossier</button>
 	</div>
