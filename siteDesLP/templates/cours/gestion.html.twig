@@ -6,21 +6,22 @@
 			<div class="pb-2">
 				> {{dossier.nom}}
 				<div class="btn-group" role="group">
-			  		<a class="btn btn-light btn-sm" href="{{path('upload')}}">Ajouter un cours</a>
-			  		<a class="btn btn-light btn-sm" href="#">Créer un dossier</a>
+			  		<a class="btn btn-success btn-sm" href="{{path('upload')}}">+ Ajouter un cours</a>
+					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent({{dossier.id}})">Créer un sous-dossier</button>
+			  		<a class="btn btn-danger btn-sm" href="{{path('cours_delete', {'id':dossier.id})}}">❌</a>
 				</div>
 			</div>
 			{% for fichier in dossier.fichiers %}
 				<div class="alert alert-light">
 			  	<li>
-			  		{{ fichier.nom }}
+			  		<a href="{{path('fichier_dl', {'id':fichier.id})}}">{{ fichier.nom }}</a>
 			  		<div class="btn-group" role="group">
 						<button id="{{ dossier.id }}" type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
 						<div class="dropdown-menu" aria-labelledby="{{ dossier.id }}">
-						<a class="dropdown-item" href="#">Changer la visibilité</a>
-						<a class="dropdown-item" href="#">Renommer</a>
+						<a class="dropdown-item disabled" href="#">Changer la visibilité</a>
+						<a class="dropdown-item disabled" href="#">Renommer</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item red" href="#">Supprimer</a>
+						<a class="dropdown-item text-danger" href=""><small>❌</small> Supprimer</a>
 						</div>
 					</div>
 				</li>
@@ -34,11 +35,12 @@
 
 {% block body %}
 	<div class="row mb-2">
-		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier">Créer un dossier</button>
+		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent(null)">Créer un dossier</button>
 	</div>
 
 	{{ _self.genereArborescence(dossiersRacines) }}
 
+{# Popup de création d'un dossier #}
 <div class="modal fade" id="creerDossier" tabindex="-1" role="dialog" aria-labelledby="creerDossierLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
 	<div class="modal-content">
@@ -52,6 +54,9 @@
 		<div class="modal-body">
 			{{ form_row(form.nom) }}
 			{{ form_row(form.classes) }}
+			<div class="d-none">
+				{{ form_row(form.coursParent) }}
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -61,4 +66,10 @@
 	</div>
 </div>
 </div>
+<script>
+/* Affichage du nom du fichier sélectionné dans le label */
+	function setDossierParent(id) {
+		document.getElementById('form_coursParent').value = id;
+	}
+</script>
 {% endblock %}

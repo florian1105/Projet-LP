@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use App\Entity\Professeurs;
 use App\Entity\Etudiants;
 use App\Entity\Cours;
@@ -30,8 +32,16 @@ class CoursController extends AbstractController
 		$form = $this->createFormBuilder($cours)
 			->add('nom')
 			->add('classes') // classe qui peuvent avoir acces au cours
+			->add('coursParent', EntityType::class,
+				[
+					'class' => Cours::class,
+					'choice_label' => 'id',
+					'label' => 'Dossier de cours parent',
+					'expanded' => false,
+					'multiple' => false,
+					'required' => false,
+				])
 			/*
-			->add('coursParent') - champ caché
 			->add('coursEnfants') - null
 			->add('prof') - user
 			*/
@@ -60,7 +70,7 @@ class CoursController extends AbstractController
 	    	if($dossier->getCoursParent() == null)
     			$dossiersPrincipaux[] = $dossier;
        	}
-       	
+
     	/* Affichage */
 		return $this->render('cours/gestion.html.twig', [
             'dossiersRacines' => $dossiersPrincipaux,
@@ -140,6 +150,42 @@ class CoursController extends AbstractController
 		return $this->render('cours/affichage.html.twig', [
             'data' => $dossiers,
         ]);
+    }
+
+    /**
+     * @Route("/ent/cours/delete/{id}", name="cours_delete")
+     */
+    public function supprimeCours(Cours $cours, Request $req)
+    {
+		/* Récupère le prof connecté */
+		$prof = $this->getUser();
+
+		if(! $prof instanceof Professeurs)
+			return $this->redirectToRoute('connexion');
+
+		//Si le formulaire à été soumis
+		if($req->isMethod('POST'))
+		{
+    		// En cas de validation on supprime et on redirige
+			if($req->request->has('oui'))
+			{
+				$em=$this->getDoctrine()->getManager();
+				$em->remove($cours);
+				$em->flush();
+      			$this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
+			}
+			return $this->redirectToRoute('cours_gest');
+		} else {
+			//Si le formulaire n'a pas été soumis alors on l'affiche
+			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
+
+			$message = 'Le dossier "'.$cours->getNom().'" sera supprimé de manière irréversible.';
+
+    		return $this->render('confirmation.html.twig', [
+					'titre' => $title,
+					'message' => $message
+	        	]);
+	    }
     }
 }
 

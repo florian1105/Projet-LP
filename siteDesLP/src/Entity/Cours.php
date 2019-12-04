@@ -39,7 +39,7 @@ class Cours
     private $coursParent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cours", mappedBy="coursParent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Cours", mappedBy="coursParent", cascade={"remove"})
      */
     private $coursEnfants;
 
