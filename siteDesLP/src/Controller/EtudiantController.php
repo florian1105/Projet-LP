@@ -250,6 +250,10 @@ class EtudiantController extends AbstractController
       {
         $hash = $encoder->encodePassword($etudiant, $etudiant->getNewPassword());
         $etudiant->setPassword($hash);
+        $this->addFlash('success','l\'étudiant a bien été créé');
+      }
+      else{
+          $this->addFlash('success','les changements on biens été pris en compte');
       }
       $em->persist($etudiant);
       $em->flush();

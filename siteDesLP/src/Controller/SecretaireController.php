@@ -86,7 +86,7 @@ class SecretaireController extends AbstractController
         }
         else
         { // Mode edit
-
+            $editmode = 1;
             $form = $this->createFormBuilder($secretaire)
                 ->add('nomSecretaire')
                 ->add('prenomSecretaire')
@@ -102,13 +102,15 @@ class SecretaireController extends AbstractController
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
-
-            $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
-            $secretaire->setPassword($hash);
+            if(!$editmode){
+                $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
+                $secretaire->setPassword($hash);
+            }
 
             $manager->persist($secretaire);
             $manager->flush();
-
+            if(!$editmode){$this->addFlash('success','la/le secrétaire a bien été créée');}
+            else{$this->addFlash('success','la/le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
 
@@ -136,9 +138,9 @@ class SecretaireController extends AbstractController
                 $em=$this->getDoctrine()->getManager();
                 $em->remove($secretaire);
                 $em->flush();
-                $this->addFlash('delete',"Cette secretaire a été supprimé avec succès");
+                $this->addFlash('delete',"la/le secretaire a été supprimé avec succès");
             }
-            else{$this->addFlash('delete',"Aucune secretaire n'a été supprimé");}
+            else{$this->addFlash('delete',"Aucun(e) secretaire n'a été supprimé");}
             return $this->redirectToRoute('secretaire_search');
         }
         else
