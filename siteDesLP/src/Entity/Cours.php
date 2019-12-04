@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CoursRepository")
+ * @UniqueEntity("nom", message="Ce nom de dossier est déjà utilisé veuillez en choisir un autre")
+
  */
 class Cours
 {
@@ -20,6 +24,8 @@ class Cours
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom pour ce dossier")
+     * @Assert\Length(max = 50, maxMessage="Nom de dossier/cours trop long il est impossible d'avoir un nom de dossier/cours supérieur à {{ limit }} caractères")
      */
     private $nom;
 
@@ -29,7 +35,7 @@ class Cours
     private $classes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Fichiers", mappedBy="cours")
+     * @ORM\OneToMany(targetEntity="App\Entity\Fichiers", mappedBy="cours", cascade={"remove"})
      */
     private $fichiers;
 
@@ -39,7 +45,7 @@ class Cours
     private $coursParent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cours", mappedBy="coursParent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Cours", mappedBy="coursParent", cascade={"remove"})
      */
     private $coursEnfants;
 

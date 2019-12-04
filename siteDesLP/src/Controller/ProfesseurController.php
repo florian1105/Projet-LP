@@ -193,10 +193,8 @@ class ProfesseurController extends AbstractController
 			//Si le formulaire n'a pas été soumis alors on l'affiche
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce professeur ?';
 
-			$message = 'N°'.$prof->getId().' : '.
-				$prof->getPrenomProfesseur().' '.
-				$prof->getNomProfesseur(). ' ('.
-				$prof->getLogin().')';
+			$message = $prof->getPrenomProfesseur().' '.$prof->getNomProfesseur().
+				' ('.$prof->getLogin().')';
 
     		return $this->render('confirmation.html.twig', [
 					'titre' => $title,
