@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use App\Entity\Classes;
 use App\Entity\Articles;
 use App\Repository\ArticlesRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 
@@ -18,7 +19,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class ArticlesController extends AbstractController
 {
   /**
-  * @Route("/article_add", name="article_add")
+  * @Route("/article/add", name="article_add")
   * @Route("/article/edit/{id}", name="article_edit")
   */
   public function form(Articles $article = null,Request $request, ObjectManager $em)
@@ -36,12 +37,14 @@ class ArticlesController extends AbstractController
           'required' => 'true'
         ]
       ])
+      ->add('photo' , FileType::class)
       ->add('classes', EntityType::class,
       [
         'class' => Classes::class,
         'choice_label' => 'nomClasse',
         'multiple' => 'true',
         'expanded' => 'true',
+        'required' => 'true',
         'mapped' => 'true'
       ])
       ->getForm();

@@ -30,7 +30,7 @@ class FichiersController extends AbstractController
     		$fichier = $upload->getEmplacement();
     		
     		// Vérification du nom du fichier
-    		$nomfichier = $verifFileName($fichier->getClientOriginalName());
+    		$nomfichier = verifFileName($fichier->getClientOriginalName());
 
     		// Emplacement dans l'arborescence
     		$cheminFichier = 'tests_upload/';
