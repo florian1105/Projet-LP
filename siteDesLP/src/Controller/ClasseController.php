@@ -77,7 +77,7 @@ class ClasseController extends AbstractController
           $manager->persist($classe);
           $manager->persist($info);
           $manager->flush();
-
+          $this->addFlash('notice','La classe a bien été créée');
           return $this->redirectToRoute('classe_research');
         }
       }
@@ -134,7 +134,7 @@ class ClasseController extends AbstractController
           $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));
           $manager->persist($classe);
           $manager->flush();
-
+          $this->addFlash('success','les changements on biens été pris en compte');
           return $this->redirectToRoute('classe_research');
         }
       }
@@ -172,7 +172,7 @@ class ClasseController extends AbstractController
           $em=$this->getDoctrine()->getManager();
           $em->remove($classe);
           $em->flush();
-          $this->addFlash('validSuppressionClasse',"La classe a été supprimé avec succès");
+          $this->addFlash('delete',"La classe a été supprimé avec succès");
         }
       }
       // Sinon on redirige simplement

@@ -13,75 +13,52 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use App\Entity\Fichiers;
 use App\Form\FichiersType;
+use App\Repository\CoursRepository;
 
 class FichiersController extends AbstractController
 {
-    /**
-     * @Route("/ent/send", name="upload")
-     */
-    public function index(Request $request)
+  /**
+  * @Route("/ent/send", name="upload")
+  */
+    public function index(Request $request, ObjectManager $em, CoursRepository $repoC)
     {
-    	// Fichier envoyé par l'utilisateur
-    	$upload = new Fichiers();
+        // Fichier envoyé par l'utilisateur
+        $upload = new Fichiers();
 
-    	// Création du formulaire
-    	$form = $this->createForm(FichiersType::class, $upload);
-    	$form->handleRequest($request);
+        // Création du formulaire
+        $form = $this->createForm(FichiersType::class, $upload);
+        $form->handleRequest($request);
 
-    	// Réception du formulaire
-    	if ($form->isSubmitted() && $form->isValid()) {
-    		// Création du fichier local
-    		$fichier = $upload->getEmplacement();
-    		// Vérification du nom du fichier
-    		$nomfichier = verifFileName($upload->getClientOriginalName());
+        // Réception du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Création du fichier local
+            $fichier = $form['emplacement']->getData();
 
-    		// Emplacement dans l'arborescence
-    		$cheminFichier = 'tests_upload/';
+            // Vérification du nom du fichier
+            $nomfichier = $fichier->getClientOriginalName();
 
-    		// Déplacement dans son répertorie
-    		$fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
+            // Emplacement dans l'arborescence
+            $cheminFichier = 'tests_upload/';
 
-    		// Màj des données de la bd
-    		$upload->setFilePath($cheminFichier.$nomfichier);
+            // Déplacement dans son répertorie
+            $fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
 
-    		//return $this->redirectToRoute('upload');
-    	}
+            $cours = $repoC->findOneBy(['id' => '1']);
 
+            // Màj des données de la bd
+            $upload->setEmplacement($cheminFichier.$nomfichier);
+            $upload->setNom("Mes couilles");
+            $upload->setVisible(true);
+            $upload->setCours($cours);
+
+            $em->persist($upload);
+            $em->flush();
+
+            //return $this->redirectToRoute('upload');
+        }
         return $this->render('fichiers/index.html.twig',[
-        	'form' => $form->createView(),
+          'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/ent/dl/{id}", name="fichier_dl")
-     */
-    public function download(Fichiers $fichier, Request $req, Filesystem $fs)
-    {
-        /* Tester si l'utilisateur
-           à accès à la ressource */
-        
-        // Repertoire des fichiers
-        $cheminFichier = $this->getParameter('upload_directory').'tests_upload/';
-
-        // Nom du fichier
-        $nomfichier = $fichier->getEmplacement();
-
-        // Emplacement du fichier sur le serveur
-        $cheminFichier = $cheminFichier.$nomfichier;
-
-        // Test si le fichier existe
-        if($fs->exists($cheminFichier))
-            // Renvoie le fichier pour le téléchargement
-            return new BinaryFileResponse($cheminFichier);
-
-        // Sinon le fichier n'existe pas
-
-        // Message d'erreur (a flasher)
-        $msg = "Le fichier demandé n'existe plus";
-
-        // Retourne à la page précedente
-        $referer = $req->headers->get('referer');
-        return $this->redirect($referer);
     }
 
     /**
@@ -89,9 +66,10 @@ class FichiersController extends AbstractController
      */
     public function supprimeFichier(Fichiers $fichier, Request $req)
     {
-        /* Récupère le prof connecté */
+        // Récupère le prof connecté
         $prof = $this->getUser();
 
+        // Récupère le prof du fichier
         $createur = $fichier->getCours()->getProf();
 
         if($prof !== $createur)
@@ -106,6 +84,13 @@ class FichiersController extends AbstractController
             // En cas de validation on supprime et on redirige
             if($req->request->has('oui'))
             {
+                // Suppression physique
+                $fs = new Filesystem();
+                $chemin = $this->getParameter('upload_directory').'tests_upload/'.$fichier->getEmplacement();
+                if ($fs->exists($chemin))
+                    $fs->remove([$chemin]);
+
+                // Suppression logique BD
                 $em=$this->getDoctrine()->getManager();
                 $em->remove($fichier);
                 $em->flush();
@@ -125,15 +110,48 @@ class FichiersController extends AbstractController
         }
     }
 
+  /**
+  * @Route("/ent/dl/{id}", name="fichier_dl")
+  */
+  public function download(Fichiers $fichier, Request $req, Filesystem $fs)
+  {
+    /* Tester si l'utilisateur
+    à accès à la ressource */
+
+    // Repertoire des fichiers
+    $cheminFichier = $this->getParameter('upload_directory').'tests_upload/';
+
+    // Nom du fichier
+    $nomfichier = $fichier->getEmplacement();
+
+    // Emplacement du fichier sur le serveur
+    $cheminFichier = $cheminFichier.$nomfichier;
+
+    // Test si le fichier existe
+    if($fs->exists($cheminFichier))
+    // Renvoie le fichier pour le téléchargement
+    return new BinaryFileResponse($cheminFichier);
+
+    // Sinon le fichier n'existe pas
+
+    // Message d'erreur (a flasher)
+    $msg = "Le fichier demandé n'existe plus";
+
+    // Retourne à la page précedente
+    $referer = $req->headers->get('referer');
+    return $this->redirect($referer);
+  }
 }
 
-/* Verifie par sécurité le nom du ficheir transmit */
-function verifFileName($filename) {
-	$filename = pathinfo($filename, PATHINFO_FILENAME);
-	$filename = @stripslashes(@strip_tags($filename));
-	if ($fichier->guessExtension())
-		$filename .= '.'.$fichier->guessExtension();
-	else
-		$filename .= '.unknown';
-	return $filename;
-}
+  /* Verifie par sécurité le nom du ficheir transmit */
+  // private function verifFileName($filename)
+  // {
+  //   $filename = pathinfo($filename, PATHINFO_FILENAME);
+  //   $filename = @stripslashes(@strip_tags($filename));
+  //   if ($filename->guessExtension())
+  //   $filename .= '.'.$fichier->guessExtension();
+  //   else
+  //   $filename .= '.unknown';
+  //   return $filename;
+  //
+  // }
