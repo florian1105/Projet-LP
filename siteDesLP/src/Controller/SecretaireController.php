@@ -26,9 +26,11 @@ class SecretaireController extends AbstractController
      */
     public function form(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
+      $editMode = true;
         if(!$secretaire)
         {
             $secretaire = new Secretaire();
+            $editMode = false;
 
             $form = $this->createFormBuilder($secretaire)
                 ->add('nomSecretaire')
@@ -82,11 +84,11 @@ class SecretaireController extends AbstractController
 
             // Encodage du mot de passe
 
-
+            $editmode = 0;
         }
-        else
+        else if($editMode == true)
         { // Mode edit
-            $editmode = 1;
+
             $form = $this->createFormBuilder($secretaire)
                 ->add('nomSecretaire')
                 ->add('prenomSecretaire')
@@ -102,15 +104,15 @@ class SecretaireController extends AbstractController
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
-            if(!$editmode){
+            if(!$editMode){
                 $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
                 $secretaire->setPassword($hash);
             }
 
             $manager->persist($secretaire);
             $manager->flush();
-            if(!$editmode){$this->addFlash('success','la/le secrétaire a bien été créée');}
-            else{$this->addFlash('success','la/le secrétaire a bien été modifié');}
+            if(!$editmode){$this->addFlash('success','La/Le secrétaire a bien été créée');}
+            else{$this->addFlash('success_modifie','La/Le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
 
@@ -138,7 +140,7 @@ class SecretaireController extends AbstractController
                 $em=$this->getDoctrine()->getManager();
                 $em->remove($secretaire);
                 $em->flush();
-                $this->addFlash('delete',"la/le secretaire a été supprimé avec succès");
+                $this->addFlash('delete',"La/Le secretaire a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun(e) secretaire n'a été supprimé");}
             return $this->redirectToRoute('secretaire_search');

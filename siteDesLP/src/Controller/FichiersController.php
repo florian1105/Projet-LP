@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
 
+use App\Entity\Cours;
 use App\Entity\Fichiers;
 use App\Form\FichiersType;
 use App\Repository\CoursRepository;
@@ -18,50 +19,124 @@ use App\Repository\CoursRepository;
 class FichiersController extends AbstractController
 {
   /**
-  * @Route("/ent/send", name="upload")
+  * @Route("/ent/send/{cours}", name="upload")
   */
-  public function index(Request $request, ObjectManager $em, CoursRepository $repoC)
-  {
-    // Fichier envoyé par l'utilisateur
-    $upload = new Fichiers();
+    public function index(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
+    {
+        // Contrôle des droits d'accès
+        // Récupère le prof connecté
+        $prof = $this->getUser();
 
-    // Création du formulaire
-    $form = $this->createForm(FichiersType::class, $upload);
-    $form->handleRequest($request);
+        // Récupère le prof du fichier
+        $createur = $cours->getProf();
 
-    // Réception du formulaire
-    if ($form->isSubmitted() && $form->isValid()) {
-      // Création du fichier local
-      $fichier = $form['emplacement']->getData();
+        if($prof !== $createur)
+        {
+            $flashMsg = 'Seul le professeur '.$createur->getNomProfesseur().' '.$createur->getPrenomProfesseur().' peut inserer des fichiers dans ce dossier.';
+            return $this->redirectToRoute('connexion');
+        }
 
-      // Vérification du nom du fichier
-      $nomfichier = $fichier->getClientOriginalName();
+        // Fichier envoyé par l'utilisateur
+        $upload = new Fichiers();
 
-      // Emplacement dans l'arborescence
-      $cheminFichier = 'tests_upload/';
+        // Création du formulaire
+        $form = $this->createForm(FichiersType::class, $upload);
+        $form->handleRequest($request);
 
-      // Déplacement dans son répertorie
-      $fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
+        // Réception du formulaire
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            // Création du fichier local UploadedFile
+            $fichier = $form['emplacement']->getData();
 
-      $cours = $repoC->findOneBy(['id' => '1']);
+            // Récuperation du nom du fichier original
+            $nomfichier = $fichier->getClientOriginalName();
 
-      // Màj des données de la bd
-      $upload->setEmplacement($cheminFichier.$nomfichier);
-      $upload->setNom("Mes couilles");
-      $upload->setVisible(true);
-      $upload->setCours($cours);
+            /* Verifie que le dossier ne contient
+               pas deja un fichier du meme nom */
+            $fichiers = $cours->getFichiers();
+            foreach ($fichiers as $file) {
+                if($file->getNom() == $nomfichier)
+                {
+                    $this->addFlash('fileExist', "Ce fichier existe déjà dans le dossier");
 
-      $em->persist($upload);
-      $em->flush();
+                    // Retourne à la page précedente
+                    //$referer = $request->headers->get('referer');
+                    //return $this->redirect($referer);
+                    return $this->redirectToRoute('cours_gest');
+                }
+            }
 
+            // Emplacement unique
+            $emplacement = md5(uniqid()).'.'.$fichier->guessExtension();
 
-      //return $this->redirectToRoute('upload');
+            // Déplacement dans son répertorie
+            $fichier->move($this->getParameter('upload_directory'), $emplacement);
+
+            // Màj des données de la bd
+            $upload->setEmplacement($emplacement);
+            $upload->setNom($nomfichier);
+            $upload->setVisible(true);
+            $upload->setCours($cours);
+
+            $em->persist($upload);
+            $em->flush();
+
+            return $this->redirectToRoute('cours_gest');
+        }
+        return $this->render('fichiers/index.html.twig',[
+          'form' => $form->createView(),
+        ]);
     }
 
-    return $this->render('fichiers/index.html.twig',[
-      'form' => $form->createView(),
-    ]);
-  }
+    /**
+     * @Route("/ent/fichier/{id}/delete", name="fichier_delete")
+     */
+    public function supprimeFichier(Fichiers $fichier, Request $req)
+    {
+        // Récupère le prof connecté
+        $prof = $this->getUser();
+
+        // Récupère le prof du fichier
+        $createur = $fichier->getCours()->getProf();
+
+        if($prof !== $createur)
+        {
+            $flashMsg = 'Seul le professeur '.$createur->getNomProfesseur().' '.$createur->getPrenomProfesseur().' peut supprimer son fichier.';
+            return $this->redirectToRoute('connexion');
+        }
+
+        //Si le formulaire à été soumis
+        if($req->isMethod('POST'))
+        {
+            // En cas de validation on supprime et on redirige
+            if($req->request->has('oui'))
+            {
+                // Suppression physique
+                $fs = new Filesystem();
+                $chemin = $this->getParameter('upload_directory').$fichier->getEmplacement();
+                if ($fs->exists($chemin))
+                    $fs->remove([$chemin]);
+
+                // Suppression logique BD
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($fichier);
+                $em->flush();
+                $this->addFlash('delete','Le fichier "'.$fichier->getNom().'" a été supprimé avec succès');
+            }
+            return $this->redirectToRoute('cours_gest');
+        } else {
+            //Si le formulaire n'a pas été soumis alors on l'affiche
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer ce fichier ?';
+
+            $message = 'Le fichier "'.$fichier->getNom().'" sera supprimé de manière irréversible.';
+
+            return $this->render('confirmation.html.twig', [
+                    'titre' => $title,
+                    'message' => $message
+                ]);
+        }
+    }
 
   /**
   * @Route("/ent/dl/{id}", name="fichier_dl")
@@ -72,7 +147,7 @@ class FichiersController extends AbstractController
     à accès à la ressource */
 
     // Repertoire des fichiers
-    $cheminFichier = $this->getParameter('upload_directory').'tests_upload/';
+    $cheminFichier = $this->getParameter('upload_directory');
 
     // Nom du fichier
     $nomfichier = $fichier->getEmplacement();
@@ -94,9 +169,10 @@ class FichiersController extends AbstractController
     $referer = $req->headers->get('referer');
     return $this->redirect($referer);
   }
+}
 
   /* Verifie par sécurité le nom du ficheir transmit */
-  // function verifFileName($filename)
+  // private function verifFileName($filename)
   // {
   //   $filename = pathinfo($filename, PATHINFO_FILENAME);
   //   $filename = @stripslashes(@strip_tags($filename));
@@ -107,5 +183,3 @@ class FichiersController extends AbstractController
   //   return $filename;
   //
   // }
-
-}

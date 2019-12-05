@@ -4,13 +4,19 @@
 
 {% block body %}
 {% for msg in app.session.flashBag.get('errorModificationInformationsClasses') %}
-  <div class="alert alert-primary">
+  <div class="alert alert-primary" role="alert">
     {{ msg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
     </div>
 {% endfor %}
 {% for msg in app.session.flashBag.get('validModificationInformationsClasses') %}
-  <div class="alert alert-success">
+  <div class="alert alert-success" role="alert">
     {{ msg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 {% endfor %}
 <h1>Informations actuelles : </h1>

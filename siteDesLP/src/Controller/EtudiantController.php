@@ -253,7 +253,7 @@ class EtudiantController extends AbstractController
         $this->addFlash('success','l\'étudiant a bien été créé');
       }
       else{
-          $this->addFlash('success','les changements on biens été pris en compte');
+          $this->addFlash('success_modifie','les changements on biens été pris en compte');
       }
       $em->persist($etudiant);
       $em->flush();
@@ -285,6 +285,7 @@ class EtudiantController extends AbstractController
       $em->flush();
       }
       // Sinon on redirige simplement
+        $this->addFlash('delete','Etudiant supprimé');
       return $this->redirectToRoute('research_etudiant');
     } else {
       //Si le formulaire n'a pas été soumis alors on l'affiche
@@ -301,6 +302,7 @@ class EtudiantController extends AbstractController
       'message' => $message
       ]);
     }
+
   }
 
     /**
@@ -425,7 +427,7 @@ class EtudiantController extends AbstractController
             $csv->setHeaderOffset(0); //set the CSV header offset
             if(empty($csv->getHeader()) ||count($csv)==0) {
                 $this->addFlash('error','Erreur lors du chargement du fichier');
-                $this->addFlash('info','veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                $this->addFlash('info','Veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
                 return $this->redirectToRoute("research_etudiant");
             }
             foreach ($csv as $row) {

@@ -9,18 +9,27 @@
 {% if error %}
 <div class="alert alert-primary" role="alert">
     Identifiant ou mot de passe incorrect
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 {% endif %}
 
 {% for msg in app.session.flashBag.get('goodMail') %}
-                <div class="alert alert-success">
+                <div class="alert alert-success" role="alert">
                     {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             {% endfor %}
 
         {% for msg in app.session.flashBag.get('mdpReset') %}
-                            <div class="alert alert-success">
+                            <div class="alert alert-success" role="alert">
                                 {{ msg }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
