@@ -13,6 +13,12 @@
     {{ msg }}
 </div>
 {% endfor %}
+{% for msg in app.session.flashBag.get('success_modifie') %}
+  <div class="alert alert-success">
+    {{ msg }}
+</div>
+{% endfor %}
+
 
 
 

@@ -82,7 +82,7 @@ class SecretaireController extends AbstractController
 
             // Encodage du mot de passe
 
-
+            $editmode = 0;
         }
         else
         { // Mode edit
@@ -110,7 +110,7 @@ class SecretaireController extends AbstractController
             $manager->persist($secretaire);
             $manager->flush();
             if(!$editmode){$this->addFlash('success','la/le secrétaire a bien été créée');}
-            else{$this->addFlash('success','la/le secrétaire a bien été modifié');}
+            else{$this->addFlash('success_modifie','la/le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
 

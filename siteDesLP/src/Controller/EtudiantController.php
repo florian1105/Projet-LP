@@ -253,7 +253,7 @@ class EtudiantController extends AbstractController
         $this->addFlash('success','l\'étudiant a bien été créé');
       }
       else{
-          $this->addFlash('success','les changements on biens été pris en compte');
+          $this->addFlash('success_modifie','les changements on biens été pris en compte');
       }
       $em->persist($etudiant);
       $em->flush();
@@ -285,6 +285,7 @@ class EtudiantController extends AbstractController
       $em->flush();
       }
       // Sinon on redirige simplement
+        $this->addFlash('delete','Etudiant supprimé');
       return $this->redirectToRoute('research_etudiant');
     } else {
       //Si le formulaire n'a pas été soumis alors on l'affiche
@@ -301,6 +302,7 @@ class EtudiantController extends AbstractController
       'message' => $message
       ]);
     }
+
   }
 
     /**

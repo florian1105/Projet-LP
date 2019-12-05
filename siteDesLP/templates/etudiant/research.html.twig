@@ -21,6 +21,32 @@
             {{ message }}
         </div>
     {% endfor %}
+    {% for msg in app.session.flashBag.get('notDelete') %}
+        <div class="alert alert-primary">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('delete') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('mdp_change') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('mail_change') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('success_modifie') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
 <table id="tab_etudiant" class="table table-striped table-bordered table-hover" style="width:100%">
     <thead>
     <tr>
