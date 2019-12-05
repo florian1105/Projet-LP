@@ -148,7 +148,7 @@ class ProfesseurController extends AbstractController
 
 			$manager->persist($prof);
 			$manager->flush();
-            $this->addFlash('success_modifie','les changements on biens été pris en compte');
+            $this->addFlash('success_modifie','Le professeur a bien été modifié');
 			return $this->redirectToRoute('prof_search');
 		}
 

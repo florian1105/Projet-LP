@@ -427,7 +427,7 @@ class EtudiantController extends AbstractController
             $csv->setHeaderOffset(0); //set the CSV header offset
             if(empty($csv->getHeader()) ||count($csv)==0) {
                 $this->addFlash('error','Erreur lors du chargement du fichier');
-                $this->addFlash('info','veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                $this->addFlash('info','Veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
                 return $this->redirectToRoute("research_etudiant");
             }
             foreach ($csv as $row) {

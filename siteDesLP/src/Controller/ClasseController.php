@@ -134,7 +134,7 @@ class ClasseController extends AbstractController
           $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));
           $manager->persist($classe);
           $manager->flush();
-          $this->addFlash('success_modifie','les changements on biens été pris en compte');
+          $this->addFlash('success_modifie','Cette classe a bien été modifié');
           return $this->redirectToRoute('classe_research');
         }
       }
