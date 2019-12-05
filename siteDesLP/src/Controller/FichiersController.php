@@ -52,15 +52,6 @@ class FichiersController extends AbstractController
             // Récuperation du nom du fichier original
             $nomfichier = $fichier->getClientOriginalName();
 
-            // Emplacement unique
-            $emplacement = md5(uniqid()).'.'.$fichier->guessExtension();
-
-            // Emplacement dans l'arborescence
-            $cheminFichier = 'tests_upload/';
-
-            // Déplacement dans son répertorie
-            $fichier->move($this->getParameter('upload_directory').$cheminFichier, $emplacement);
-
             /* Verifie que le dossier ne contient
                pas deja un fichier du meme nom */
             $fichiers = $cours->getFichiers();
@@ -75,6 +66,12 @@ class FichiersController extends AbstractController
                     return $this->redirectToRoute('cours_gest');
                 }
             }
+
+            // Emplacement unique
+            $emplacement = md5(uniqid()).'.'.$fichier->guessExtension();
+
+            // Déplacement dans son répertorie
+            $fichier->move($this->getParameter('upload_directory'), $emplacement);
 
             // Màj des données de la bd
             $upload->setEmplacement($emplacement);
@@ -117,7 +114,7 @@ class FichiersController extends AbstractController
             {
                 // Suppression physique
                 $fs = new Filesystem();
-                $chemin = $this->getParameter('upload_directory').'tests_upload/'.$fichier->getEmplacement();
+                $chemin = $this->getParameter('upload_directory').$fichier->getEmplacement();
                 if ($fs->exists($chemin))
                     $fs->remove([$chemin]);
 
@@ -150,7 +147,7 @@ class FichiersController extends AbstractController
     à accès à la ressource */
 
     // Repertoire des fichiers
-    $cheminFichier = $this->getParameter('upload_directory').'tests_upload/';
+    $cheminFichier = $this->getParameter('upload_directory');
 
     // Nom du fichier
     $nomfichier = $fichier->getEmplacement();
