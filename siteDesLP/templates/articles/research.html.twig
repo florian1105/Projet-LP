@@ -9,13 +9,19 @@
 <br>
 
 {% for msg in app.session.flashBag.get('delete') %}
-  <div class="alert alert-success">
+  <div class="alert alert-success" role="alert">
     {{ msg }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
 </div>
 {% endfor %}
 {% for msg in app.session.flashBag.get('success_modifie') %}
-  <div class="alert alert-success">
+  <div class="alert alert-success" role="alert">
     {{ msg }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
 </div>
 {% endfor %}
 
