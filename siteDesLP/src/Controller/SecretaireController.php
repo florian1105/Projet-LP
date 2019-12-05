@@ -26,9 +26,11 @@ class SecretaireController extends AbstractController
      */
     public function form(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
+      $editMode = true;
         if(!$secretaire)
         {
             $secretaire = new Secretaire();
+            $editMode = false;
 
             $form = $this->createFormBuilder($secretaire)
                 ->add('nomSecretaire')
@@ -84,9 +86,9 @@ class SecretaireController extends AbstractController
 
 
         }
-        else
+        else if($editMode == true)
         { // Mode edit
-            $editmode = 1;
+
             $form = $this->createFormBuilder($secretaire)
                 ->add('nomSecretaire')
                 ->add('prenomSecretaire')
@@ -102,14 +104,14 @@ class SecretaireController extends AbstractController
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
-            if(!$editmode){
+            if($editMode == false){
                 $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
                 $secretaire->setPassword($hash);
             }
 
             $manager->persist($secretaire);
             $manager->flush();
-            if(!$editmode){$this->addFlash('success','la/le secrétaire a bien été créée');}
+            if($editMode == false){$this->addFlash('success','la/le secrétaire a bien été créée');}
             else{$this->addFlash('success','la/le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
