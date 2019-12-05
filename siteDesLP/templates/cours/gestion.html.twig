@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-
-
+{# Fonction récursive d'affichage
+   des dossiers & fichiers #}
 {% macro genereArborescence(dossiers) %}
 	{% for dossier in dossiers %}
 		<div class="alert alert-secondary">
@@ -37,11 +37,11 @@
 {% endmacro %}
 
 {% block body %}
-{% for msg in app.session.flashBag.get('editTrue') %}
-                <div class="alert alert-success">
-                    {{ msg }}
-                </div>
-            {% endfor %}
+	{% for msg in app.session.flashBag.get('editTrue') %}
+	    <div class="alert alert-success">
+	        {{ msg }}
+	    </div>
+	{% endfor %}
 	<div class="row mb-2">
 		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent(null)">Créer un dossier</button>
 	</div>
@@ -74,8 +74,10 @@
 	</div>
 </div>
 </div>
+{# FIN popup #}
+
 <script>
-/* Affichage du nom du fichier sélectionné dans le label */
+	/* Affichage du nom du fichier sélectionné dans le label */
 	function setDossierParent(id) {
 		document.getElementById('form_coursParent').value = id;
 	}
