@@ -28,8 +28,7 @@ class HomeController extends AbstractController
         {
           $articles[] = $article;
         }
-
-        dump($articles);
+        
       }
 
       //krsort($articles, "date");

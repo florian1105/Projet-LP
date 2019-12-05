@@ -122,7 +122,6 @@ class ProfesseurController extends AbstractController
 			    ->add('prenomProfesseur')
 			    ->add('login')
       			->add('mailAcademique')
-				//->add('password', PasswordType::class)
 				->add('classes', EntityType::class,
 				[
 			        'class' => Classes::class,
@@ -143,8 +142,11 @@ class ProfesseurController extends AbstractController
 		if($form->isSubmitted() && $form->isValid())
 		{
 
-			$hash = $encoder->encodePassword($prof, $prof->getNewPassword());
-			$prof->setPassword($hash);
+			if(!$prof)
+			{
+				$hash = $encoder->encodePassword($prof, $prof->getNewPassword());
+				$prof->setPassword($hash);
+			}
 
 			$manager->persist($prof);
 			$manager->flush();
