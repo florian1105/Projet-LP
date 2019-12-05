@@ -85,7 +85,7 @@ class ArticlesController extends AbstractController
     {
       $em->persist($article);
       $em->flush();
-      $this->addFlash('success','les changements on biens été pris en compte');
+      $this->addFlash('success_modifie','les changements on biens été pris en compte');
       return $this->redirectToRoute('article_search');
     }
 

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FichiersRepository")
@@ -26,6 +25,7 @@ class Fichiers
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\File(maxSize="20M",maxSizeMessage ="Ce fichier est trop lourd veuillez en upload en plus petit", mimeTypes = {"application/*","fonts/*"}, mimeTypesMessage = "Impossible d'upload de format de fichier, veuillez upload un fichier texte ou code")
      */
     private $emplacement;
 
