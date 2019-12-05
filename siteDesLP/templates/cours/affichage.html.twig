@@ -8,7 +8,7 @@
 			{% for fichier in dossier.fichiers %}
 				{% if fichier.visible %}
 					<div class="alert alert-light">
-				  		<li><a href="#">{{ fichier.nom }}</a></li>
+				  		<li><a href="{{path('fichier_dl', {'id':fichier.id})}}">{{ fichier.nom }}</a></li>
 					</div>
 				{% endif %}
 			{% endfor %}
