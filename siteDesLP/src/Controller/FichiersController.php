@@ -58,8 +58,8 @@ class FichiersController extends AbstractController
             foreach ($fichiers as $file) {
                 if($file->getNom() == $nomfichier)
                 {
-                    $flashMsg = 'Ce fichier existe déjà dans ce dossier.';
-                    
+                    $this->addFlash('fileExist', "Ce fichier existe déjà dans le dossier");
+
                     // Retourne à la page précedente
                     //$referer = $request->headers->get('referer');
                     //return $this->redirect($referer);

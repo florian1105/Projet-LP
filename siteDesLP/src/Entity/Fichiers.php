@@ -25,7 +25,7 @@ class Fichiers
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\File(maxSize="20M",maxSizeMessage ="Ce fichier est trop lourd veuillez en upload en plus petit", mimeTypes = {"application/*","fonts/*"}, mimeTypesMessage = "Impossible d'upload de format de fichier, veuillez upload un fichier texte ou code")
+     * @Assert\File(maxSize="20M",maxSizeMessage ="Ce fichier est trop lourd veuillez en upload en plus petit", mimeTypes = {"application/*","fonts/*", "text/*"}, mimeTypesMessage = "Impossible d'upload de format de fichier, veuillez upload un fichier texte ou code")
      */
     private $emplacement;
 

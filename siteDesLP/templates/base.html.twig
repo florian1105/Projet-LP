@@ -19,7 +19,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     {# Menu déroulant #}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -74,11 +74,12 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('secretaire_search') }}>Secrétaires <span class="sr-only"></span></a>
         </li>
-        
+
         {# Informations globales #}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('informations_globales_edit', {'id' : 1}) }}>Informations globales<span class="sr-only"></span></a>
         </li>
+        {% endif %}
 
         {# Gestion cours prof #}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_PROFESSEUR') %}
@@ -93,7 +94,6 @@
           <a class="nav-link my_nav_item" href={{ path('cours_affi') }}>Voir les cours<span class="sr-only"></span></a>
         </li>
         {% endif %}
- {% endif %}
       </ul>
 
       {# Connexion #}
