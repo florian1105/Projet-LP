@@ -8,7 +8,7 @@
 			<div class="pb-2">
 				> {{dossier.nom}}
 				<div class="btn-group" role="group">
-			  		<a class="btn btn-success btn-sm" href="{{path('upload')}}">+ Ajouter un cours</a>
+			  		<a class="btn btn-success btn-sm" href={{path('upload')}}>+ Ajouter un cours</a>
 					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent({{dossier.id}})">Créer un sous-dossier</button>
 					<a class="btn btn-light btn-sm" href={{ path('dossier_edit', {'id' : dossier.id}) }}>Editer le dossier</a>
 			  		<a class="btn btn-danger btn-sm" href="{{path('cours_delete', {'id':dossier.id})}}">❌</a>
@@ -24,7 +24,7 @@
 						<a class="dropdown-item disabled" href="#">Changer la visibilité</a>
 						<a class="dropdown-item disabled" href="#">Renommer</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item text-danger" href=""><small>❌</small> Supprimer</a>
+						<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}><small>❌</small> Supprimer</a>
 						</div>
 					</div>
 				</li>

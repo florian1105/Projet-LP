@@ -84,6 +84,47 @@ class FichiersController extends AbstractController
         return $this->redirect($referer);
     }
 
+    /**
+     * @Route("/ent/fichier/{id}/delete", name="fichier_delete")
+     */
+    public function supprimeFichier(Fichiers $fichier, Request $req)
+    {
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
+
+        $createur = $fichier->getCours()->getProf();
+
+        if($prof !== $createur)
+        {
+            $flashMsg = 'Seul le professeur '.$createur->getNomProfesseur().' '.$createur->getPrenomProfesseur().' peut supprimer son fichier.';
+            return $this->redirectToRoute('connexion');
+        }
+
+        //Si le formulaire à été soumis
+        if($req->isMethod('POST'))
+        {
+            // En cas de validation on supprime et on redirige
+            if($req->request->has('oui'))
+            {
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($fichier);
+                $em->flush();
+                $this->addFlash('delete','Le fichier "'.$fichier->getNom().'" a été supprimé avec succès');
+            }
+            return $this->redirectToRoute('cours_gest');
+        } else {
+            //Si le formulaire n'a pas été soumis alors on l'affiche
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer ce fichier ?';
+
+            $message = 'Le fichier "'.$fichier->getNom().'" sera supprimé de manière irréversible.';
+
+            return $this->render('confirmation.html.twig', [
+                    'titre' => $title,
+                    'message' => $message
+                ]);
+        }
+    }
+
 }
 
 /* Verifie par sécurité le nom du ficheir transmit */
