@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
 
 
+use App\Entity\Cours;
 use App\Entity\Fichiers;
 use App\Form\FichiersType;
 use App\Repository\CoursRepository;
@@ -18,10 +19,23 @@ use App\Repository\CoursRepository;
 class FichiersController extends AbstractController
 {
   /**
-  * @Route("/ent/send", name="upload")
+  * @Route("/ent/send/{cours}", name="upload")
   */
-    public function index(Request $request, ObjectManager $em, CoursRepository $repoC)
+    public function index(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
     {
+        // Contrôle des droits d'accès
+        // Récupère le prof connecté
+        $prof = $this->getUser();
+
+        // Récupère le prof du fichier
+        $createur = $cours->getProf();
+
+        if($prof !== $createur)
+        {
+            $flashMsg = 'Seul le professeur '.$createur->getNomProfesseur().' '.$createur->getPrenomProfesseur().' peut inserer des fichiers dans ce dossier.';
+            return $this->redirectToRoute('connexion');
+        }
+
         // Fichier envoyé par l'utilisateur
         $upload = new Fichiers();
 
@@ -30,31 +44,48 @@ class FichiersController extends AbstractController
         $form->handleRequest($request);
 
         // Réception du formulaire
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Création du fichier local
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            // Création du fichier local UploadedFile
             $fichier = $form['emplacement']->getData();
 
-            // Vérification du nom du fichier
+            // Récuperation du nom du fichier original
             $nomfichier = $fichier->getClientOriginalName();
+
+            // Emplacement unique
+            $emplacement = md5(uniqid()).'.'.$fichier->guessExtension();
 
             // Emplacement dans l'arborescence
             $cheminFichier = 'tests_upload/';
 
             // Déplacement dans son répertorie
-            $fichier->move($this->getParameter('upload_directory').$cheminFichier, $nomfichier);
+            $fichier->move($this->getParameter('upload_directory').$cheminFichier, $emplacement);
 
-            $cours = $repoC->findOneBy(['id' => '1']);
+            /* Verifie que le dossier ne contient
+               pas deja un fichier du meme nom */
+            $fichiers = $cours->getFichiers();
+            foreach ($fichiers as $file) {
+                if($file->getNom() == $nomfichier)
+                {
+                    $flashMsg = 'Ce fichier existe déjà dans ce dossier.';
+                    
+                    // Retourne à la page précedente
+                    //$referer = $request->headers->get('referer');
+                    //return $this->redirect($referer);
+                    return $this->redirectToRoute('cours_gest');
+                }
+            }
 
             // Màj des données de la bd
-            $upload->setEmplacement($cheminFichier.$nomfichier);
-            $upload->setNom("Mes couilles");
+            $upload->setEmplacement($emplacement);
+            $upload->setNom($nomfichier);
             $upload->setVisible(true);
             $upload->setCours($cours);
 
             $em->persist($upload);
             $em->flush();
 
-            //return $this->redirectToRoute('upload');
+            return $this->redirectToRoute('cours_gest');
         }
         return $this->render('fichiers/index.html.twig',[
           'form' => $form->createView(),

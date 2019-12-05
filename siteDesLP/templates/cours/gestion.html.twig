@@ -8,10 +8,10 @@
 			<div class="pb-2">
 				> {{dossier.nom}}
 				<div class="btn-group" role="group">
-			  		<a class="btn btn-success btn-sm" href={{path('upload')}}>+ Ajouter un cours</a>
+			  		<a class="btn btn-success btn-sm" href={{path('upload', {'cours':dossier.id})}}>+ Ajouter un cours</a>
 					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent({{dossier.id}})">Créer un sous-dossier</button>
 					<a class="btn btn-light btn-sm" href={{ path('dossier_edit', {'id' : dossier.id}) }}>Editer le dossier</a>
-			  		<a class="btn btn-danger btn-sm" href="{{path('cours_delete', {'id':dossier.id})}}">❌</a>
+			  		<a class="btn btn-danger btn-sm" href={{path('cours_delete', {'id':dossier.id})}}>❌</a>
 				</div>
 			</div>
 			{% for fichier in dossier.fichiers %}
