@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,21 +30,27 @@ class CoursController extends AbstractController
 		$cours = new Cours();
 
 		$form = $this->createFormBuilder($cours)
-			->add('nom')
-			->add('classes') // classe qui peuvent avoir acces au cours
-			->add('coursParent', EntityType::class,
-				[
-					'class' => Cours::class,
-					'choice_label' => 'id',
-					'label' => 'Dossier de cours parent',
-					'expanded' => false,
-					'multiple' => false,
-					'required' => false,
-				])
-			/*
-			->add('coursEnfants') - null
-			->add('prof') - user
-			*/
+        ->add('nom')
+        ->add('classes', EntityType::class,
+        [
+          'class' => Classes::class,
+          'choice_label' => 'nomClasse',
+          'label' => 'Classes de l\'article',
+          'expanded' => true,
+          'multiple' => true,
+          'mapped' => true,
+          'by_reference' => false,
+        ])
+        ->add('coursParent', EntityType::class,
+		[
+			'class' => Cours::class,
+			'choice_label' => 'id',
+			'label' => 'Dossier de cours parent',
+			'expanded' => false,
+			'multiple' => false,
+			'required' => false,
+		])
+
 	 	->getForm();
 
         $form->handleRequest($request);
@@ -58,6 +63,33 @@ class CoursController extends AbstractController
 			$manager = $this->getDoctrine()->getManager();
 			$manager->persist($cours);
 			$manager->flush();
+
+			// Réinitialisation du formulaire
+			unset($cours);
+			unset($form);
+			$cours = new Cours();
+			$form = $this->createFormBuilder($cours)
+	        ->add('nom')
+	        ->add('classes', EntityType::class,
+	        [
+	          'class' => Classes::class,
+	          'choice_label' => 'nomClasse',
+	          'label' => 'Classes de l\'article',
+	          'expanded' => true,
+	          'multiple' => true,
+	          'mapped' => true,
+	          'by_reference' => false,
+	        ])
+	        ->add('coursParent', EntityType::class,
+			[
+				'class' => Cours::class,
+				'choice_label' => 'id',
+				'label' => 'Dossier de cours parent',
+				'expanded' => false,
+				'multiple' => false,
+				'required' => false,
+			])
+		 	->getForm();
 		}
 
     	/* Récupère ses dossiers de cours */
@@ -190,7 +222,7 @@ class CoursController extends AbstractController
     }
 
     /**
-     * @Route("/ent/edit/{id}", name="dossier_edit")
+     * @Route("/ent/cours/edit/{id}", name="dossier_edit")
      */
     public function edit(Request $request, Cours $cours, ObjectManager $em)
     {

@@ -84,7 +84,7 @@ class SecretaireController extends AbstractController
 
             // Encodage du mot de passe
 
-
+            $editmode = 0;
         }
         else if($editMode == true)
         { // Mode edit

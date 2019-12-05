@@ -14,73 +14,115 @@
     <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light my_nav">
-    <a class="navbar-brand my_nav_item" href="{{ path('home') }}">Site des lp</a>
+    {# Navbar - Logo #}
+    <a class="navbar-brand my_nav_item" href={{ path('home') }}>Site des lp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    
+    {# Menu déroulant #}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        {# Accueil #}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('home') }}">Accueil <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('home') }}>Accueil <span class="sr-only"></span></a>
         </li>
+
+        {# A propos #}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            À propos
-          </a>
+          <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">À propos</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('informations_globales') }}">L'IUT</a>
-            <a class="dropdown-item" href="{{ path('informations_classes') }}">Les licences</a>
+            {# Informations #}
+            <a class="dropdown-item" href={{ path('informations_globales') }}>L'IUT</a>
+            <a class="dropdown-item" href={{ path('informations_classes') }}>Les licences</a>
           </div>
         </li>
+
+        {# Articles #}
         {% if is_granted('ROLE_SECRETAIRE') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{path('article_search') }}">Articles <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{path('article_search') }}>Articles <span class="sr-only"></span></a>
         </li>
         {% endif %}
-         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
+
+        {# Etudiants #}
+        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('research_etudiant') }}">Étudiants <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('research_etudiant') }}>Étudiants <span class="sr-only"></span></a>
         </li>
         {% endif %}
+
+        {# Info licence du prof #}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('informations_classes_print') }}">Informations licence<span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('informations_classes_print') }}>Informations licence<span class="sr-only"></span></a>
         </li>
         {% endif %}
+
+        {# Classes #}
         {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('classe_research') }}">Classes <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('classe_research') }}>Classes <span class="sr-only"></span></a>
         </li>
+
+        {# Profs #}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('prof_search') }}">Professeurs <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('prof_search') }}>Professeurs <span class="sr-only"></span></a>
         </li>
+
+        {# Secrétaires #}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('secretaire_search') }}">Secrétaires <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('secretaire_search') }}>Secrétaires <span class="sr-only"></span></a>
         </li>
-         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('informations_globales_edit', {'id' : 1}) }}">Informations globales<span class="sr-only"></span></a>
+        
+        {# Informations globales #}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('informations_globales_edit', {'id' : 1}) }}>Informations globales<span class="sr-only"></span></a>
         </li>
+
+        {# Gestion cours prof #}
+        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_PROFESSEUR') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('cours_gest') }}>Gestion des cours<span class="sr-only"></span></a>
+        </li>
+        {% endif %}
+
+        {# Affichage cours etudiant #}
+        {% if is_granted('ROLE_ETUDIANT') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('cours_affi') }}>Voir les cours<span class="sr-only"></span></a>
+        </li>
+        {% endif %}
  {% endif %}
       </ul>
+
+      {# Connexion #}
       <ul class="nav navbar-nav ml-auto">
         {% if not app.user %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('connexion') }}">Connexion <span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('connexion') }}>Connexion <span class="sr-only"></span></a>
         </li>
+
+        {# Connecté #}
         {% else %}
             <div class="dropdown dropleft float-right">
                 <button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
                   {{ app.user }}
                 </button>
                 <div class="dropdown-menu">
-                <h6 class="dropdown-header">{{ app.user }}</h6>
-                   {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('admin_change_password') }}">Modifier mon mot de passe</a>
+                  <h6 class="dropdown-header">{{ app.user }}</h6>
+
+                  {# Modifier Mot de passe #}
+                  {% if is_granted('ROLE_ADMIN') %}
+                            <a class="dropdown-item" href={{ path('admin_change_password') }}>Modifier mon mot de passe</a>
                   {% elseif not is_granted('ROLE_ADMIN') and app.user %}
+
+                  {# Compte #}
                   <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}>Mon compte<span class="sr-only"></span></a>
                   {% endif %}
-                            <a class="dropdown-item" href="{{ path('deconnexion') }}" data-toggle="modal" data-target="#deconnexionModal" id="deconnect" >Déconnexion <span class="sr-only"></span></a>
+
+                  {# Déconnexion #}
+                  <a class="dropdown-item" href={{ path('deconnexion') }} data-toggle="modal" data-target="#deconnexionModal" id="deconnect" >Déconnexion <span class="sr-only"></span></a>
                 </div>
             </div>
     {% endif %}
@@ -107,8 +149,9 @@
                   Vous allez être deconnecté
               </div>
               <div class="modal-footer">
+                  {# Déconnexion #}
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                  <a role="button" class="btn btn-success" href=" {{ path('deconnexion') }}" >Continuer</a>
+                  <a role="button" class="btn btn-success" href= {{ path('deconnexion') }} >Continuer</a>
               </div>
           </div>
       </div>
