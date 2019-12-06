@@ -9,7 +9,7 @@
 				> {{dossier.nom}}
 				<div class="btn-group" role="group">
 			  		<a class="btn btn-success btn-sm" href={{path('upload', {'cours':dossier.id})}}>+ Ajouter un cours</a>
-					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent({{dossier.id}})">Créer un sous-dossier</button>
+					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}})">Créer un sous-dossier</button>
 					<a class="btn btn-light btn-sm" href={{ path('dossier_edit', {'id' : dossier.id}) }}>Editer le dossier</a>
 			  		<a class="btn btn-danger btn-sm" href={{path('cours_delete', {'id':dossier.id})}}>❌</a>
 				</div>
@@ -37,18 +37,28 @@
 {% endmacro %}
 
 {% block body %}
+	{# Erreurs #}
 	{% for msg in app.session.flashBag.get('editTrue') %}
 	    <div class="alert alert-success">
 	        {{ msg }}
 	    </div>
 	{% endfor %}
-  {% for msg in app.session.flashBag.get('fileExist') %}
+	{% for msg in app.session.flashBag.get('fileExist') %}
 	    <div class="alert alert-primary">
 	        {{ msg }}
 	    </div>
 	{% endfor %}
+	{% if not form.vars.valid %}
+	    <div class="alert alert-primary">
+	        {{ form_errors(form.nom) }}
+	        {{ form_errors(form.classes) }}
+	        {{ form_errors(form.coursParent) }}
+	    </div>
+	{% endif %}
+
+	{# Bouton puis génération de l'arborescence #}
 	<div class="row mb-2">
-		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="setDossierParent(null)">Créer un dossier</button>
+		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal(null)">Créer un dossier</button>
 	</div>
 
 	{{ _self.genereArborescence(dossiersRacines) }}
@@ -68,7 +78,7 @@
 			{{ form_row(form.nom) }}
 			{{ form_row(form.classes) }}
 			<div class="d-none">
-				{{ form_row(form.coursParent) }}
+				{{ form_widget(form.coursParent) }}
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -82,9 +92,25 @@
 {# FIN popup #}
 
 <script>
-	/* Affichage du nom du fichier sélectionné dans le label */
-	function setDossierParent(id) {
-		document.getElementById('form_coursParent').value = id;
+	/* Prepare l'affichage de la popup */
+	function prepareModal(id) {
+		let coursParent = document.getElementById('form_coursParent')
+
+		if (coursParent.value != id) {
+			// Dossier dans lequel on insert
+			coursParent.value = id
+
+			// Reset nom + focus
+			let nom = document.getElementById('form_nom')
+			nom.value = null
+			nom.focus()
+			
+			// Reset classes
+			const classes = document.getElementsByName('form[classes][]')
+			for (let i = classes.length - 1; i >= 0; i--) {
+				classes[i].checked = false
+			}
+		}
 	}
 </script>
 {% endblock %}
