@@ -58,38 +58,38 @@ class CoursController extends AbstractController
 		// Réception du form valide -> add/update
 		if($form->isSubmitted() && $form->isValid())
 		{
-			$cours->setProf($prof);
+				$cours->setProf($prof);
 
-			$manager = $this->getDoctrine()->getManager();
-			$manager->persist($cours);
-			$manager->flush();
+				$manager = $this->getDoctrine()->getManager();
+				$manager->persist($cours);
+				$manager->flush();
 
-			// Réinitialisation du formulaire
-			unset($cours);
-			unset($form);
-			$cours = new Cours();
-			$form = $this->createFormBuilder($cours)
-	        ->add('nom')
-	        ->add('classes', EntityType::class,
-	        [
-	          'class' => Classes::class,
-	          'choice_label' => 'nomClasse',
-	          'label' => 'Classes de l\'article',
-	          'expanded' => true,
-	          'multiple' => true,
-	          'mapped' => true,
-	          'by_reference' => false,
-	        ])
-	        ->add('coursParent', EntityType::class,
-			[
-				'class' => Cours::class,
-				'choice_label' => 'id',
-				'label' => 'Dossier de cours parent',
-				'expanded' => false,
-				'multiple' => false,
-				'required' => false,
-			])
-		 	->getForm();
+				// Réinitialisation du formulaire
+				unset($cours);
+				unset($form);
+				$cours = new Cours();
+				$form = $this->createFormBuilder($cours)
+		        ->add('nom')
+		        ->add('classes', EntityType::class,
+		        [
+		          'class' => Classes::class,
+		          'choice_label' => 'nomClasse',
+		          'label' => 'Classes de l\'article',
+		          'expanded' => true,
+		          'multiple' => true,
+		          'mapped' => true,
+		          'by_reference' => false,
+		        ])
+		        ->add('coursParent', EntityType::class,
+				[
+					'class' => Cours::class,
+					'choice_label' => 'id',
+					'label' => 'Dossier de cours parent',
+					'expanded' => false,
+					'multiple' => false,
+					'required' => false,
+				])
+			 	->getForm();
 		}
 
     	/* Récupère ses dossiers de cours */

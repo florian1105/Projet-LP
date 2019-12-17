@@ -21,7 +21,7 @@ class FichiersController extends AbstractController
   /**
   * @Route("/ent/send/{cours}", name="upload")
   */
-    public function index(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
+    public function upload(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
     {
         // Contrôle des droits d'accès
         // Récupère le prof connecté
@@ -66,9 +66,18 @@ class FichiersController extends AbstractController
                     return $this->redirectToRoute('cours_gest');
                 }
             }
-
             // Emplacement unique
-            $emplacement = md5(uniqid()).'.'.$fichier->guessExtension();
+            if ($fichier->guessExtension()) {
+                $extension = $fichier->guessExtension();
+            } else {
+                $extension = $fichier->getClientOriginalExtension();
+            }
+
+            if(strlen($extension) > 0) $extension = '.'.$extension;
+
+            $emplacement = md5(uniqid()).$extension;
+
+            var_dump($emplacement);
 
             // Déplacement dans son répertorie
             $fichier->move($this->getParameter('upload_directory'), $emplacement);

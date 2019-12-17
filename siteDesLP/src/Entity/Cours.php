@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CoursRepository")
- * @UniqueEntity("nom", message="Ce nom de dossier est déjà utilisé veuillez en choisir un autre")
+ * @UniqueEntity(fields={"nom", "coursParent"}, errorPath="nom", message="Il y a déjà un dossier {{ value }} dans ce dossier.")
 
  */
 class Cours
