@@ -37,8 +37,17 @@
             <a class="dropdown-item" href={{ path('informations_classes') }}>Les licences</a>
           </div>
         </li>
+          {# Entreprises #}
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entreprise</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {# Création #}
+                  <a class="dropdown-item" href={{ path('entreprise_create') }}>Nouvelle Entreprise</a>
+              </div>
+          </li>
 
-        {# Articles #}
+
+          {# Articles #}
         {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')%}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{path('article_search') }}>Articles <span class="sr-only"></span></a>
