@@ -33,8 +33,10 @@ class ProfesseurController extends AbstractController
      */
     public function form(Professeurs $prof = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
+		$editMode = true;
 		if(!$prof)
 		{
+			$editMode = false;
 			$prof = new Professeurs();
 
 			$form = $this->createFormBuilder($prof)
@@ -142,7 +144,7 @@ class ProfesseurController extends AbstractController
 		if($form->isSubmitted() && $form->isValid())
 		{
 
-			if(!$prof)
+			if($editMode == false)
 			{
 				$hash = $encoder->encodePassword($prof, $prof->getNewPassword());
 				$prof->setPassword($hash);
@@ -150,7 +152,8 @@ class ProfesseurController extends AbstractController
 
 			$manager->persist($prof);
 			$manager->flush();
-            $this->addFlash('success_modifie','Le professeur a bien été modifié');
+			if($editMode == false)$this->addFlash('success_modifie','Le professeur a bien été modifié');
+			else$this->addFlash('success_modifie','Professeur créé avec succès');
 			return $this->redirectToRoute('prof_search');
 		}
 

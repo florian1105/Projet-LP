@@ -16,6 +16,7 @@ class HomeController extends AbstractController
       $articles = array();
       $lesArticles = $repoA->findAll(); //tous les articles
 
+
       for($i = 0; $i < sizeof($lesArticles); $i++) 
       { 
         if($lesArticles[$i]->getClasses()->count() == 0) $articles[] = $lesArticles[$i]; //Si l'article n'a pas de classe(s) on le récupère
@@ -31,7 +32,7 @@ class HomeController extends AbstractController
         
       }
 
-      //krsort($articles, "date");
+      krsort($articles);
 
         return $this->render('home/index.html.twig', [
           'articles' => $articles
