@@ -24,58 +24,98 @@ class ArticlesController extends AbstractController
   */
   public function form(Articles $article = null,Request $request, ObjectManager $em)
   {
+    $classe = null; //Classe du prof responsable
+    $nbClasses = null; //nb de classes de l'article en edit mode
+    if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") $classe = $this->getUser()->getClasseResponsable(); //Savoir si un prof responsable est connecté
+
     if(!$article)
     {
       $article = new Articles();
 
-      $form = $this->createFormBuilder($article)
-      ->add('titre')
-      ->add('description', CKEditorType::class, [
-        'config' => [
-          'uiColor' => '#e2e2e2',
-          'toolbar' => 'full',
-          'required' => 'true'
-        ]
-      ])
-      ->add('photo' , FileType::class)
-      ->add('classes', EntityType::class,
-      [
-        'class' => Classes::class,
-        'choice_label' => 'nomClasse',
-        'multiple' => 'true',
-        'expanded' => 'true',
-        'required' => 'true',
-        'mapped' => 'true'
-      ])
-      ->getForm();
+      if($classe == null)
+      {
+        $form = $this->createFormBuilder($article)
+        ->add('titre')
+        ->add('description', CKEditorType::class, [
+          'config' => [
+            'uiColor' => '#e2e2e2',
+            'toolbar' => 'full',
+            'required' => 'true'
+          ]
+        ])
+        ->add('photo' , FileType::class)
+        ->add('classes', EntityType::class,
+        [
+          'class' => Classes::class,
+          'choice_label' => 'nomClasse',
+          'multiple' => 'true',
+          'expanded' => 'true',
+          'required' => 'true',
+          'mapped' => 'true'
+        ])
+        ->getForm();
+        $form->handleRequest($request);
+      }
+      else
+      {
+        $form = $this->createFormBuilder($article)
+        ->add('titre')
+        ->add('description', CKEditorType::class, [
+          'config' => [
+            'uiColor' => '#e2e2e2',
+            'toolbar' => 'full',
+            'required' => 'true'
+          ]
+        ])
+        ->add('photo' , FileType::class)
+        ->getForm();
+        $form->handleRequest($request);
+        $article->addClass($this->getUser()->getClasseResponsable());
+      }
 
-      $form->handleRequest($request);
       $article->setDate(new \DateTime);
     }
     else
     { // Mode edit
-
-      $form = $this->createFormBuilder($article)
-      ->add('titre')
-      ->add('description', CKEditorType::class, [
-        'config' => [
-          'uiColor' => '#e2e2e2',
-          'toolbar' => 'full',
-          'required' => 'true'
-        ]
-      ])
-      ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
-      ->add('classes', EntityType::class,
-      [
-        'class' => Classes::class,
-        'choice_label' => 'nomClasse',
-        'label' => 'Classes de l\'article',
-        'expanded' => true,
-        'multiple' => true,
-        'mapped' => true, //décoché par défaut
-        'by_reference' => false,
-      ])
-      ->getForm();
+      $nbClasses = $article->getClasses()->count();
+      if($classe == null)
+      {
+        $form = $this->createFormBuilder($article)
+        ->add('titre')
+        ->add('description', CKEditorType::class, [
+          'config' => [
+            'uiColor' => '#e2e2e2',
+            'toolbar' => 'full',
+            'required' => 'true'
+          ]
+        ])
+        ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
+        ->add('classes', EntityType::class,
+        [
+          'class' => Classes::class,
+          'choice_label' => 'nomClasse',
+          'label' => 'Classes de l\'article',
+          'expanded' => true,
+          'multiple' => true,
+          'mapped' => true, //décoché par défaut
+          'by_reference' => false,
+        ])
+        ->getForm();
+      }
+      else
+      {
+        $form = $this->createFormBuilder($article)
+        ->add('titre')
+        ->add('description', CKEditorType::class, [
+          'config' => [
+            'uiColor' => '#e2e2e2',
+            'toolbar' => 'full',
+            'required' => 'true'
+          ]
+        ])
+        ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
+        ->getForm();
+      }
 
       $form->handleRequest($request);
     }
@@ -93,8 +133,9 @@ class ArticlesController extends AbstractController
     return $this->render('articles/index.html.twig', [
       'form_article' => $form->createView(),
       'editMode' => $article->getId() !== null,
-      'articles' => $article/*,
-      'classes' => $classes*/
+      'articles' => $article,
+      'classe' => $classe,
+      'nbClasses' => $nbClasses
     ]);
   }
 
@@ -103,9 +144,16 @@ class ArticlesController extends AbstractController
   */
   public function research(ArticlesRepository $repoA)
   {
+    $classe = null;
     $articles = $repoA->findAll();
+    if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") 
+    {
+      $articles = $repoA->getArticleByClasse($this->getUser()->getClasseResponsable());
+      $classe = $this->getUser()->getClasseResponsable();
+    }
     return $this->render('articles/research.html.twig', [
-      'articles' => $articles
+      'articles' => $articles,
+      'classe' => $classe
     ]);
 
   }

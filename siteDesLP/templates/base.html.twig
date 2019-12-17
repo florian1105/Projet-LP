@@ -39,7 +39,7 @@
         </li>
 
         {# Articles #}
-        {% if is_granted('ROLE_SECRETAIRE') %}
+        {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')%}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{path('article_search') }}>Articles <span class="sr-only"></span></a>
         </li>
