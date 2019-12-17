@@ -77,6 +77,10 @@ footer
   background-color: #FF5563;
 }
 
+label.custom-file-label::after{
+  content: "Ouvrir";
+}
+
 .is-error
 {
   color : red;
