@@ -26,7 +26,7 @@ class SecretaireController extends AbstractController
      */
     public function form(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
-      $editMode = true;
+        $editMode = true;
         if(!$secretaire)
         {
             $secretaire = new Secretaire();
@@ -111,7 +111,7 @@ class SecretaireController extends AbstractController
 
             $manager->persist($secretaire);
             $manager->flush();
-            if(!$editmode){$this->addFlash('success','La/Le secrétaire a bien été créée');}
+            if(!$editMode){$this->addFlash('success','La/Le secrétaire a bien été créée');}
             else{$this->addFlash('success_modifie','La/Le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
