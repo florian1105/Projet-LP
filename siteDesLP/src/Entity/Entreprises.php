@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\sRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\EntreprisesRepository")
  */
 class Entreprises  implements UserInterface
 {
@@ -32,12 +32,17 @@ class Entreprises  implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contacts")
+     */
+    private $contactEntreprise;
+
     public function getId(): ?int
     {
         return $this->id;
     }
     
-    public function getNom(): ?string
+    public function getNomEntreprise(): ?string
     {
         return $this->nom;
     }
@@ -72,6 +77,23 @@ class Entreprises  implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContactEntreprise()
+    {
+        return $this->contactEntreprise;
+    }
+
+    /**
+     * @param mixed $contactEntreprise
+     */
+    public function setContactEntreprise($contactEntreprise): void
+    {
+        $this->contactEntreprise = $contactEntreprise;
+    }
+
 
     /**
      * Returns the roles granted to the user.
