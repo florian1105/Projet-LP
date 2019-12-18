@@ -68,6 +68,13 @@
         </li>
         {% endif %}
 
+        {# Contact #}
+        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+            <li class="nav-item active">
+                <a class="nav-link my_nav_item" href={{ path('contact_search') }}>Contacts<span class="sr-only"></span></a>
+            </li>
+        {% endif %}
+
         {# Classes #}
         {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item active">
