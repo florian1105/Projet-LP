@@ -418,7 +418,8 @@ class EtudiantController extends AbstractController
      * @Route("/etudiant/importCsv",name="etu_importCsv")
      *
      */
-    public function importCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+    public function importCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    {
         $classe=$this->getUser()->getClasseResponsable();
         if(isset($_POST['sub'])){
             $file=$_FILES['importEtu'];
@@ -427,22 +428,28 @@ class EtudiantController extends AbstractController
             $csv->setHeaderOffset(0); //set the CSV header offset
             if(empty($csv->getHeader()) ||count($csv)==0) {
                 $this->addFlash('error','Erreur lors du chargement du fichier');
-                $this->addFlash('info','Veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                $this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
                 return $this->redirectToRoute("research_etudiant");
             }
-            foreach ($csv as $row) {
-                try{$this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],
-                    new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
+            foreach ($csv as $row) 
+            {
+                try
+                {
+                  $this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],
+                  new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
                 }
-                    catch (\Exception $errorException){
+                catch (\Exception $errorException)
+                {
                         $this->addFlash('error','Erreur lors du chargement du fichier');
-                        $this->addFlash('info','Veuillez respecté la syntaxe : nom, prenom, mdp, mail, date');
+                        $this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
                         return $this->redirectToRoute("research_etudiant");
                 }
             }
             $this->addFlash('success','La liste de '.count($csv).' étudiants à bien été importé');
             return $this->redirectToRoute("research_etudiant");
-        }else{
+        }
+        else
+        {
             return $this->render("index.html.twig");
         }
 

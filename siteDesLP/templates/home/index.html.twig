@@ -22,8 +22,8 @@
 				<div class="blog-post">
 					<h2 class="blog-post-title">{{ article.titre}}</h2>
 					<p class="blog-post-meta font-italic">Publié le : {{article.date | date('d/m/Y') }}</p>
-					{{ article.description | raw }}
-					<a href="#">Lire la suite</a>
+					{{ article.description|slice(0, 500)|raw }}[...]
+					<p><a href="{{ path('article_show', {'id': article.id})}}">Lire la suite ></a></p>
 
 				</div><!-- /.blog-post -->
     {% endfor %}
