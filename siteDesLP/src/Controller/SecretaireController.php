@@ -107,12 +107,12 @@ class SecretaireController extends AbstractController
             if(!$editMode){
                 $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
                 $secretaire->setPassword($hash);
+                $this->addFlash('success','La/Le secrétaire a bien été créée');
             }
+            else{$this->addFlash('success_modifie','La/Le secrétaire a bien été modifié');}
 
             $manager->persist($secretaire);
             $manager->flush();
-            if(!$editMode){$this->addFlash('success','La/Le secrétaire a bien été créée');}
-            else{$this->addFlash('success_modifie','La/Le secrétaire a bien été modifié');}
             return $this->redirectToRoute('secretaire_search');
         }
 
