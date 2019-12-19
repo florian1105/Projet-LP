@@ -8,6 +8,7 @@
 {{ form_row(form.classes,{'label': 'Classe(s) concernée(s) par le dossier'}) }}
 
 <button type="submit" class="btn btn-success mb-5">Modifier</button>
+<a class="btn btn-light mb-5" href={{path('cours_gest')}} role="button">Annuler</a>
 {{form_end(form)}}
 
 {% endblock %}
