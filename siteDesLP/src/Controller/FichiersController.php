@@ -5,10 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 
 use App\Entity\Cours;
@@ -32,6 +33,7 @@ class FichiersController extends AbstractController
 
         if($prof !== $createur)
         {
+            // TODO Message d'erreur
             $flashMsg = 'Seul le professeur '.$createur->getNomProfesseur().' '.$createur->getPrenomProfesseur().' peut inserer des fichiers dans ce dossier.';
             return $this->redirectToRoute('connexion');
         }
@@ -47,49 +49,51 @@ class FichiersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             // Création du fichier local UploadedFile
-            $fichier = $form['emplacement']->getData();
+            $userFiles = $form['formFichiers']->getData();
 
-            // Récuperation du nom du fichier original
-            $nomfichier = $fichier->getClientOriginalName();
+            foreach ($userFiles as $fichier) {
 
-            /* Verifie que le dossier ne contient
-               pas deja un fichier du meme nom */
-            $fichiers = $cours->getFichiers();
-            foreach ($fichiers as $file) {
-                if($file->getNom() == $nomfichier)
-                {
-                    $this->addFlash('fileExist', "Ce fichier existe déjà dans le dossier");
+                // Récuperation du nom du fichier original
+                $nomfichier = $fichier->getClientOriginalName();
 
-                    // Retourne à la page précedente
-                    //$referer = $request->headers->get('referer');
-                    //return $this->redirect($referer);
-                    return $this->redirectToRoute('cours_gest');
+                /* Verifie que le dossier ne contient
+                   pas deja un fichier du même nom */
+                $fichiers = $cours->getFichiers();
+                foreach ($fichiers as $file) {
+                    if($file->getNom() == $nomfichier)
+                    {
+                        $this->addFlash('fileExist', $nomfichier." existe déjà dans le dossier");
+
+                        // Retourne sur la page de gestion des cours
+                        return $this->redirectToRoute('cours_gest');
+                    }
                 }
+
+                // Emplacement unique
+                if ($fichier->guessExtension()) {
+                    $extension = $fichier->guessExtension();
+                } else {
+                    $extension = $fichier->getClientOriginalExtension();
+                }
+
+                if(strlen($extension) > 0) $extension = '.'.$extension;
+
+                $emplacement = md5(uniqid()).$extension;
+
+                // Déplacement dans son répertorie
+                $fichier->move($this->getParameter('upload_directory'), $emplacement);
+
+                // Màj des données de la bd
+                $upload->setEmplacement($emplacement);
+                $upload->setNom($nomfichier);
+                $upload->setVisible(true);
+                $upload->setCours($cours);
+
+                $em->persist($upload);
+                $em->flush();
+
+                $upload = new Fichiers();
             }
-            // Emplacement unique
-            if ($fichier->guessExtension()) {
-                $extension = $fichier->guessExtension();
-            } else {
-                $extension = $fichier->getClientOriginalExtension();
-            }
-
-            if(strlen($extension) > 0) $extension = '.'.$extension;
-
-            $emplacement = md5(uniqid()).$extension;
-
-            var_dump($emplacement);
-
-            // Déplacement dans son répertorie
-            $fichier->move($this->getParameter('upload_directory'), $emplacement);
-
-            // Màj des données de la bd
-            $upload->setEmplacement($emplacement);
-            $upload->setNom($nomfichier);
-            $upload->setVisible(true);
-            $upload->setCours($cours);
-
-            $em->persist($upload);
-            $em->flush();
 
             return $this->redirectToRoute('cours_gest');
         }
@@ -165,19 +169,91 @@ class FichiersController extends AbstractController
     $cheminFichier = $cheminFichier.$nomfichier;
 
     // Test si le fichier existe
-    if($fs->exists($cheminFichier))
-    // Renvoie le fichier pour le téléchargement
-    return new BinaryFileResponse($cheminFichier);
+    if($fs->exists($cheminFichier)){
+        /* Si c'est un pdf on essaie de l'ouvrir
+           dans le navigateur directement */
+        if (strtoupper(pathinfo($nomfichier,PATHINFO_EXTENSION))=="PDF"){
+            $resType  = ResponseHeaderBag::DISPOSITION_INLINE;
+        } else {
+            $resType = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
+        }
 
+        // Récupère le nom original
+        $nomDL = $fichier->getNom();
+
+        // Renvoie le fichier pour le téléchargement
+        return $this->file($cheminFichier, $nomDL, $resType);
+    }
     // Sinon le fichier n'existe pas
 
-    // Message d'erreur (a flasher)
+    // Message d'erreur (a flasher) a templater
     $msg = "Le fichier demandé n'existe plus";
 
     // Retourne à la page précedente
     $referer = $req->headers->get('referer');
     return $this->redirect($referer);
   }
+
+  /**
+  * @Route("/ent/archive/{id}", name="dossier_dl")
+  */
+  public function makeZip(Cours $cours, Request $req, Filesystem $fs)
+  {
+    $files = [];
+    $em = $this->getDoctrine()->getManager();
+
+    $fichiers = $cours->getFichiers();
+
+    foreach ($fichiers as $fichier) {
+        array_push($files, $this->getParameter('upload_directory') . $fichier->getEmplacement());
+    }
+
+    // Create new Zip Archive.
+    $zip = new \ZipArchive();
+
+    // The name of the Zip documents.
+    $zipName = $cours->getNom() . '.zip';
+
+    $zip->open($zipName, \ZipArchive::CREATE);
+    foreach ($files as $file) {
+        $zip->addFromString(basename($file),  file_get_contents($file));
+    }
+
+    if (empty($files))
+        $zip->addFromString('vide', '');
+
+    $zip->close();
+
+    // Si le fichier zip n'as pas été généré
+    // Redirect to error
+    if (!file_exists($zipName))
+        echo "<script>window.close();</script>";
+
+    $response = new Response(file_get_contents($zipName));
+    $response->headers->set('Content-Type', 'application/zip');
+    $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+    $response->headers->set('Content-length', filesize($zipName));
+
+    @unlink($zipName);
+
+    return $response;
+  }
+
+    /**
+     * @Route("/ent/fichier/{id}/visibilite", name="fichier_visi")
+     */
+    public function changeVisibilite(Fichiers $fichier, ObjectManager $em)
+    {
+        if ($fichier->getVisible()) 
+            $fichier->setVisible(false);
+        else
+            $fichier->setVisible(true);
+
+        $em->persist($fichier);
+        $em->flush();
+
+        return $this->redirectToRoute('cours_gest');
+    }
 }
 
   /* Verifie par sécurité le nom du ficheir transmit */

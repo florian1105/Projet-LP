@@ -11,7 +11,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 
@@ -19,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ArticlesController extends AbstractController
 {
   /**
+  * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/article/add", name="article_add")
   * @Route("/article/edit/{id}", name="article_edit")
   */
@@ -43,7 +46,6 @@ class ArticlesController extends AbstractController
             'required' => 'true'
           ]
         ])
-        ->add('photo' , FileType::class)
         ->add('classes', EntityType::class,
         [
           'class' => Classes::class,
@@ -52,6 +54,9 @@ class ArticlesController extends AbstractController
           'expanded' => 'true',
           'required' => 'true',
           'mapped' => 'true'
+        ])
+        ->add('important', CheckboxType::class, [
+          'required' => false
         ])
         ->getForm();
         $form->handleRequest($request);
@@ -67,7 +72,9 @@ class ArticlesController extends AbstractController
             'required' => 'true'
           ]
         ])
-        ->add('photo' , FileType::class)
+        ->add('important', CheckboxType::class, [
+          'required' => false
+        ])
         ->getForm();
         $form->handleRequest($request);
         $article->addClass($this->getUser()->getClasseResponsable());
@@ -89,7 +96,6 @@ class ArticlesController extends AbstractController
             'required' => 'true'
           ]
         ])
-        ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
         ->add('classes', EntityType::class,
         [
           'class' => Classes::class,
@@ -99,6 +105,9 @@ class ArticlesController extends AbstractController
           'multiple' => true,
           'mapped' => true, //décoché par défaut
           'by_reference' => false,
+        ])
+        ->add('important', CheckboxType::class, [
+          'required' => false
         ])
         ->getForm();
       }
@@ -113,7 +122,9 @@ class ArticlesController extends AbstractController
             'required' => 'true'
           ]
         ])
-        ->add('photo' , FileType::class, array('data_class' => null,'required' => false))
+        ->add('important', CheckboxType::class, [
+          'required' => false
+        ])
         ->getForm();
       }
 
@@ -125,7 +136,7 @@ class ArticlesController extends AbstractController
     {
       $em->persist($article);
       $em->flush();
-      $this->addFlash('success_modifie','L\'article a bien été mis à jour');
+      $this->addFlash('success_modifie','L\'article a bien été ajouté / mis à jour');
       return $this->redirectToRoute('article_search');
     }
 
@@ -140,6 +151,7 @@ class ArticlesController extends AbstractController
   }
 
   /**
+  * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/articles", name="article_search")
   */
   public function research(ArticlesRepository $repoA)
@@ -159,6 +171,7 @@ class ArticlesController extends AbstractController
   }
 
   /**
+  * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/article/remove/{id}", name="article_delete")
   */
   public function delete(Articles $article, Request $request, ObjectManager $em)
@@ -191,5 +204,15 @@ class ArticlesController extends AbstractController
         'message' => $message
       ]);
     }
+  }
+
+  /**
+  * @Route("/article/{id}", name="article_show")
+  */
+  public function show(Articles $article)
+  {
+      return $this->render('articles/show.html.twig', [
+      'article' => $article
+    ]);
   }
 }

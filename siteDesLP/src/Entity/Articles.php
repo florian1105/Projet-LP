@@ -36,14 +36,14 @@ class Articles
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photo;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="articles")
      */
     private $classes;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $important;
 
     public function __construct()
     {
@@ -91,18 +91,6 @@ class Articles
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(?string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Classes[]
      */
@@ -125,6 +113,18 @@ class Articles
         if ($this->classes->contains($class)) {
             $this->classes->removeElement($class);
         }
+
+        return $this;
+    }
+
+    public function getImportant(): ?bool
+    {
+        return $this->important;
+    }
+
+    public function setImportant(bool $important): self
+    {
+        $this->important = $important;
 
         return $this;
     }

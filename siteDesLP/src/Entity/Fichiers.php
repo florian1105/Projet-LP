@@ -25,7 +25,7 @@ class Fichiers
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\File(maxSize="20M",maxSizeMessage ="Ce fichier est trop lourd veuillez en upload en plus petit", mimeTypes = {"application/*","fonts/*", "text/*"}, mimeTypesMessage = "Impossible d'upload de format de fichier, veuillez upload un fichier texte ou code")
+     * @Assert\File(maxSize="20M",maxSizeMessage ="Ce fichier est trop volumineux. Veuillez en envoyer un plus petit.", mimeTypes = {"application/*","fonts/*", "text/*"}, mimeTypesMessage = "Impossible d'envoyer ce format de fichier. Veuillez envoyer un fichier texte ou code.")
      */
     private $emplacement;
 
@@ -88,6 +88,20 @@ class Fichiers
     public function setCours(?Cours $cours): self
     {
         $this->cours = $cours;
+
+        return $this;
+    }
+
+    // Gestions des fichiers du formulaire
+    private $formFichiers;
+    public function getFormFichiers(): ?array
+    {
+        return $this->formFichiers;
+    }
+
+    public function setFormFichiers(?array $formFichiers): ?self
+    {
+        $this->formFichiers = $formFichiers;
 
         return $this;
     }

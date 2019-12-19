@@ -9,7 +9,9 @@
         {{encore_entry_link_tags('app')}}
 
         {% endblock %}
-
+        {% block javascript %}
+          {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </head>
     <body>
 

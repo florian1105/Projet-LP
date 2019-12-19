@@ -119,7 +119,7 @@ class CoursController extends AbstractController
     	/* Récuperation de l'étudiant connecté */
 		$etu = $this->getUser();
 
-		//$etu->getRoles()
+		/* Verification que ce soit un etudiant */
 		if(! $etu instanceof Etudiants)
 			return $this->redirectToRoute('connexion');
 
@@ -146,36 +146,39 @@ class CoursController extends AbstractController
 			}
 
 			if(!$skip) {
-				// Copie des enfants
-				$listeEnfants = $dossier->getCoursEnfants();
+	// Copie des enfants
+	$listeEnfants = $dossier->getCoursEnfants();
+	/*$listeEnfants = new Cours();
+	foreach ($dossier->getCoursEnfants() as $enfant) {
+		$listeEnfants->addCoursEnfant($enfant);
+	}
 
-				//Vidage des enfants
-				/*foreach ($dossier->getCoursEnfants() as $enfant) {
-					$dossier->removeCoursEnfant($enfant);
-				}*/
 
-				foreach ($listeEnfants as $enfant) {
-					foreach ($cours as $dir) {
-						// Si enfant est dans liste d origine
-						if($enfant->getId() == $dir->getId()){
-							// Enleve enfant de la liste finale si il a deja ete ajouté
-							$id = array_search($enfant, $dossiers);
-							if($id !== false)
-								array_splice($dossiers, $id);
+	//Vidage des enfants
+	foreach ($dossier->getCoursEnfants() as $enfant) {
+		$dossier->removeCoursEnfant($enfant);
+	}*/
 
-							// Le déplace dans son parent
-							$dossier->addCoursEnfant($enfant);
-							//$parentID = array_search($dossier, $dossiers);
-							//$dossiers[$parentID]->addCoursEnfant($enfant);
+	foreach ($listeEnfants as $enfant){
+		foreach ($cours as $dir) {
+			// Si enfant est dans liste d'origine
+			if($enfant->getId() == $dir->getId()){
+				// Enlève enfant de la liste finale si il a déjà été ajouté
+				$id = array_search($enfant, $dossiers);
+				if($id !== false)
+					array_splice($dossiers, $id);
 
-							// Supprime de la liste de cours
-							$dir = null;
-						}
-					}
-				}
+				// Déplace enfant dans son parent
+				$dossier->addCoursEnfant($enfant);
 
-				//Ajout
-				$dossiers[] = $dossier;
+				// Supprime de la liste de cours
+				$dir = null;
+			}
+		}
+	}
+
+	//Ajout
+	$dossiers[] = $dossier;
 			}
 		}
 

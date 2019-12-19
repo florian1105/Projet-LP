@@ -1,24 +1,37 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	{% block stylesheets %}
+		{{ parent() }}
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+	{% endblock %}
+{% endblock %}
+
 {% macro genereArborescence(dossiers) %}
-	{% for dossier in dossiers %}
-		<div class="alert alert-secondary" role="alert">
-			> {{dossier.nom}}
-
+{% for dossier in dossiers %}
+<ul>
+	<li data-jstree='{"opened":true}'>
+		<a href={{ path('dossier_dl', {'id' : dossier.id}) }}>{{dossier.nom}}.zip</a>
+		<ul>
 			{% for fichier in dossier.fichiers %}
-				{% if fichier.visible %}
-					<div class="alert alert-light" role="alert">
-				  		<li><a href="{{path('fichier_dl', {'id':fichier.id})}}">{{ fichier.nom }}</a></li>
-						
-					</div>
-				{% endif %}
+			{% if fichier.visible %}
+		  		<li data-jstree='{"icon":"none"}'>
+		  			<a href="{{path('fichier_dl', {'id':fichier.id})}}" target="_blank">{{ fichier.nom }}</a>
+		  		</li>
+			{% endif %}
 			{% endfor %}
-
-			{{ _self.genereArborescence(dossier.coursEnfants) }}
-		</div>
-	{% endfor %}
+		</ul>
+		{{ _self.genereArborescence(dossier.coursEnfants) }}
+	</li>
+</ul>
+{% endfor %}
 {% endmacro %}
 
 {% block body %}
-	{{ _self.genereArborescence(data) }}
+	<div id="arborescence">
+		{{ _self.genereArborescence(data) }}
+	</div>
+	{% block javascripts %}
+		{{ encore_entry_script_tags('cours') }}
+	{% endblock %}
 {% endblock %}

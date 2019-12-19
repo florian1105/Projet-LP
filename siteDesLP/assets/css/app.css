@@ -84,7 +84,11 @@ footer
 }
 
 label.custom-file-label::after{
-  content: "Ouvrir";
+  content: "Ouvrir" !important;
+}
+
+input.custom-file-input::after{
+  content: "Chercher" !important;
 }
 
 .is-error
