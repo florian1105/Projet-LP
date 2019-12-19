@@ -37,7 +37,12 @@ class EntreprisesController extends AbstractController
             $form = $this->createFormBuilder($entreprise)
                 ->add('nom')
                 ->add('adresseMail')
-                ->add('password')
+                ->add('new_password', PasswordType::class, [
+                    'attr' => ['maxlength' => '64']
+                ])
+                 ->add('confirm_password', PasswordType::class, [
+                     'attr' => ['maxlength' => '64'],
+                 ])
                 ->getForm();
 
             $form->handleRequest($request);
@@ -45,37 +50,30 @@ class EntreprisesController extends AbstractController
 
             $nom = strtoupper($form['nom']->getData());
             $adresseMail = strtolower($form['adresseMail']->getData());
-            $mdp = strtolower($form['password']->getData());
             $entreprise->setNom($nom);
             $entreprise->setAdresseMail($adresseMail);
-            $entreprise->setPassword($mdp);
+;
 
 
         }else {
             $form = $this->createFormBuilder($entreprise)
                 ->add('nom')
                 ->add('adresseMail')
-                ->add('password')
                 ->getForm();
             $form->handleRequest($request);
             $adresseMail = strtolower($form['adresseMail']->getData());
-            $mdp = ucfirst(strtolower($form['password']->getData()));
             $nom = strtoupper($form['nom']->getData());
 
             $entreprise->setAdresseMail($adresseMail);
             $entreprise->setNom($nom);
-            $entreprise->setPassword($mdp);
-            return $this->render('entreprises/index.html.twig', [
-                'form_create_entreprise' => $form->createView(),
-                'editMode' => $entreprise->getId() !== null,
-                'entreprise' => $entreprise,
-            ]);
+
+
 
         }
 
         if($form->isSubmitted() && $form->isValid()) {
             if ($editMode == false) {
-                $hash = $encoder->encodePassword($entreprise, $entreprise->getPassword());
+                $hash = $encoder->encodePassword($entreprise, $entreprise->getNew_password());
                 $entreprise->setPassword($hash);
                 $this->addFlash('success', 'l\'entreprise a bien été créé');
             } else {
@@ -89,7 +87,7 @@ class EntreprisesController extends AbstractController
         }
         return $this->render('entreprises/index.html.twig', [
             'form_create_entreprise' => $form->createView(),
-            'editMode' => false,
+            'editMode' => $entreprise->getId() !== null,
             'entreprise' => $entreprise,
         ]);
     }
@@ -112,7 +110,7 @@ class EntreprisesController extends AbstractController
             return $this->redirectToRoute('research_entreprise');
         } else {
             //Si le formulaire n'a pas été soumis alors on l'affiche
-            $title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer cette entreprise ?';
 
             $message = 'Entreprise : '.$ent->getNom() ;
 
