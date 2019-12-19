@@ -14,12 +14,11 @@
 
 
     {% if editMode == false %}
-        {{ form_row(form_create_entreprise.password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe de l'entreprise" }}) }}
-        {{ form_row(form_create_entreprise.password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe de l'étudiant" }}) }}
+        {{ form_row(form_create_entreprise.new_password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe de l'entreprise" }}) }}
+        {{ form_row(form_create_entreprise.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe de l'entreprise" }}) }}
     {% endif %}
 
     {{ form_row(form_create_entreprise.adresseMail, {'attr' : {'placeholder' : "Mail de l'entreprise" }}) }}
-    {{ form_row(form_create_entreprise.password, {'attr' : {'placeholder' : "mot de passe de l'entreprise" }}) }}
 
 
     <button type="submit" class="btn btn-success">

@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EntreprisesRepository")
+ * @UniqueEntity("nom",message="ce nom est déjà utilisé")
  */
 class Entreprises  implements UserInterface
 {
@@ -19,11 +24,21 @@ class Entreprises  implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom")
+     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
+     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
+     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
+     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $adresseMail;
 
@@ -31,6 +46,18 @@ class Entreprises  implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     */
+    public $new_password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="new_password", message="Vous n'avez pas tapé le même mot de passe !")
+     */
+    public $confirm_password;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Contacts")
@@ -42,7 +69,7 @@ class Entreprises  implements UserInterface
         return $this->id;
     }
     
-    public function getNomEntreprise(): ?string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
@@ -66,6 +93,10 @@ class Entreprises  implements UserInterface
         return $this;
     }
 
+    public function getNew_password(){
+        return $this->new_password;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -74,7 +105,8 @@ class Entreprises  implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
+        $this->new_password = "XXXXXX";
+        $this->confirm_password = "XXXXXX";
         return $this;
     }
 
