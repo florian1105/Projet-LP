@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -191,6 +192,51 @@ class FichiersController extends AbstractController
     // Retourne à la page précedente
     $referer = $req->headers->get('referer');
     return $this->redirect($referer);
+  }
+
+  /**
+  * @Route("/ent/archive/{id}", name="dossier_dl")
+  */
+  public function makeZip(Cours $cours, Request $req, Filesystem $fs)
+  {
+    $files = [];
+    $em = $this->getDoctrine()->getManager();
+
+    $fichiers = $cours->getFichiers();
+
+    foreach ($fichiers as $fichier) {
+        array_push($files, $this->getParameter('upload_directory') . $fichier->getEmplacement());
+    }
+
+    // Create new Zip Archive.
+    $zip = new \ZipArchive();
+
+    // The name of the Zip documents.
+    $zipName = $cours->getNom() . '.zip';
+
+    $zip->open($zipName, \ZipArchive::CREATE);
+    foreach ($files as $file) {
+        $zip->addFromString(basename($file),  file_get_contents($file));
+    }
+
+    if (empty($files))
+        $zip->addFromString('vide', '');
+
+    $zip->close();
+
+    // Si le fichier zip n'as pas été généré
+    // Redirect to error
+    if (!file_exists($zipName))
+        echo "<script>window.close();</script>";
+
+    $response = new Response(file_get_contents($zipName));
+    $response->headers->set('Content-Type', 'application/zip');
+    $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+    $response->headers->set('Content-length', filesize($zipName));
+
+    @unlink($zipName);
+
+    return $response;
   }
 }
 

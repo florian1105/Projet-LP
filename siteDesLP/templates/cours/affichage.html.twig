@@ -10,7 +10,8 @@
 {% macro genereArborescence(dossiers) %}
 {% for dossier in dossiers %}
 <ul>
-	<li data-jstree='{"opened":true}'>{{dossier.nom}}
+	<li data-jstree='{"opened":true}'>
+		<a href={{ path('dossier_dl', {'id' : dossier.id}) }}>{{dossier.nom}}.zip</a>
 		<ul>
 			{% for fichier in dossier.fichiers %}
 			{% if fichier.visible %}
