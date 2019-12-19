@@ -18,10 +18,17 @@
 				<div class="alert alert-light">
 			  	<li>
 			  		<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
+			  		<span>
+			  		{% if fichier.visible %}
+			  			Visible
+			  		{% else %}
+			  			Caché
+			  		{% endif %}
+			  		</span>
 			  		<div class="btn-group" role="group">
 						<button id="{{ dossier.id }}" type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
 						<div class="dropdown-menu" aria-labelledby="{{ dossier.id }}">
-						<a class="dropdown-item disabled" href="#">Changer la visibilité</a>
+						<a class="dropdown-item" href={{ path('fichier_visi', {'id' : fichier.id}) }}>Changer la visibilité</a>
 						<a class="dropdown-item disabled" href="#">Renommer</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}><small>❌</small> Supprimer</a>

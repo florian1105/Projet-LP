@@ -238,6 +238,22 @@ class FichiersController extends AbstractController
 
     return $response;
   }
+
+    /**
+     * @Route("/ent/fichier/{id}/visibilite", name="fichier_visi")
+     */
+    public function changeVisibilite(Fichiers $fichier, ObjectManager $em)
+    {
+        if ($fichier->getVisible()) 
+            $fichier->setVisible(false);
+        else
+            $fichier->setVisible(true);
+
+        $em->persist($fichier);
+        $em->flush();
+
+        return $this->redirectToRoute('cours_gest');
+    }
 }
 
   /* Verifie par sécurité le nom du ficheir transmit */
