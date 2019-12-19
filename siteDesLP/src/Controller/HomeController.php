@@ -14,6 +14,7 @@ class HomeController extends AbstractController
     public function index(ArticlesRepository $repoA)
     {
       $articles = array();
+      $articlesImportant = array(); //les articles importants
       $lesArticles = $repoA->findAll(); //tous les articles
 
 
@@ -31,10 +32,23 @@ class HomeController extends AbstractController
         }
         
       }
-
       krsort($articles);
 
-        return $this->render('home/index.html.twig', [
+      $nbArticle = sizeof($articles);
+      for($i = 0;$i < $nbArticle;$i++)
+      {
+        if($articles[$i]->getImportant() == true) 
+        {
+          
+          $articlesImportant[$i] = $articles[$i];
+          unset($articles[$i]);
+        }
+      }
+      krsort($articlesImportant);
+      $articles = array_merge($articlesImportant, $articles);
+
+
+      return $this->render('home/index.html.twig', [
           'articles' => $articles
         ]);
     }

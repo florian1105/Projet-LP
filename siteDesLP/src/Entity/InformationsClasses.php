@@ -23,7 +23,6 @@ class InformationsClasses
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
      * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $cheminPlaquette;

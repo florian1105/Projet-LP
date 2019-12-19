@@ -15,10 +15,9 @@
   {{form_start(form_article) }}
   {{ form_row(form_article.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'article" }}) }}
   {{ form_row(form_article.description, {'label': 'Contenu','attr' : {'placeholder' : "Contenu de l'article" }}) }}
-  {{ form_row(form_article.photo,{'label': 'Photo'}) }}
 
   {% if classe == null %}
-    {{ form_row(form_article.classes,{'label': 'Classe(s) concernée(s) par l\'article','attr' : {'placeholder' : "Classes pour lesquelles l'article est visible" },'attr' : {'name' : "Classes pour lesquelles l'article est visible" }}) }}
+    {{ form_row(form_article.classes,{'label': 'Classe(s) concernée(s) par l\'article'}) }}
     <div class="form-check">
       <label class="form-check-label">
         <input class="form-check-input" name="article_public" type="checkbox" value="">
@@ -26,6 +25,8 @@
       </label>
     </div>
   {% endif %}
+  <br>
+  {{ form_row(form_article.important,{'label': 'IMPORTANT'}) }}
       <br>
     <button type="submit" class="btn btn-success mb-5">
   	    {% if editMode %}

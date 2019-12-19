@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.titre}}{% endblock %}
+
+{% block body %}
+
+	<main role="main" class="container">
+		<div class="row">
+			<div class="col-md-8 blog-main">
+				<h3 class="pb-3 mb-4 font-italic border-bottom">{{ article.titre}}</h3>
+                <p class="blog-post-meta font-italic">Publié le : {{article.date | date('d/m/Y') }}</p>
+                <br>
+				<p>{{ article.description|raw}}</p>
+
+			</div><!-- /.blog-main -->
+
+		</div><!-- /.row -->
+	</main><!-- /.container -->
+
+{% endblock %}
