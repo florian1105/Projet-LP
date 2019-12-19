@@ -8,6 +8,8 @@ security:
             algorithm: 'auto'
         App\Entity\Admin:
             algorithm: 'auto'
+        App\Entity\Entreprises:
+            algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:
             algorithm: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -44,6 +46,11 @@ security:
                 class: App\Entity\Secretaire
                 property: mailAcademique
 
+        in_database_entreprise_mail:
+            entity:
+                class: App\Entity\Entreprises
+                property: adresseMail
+
         in_database_secretaire_login:
             entity:
                 class: App\Entity\Secretaire
@@ -76,6 +83,7 @@ security:
         ROLE_SECRETAIRE: ROLE_USER
         ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
         ROLE_ADMIN: ROLE_USER
+        ROLE_ENTREPRISE : ROLE_USER
 
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -88,3 +96,4 @@ security:
         - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
+        - { path: ^/entreprise_account, role: ROLE_ENTREPRISE }

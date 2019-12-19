@@ -65,11 +65,10 @@ class EntreprisesController extends AbstractController
             $entreprise->setAdresseMail($adresseMail);
             $entreprise->setNom($nom);
             $entreprise->setPassword($mdp);
-
             return $this->render('entreprises/index.html.twig', [
                 'form_create_entreprise' => $form->createView(),
                 'editMode' => $entreprise->getId() !== null,
-                'etudiant' => $entreprise,
+                'entreprise' => $entreprise,
             ]);
 
         }
@@ -78,17 +77,70 @@ class EntreprisesController extends AbstractController
             if ($editMode == false) {
                 $hash = $encoder->encodePassword($entreprise, $entreprise->getPassword());
                 $entreprise->setPassword($hash);
-                $this->addFlash('success', 'l\'étudiant a bien été créé');
+                $this->addFlash('success', 'l\'entreprise a bien été créé');
             } else {
                 $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
             }
             $em->persist($entreprise);
             $em->flush();
 
-
             return $this->redirectToRoute('research_entreprise');
+
         }
+        return $this->render('entreprises/index.html.twig', [
+            'form_create_entreprise' => $form->createView(),
+            'editMode' => false,
+            'entreprise' => $entreprise,
+        ]);
     }
+
+    /**
+     * @Route("entreprises/entreprise_delete/{id}", name="entreprise_delete")
+     */
+    public function deleteEntreprise(Entreprises $ent, Request $req)
+    {
+        //Si le formulaire à été soumis
+        if($req->isMethod('POST')){
+            // En cas de validation on supprime et on redirige
+            if($req->request->has('oui')) {
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($ent);
+                $em->flush();
+            }
+            // Sinon on redirige simplement
+            $this->addFlash('delete','entreprise supprimé');
+            return $this->redirectToRoute('research_entreprise');
+        } else {
+            //Si le formulaire n'a pas été soumis alors on l'affiche
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
+
+            $message = 'Entreprise : '.$ent->getNom() ;
+
+
+            return $this->render('confirmation.html.twig', [
+                'titre' => $title,
+                'message' => $message
+            ]);
+        }
+
+    }
+
+
+    /**
+     * @Route("entreprises/entreprise_research", name="research_entreprise")
+     */
+    public function researchentreprise(EntreprisesRepository $repoE)
+    {
+        //if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
+        //{
+            $entreprises = $repoE->findAll();
+            return $this->render('entreprises/research.html.twig', [
+                'entreprises' => $entreprises,
+            ]);
+       // }else $this->redirectToRoute('entreprise_create');
+
+    }
+
 
 
 }

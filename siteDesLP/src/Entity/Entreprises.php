@@ -42,7 +42,7 @@ class Entreprises  implements UserInterface
         return $this->id;
     }
     
-    public function getNomEntreprise(): ?string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
