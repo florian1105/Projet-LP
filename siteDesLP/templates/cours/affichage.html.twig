@@ -31,7 +31,9 @@
 	<div id="arborescence">
 		{{ _self.genereArborescence(data) }}
 	</div>
-	{% block javascripts %}
-		{{ encore_entry_script_tags('cours') }}
-	{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('cours') }}
 {% endblock %}
