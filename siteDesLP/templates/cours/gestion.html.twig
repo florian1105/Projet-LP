@@ -17,7 +17,7 @@
 			{% for fichier in dossier.fichiers %}
 				<div class="alert alert-light">
 			  	<li>
-			  		<a href="{{path('fichier_dl', {'id':fichier.id})}}">{{ fichier.nom }}</a>
+			  		<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
 			  		<div class="btn-group" role="group">
 						<button id="{{ dossier.id }}" type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
 						<div class="dropdown-menu" aria-labelledby="{{ dossier.id }}">

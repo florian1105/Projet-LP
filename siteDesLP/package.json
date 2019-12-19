@@ -15,5 +15,9 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {}
+    "dependencies": {
+        "jquery": "^3.4.1",
+        "jstree": "^3.3.8",
+        "npm": "^6.13.4"
+    }
 }
