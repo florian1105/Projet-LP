@@ -33,7 +33,7 @@ class   ContactsController extends AbstractController
                 ->add('telephone')
                 ->add('entreprise', EntityType::class, [
                     'class' => Entreprises::class,
-                    'choice_label' => 'Nom Entreprise',
+                    'choice_label' => 'Nom',
                 ])
                 ->getForm();
 
@@ -52,7 +52,7 @@ class   ContactsController extends AbstractController
                 ->add('telephone')
                 ->add('entreprise', EntityType::class, [
                     'class' => Entreprises::class,
-                    'choice_label' => 'Nom Entreprise',
+                    'choice_label' => 'Nom',
                 ])
                 ->getForm();
 
