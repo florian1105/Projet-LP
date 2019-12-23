@@ -4,6 +4,7 @@
 {
   background-color: #FF5563 !important;
   margin-bottom : 3%;
+  font-size: 130%;
 
 }
 .my_nav_item
@@ -11,12 +12,55 @@
   color: white !important;
 }
 
+.navbar-light .navbar-toggler
+{
+  border-color: white;
+}
+
+.navbar-light .navbar-toggler-icon
+{
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
 .table, form
 {
   margin-top: 3%;
 }
 
-.specialContainer{
+.title
+{
+  text-align: center;
+  margin-bottom: 3%; 
+  letter-spacing: 24px;
+}
+
+#carouselExampleCaptions
+{
+  margin-bottom: 3%;
+}
+
+.container
+{
+  margin-right: 0%;
+  margin-left: 0%;
+}
+
+.actu
+{
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+
+
+.actu h3
+{
+  text-align: center;
+  margin-bottom: 3%;
+}
+
+.specialContainer
+{
   width:100%;
   padding-left:10%;
   padding-right:10%;
@@ -25,9 +69,19 @@
 .blog-post
 {
   margin-bottom: 7%;
-  padding: 7%;
-  border: 3px solid black;
+  padding: 5%;
+  border: 3px solid #FF5563;
   border-radius: 15px;
+}
+
+.blog-title
+{
+  color: black;
+}
+
+.connexion
+{
+  text-align: center;
 }
 
 .bg-image-home
@@ -56,6 +110,7 @@
 {
   background-color: transparent;
   border-color: transparent;
+  font-size: 130%;
 }
 
 footer

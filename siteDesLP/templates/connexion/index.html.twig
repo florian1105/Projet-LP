@@ -3,7 +3,7 @@
 {% block title %}Connexion - site des LP{% endblock %}
 
 {% block body %}
-<h1>Connexion</h1>
+<h1 class="connexion"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</h1>
 <br>
 
 {% if error %}
@@ -33,7 +33,7 @@
                             </div>
                         {% endfor %}
 
-<form action=" {{ path('connexion') }}" method="post">
+<form action=" {{ path('connexion') }}" method="post" class="connexion">
     <div class="form-group">
         <input placeholder="Identifiant" type="text" name="_username" class="form-control" required>
     </div>
@@ -43,6 +43,7 @@
     <div class="form-group">
         <button type="submit" class="btn btn-success">Connexion</button>
     </div>
+    <a href="{{ path('reset_password_request') }}" class="edit-btn btn btn-danger">Mot de passe oublié</a>
 </form>
-<a href="{{ path('reset_password_request') }}" class="edit-btn btn btn-danger">Mot de passe oublié</a>
+
 {% endblock %}
