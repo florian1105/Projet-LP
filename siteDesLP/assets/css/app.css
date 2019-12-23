@@ -51,7 +51,19 @@
   margin-right: 15%;
 }
 
+.info-globales
+{
+  margin-left: 25%;
+  margin-right: 25%;
+}
 
+.black-line
+{
+  height: 1px;
+  background-color: black;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
 
 .actu h3
 {
@@ -110,7 +122,7 @@
 {
   background-color: transparent;
   border-color: transparent;
-  font-size: 130%;
+  font-size: 90%;
 }
 
 footer

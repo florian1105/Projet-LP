@@ -4,16 +4,11 @@
 
 {% block body %}
 
-	<main role="main" class="container">
-		<div class="row">
-			<div class="col-md-8 blog-main">
-				<h3 class="pb-3 mb-4 font-italic border-bottom">Informations sur l'IUT de Montpellier</h3>
-
-				{{ info.description|raw}}
-
-			</div><!-- /.blog-main -->
-
-		</div><!-- /.row -->
-	</main><!-- /.container -->
+	<div class="info-globales">
+		<div class="col">
+			<h3 class="pb-3 mb-4 font-italic border-bottom">Informations sur l'IUT de Montpellier</h3>
+			{{ info.description|raw}}
+		</div>
+	</div>
 
 {% endblock %}

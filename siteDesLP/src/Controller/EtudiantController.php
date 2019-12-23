@@ -285,7 +285,7 @@ class EtudiantController extends AbstractController
       $em->flush();
       }
       // Sinon on redirige simplement
-        $this->addFlash('delete','Etudiant supprimé');
+        $this->addFlash('delete','Étudiant supprimé');
       return $this->redirectToRoute('research_etudiant');
     } else {
       //Si le formulaire n'a pas été soumis alors on l'affiche
@@ -445,7 +445,7 @@ class EtudiantController extends AbstractController
                         return $this->redirectToRoute("research_etudiant");
                 }
             }
-            $this->addFlash('success','La liste de '.count($csv).' étudiants à bien été importé');
+            $this->addFlash('success','La liste de '.count($csv).' étudiant(s) a bien été importée');
             return $this->redirectToRoute("research_etudiant");
         }
         else
