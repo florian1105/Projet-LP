@@ -16,7 +16,7 @@ security:
     providers:
         chain_provider:
                 chain:
-                    providers: [in_database_admin_login, in_database_etudiant_login,in_database_etudiant_mail,in_database_secretaire_login,in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail]
+                    providers: [in_database_admin_login, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_entreprise_mail]
         in_database_admin_login:
             entity:
                 class: App\Entity\Admin
@@ -46,15 +46,15 @@ security:
                 class: App\Entity\Secretaire
                 property: mailAcademique
 
-        in_database_entreprise_mail:
-            entity:
-                class: App\Entity\Entreprises
-                property: adresseMail
-
         in_database_secretaire_login:
             entity:
                 class: App\Entity\Secretaire
                 property: login
+        
+        in_database_entreprise_mail:
+            entity:
+                class: App\Entity\Entreprises
+                property: adresseMail
 
     firewalls:
         dev:

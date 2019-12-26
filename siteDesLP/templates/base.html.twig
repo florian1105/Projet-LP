@@ -38,13 +38,17 @@
           </div>
         </li>
 
-          {# Entreprises #}
+        {% if not app.user or is_granted('ROLE_PROFESSEURRESPONSABLE')%}
+
+        {# Entreprises #}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('entreprise_create') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
         </li>
 
+        {% endif %}
 
-          {# Articles #}
+
+        {# Articles #}
         {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')%}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{path('article_search') }}>Articles <span class="sr-only"></span></a>
@@ -166,7 +170,7 @@
               <div class="modal-footer">
                   {# Déconnexion #}
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                  <a role="button" class="btn btn-success" href= {{ path('deconnexion') }} >Confirmer&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
+                  <a role="button" class="btn btn-success" href="{{ path('deconnexion') }}">Confirmer&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
               </div>
           </div>
       </div>
@@ -180,7 +184,7 @@
 <footer class="page-footer font-small blue">
 
 
-  <div class="footer-copyright text-center py-3">© {{"now"|date("Y") }} Copyright - Licence Pro Informatique Montpellier
+  <div class="footer-copyright text-center py-3"><a href="https://cas.umontpellier.fr/" target="_blank">ENT Montpellier</a> &nbsp;&nbsp; | &nbsp;&nbsp; © {{"now"|date("Y") }} Copyright - Licence Pro Informatique Montpellier &nbsp;&nbsp; | &nbsp;&nbsp; <a href="https://iut-montpellier-sete.edu.umontpellier.fr/" target="_blank">IUT Montpellier</a>
   </div>
 
 

@@ -19,6 +19,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class EntreprisesController extends AbstractController
 {
     /**
+     * @Route("/entreprises", name="entreprises")
+     */
+    public function page()
+    {
+        return $this->render('entreprises/page.html.twig');      
+    }
+    
+    /**
      * @Route("/entreprise/new", name="entreprise_create")
      * @Route("/entreprise/{id}/edit", name="entreprise_edit")
      */
@@ -93,7 +101,7 @@ class EntreprisesController extends AbstractController
     }
 
     /**
-     * @Route("entreprises/entreprise_delete/{id}", name="entreprise_delete")
+     * @Route("/entreprises/entreprise_delete/{id}", name="entreprise_delete")
      */
     public function deleteEntreprise(Entreprises $ent, Request $req)
     {
@@ -125,7 +133,7 @@ class EntreprisesController extends AbstractController
 
 
     /**
-     * @Route("entreprises/entreprise_research", name="research_entreprise")
+     * @Route("/entreprises/entreprise_research", name="research_entreprise")
      */
     public function researchentreprise(EntreprisesRepository $repoE)
     {
