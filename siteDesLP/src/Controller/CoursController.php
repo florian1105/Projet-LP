@@ -61,6 +61,7 @@ class CoursController extends AbstractController
 				$cours->setProf($prof);
 
 				$manager = $this->getDoctrine()->getManager();
+				$cours->setVisible(true);
 				$manager->persist($cours);
 				$manager->flush();
 
@@ -231,6 +232,7 @@ class CoursController extends AbstractController
     {
         $form = $this->createFormBuilder($cours)
         ->add('nom')
+        ->add('visible')
         ->add('classes', EntityType::class,
         [
           'class' => Classes::class,

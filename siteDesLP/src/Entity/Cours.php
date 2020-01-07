@@ -55,6 +55,11 @@ class Cours
      */
     private $prof;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
@@ -187,6 +192,18 @@ class Cours
     public function setProf(?Professeurs $prof): self
     {
         $this->prof = $prof;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }

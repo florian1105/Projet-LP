@@ -3,47 +3,128 @@
 {# Fonction récursive d'affichage
    des dossiers & fichiers #}
 {% macro genereArborescence(dossiers) %}
-	{% for dossier in dossiers %}
-		<div class="alert alert-secondary">
-			<div class="pb-2">
-				> {{dossier.nom}}
-				<div class="btn-group" role="group">
-			  		<a class="btn btn-success btn-sm" href={{path('upload', {'cours':dossier.id})}}>+ Ajouter un cours</a>
-					<button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}})">Créer un sous-dossier</button>
-					<a class="btn btn-light btn-sm" href={{ path('dossier_edit', {'id' : dossier.id}) }}>Editer le dossier</a>
-			  		<a class="btn btn-danger btn-sm" href={{path('cours_delete', {'id':dossier.id})}}>❌</a>
+{% for dossier in dossiers %}
+<li>
+	{# Dossier #}
+	<span class="node active">
+		{{dossier.nom}}
+	</span>
+	{# Menu du dossier #}
+	<span>
+		<div class="btn-group ml-2" role="group">
+	  		<a class="btn btn-success" href={{path('upload', {'cours':dossier.id})}}>
+	  			<i class="far fa-file-code"></i>
+	  		</a>
+			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}})">
+				<i class="fas fa-folder-plus"></i>
+			</button>
+			{# doss - visibilité #}
+			<a class="btn btn-light" href={{ path('fichier_visi', {'id' : dossier.id}) }}>
+				{% if dossier.visible %}
+		  			<i class="fas fa-eye"></i>
+		  		{% else %}
+		  			<i class="fas fa-eye-slash"></i>
+		  		{% endif %}
+			</a>
+	  		<div class="btn-group" role="group">
+				<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+				<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
+					<a class="dropdown-item" href={{ path('dossier_edit', {'id' : dossier.id}) }}>
+						<i class="fas fa-cog"></i> Modifier
+					</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-danger" href={{path('cours_delete', {'id':dossier.id})}}>
+					<i class="far fa-trash-alt"></i> Supprimer
+					</a>
 				</div>
 			</div>
-			{% for fichier in dossier.fichiers %}
-				<div class="alert alert-light">
-			  	<li>
-			  		<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
-			  		<span>
-			  		{% if fichier.visible %}
-			  			Visible
-			  		{% else %}
-			  			Caché
-			  		{% endif %}
-			  		</span>
-			  		<div class="btn-group" role="group">
-						<button id="{{ dossier.id }}" type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
-						<div class="dropdown-menu" aria-labelledby="{{ dossier.id }}">
-						<a class="dropdown-item" href={{ path('fichier_visi', {'id' : fichier.id}) }}>Changer la visibilité</a>
-						<a class="dropdown-item disabled" href="#">Renommer</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}><small>❌</small> Supprimer</a>
-						</div>
-					</div>
-				</li>
-				</div>
-			{% endfor %}
-
-			{{ _self.genereArborescence(dossier.coursEnfants) }}
 		</div>
-	{% endfor %}
+	</span>
+
+	{# Fichiers #}
+	<ul class="nest active">
+		{% for fichier in dossier.fichiers %}
+			<li class="leaf">
+				{% if fichier.visible %}
+		  			<i class="fas fa-eye mr-2"></i>
+		  		{% else %}
+		  			<i class="fas fa-eye-slash mr-2"></i>
+		  		{% endif %}
+
+				<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
+
+				{# Menu #}
+		  		<div class="btn-group ml-2" role="group">
+					<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+					<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
+						<a class="dropdown-item" href={{ path('fichier_visi', {'id' : fichier.id}) }}>
+							<i class="fas fa-eye"></i> Changer la visibilité
+						</a>
+						<a class="dropdown-item disabled" href="#">
+							<i class="fas fa-pencil-alt"></i> Renommer
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}>
+							<i class="far fa-trash-alt"></i> Supprimer
+						</a>
+					</div>
+				</div>
+			</li>
+		{% endfor %}
+
+		{{ _self.genereArborescence(dossier.coursEnfants) }}
+	</ul>
+</li>
+{% endfor %}
 {% endmacro %}
 
 {% block body %}
+
+	<style>
+		.tree {
+			/*border: 1px solid black;*/
+			padding: 0;
+			margin: 0;
+		}
+		.node {
+			cursor: pointer;
+			user-select: none;
+			width: 100%;
+			/*padding: 1rem;
+			margin: 1rem;*/
+		}
+		.node::before {
+			content: "\25B6";
+			color: black;
+			display: inline-block;
+			margin-right: 0.5rem;
+		}
+		.node.active::before {
+			transform: rotate(90deg);
+		}
+		.tree li {
+			list-style-type: none;
+		}
+		.leaf {
+			list-style-type: disc;
+			margin: 1rem;
+		}
+		.tree ul {
+			display: none;
+		}
+		.tree ul.active {
+			display: block;
+		}
+
+		.dropdown-item .fa,
+		.dropdown-item .fas,
+		.dropdown-item .far {
+			min-width: 1.5rem;
+		}
+	</style>
+
+
+
 	{# Erreurs #}
 	{% for msg in app.session.flashBag.get('editTrue') %}
 	    <div class="alert alert-success">
@@ -64,11 +145,26 @@
 	{% endif %}
 
 	{# Bouton puis génération de l'arborescence #}
-	<div class="row mb-2">
+	<div class="row mb-3">
 		<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal(null)">Créer un dossier</button>
 	</div>
 
-	{{ _self.genereArborescence(dossiersRacines) }}
+	<ul class="tree">
+		{{ _self.genereArborescence(dossiersRacines) }}
+	</ul>
+
+	<script>
+		/* Doit être chargé après la
+		génération de l'arborescence */
+		let nodes = document.getElementsByClassName("node")
+
+		for (let i = 0; i < nodes.length; i++) {
+			nodes[i].addEventListener("click", function() {
+				this.parentElement.querySelector(".nest").classList.toggle("active")
+				this.classList.toggle("active")
+			});
+		}
+	</script>
 
 {# Popup de création d'un dossier #}
 <div class="modal fade" id="creerDossier" tabindex="-1" role="dialog" aria-labelledby="creerDossierLabel" aria-hidden="true">
