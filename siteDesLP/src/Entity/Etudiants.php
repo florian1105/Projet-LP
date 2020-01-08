@@ -15,68 +15,15 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
  * @UniqueEntity("login",message="ce login est déjà utilisé")
  * @UniqueEntity("mailAcademique",message="ce mail académique est déjà utilisé")
  */
-class Etudiants implements UserInterface
+class Etudiants extends Utilisateurs implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $numEtudiant;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un nom")
-     *
-     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
-     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
-     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
-     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    private $nomEtudiant;
-    /**
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un prénom")
-     * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
-     * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
-     * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
-     * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    private $prenomEtudiant;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
     private $mailAcademique;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un mail")
-     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    private $mail;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     */
-    private $password;
-
-
-
-    /**
-     * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    public $new_password;
-
-    /**
-     * @Assert\EqualTo(propertyPath="new_password", message="Vous n'avez pas tapé le même mot de passe !")
-     */
-    public $confirm_password;
 
 
     /**
@@ -97,11 +44,6 @@ class Etudiants implements UserInterface
      */
     private $login;
 
-    /**
-     * @ORM\Column(type="date")
-     * @Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
-     */
-    private $dateNaissance;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
@@ -109,33 +51,24 @@ class Etudiants implements UserInterface
      */
     private $classeEtudiant;
 
-    public function getId(): ?int
-    {
-        return $this->numEtudiant;
-    }
-
     public function getNomEtudiant(): ?string
     {
-        return $this->nomEtudiant;
+        return parent::getNom();
     }
 
-    public function setNomEtudiant(string $nomEtudiant): self
+    public function setNomEtudiant(string $nomEtudiant): Utilisateurs
     {
-        $this->nomEtudiant = $nomEtudiant;
-
-        return $this;
+        return parent::setNom($nomEtudiant);
     }
 
     public function getPrenomEtudiant(): ?string
     {
-        return $this->prenomEtudiant;
+        return parent::getPrenom();
     }
 
-    public function setPrenomEtudiant(string $prenomEtudiant): self
+    public function setPrenomEtudiant(string $prenomEtudiant): Utilisateurs
     {
-        $this->prenomEtudiant = $prenomEtudiant;
-
-        return $this;
+        return parent::setPrenom($prenomEtudiant);
     }
 
     public function getMailAcademique(): ?string
@@ -152,37 +85,47 @@ class Etudiants implements UserInterface
 
     public function getMail(): ?string
     {
-        return $this->mail;
+        return parent::getMail();
     }
 
-    public function setMail(string $mail): self
+    public function setMail(String $mail): Utilisateurs
     {
-        $this->mail = $mail;
-
-        return $this;
+        return parent::setMail($mail);
     }
 
     public function getPassword(): ?string
     {
-        return $this->password;
+        return parent::getPassword();
+    }
+
+    public function setPassword(string $password): Utilisateurs
+    {
+        return parent::setPassword($password);
     }
 
     public function getNewPassword(): ?string
     {
-        return $this->new_password;
+        return parent::getNewPassword();
     }
 
-    public function setPassword(string $password): self
+    public function setNewPassword($new_password): void
     {
-        $this->password = $password;
-        $this->new_password = "XXXXXX";
-        $this->confirm_password = "XXXXXX";
-        return $this;
+        parent::setNewPassword($new_password);
     }
 
     public function getPasswordRequestedAt(): ?\DateTimeInterface
     {
       return $this->passwordRequestedAt;
+    }
+
+    public function setConfirmPassword($confirm_password): void
+    {
+        parent::setConfirmPassword($confirm_password);
+    }
+
+    public function getConfirmPassword()
+    {
+        return parent::getConfirmPassword();
     }
 
     public function getToken()
@@ -216,15 +159,9 @@ class Etudiants implements UserInterface
 
     public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->dateNaissance;
+        return parent::getDateNaissance();
     }
 
-    public function setDateNaissance(\DateTime $dateNaissance): self
-    {
-        $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
 
     public function eraseCredentials()
     {
@@ -260,7 +197,7 @@ class Etudiants implements UserInterface
 
     public function __toString()
     {
-        return $this->nomEtudiant." ".$this->prenomEtudiant;
+        return parent::getNom()." ".parent::getPrenom();
     }
 
 }
