@@ -68,6 +68,11 @@ class Contacts{
      */
     private $entreprise;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valide;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +140,18 @@ class Contacts{
     public function setEntreprise($entreprise): void
     {
         $this->entreprise = $entreprise;
+    }
+
+    public function getValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): self
+    {
+        $this->valide = $valide;
+
+        return $this;
     }
 
 

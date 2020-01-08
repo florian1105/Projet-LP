@@ -73,10 +73,15 @@
 
         {# Contact #}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-            <li class="nav-item active">
-                <a class="nav-link my_nav_item" href={{ path('contact_search') }}>Contacts<span class="sr-only"></span></a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href={{ path('contact_search_valide') }}>En attentes</a>
+                <a class="dropdown-item" href={{ path('contact_search') }}>Validés</a>
+                </div>
             </li>
         {% endif %}
+
         {% if is_granted('ROLE_ADMIN') %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>

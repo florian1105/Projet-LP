@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
  * @ORM\Entity(repositoryClass="App\Repository\EntreprisesRepository")
  * @UniqueEntity("nom",message="ce nom est déjà utilisé")
  */
-class Entreprises  implements UserInterface
+class Entreprises
 {
     /**
      * @ORM\Id()
@@ -32,35 +32,14 @@ class Entreprises  implements UserInterface
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank(message="Veuillez renseigner un mail")
-     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    private $adresseMail;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password;
-
-    /**
-     * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    public $new_password;
-
-    /**
-     * @Assert\EqualTo(propertyPath="new_password", message="Vous n'avez pas tapé le même mot de passe !")
-     */
-    public $confirm_password;
-
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Contacts")
      */
     private $contactEntreprise;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valide;
 
     public function getId(): ?int
     {
@@ -76,35 +55,6 @@ class Entreprises  implements UserInterface
     {
         $this->nom = $nom;
 
-        return $this;
-    }
-
-    public function getAdresseMail(): ?string
-    {
-        return $this->adresseMail;
-    }
-
-    public function setAdresseMail(string $adresseMail): self
-    {
-        $this->adresseMail = $adresseMail;
-
-        return $this;
-    }
-
-    public function getNew_password(){
-        return $this->new_password;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-        $this->new_password = "XXXXXX";
-        $this->confirm_password = "XXXXXX";
         return $this;
     }
 
@@ -137,34 +87,14 @@ class Entreprises  implements UserInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return (Role|string)[] The user roles
+     * @return array (Role|string)[] The user roles
      */
     public function getRoles()
     {
         return ['ROLE_ENTREPRISE'];
     }
 
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
 
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-       return $this->nom;
-    }
 
     /**
      * Removes sensitive data from the user.
@@ -175,5 +105,17 @@ class Entreprises  implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): self
+    {
+        $this->valide = $valide;
+
+        return $this;
     }
 }

@@ -44,45 +44,34 @@ class EntreprisesController extends AbstractController
 
             $form = $this->createFormBuilder($entreprise)
                 ->add('nom')
-                ->add('adresseMail')
-                ->add('new_password', PasswordType::class, [
-                    'attr' => ['maxlength' => '64']
-                ])
-                 ->add('confirm_password', PasswordType::class, [
-                     'attr' => ['maxlength' => '64'],
-                 ])
                 ->getForm();
 
             $form->handleRequest($request);
 
 
             $nom = strtoupper($form['nom']->getData());
-            $adresseMail = strtolower($form['adresseMail']->getData());
             $entreprise->setNom($nom);
-            $entreprise->setAdresseMail($adresseMail);
-;
+            $entreprise->setValide(false);
+            $entreprise->setContactEntreprise(null);
 
 
         }else {
             $form = $this->createFormBuilder($entreprise)
                 ->add('nom')
-                ->add('adresseMail')
                 ->getForm();
             $form->handleRequest($request);
-            $adresseMail = strtolower($form['adresseMail']->getData());
             $nom = strtoupper($form['nom']->getData());
 
-            $entreprise->setAdresseMail($adresseMail);
             $entreprise->setNom($nom);
-
+            $entreprise->setValide(false);
+            $entreprise->setContactEntreprise(null);
+            $entreprise->setValide(false);
 
 
         }
 
         if($form->isSubmitted() && $form->isValid()) {
             if ($editMode == false) {
-                $hash = $encoder->encodePassword($entreprise, $entreprise->getNew_password());
-                $entreprise->setPassword($hash);
                 $this->addFlash('success', 'l\'entreprise a bien été créé');
             } else {
                 $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
@@ -90,7 +79,7 @@ class EntreprisesController extends AbstractController
             $em->persist($entreprise);
             $em->flush();
 
-            return $this->redirectToRoute('research_entreprise');
+            return $this->redirectToRoute('contact_add');
 
         }
         return $this->render('entreprises/index.html.twig', [

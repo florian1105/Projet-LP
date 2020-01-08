@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contacts;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
+use Symfony\Component\DependencyInjection\Tests\Compiler\C;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -68,7 +69,7 @@ class   ContactsController extends AbstractController
                 $this->addFlash('success','Le contact a bien été créé');
             }
             else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
-
+            $contact->setValide(false);
             $manager->persist($contact);
             $manager->flush();
             return $this->redirectToRoute('contact_search');
@@ -125,7 +126,45 @@ class   ContactsController extends AbstractController
     public function search(ContactRepository $repo)
     {
         return $this->render('contacts/research.html.twig', [
-            'contacts' => $repo->findAll(),
+            'contacts' => $repo->findAllValide(),
         ]);
+    }
+    /**
+     * @Route("/contact/search_valide", name="contact_search_valide")
+     */
+
+    public function search_valide(ContactRepository $repo)
+    {
+        return $this->render('contacts/attente.html.twig', [
+            'contacts' => $repo->findAllUnvalide(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/contact/valide/{id}", name="contact_valide")
+     */
+    public function valide(Contacts $contact=null,  ObjectManager $manager,ContactRepository $repo){
+        if(!$contact)
+        {
+            $contact = new Contacts();
+        }
+
+        $entreprise=$contact->getEntreprise();
+        if($contact->getEntreprise()->getValide()==false){
+            $entreprise->setValide(true);
+            $entreprise->setContactEntreprise($contact);
+        }
+
+        $contact->setValide(true);
+        $manager->persist($contact);
+        $manager->persist($entreprise);
+        $manager->flush();
+        $this->addFlash('success','Le contact a bien été validé');
+        return $this->render('contacts/attente.html.twig', [
+            'contacts' => $repo->findAllUnvalide(),
+
+        ]);
+        
     }
 }
