@@ -52,6 +52,7 @@
             <th scope="col">Numero de téléphone</th>
             <th scope="col">Entreprise</th>
             <th scope="col">Valider</th>
+            <th scope="col">Supprimer</th>
         </tr>
         </thead>
 
@@ -64,20 +65,25 @@
                 <td>{{contact.telephone}}</td>
                 <td>{{contact.entreprise.getNom()}}</td>
                 <td><a href="{{ path('contact_valide', {'id' : contact.id}) }}" class="edit-btn btn btn-success active invisible">✎</a></td>
+                <td><a href="{{ path('contact_delete', {'id' : contact.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     <script>
         function showModifs(tr,id){
-// Get all list buttons and pass them invisible
+            // Get all list buttons and pass them invisible
             const allEdit = Object.values(document.getElementsByClassName('edit-btn'));
-            for(let i=0;i<allEdit.length;i++)
-                allEdit[i].classList.add('invisible');
+            const allDel = Object.values(document.getElementsByClassName('delete-btn'));
+            const allBtns = allEdit.concat(allDel);
+            for(let i=0;i<allBtns.length;i++)
+                allBtns[i].classList.add('invisible');
 
-//Make visible only the row buttons
+            //Make visible only the row buttons
             const editBtn = tr.getElementsByClassName('edit-btn')[0];
+            const deleteBtn = tr.getElementsByClassName('delete-btn')[0];
             editBtn.classList.remove("invisible");
+            deleteBtn.classList.remove("invisible");
         }
     </script>
 {% endblock %}

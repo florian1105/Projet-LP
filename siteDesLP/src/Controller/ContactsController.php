@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contacts;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
+use App\Services\Mailer;
 use Symfony\Component\DependencyInjection\Tests\Compiler\C;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,7 +20,7 @@ class   ContactsController extends AbstractController
      * @Route("/contact/new", name="contact_add")
      * @Route("/contact/edit/{id}", name="contact_edit")
      */
-    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager)
+    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer)
     {
         $editMode = true;
         if(!$contact)
@@ -67,6 +68,13 @@ class   ContactsController extends AbstractController
 //                $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
 //                $secretaire->setPassword($hash);
                 $this->addFlash('success','Le contact a bien été créé');
+                $bodyMail = $mailer->createBodyMail('contact/mail_new_contact.html.twig', [
+                    'contact' => $contact
+                ]);
+                //envoie du mai
+                $mailer->sendMessage('sitedeslp@gmail.com','sitedeslp@gmail.com', 'Inscription d\'un nouveau contact', $bodyMail);
+                $this->addFlash('goodMail',"Un mail va vous être envoyé une fois la demande validée");
+
             }
             else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
             $contact->setValide(false);
