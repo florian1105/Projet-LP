@@ -50,8 +50,6 @@ class InformationsClassesController extends AbstractController
 
     $info = $repoI->findBy(['classe' => $classe->getId()]);
 
-    dump($info);
-
     return $this->render('informations_classes/print.html.twig', [
       'info' => $info[0],
       'classe' => $classe
@@ -76,25 +74,26 @@ class InformationsClassesController extends AbstractController
       $cheminPlaquette = $info->getCheminPlaquette();
       $plaquetteDirectory = $this->getParameter('plaquette_directory');
       $plaquette = $plaquetteDirectory . "/" . $cheminPlaquette;
-
+      dump($cheminPlaquette);
       $form = $this->createFormBuilder($info)
       ->add('description', CKEditorType::class, [
         'config' => [
           'uiColor' => '#e2e2e2',
           'toolabar' => 'full',
-          'required' => 'true'
+          'required' => 'true',
           ]])
           ->add('cheminPlaquette', FileType::class , [
             'data_class' => null,
             'mapped' => true,
             'required' => false,
             // 'empty_data' => $plaquette,
+
           ])
 
           ->getForm();
 
           $form->handleRequest($request);
-          dump($cheminPlaquette);
+
           if($form->isSubmitted() && $form->isValid())
           {
               if($form['cheminPlaquette']->getData() == null)
@@ -105,9 +104,9 @@ class InformationsClassesController extends AbstractController
                 }
                 else
                 {
-                  $plaquetteDirectory = $this->getParameter('plaquette_directory');
-                  $plaquette = $plaquetteDirectory . "/" . $cheminPlaquette;
-                  $info->setCheminPlaquette($plaquette);
+                  //$plaquetteDirectory = $this->getParameter('plaquette_directory');
+                  //$plaquette = $plaquetteDirectory . "/" . $cheminPlaquette;
+                  $info->setCheminPlaquette($cheminPlaquette);
                 }
 
               }
