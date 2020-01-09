@@ -12,6 +12,8 @@ use App\Entity\Cours;
 use App\Entity\Classes;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use App\Repository\CoursRepository;
+
 class CoursController extends AbstractController
 {
     /**
@@ -19,7 +21,7 @@ class CoursController extends AbstractController
      */
     public function gererCours(Request $request)
     {
-		/* Récupère le prof connecté */
+    	/* Récupère le prof connecté */
 		$prof = $this->getUser();
 
 		if(! $prof instanceof Professeurs)
@@ -115,77 +117,46 @@ class CoursController extends AbstractController
     /**
      * @Route("/ent/cours", name="cours_affi")
      */
-    public function afficherCours()
+    public function afficherCours(CoursRepository $coursRepo)
     {
-    	/* Récuperation de l'étudiant connecté */
+    	/* Récuperation de l'utilisateur connecté */
 		$etu = $this->getUser();
 
 		/* Verification que ce soit un etudiant */
 		if(! $etu instanceof Etudiants)
 			return $this->redirectToRoute('connexion');
 
-    	/* Va chercher la classe de l'étudiant */
+    	/* Récupère la classe de l'étudiant */
     	$classe = $etu->getClasseEtudiant();
 
-    	/* Va chercher les dossiers de cours
-    	   auquels la classe à accès */
-    	$cours = $classe->getCours();
+		/* Récupère l'arborescence */
+    	$results = $coursRepo->getTreeClasse($classe);
 
-    	// Crée l'arborescence des dossiers accessibles
-    	//-> simplifier avec requete modele
-    	$dossiers = [];
-    	foreach ($cours as $dossier) {
-			//Vérifie si parent est déjà dans la liste
-			$skip = false;
-			foreach ($dossiers as $parent) {
-				if($dossier->getCoursParent() !== null)
-					if($dossier->getCoursParent()->getId()==$parent->getId()){
-						$parent->addCoursEnfant($dossier);
-						//$dossiers[] = $dossier;
-						$skip = true;
-					}
-			}
+    	// debug
+    	foreach ($results as $cours) {
+    		$id      = $cours->getId();
+    		$nom     = $cours->getNom();
+    		$prof    = $cours->getProf();
+    		$parent  = $cours->getCoursParent();
+    		$visible = $cours->getVisible();
+    		
+    		if($parent != null)
+    			$parent = $parent->getNom();
+    		else
+    			$parent = 'racine';
 
-			if(!$skip) {
-	// Copie des enfants
-	$listeEnfants = $dossier->getCoursEnfants();
-	/*$listeEnfants = new Cours();
-	foreach ($dossier->getCoursEnfants() as $enfant) {
-		$listeEnfants->addCoursEnfant($enfant);
-	}
-
-
-	//Vidage des enfants
-	foreach ($dossier->getCoursEnfants() as $enfant) {
-		$dossier->removeCoursEnfant($enfant);
-	}*/
-
-	foreach ($listeEnfants as $enfant){
-		foreach ($cours as $dir) {
-			// Si enfant est dans liste d'origine
-			if($enfant->getId() == $dir->getId()){
-				// Enlève enfant de la liste finale si il a déjà été ajouté
-				$id = array_search($enfant, $dossiers);
-				if($id !== false)
-					array_splice($dossiers, $id);
-
-				// Déplace enfant dans son parent
-				$dossier->addCoursEnfant($enfant);
-
-				// Supprime de la liste de cours
-				$dir = null;
-			}
-		}
-	}
-
-	//Ajout
-	$dossiers[] = $dossier;
-			}
-		}
+    		if($prof != null)
+    			$prof = $prof->getNomProfesseur();
+    		else
+    			$prof = 'null';
+    		
+    		print_r('id:' . $id . ' | nom:' . $nom . ' | parent:' . $parent . ' | prof:' . $prof . ' | visible:' . $visible . '<br>');
+    	}
+    	// fin debug
 
     	/* Affichage */
 		return $this->render('cours/affichage.html.twig', [
-            'data' => $dossiers,
+            'data' => $results,
         ]);
     }
 

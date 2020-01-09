@@ -2,7 +2,7 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-	<h1>Modification du dossier {{cours.nom}}</h1>
+	<h1>Modification du dossier <span class="text-primary">{{cours.nom}}</span></h1>
 
 	{{ form_start(form) }}
 		{{ form_row(form.nom, {'label':'Nom du dossier'}) }}
@@ -11,7 +11,7 @@
 
 		<button type="submit" class="btn btn-success mb-5"> Modifier </button>
 		<a class="btn btn-light mb-5" href={{path('cours_gest')}} role="button"> Annuler </a>
-		<a class="btn btn-danger mb-5" href={{path('cours_delete', {'id':cours.id})}}>
+		<a class="btn btn-danger mb-5 float-right" href={{path('cours_delete', {'id':cours.id})}}>
 					<i class="far fa-trash-alt"></i> Supprimer
 					</a>
 	{{form_end(form)}}
