@@ -62,17 +62,15 @@
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('research_etudiant') }}>Ma classe<span class="sr-only"></span></a>
         </li>
-        {% endif %}
-
         {# Info licence du prof #}
-        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('informations_classes_print') }}>Informations licence<span class="sr-only"></span></a>
         </li>
-        {% endif %}
-
+        {#Candidat#}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('research_candidat') }}>Candidats<span class="sr-only"></span></a>
+        </li>
         {# Contact #}
-        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -98,6 +96,8 @@
               <a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
               {# Contacts #}
               <a class="dropdown-item" href={{ path('contact_search') }}>Contacts</a>
+              {#Candidat#}
+              <a class="dropdown-item" href={{ path('research_candidat') }}>Candidats</a>
             </div>
           </li>
         {% endif %}

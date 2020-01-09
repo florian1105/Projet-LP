@@ -18,8 +18,8 @@
         {{ form_row(form_create_candidat.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe du candidat" }}) }}
     {% endif %}
 
-    {{ form_row(form_create_candidat.mail, {'attr' : {'placeholder' : "Mail du candidat" }}) }}
-    {{ form_row(form_create_candidat.dateNaissance, {'attr' : {'placeholder' : "Date de naissance du candidat" }}) }}
+    {{ form_row(form_create_candidat.mail, {'label': 'Mail','attr' : {'placeholder' : "Mail du candidat" }}) }}
+    {##}{{ form_row(form_create_candidat.date_Naissance, {'label': 'Date Naissance','attr' : {'placeholder' : "Date de naissance du candidat" }}) }}
 
     <button type="submit" class="btn btn-success">
         {% if editMode %}

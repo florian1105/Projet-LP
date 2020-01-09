@@ -8,6 +8,10 @@ security:
             algorithm: 'auto'
         App\Entity\Admin:
             algorithm: 'auto'
+        App\Entity\Candidats:
+            algorithm: 'auto'
+        App\Entity\Utilisateurs:
+            algorithm: 'auto'
         App\Entity\Entreprises:
             algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:

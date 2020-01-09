@@ -196,14 +196,14 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidats/candidat_delete/{id}", name="candidat_delete")
      */
-    public function deleteCandidat(Candidats $etu, Request $req)
+    public function deleteCandidat(Candidats $candi, Request $req)
     {
         //Si le formulaire à été soumis
         if($req->isMethod('POST')){
             // En cas de validation on supprime et on redirige
             if($req->request->has('oui')) {
                 $em=$this->getDoctrine()->getManager();
-                $em->remove($etu);
+                $em->remove($candi);
                 $em->flush();
             }
             // Sinon on redirige simplement
@@ -213,9 +213,9 @@ class CandidatsController extends AbstractController
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce candidat ?';
 
-            $message = 'N°'.$etu->getId().' : '.
-                $etu->getPrenom().' '.
-                $etu->getNom();
+            $message = 'N°'.$candi->getId().' : '.
+                $candi->getPrenom().' '.
+                $candi->getNom();
 
 
             return $this->render('confirmation.html.twig', [
