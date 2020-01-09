@@ -7,20 +7,22 @@ use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
 use App\Services\Mailer;
 use Symfony\Component\DependencyInjection\Tests\Compiler\C;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class   ContactsController extends AbstractController
+class ContactsController extends AbstractController
 {
 
     /**
      * @Route("/contact/new", name="contact_add")
      * @Route("/contact/edit/{id}", name="contact_edit")
      */
-    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer)
+    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$contact)
@@ -33,6 +35,12 @@ class   ContactsController extends AbstractController
                 ->add('prenom')
                 ->add('mail')
                 ->add('telephone')
+                ->add('new_password', PasswordType::class, [
+                    'attr' => ['maxlength' => '64']
+                ])
+                ->add('confirm_password', PasswordType::class, [
+                    'attr' => ['maxlength' => '64'],
+                ])
                 ->add('entreprise', EntityType::class, [
                     'class' => Entreprises::class,
                     'choice_label' => 'Nom',
@@ -65,9 +73,10 @@ class   ContactsController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             if(!$editMode){
-//                $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
-//                $secretaire->setPassword($hash);
+                $hash = $encoder->encodePassword($contact, $contact->getNewPassword());
+                $contact->setPassword($hash);
                 $this->addFlash('success','Le contact a bien été créé');
+
                 $bodyMail = $mailer->createBodyMail('contact/mail_new_contact.html.twig', [
                     'contact' => $contact
                 ]);

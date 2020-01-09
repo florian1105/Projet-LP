@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -11,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("mail",message="ce mail est déjà utilisé")
  * @UniqueEntity("telephone",message="ce numéro de tel est déjà utilisé")
  */
-class Contacts{
+class Contacts implements UserInterface {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -72,6 +73,37 @@ class Contacts{
      * @ORM\Column(type="boolean")
      */
     private $valide;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     */
+    private $password;
+
+    /**
+     * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     */
+    public $new_password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="new_password", message="Vous n'avez pas tapé le même mot de passe !")
+     */
+    public $confirm_password;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    private $passwordRequestedAt;
+
+
+    /**
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
 
     public function getId(): ?int
     {
@@ -155,4 +187,117 @@ class Contacts{
     }
 
 
+    /**
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return ['ROLE_USER'];
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
+     */
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string|null The encoded password if any
+     */
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): Utilisateurs
+    {
+        $this->password=$password;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->new_password;
+    }
+
+    public function setNewPassword($new_password): void
+    {
+        $this->new_password=$new_password;
+    }
+
+    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    {
+        return $this->passwordRequestedAt;
+    }
+
+    public function setPasswordRequestedAt($passwordRequestedAt)
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+        return $this;
+    }
+    public function getConfirmPassword()
+    {
+        return $this->getConfirmPassword();
+    }
+    public function setConfirmPassword($confirm_password): void
+    {
+        $this->confirm_password=$confirm_password;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+
+
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 }

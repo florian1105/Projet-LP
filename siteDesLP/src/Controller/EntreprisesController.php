@@ -79,7 +79,7 @@ class EntreprisesController extends AbstractController
             $em->persist($entreprise);
             $em->flush();
 
-            return $this->redirectToRoute('contact_add');
+            return $this->redirectToRoute('Entreprise_add');
 
         }
         return $this->render('entreprises/index.html.twig', [
@@ -128,14 +128,48 @@ class EntreprisesController extends AbstractController
     {
         //if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
         //{
-            $entreprises = $repoE->findAll();
+            $entreprises = $repoE->findAllValide();
             return $this->render('entreprises/research.html.twig', [
                 'entreprises' => $entreprises,
             ]);
        // }else $this->redirectToRoute('entreprise_create');
 
     }
+    /**
+     * @Route("/entreprise/search_valide", name="entreprise_search_valide")
+     */
 
+    public function search_valide(EntreprisesRepository $repo)
+    {
+        return $this->render('entreprises/attente.html.twig', [
+            'entreprises' => $repo->findAllUnvalide(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/entreprise/valide/{id}", name="entreprise_valide")
+     */
+    public function valide(Entreprises $entreprise=null,  ObjectManager $manager,EntreprisesRepository $repo){
+        if(!$entreprise)
+        {
+            $entreprise = new Entreprises();
+        }
+
+
+        if($entreprise->getValide()==false){
+            $entreprise->setValide(true);
+        }
+
+        $manager->persist($entreprise);
+        $manager->flush();
+        $this->addFlash('success','L\'entreprise a bien été validé');
+        return $this->render('Entreprises/attente.html.twig', [
+            'Entreprises' => $repo->findAllUnvalide(),
+
+        ]);
+
+    }
 
 
 }

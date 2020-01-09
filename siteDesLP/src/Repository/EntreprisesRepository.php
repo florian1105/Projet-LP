@@ -47,4 +47,25 @@ class EntreprisesRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllUnvalide()
+    {
+        return $this->createQueryBuilder('entreprise')
+            ->andWhere('entreprise.valide = :val')
+            ->setParameter('val', false)
+            ->orderBy('entreprise.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllValide()
+    {
+        return $this->createQueryBuilder('entreprise')
+            ->andWhere('entreprise.valide = :val')
+            ->setParameter('val', true)
+            ->orderBy('entreprise.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
