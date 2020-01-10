@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+//TODO: Mettre le nom au pluriels (ajoute un "s" boloss)
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

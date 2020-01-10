@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Classes;
 use App\Entity\Candidats;
+use App\Entity\Utilisateurs;
 use App\Repository\CandidatsRepository;
 use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
@@ -208,7 +209,7 @@ class CandidatsController extends AbstractController
             }
             // Sinon on redirige simplement
             $this->addFlash('delete','Candidat supprimé');
-            return $this->redirectToRoute('research_Candidat');
+            return $this->redirectToRoute('research_candidat');
         } else {
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce candidat ?';
@@ -229,9 +230,9 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidats/candidat_research", name="research_candidat")
      */
-    public function researchCandidat(CandidatsRepository $repoE)
+    public function researchCandidat(CandidatsRepository $repoC)
     {
-        $candidats = $repoE->findAll();
+        $candidats = $repoC->findAll();
 
         return $this->render('candidats/research.html.twig', [
             'candidats' => $candidats,
@@ -241,22 +242,22 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidat_account", name="candidat_account")
      */
-    public function monCompte(UserInterface $Candidat)
+    public function monCompte(UserInterface $candidat)
     {
-        $Candidat = $this->getUser();
+        $candidat = $this->getUser();
         return $this->render('candidats/moncompte.html.twig', [
-            'Candidat' => $Candidat,
+            'Candidat' => $candidat,
         ]);
     }
 
     /**
      * @Route("candidat_account/change_password", name="candidat_change_password")
      */
-    public function changePassword(UserInterface $Candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(UserInterface $candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
-        $Candidat = $this->getUser();
+        $candidat = $this->getUser();
 
-        $form = $this->createFormBuilder($Candidat)
+        $form = $this->createFormBuilder($candidat)
             ->add('password', PasswordType::class, array('mapped' => false))
             ->add('new_password', PasswordType::class)
             ->add('confirm_password', PasswordType::class)
@@ -271,13 +272,13 @@ class CandidatsController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $match = $encoder->isPasswordValid($Candidat, $form['password']->getData());
+            $match = $encoder->isPasswordValid($candidat, $form['password']->getData());
             //si password valide
             if($match)
             {
-                $hash = $encoder->encodePassword($Candidat, $form['new_password']->getData());
-                $Candidat->setPassword($hash);
-                $em->persist($Candidat);
+                $hash = $encoder->encodePassword($candidat, $form['new_password']->getData());
+                $candidat->setPassword($hash);
+                $em->persist($candidat);
                 $em->flush();
                 $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
                 return $this->redirectToRoute('candidat_account');
@@ -290,7 +291,7 @@ class CandidatsController extends AbstractController
 
 
         return $this->render('candidats/changepassword.html.twig', [
-            'Candidat' => $Candidat,
+            'Candidat' => $candidat,
             'form_change_password' => $form->createView(),
             'error' => $mdpNonChange,
         ]);
@@ -301,11 +302,11 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidat_account/change_mail", name="change_mail")
      */
-    public function changeMail(UserInterface $Candidat, Request $request, ObjectManager $em)
+    public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
     {
-        $Candidat = $this->getUser();
+        $candidat = $this->getUser();
 
-        $form = $this->createFormBuilder($Candidat)
+        $form = $this->createFormBuilder($candidat)
             ->add('mail')
 
 
@@ -316,7 +317,7 @@ class CandidatsController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $em->persist($Candidat);
+            $em->persist($candidat);
             $em->flush();
             $this->addFlash('mail_change','Votre mail a été modifié avec succès');
             return $this->redirectToRoute('candidat_account');
@@ -324,26 +325,26 @@ class CandidatsController extends AbstractController
         }
 
         return $this->render('candidats/changeemail.html.twig', [
-            'Candidat' => $Candidat,
+            'candidat' => $candidat,
             'form_change_email' => $form->createView()
         ]);
     }
 
     public function createCandidat($nomCandidat,$prenomCandidat,$mdpCandidat,$mail,$date, Candidatsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
 
-        $Candidat = new Candidats();
+        $candidat = new Candidats();
 
         $mail = strtolower($mail);
         $prenom = ucfirst(strtolower($prenomCandidat));
         $nom = strtoupper($nomCandidat);
-        $hash = $encoder->encodePassword($Candidat,$mdpCandidat);
+        $hash = $encoder->encodePassword($candidat,$mdpCandidat);
 
-        $Candidat->setMail($mail);
-        $Candidat->setNom($nom);
-        $Candidat->setPrenom($prenom);
-        $Candidat->setPassword($hash);
-        $Candidat->setDateNaissance($date);
-        $em->persist($Candidat);
+        $candidat->setMail($mail);
+        $candidat->setNom($nom);
+        $candidat->setPrenom($prenom);
+        $candidat->setPassword($hash);
+        $candidat->setDateNaissance($date);
+        $em->persist($candidat);
         $em->flush();
     }
 }

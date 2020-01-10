@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandidatsRepository")
+ *
  */
 class Candidats extends Utilisateurs implements UserInterface
 {
