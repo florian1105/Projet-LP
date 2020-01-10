@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,7 +110,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("resetpassword/{id}/{token}", name="resetting_password")
    */
-    public function resetPassword($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function resetPassword($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       // interdit l'accès à la page si:
         // le token associé au membre est null
@@ -126,6 +127,9 @@ class ResettingPasswordController extends AbstractController
         elseif(!$user)
         {
           $user = $repoS->findOneBy(['token' => $token]);
+        }elseif(!$user)
+        {
+            $user = $repoC->findOneBy(['token' => $token]);
         }
 
 

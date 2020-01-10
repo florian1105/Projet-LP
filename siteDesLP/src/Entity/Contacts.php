@@ -75,7 +75,7 @@ class Contacts implements UserInterface {
     private $valide;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      *
      */
     private $password;
@@ -203,7 +203,7 @@ class Contacts implements UserInterface {
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return ROLES["CONTACT"];
     }
 
     /**

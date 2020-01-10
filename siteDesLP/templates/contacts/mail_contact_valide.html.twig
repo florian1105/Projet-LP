@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Validation de votre inscription</title>
+</head>
+<body>
+<p>
+    Bonjour, <br>
+    Cliquez sur ce lien pour effectuer votre première connexion sur notre site et changer votre mot de passe.
+    <a href="{{absolute_url(path('resetting_password', {'id': contact.id, 'token': contact.token}))}}">Changer le mot de passe</a>
+
+</p>
+</body>
+</html>
