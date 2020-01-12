@@ -257,97 +257,95 @@ class CandidatsController extends AbstractController
 //        $em->flush();
 //    }
 //
-//    /**
-//     * @Route("candidat_account", name="candidat_account")
-//     */
-//
-//    public function monCompte(UserInterface $candidat)
-//    {
-//        $candidat = $this->getUser();
-//        return $this->render('candidats/moncompte.html.twig', [
-//            'Candidat' => $candidat,
-//        ]);
-//    }
-//
-//    /**
-//     * @Route("candidat_account/change_password", name="candidat_change_password")
-//     */
-//    public function changePassword(UserInterface $candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
-//    {
-//        $candidat = $this->getUser();
-//
-//        $form = $this->createFormBuilder($candidat)
-//            ->add('password', PasswordType::class, array('mapped' => false))
-//            ->add('new_password', PasswordType::class)
-//            ->add('confirm_password', PasswordType::class)
-//
-//
-//            ->getForm();
-//
-//
-//        $form->handleRequest($request);
-//
-//        $mdpNonChange = "";
-//
-//        if($form->isSubmitted() && $form->isValid())
-//        {
-//            $match = $encoder->isPasswordValid($candidat, $form['password']->getData());
-//            //si password valide
-//            if($match)
-//            {
-//                $hash = $encoder->encodePassword($candidat, $form['new_password']->getData());
-//                $candidat->setPassword($hash);
-//                $em->persist($candidat);
-//                $em->flush();
-//                $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-//                return $this->redirectToRoute('candidat_account');
-//            }
-//            else {
-//                $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
-//            }
-//        }
-//
-//
-//
-//        return $this->render('candidats/changepassword.html.twig', [
-//            'Candidat' => $candidat,
-//            'form_change_password' => $form->createView(),
-//            'error' => $mdpNonChange,
-//        ]);
-//    }
-//
-//
-//
-//    /**
-//     * @Route("candidat_account/change_mail", name="change_mail")
-//     */
-//    public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
-//    {
-//        $candidat = $this->getUser();
-//
-//        $form = $this->createFormBuilder($candidat)
-//            ->add('mail')
-//
-//
-//            ->getForm();
-//
-//        $form->handleRequest($request);
-//
-//
-//        if($form->isSubmitted() && $form->isValid())
-//        {
-//            $em->persist($candidat);
-//            $em->flush();
-//            $this->addFlash('mail_change','Votre mail a été modifié avec succès');
-//            return $this->redirectToRoute('candidat_account');
-//
-//        }
-//
-//        return $this->render('candidats/changeemail.html.twig', [
-//            'candidat' => $candidat,
-//            'form_change_email' => $form->createView()
-//        ]);
-//    }
+    /**
+     * @Route("candidat_account", name="candidat_account")
+     */
+
+    public function monCompte(UserInterface $candidat)
+    {
+        $candidat = $this->getUser();
+        return $this->render('candidats/moncompte.html.twig', [
+            'Candidat' => $candidat,
+        ]);
+    }
+
+    /**
+     * @Route("candidat_account/change_password", name="candidat_change_password")
+     */
+    public function changePassword(UserInterface $candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    {
+        $candidat = $this->getUser();
+
+        $form = $this->createFormBuilder($candidat)
+            ->add('password', PasswordType::class, array('mapped' => false))
+            ->add('new_password', PasswordType::class)
+            ->add('confirm_password', PasswordType::class)
+
+
+            ->getForm();
+
+
+        $form->handleRequest($request);
+
+        $mdpNonChange = "";
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $match = $encoder->isPasswordValid($candidat, $form['password']->getData());
+            //si password valide
+            if($match)
+            {
+                $hash = $encoder->encodePassword($candidat, $form['new_password']->getData());
+                $candidat->setPassword($hash);
+                $em->persist($candidat);
+                $em->flush();
+                $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
+                return $this->redirectToRoute('candidat_account');
+            }
+            else {
+                $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+            }
+        }
+
+
+
+        return $this->render('candidats/changepassword.html.twig', [
+            'Candidat' => $candidat,
+            'form_change_password' => $form->createView(),
+            'error' => $mdpNonChange,
+        ]);
+    }
+
+    /**
+     * @Route("candidat_account/change_mail", name="change_mail")
+     */
+    public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
+    {
+        $candidat = $this->getUser();
+
+        $form = $this->createFormBuilder($candidat)
+            ->add('mail')
+
+
+            ->getForm();
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($candidat);
+            $em->flush();
+            $this->addFlash('mail_change','Votre mail a été modifié avec succès');
+            return $this->redirectToRoute('candidat_account');
+
+        }
+
+        return $this->render('candidats/changeemail.html.twig', [
+            'candidat' => $candidat,
+            'form_change_email' => $form->createView()
+        ]);
+    }
 
 
 }
