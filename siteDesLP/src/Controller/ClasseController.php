@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Classes;
+use App\Entity\Promotions;
 use App\Entity\Professeurs;
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
@@ -36,6 +37,10 @@ class ClasseController extends AbstractController
       $form = $this->createFormBuilder($classe)
       ->add('nomClasse')
       ->add('nomComplet')
+      ->add('promotions', EntityType::class, [
+          'class' => Promotions::class,
+          'choice_label' => 'annee',
+      ])
       ->add('professeurResponsable',
       EntityType::class,
       [
@@ -67,7 +72,7 @@ class ClasseController extends AbstractController
       $nomClasse = "LP - ".strtoupper($form['nomClasse']->getData());
 
       if($repoC->findBy(['nomClasse' => $nomClasse]) == null)
-      { 
+      {
         if($form->isSubmitted() && $form->isValid())
         {
           $classe->setNomClasse($nomClasse);
@@ -127,8 +132,8 @@ class ClasseController extends AbstractController
 
       $form->handleRequest($request);
 
-      if($repoC->findBy(['nomClasse' => "LP - ".$classe->getNomClasse()]) == null || $nomClasse == "LP - ".strtoupper($form['nomClasse']->getData())) //Si ce nom n'existe pas encore ou qu'il est l'actuel 
-      { 
+      if($repoC->findBy(['nomClasse' => "LP - ".$classe->getNomClasse()]) == null || $nomClasse == "LP - ".strtoupper($form['nomClasse']->getData())) //Si ce nom n'existe pas encore ou qu'il est l'actuel
+      {
         if($form->isSubmitted() && $form->isValid())
         {
           $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));

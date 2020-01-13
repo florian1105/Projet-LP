@@ -70,6 +70,12 @@ class Classes
      */
     private $cours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Promotions", inversedBy="classe")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $promotions;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
@@ -258,6 +264,18 @@ class Classes
             $this->cours->removeElement($cour);
             $cour->removeClass($this);
         }
+
+        return $this;
+    }
+
+    public function getPromotions(): ?Promotions
+    {
+        return $this->promotions;
+    }
+
+    public function setPromotions(?Promotions $promotions): self
+    {
+        $this->promotions = $promotions;
 
         return $this;
     }
