@@ -158,11 +158,13 @@ class ArticlesController extends AbstractController
   {
     $classe = null;
     $articles = $repoA->findAll();
+
     if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") 
     {
       $articles = $repoA->getArticleByClasse($this->getUser()->getClasseResponsable());
       $classe = $this->getUser()->getClasseResponsable();
     }
+    
     return $this->render('articles/research.html.twig', [
       'articles' => $articles,
       'classe' => $classe
