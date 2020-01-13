@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateursRepository")
- * @MappedSuperclass
+ * @InheritanceType("JOINED")
+ * @ORM\Table(name="utilisateurs")
  */
-class Utilisateurs
+abstract class Utilisateurs
 {
     /**
      * @ORM\Id()
@@ -72,6 +74,11 @@ class Utilisateurs
      * @Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
      */
     private $date_naissance;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", mappedBy="classeEtudiant")
+     */
+    private $user_type;
 
     public function getId(): ?int
     {

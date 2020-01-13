@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandidatsRepository")
+ *
  */
-class Candidats extends Utilisateurs
+class Candidats extends Utilisateurs implements UserInterface
 {
     public function getId(): ?int
     {
@@ -83,4 +85,30 @@ class Candidats extends Utilisateurs
     {
         return parent::setMail($mail);
     }
+
+    public function getRoles()
+    {
+        return ['ROLE_CANDIDAT'];
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function getUsername()
+    {
+        return parent::getPrenom().parent::getNom();
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function __toString()
+    {
+        return parent::getNom()." ".parent::getPrenom();
+    }
+
 }

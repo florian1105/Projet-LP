@@ -8,6 +8,10 @@ security:
             algorithm: 'auto'
         App\Entity\Admin:
             algorithm: 'auto'
+        App\Entity\Candidats:
+            algorithm: 'auto'
+        App\Entity\Utilisateurs:
+            algorithm: 'auto'
         App\Entity\Entreprises:
             algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:
@@ -16,15 +20,21 @@ security:
     providers:
         chain_provider:
                 chain:
-                    providers: [in_database_admin_login, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_entreprise_mail]
+                    providers: [in_database_admin_login, in_database_candidat_mail, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_entreprise_mail]
         in_database_admin_login:
             entity:
                 class: App\Entity\Admin
                 property: login
+
         in_database_etudiant_mail:
             entity:
                 class: App\Entity\Etudiants
                 property: mailAcademique
+
+        in_database_candidat_mail:
+            entity:
+                class: App\Entity\Candidats
+                property: mail
 
         in_database_etudiant_login:
             entity:
@@ -78,6 +88,7 @@ security:
             # switch_user: true
 
     role_hierarchy:
+        ROLE_CANDIDAT: ROLE_USER
         ROLE_ETUDIANT: ROLE_USER
         ROLE_PROFESSEUR: ROLE_USER
         ROLE_SECRETAIRE: ROLE_USER
@@ -89,6 +100,7 @@ security:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/informations/globales, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^informations/classes, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/candidat_account, role: ROLE_CANDIDAT }
         - { path: ^/etudiant_account, role: ROLE_ETUDIANT }
         - { path: ^/professeur_account, role: ROLE_PROFESSEUR }
         - { path: ^/secretaire_account, role: ROLE_SECRETAIRE }

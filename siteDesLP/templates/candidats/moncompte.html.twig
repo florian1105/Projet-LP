@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+  {% for msg in app.session.flashBag.get('mdp_change') %}
+    <div class="alert alert-success" role="alert">
+      {{ msg }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endfor %}
+
+  {% for msg in app.session.flashBag.get('mail_change') %}
+    <div class="alert alert-success" role="alert">
+      {{ msg }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+  {% endfor %}
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="{{ path('candidat_change_password') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-key"></i>&nbsp;&nbsp;Modifier mon mot de passe</button></a>
+    <a href="{{ path('change_mail') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-envelope"></i>&nbsp;&nbsp;Modifier mon mail</button></a>
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col"><i class="far fa-address-card"></i>&nbsp;&nbsp;Informations utilisateur</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"><i class="fas fa-id-badge"></i>&nbsp;&nbsp;Nom</th>
+        <td>{{ Candidat.nom }}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="far fa-id-badge"></i>&nbsp;&nbsp;Prénom</th>
+        <td>{{ Candidat.prenom }}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Mail personnel</th>
+        <td>{{ Candidat.mail }}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="far fa-calendar-times"></i>&nbsp;&nbsp;Date de naissance</th>
+        <td>{{ Candidat.dateNaissance | date('d/m/Y')}}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
