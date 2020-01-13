@@ -3,7 +3,7 @@
 
 {% block body %}
     {% if editMode %}
-        <h1>Modification du candidat </h1> {#TODO: ajouter nom prenom du candidat#}
+        <h1>Modification du candidat {{ Candidat.nom }} {{ Candidat.prenom }}</h1>
     {% else %}
         <h1>Création d'un candidat</h1>
     {% endif %}

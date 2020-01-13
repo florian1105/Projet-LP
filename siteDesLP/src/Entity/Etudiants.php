@@ -28,7 +28,6 @@ class Etudiants extends Utilisateurs implements UserInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * 
      */
     private $passwordRequestedAt;
 

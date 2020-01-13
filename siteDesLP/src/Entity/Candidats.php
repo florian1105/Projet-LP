@@ -86,35 +86,29 @@ class Candidats extends Utilisateurs implements UserInterface
         return parent::setMail($mail);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return ['ROLE_CANDIDAT'];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return parent::getPrenom().parent::getNom();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+
     }
+
+    public function __toString()
+    {
+        return parent::getNom()." ".parent::getPrenom();
+    }
+
 }
