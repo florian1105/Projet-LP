@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Promotions;
+use App\Repository\PromotionsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,13 +45,14 @@ class PromotionController extends AbstractController
       $manager->flush();
       if($editMode = false)
       {
-        $this->addFlash('success','La promotion a bien été crée');
+        $this->addFlash('successAdd','La promotion a bien été crée');
       }
       else
       {
-        $this->addFlash('success','La promotion a bien été modifié');
+        $this->addFlash('successModif','La promotion a bien été modifié');
       }
 
+      return $this->redirectToRoute('promotion_research');
 
     }
 
@@ -78,7 +80,7 @@ class PromotionController extends AbstractController
         $manager->flush();
         $this->addFlash('delete',"La promotion a été supprimé avec succès");
       }
-      return $this->redirectToRoute('promotion_create');
+      return $this->redirectToRoute('promotion_research');
     }
 
     else
@@ -95,5 +97,17 @@ class PromotionController extends AbstractController
       ]);
     }
   }
+
+  /**
+   * @Route("promotion/promotion_research", name="promotion_research")
+   */
+public function researchPromotion(PromotionsRepository $repoP)
+{
+  $promotions = $repoP->findAll();
+  return $this->render('promotion/research.html.twig', [
+    'promotions' => $repoP->findAll(),
+  ]);
+
+}
 
 }
