@@ -79,7 +79,7 @@ class EntreprisesController extends AbstractController
             $em->persist($entreprise);
             $em->flush();
 
-            return $this->redirectToRoute('Entreprise_add');
+            return $this->redirectToRoute('contact_add');
 
         }
         return $this->render('entreprises/index.html.twig', [
