@@ -114,71 +114,51 @@ class CoursController extends AbstractController
      */
     public function afficherCours(CoursRepository $coursRepo)
     {
-        /* Récuperation de l'utilisateur connecté */
+        // Récupère l'utilisateur connecté
         $etu = $this->getUser();
 
-        /* Verification que ce soit un etudiant */
+        // Vérification que ce soit un etudiant
         if(! $etu instanceof Etudiants)
             return $this->redirectToRoute('connexion');
 
-        /* Récupère la classe de l'étudiant */
+        // Récupère la classe de l'étudiant
         $classe = $etu->getClasseEtudiant();
 
-        /* Récupère l'arborescence */
+        // Récupère les dossiers de la classe
         $results = $coursRepo->getTreeClasse($classe);
 
-        // debug
-        print_r('
-        <style>
-        table, th, td {
-          padding: 5px;
-          border: 1px solid black;
-          border-collapse: collapse;
-        }
-        </style>
-        <table>
-        <tr>
-        <th>Parent</th>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Info supplémentaire</th>
-        <th>Prof</th>
-        <th>Visible</th>
-        </tr>');
-        foreach ($results as $cours) {
-            $id      = $cours->getId();
-            $nom     = $cours->getNom();
-            $prof    = $cours->getProf();
-            $parent  = $cours->getCoursParent();
-            $visible = $cours->getVisible();
-            
-            if($parent != null)
-                $parent = $parent->getId();
-            else
-                $parent = 'null';
+        // Generation de l'affichage de l'arborescence
+        // Liste finale d'affichage des dossiers
+        $final = [];
 
-            if($prof != null)
-                $prof = $prof->getLogin();
-            else
-                $prof = 'null';
-            
-        print_r('
-        <tr>
-        <td style="color:#'.$parent.'7"><strong>'. $parent .'</strong></td>
-        <td style="color:#'.$id.'7"><strong>'. $id .'</strong></td>
-        <td>'. $nom .'</td>
-        <td></td>
-        <td>'. $prof .'</td>
-        <td>'. $visible .'</td>
-        </tr>
-        ');
+        // Vide les enfants des dossiers
+// TODO demander au repo de faire ca
+        foreach ($results as $dossier) {
+            $dossier->clearCoursEnfants();
         }
-        print_r('</table>');
-        // fin debug
 
-        /* Affichage */
+        foreach ($results as $dossier) {
+            if ($dossier->hasParent()) {
+                // Recupère l'index du parent du dossier dans la liste 
+                $i = getIndexDossier($dossier, $results);
+
+                // Si le dossier parent est dans la liste
+                if ($i >= 0) {
+                    // Sous-dossier
+                    $dossier->getCoursParent()->addCoursEnfant($dossier);
+                } else {
+                    // Dossier orphelin
+                    $final[] = $dossier;
+                }
+            } else {
+                // Dossier racine
+                $final[] = $dossier;
+            }
+        }
+
+        // Affichage 
         return $this->render('cours/affichage.html.twig', [
-            'data' => $results,
+            'data' => $final,
         ]);
     }
 
@@ -240,8 +220,7 @@ class CoursController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if($form->isSubmitted() && $form->isValid()) {
           $em->persist($cours);
           $em->flush();
           $this->addFlash('editTrue','Le dossier a été modifié avec succès');
@@ -255,4 +234,50 @@ class CoursController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/ent/cours/{id}/visibilite", name="cours_visi")
+     */
+    public function changeVisibilite(Cours $cours, ObjectManager $em)
+    {
+        if ($cours->getVisible()) 
+            $cours->setVisible(false);
+        else
+            $cours->setVisible(true);
+
+        $em->persist($cours);
+        $em->flush();
+
+        return $this->redirectToRoute('cours_gest');
+    }
+}
+
+
+
+/**
+ * Fournit une copie du dossier sans
+ * ses enfants
+ * @param Le dossier
+ * @return La copie
+ */
+function videFils($dossier) {
+    $copie = new Cours();
+    $copie->setId($dossier->getId());
+    $copie->setNom($dossier->getNom());
+    $copie->setProf($dossier->getProf());
+    $copie->setVisible($dossier->getVisible());
+    $copie->copyFichiers($dossier->getFichiers());
+    return $copie;
+}
+
+
+function getIndexDossier($needle, $haystack) {
+    $i = -1;
+    foreach ($haystack as $index => $dossierFinal) {
+        if ($needle->getCoursParent()->getId() == $dossierFinal->getId()){
+            $i = $index;
+            break;
+        }
+    }
+    return $i;
 }
