@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateursRepository")
  * @InheritanceType("JOINED")
  * @ORM\Table(name="utilisateurs")
+ *
  */
 abstract class Utilisateurs
 {
@@ -74,11 +75,6 @@ abstract class Utilisateurs
      * @Assert\Range(max="now", maxMessage="Cet étudiant ne peut pas être née avant aujourd'hui veuillez saisir une date valide")
      */
     private $date_naissance;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", mappedBy="classeEtudiant")
-     */
-    private $user_type;
 
     public function getId(): ?int
     {
