@@ -120,20 +120,18 @@ class ResettingPasswordController extends AbstractController
         //On vérifie qu'il existe un utilisateur avec le token en paramètre
         $user = $repoE->findOneBy(['token' => $token]);
 
-        if (!$user)
+        if ($user==null)
         {
           $user = $repoP->findOneBy(['token' => $token]);
         }
-        elseif(!$user)
+        if($user==null)
         {
             $user = $repoC->findOneBy(['token' => $token]);
-
-        }elseif(!$user)
+        }
+        if($user==null)
         {
             $user = $repoS->findOneBy(['token' => $token]);
         }
-
-
         if(!$user){
             throw new AccessDeniedHttpException("Utilisateur non trouvé");
         }

@@ -187,6 +187,10 @@ class Contacts implements UserInterface {
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getNom()." ".$this->getPrenom();
+    }
 
     /**
      * Returns the roles granted to the user.
@@ -204,7 +208,7 @@ class Contacts implements UserInterface {
      */
     public function getRoles()
     {
-        return ROLES["CONTACT"];
+        return ["ROLES_CONTACT"];
     }
 
     /**
@@ -221,7 +225,7 @@ class Contacts implements UserInterface {
         return $this->password;
     }
 
-    public function setPassword(string $password): Utilisateurs
+    public function setPassword(string $password)
     {
         $this->password=$password;
     }

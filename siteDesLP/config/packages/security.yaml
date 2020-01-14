@@ -12,7 +12,7 @@ security:
             algorithm: 'auto'
         App\Entity\Utilisateurs:
             algorithm: 'auto'
-        App\Entity\Entreprises:
+        App\Entity\Contacts:
             algorithm: 'auto'
         Symfony\Component\Security\Core\User\User:
             algorithm: 'auto'
@@ -20,7 +20,7 @@ security:
     providers:
         chain_provider:
                 chain:
-                    providers: [in_database_admin_login, in_database_candidat_mail, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_entreprise_mail]
+                    providers: [in_database_admin_login, in_database_candidat_mail, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_contact_mail]
         in_database_admin_login:
             entity:
                 class: App\Entity\Admin
@@ -61,10 +61,10 @@ security:
                 class: App\Entity\Secretaire
                 property: login
         
-        in_database_entreprise_mail:
+        in_database_contact_mail:
             entity:
-                class: App\Entity\Entreprises
-                property: adresseMail
+                class: App\Entity\Contacts
+                property: mail
 
     firewalls:
         dev:
@@ -94,7 +94,7 @@ security:
         ROLE_SECRETAIRE: ROLE_USER
         ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
         ROLE_ADMIN: ROLE_USER
-        ROLE_ENTREPRISE : ROLE_USER
+        ROLE_CONTACT : ROLE_USER
 
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -108,4 +108,4 @@ security:
         - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
-        - { path: ^/entreprise_account, role: ROLE_ENTREPRISE }
+        - { path: ^/contact_account, role: ROLE_CONTACT }
