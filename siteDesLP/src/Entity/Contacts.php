@@ -9,8 +9,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
- * @UniqueEntity("mail",message="ce mail est déjà utilisé")
- * @UniqueEntity("telephone",message="ce numéro de tel est déjà utilisé")
+ * @UniqueEntity("mail",message="Ce mail est déjà utilisé")
+ * @UniqueEntity("telephone",message="Ce numéro de tel est déjà utilisé")
  */
 class Contacts implements UserInterface {
     /**
@@ -66,7 +66,7 @@ class Contacts implements UserInterface {
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises")
      * @ORM\JoinColumn(name="entreprise_contact_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * @Assert\NotNull(message="Contact doit avoir une entreprise.")
+     * @Assert\NotNull(message="Une entreprise est nécessaire.")
      */
     private $entreprise;
 
@@ -192,33 +192,10 @@ class Contacts implements UserInterface {
         return $this->getNom()." ".$this->getPrenom();
     }
 
-    /**
-     * Returns the roles granted to the user.
-     *
-     *     public function getRoles()
-     *     {
-     *         return ['ROLE_USER'];
-     *     }
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
-     */
     public function getRoles()
     {
-        return ["ROLES_CONTACT"];
+        return ["ROLE_CONTACT"];
     }
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string|null The encoded password if any
-     */
 
     public function getPassword(): ?string
     {
@@ -252,7 +229,7 @@ class Contacts implements UserInterface {
     }
     public function getConfirmPassword()
     {
-        return $this->getConfirmPassword();
+        return $this->confirm_password;
     }
     public function setConfirmPassword($confirm_password): void
     {
@@ -270,37 +247,15 @@ class Contacts implements UserInterface {
         return $this;
     }
 
-
-
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+       
     }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->nom." ".$this->prenom;
     }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
+    
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.

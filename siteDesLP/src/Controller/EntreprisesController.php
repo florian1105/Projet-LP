@@ -40,48 +40,36 @@ class EntreprisesController extends AbstractController
             $editMode = false;
         }
 
-        if(!$editMode) {
+        $form = $this->createFormBuilder($entreprise)
+            ->add('nom')
+            ->getForm();
 
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->getForm();
-
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
 
-            $nom = strtoupper($form['nom']->getData());
-            $entreprise->setNom($nom);
-            $entreprise->setValide(false);
-            $entreprise->setContactEntreprise(null);
-
-
-        }else {
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->getForm();
-            $form->handleRequest($request);
-            $nom = strtoupper($form['nom']->getData());
-
-            $entreprise->setNom($nom);
-            $entreprise->setValide(false);
-            $entreprise->setContactEntreprise(null);
-            $entreprise->setValide(false);
-
-
-        }
-
-        if($form->isSubmitted() && $form->isValid()) {
-            if ($editMode == false) {
-                $this->addFlash('success', 'l\'entreprise a bien été créé');
-            } else {
-                $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            if ($editMode == false) 
+            {
+                $this->addFlash('success', 'L\'entreprise a bien été créé');
+            } 
+            else 
+            {
+                $this->addFlash('success_modifie', 'Les changements on biens été pris en compte');
             }
+
+            $nom = strtoupper($form['nom']->getData());
+            $entreprise->setNom($nom);
+
             $em->persist($entreprise);
             $em->flush();
 
-            return $this->redirectToRoute('contact_add');
+            dump($entreprise);
+
+            return $this->redirectToRoute('research_entreprise');
 
         }
+
         return $this->render('entreprises/index.html.twig', [
             'form_create_entreprise' => $form->createView(),
             'editMode' => $entreprise->getId() !== null,

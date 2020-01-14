@@ -25,7 +25,6 @@ class ArticlesRepository extends ServiceEntityRepository
     {
       $qb = $this->createQueryBuilder("p")
           ->where(':classe MEMBER OF p.classes')
-          ->notIn('p.id')
           ->setParameters(array('classe' => $classe));
           
         return $qb->getQuery()->getResult();

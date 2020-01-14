@@ -61,8 +61,6 @@
                 <td><a href="{{ path('entreprise_edit', {'id' : entreprise.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
                 <td><a href="{{ path('entreprise_delete', {'id' : entreprise.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
             </tr>
-            <td><a href="{{ path('etudiant_edit', {'id' : etudiant.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-            <td><a href="{{ path('etudiant_delete', {'id' : etudiant.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
         {% endfor %}
         </tbody>
     </table>
