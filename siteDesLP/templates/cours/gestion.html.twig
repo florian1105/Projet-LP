@@ -1,32 +1,41 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	{% block stylesheets %}
+		{{ parent() }}
+		{{ encore_entry_link_tags('treeStructure') }}
+	{% endblock %}
+{% endblock %}
+
 {# Fonction récursive d'affichage
    des dossiers & fichiers #}
 {% macro genereArborescence(dossiers) %}
 {% for dossier in dossiers %}
 <li>
 	{# Dossier #}
-	<span class="node active">
+	<span class="node active"
+	data-id={{dossier.id}}
+	data-classes="{% for classe in dossier.classes %}{{classe.id}},{% endfor %}">
 		{{dossier.nom}}
 	</span>
 	{# Menu du dossier #}
 	<span>
 		<div class="btn-group ml-2" role="group">
-	  		<a class="btn btn-success" href={{path('upload', {'cours':dossier.id})}}>
-	  			<i class="far fa-file-code"></i>
-	  		</a>
+			<a class="btn btn-success" href={{path('upload', {'cours':dossier.id})}}>
+				<i class="far fa-file-code"></i>
+			</a>
 			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}})">
 				<i class="fas fa-folder-plus"></i>
 			</button>
 			{# doss - visibilité #}
 			<a class="btn btn-light" href={{ path('fichier_visi', {'id' : dossier.id}) }}>
 				{% if dossier.visible %}
-		  			<i class="fas fa-eye"></i>
-		  		{% else %}
-		  			<i class="fas fa-eye-slash"></i>
-		  		{% endif %}
+					<i class="fas fa-eye"></i>
+				{% else %}
+					<i class="fas fa-eye-slash"></i>
+				{% endif %}
 			</a>
-	  		<div class="btn-group" role="group">
+			<div class="btn-group" role="group">
 				<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 				<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
 					<a class="dropdown-item" href={{ path('dossier_edit', {'id' : dossier.id}) }}>
@@ -45,28 +54,30 @@
 	<ul class="nest active">
 		{% for fichier in dossier.fichiers %}
 			<li class="leaf">
-				{% if fichier.visible %}
-		  			<i class="fas fa-eye mr-2"></i>
-		  		{% else %}
-		  			<i class="fas fa-eye-slash mr-2"></i>
-		  		{% endif %}
 
 				<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
 
-				{# Menu #}
-		  		<div class="btn-group ml-2" role="group">
-					<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
-						<a class="dropdown-item" href={{ path('fichier_visi', {'id' : fichier.id}) }}>
-							<i class="fas fa-eye"></i> Changer la visibilité
-						</a>
-						<a class="dropdown-item disabled" href="#">
-							<i class="fas fa-pencil-alt"></i> Renommer
-						</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}>
-							<i class="far fa-trash-alt"></i> Supprimer
-						</a>
+				<div class="btn-group ml-2" role="group">
+					<a class="btn btn-light" href={{ path('fichier_visi', {'id' : fichier.id}) }}>
+						{% if fichier.visible %}
+							<i class="fas fa-eye"></i>
+						{% else %}
+							<i class="fas fa-eye-slash"></i>
+						{% endif %}
+					</a>
+				
+					{# Menu #}
+					<div class="btn-group" role="group">
+						<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+						<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
+							<a class="dropdown-item disabled" href="#">
+								<i class="fas fa-pencil-alt"></i> Renommer
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}>
+								<i class="far fa-trash-alt"></i> Supprimer
+							</a>
+						</div>
 					</div>
 				</div>
 			</li>
@@ -81,67 +92,30 @@
 {% block body %}
 
 	<style>
-		.tree {
-			/*border: 1px solid black;*/
-			padding: 0;
-			margin: 0;
-		}
-		.node {
-			cursor: pointer;
-			user-select: none;
-			width: 100%;
-			/*padding: 1rem;
-			margin: 1rem;*/
-		}
-		.node::before {
-			content: "\25B6";
-			color: black;
-			display: inline-block;
-			margin-right: 0.5rem;
-		}
-		.node.active::before {
-			transform: rotate(90deg);
-		}
-		.tree li {
-			list-style-type: none;
-		}
-		.leaf {
-			list-style-type: disc;
-			margin: 1rem;
-		}
-		.tree ul {
-			display: none;
-		}
-		.tree ul.active {
-			display: block;
-		}
-
-		.dropdown-item .fa,
-		.dropdown-item .fas,
-		.dropdown-item .far {
-			min-width: 1.5rem;
-		}
+		
 	</style>
 
 
 
 	{# Erreurs #}
 	{% for msg in app.session.flashBag.get('editTrue') %}
-	    <div class="alert alert-success">
-	        {{ msg }}
-	    </div>
+		<div class="alert alert-success">
+			{{ msg }}
+		</div>
 	{% endfor %}
+
 	{% for msg in app.session.flashBag.get('fileExist') %}
-	    <div class="alert alert-primary">
-	        {{ msg }}
-	    </div>
+		<div class="alert alert-primary">
+			{{ msg }}
+		</div>
 	{% endfor %}
+
 	{% if not form.vars.valid %}
-	    <div class="alert alert-primary">
-	        {{ form_errors(form.nom) }}
-	        {{ form_errors(form.classes) }}
-	        {{ form_errors(form.coursParent) }}
-	    </div>
+		<div class="alert alert-primary">
+			{{ form_errors(form.nom) }}
+			{{ form_errors(form.classes) }}
+			{{ form_errors(form.coursParent) }}
+		</div>
 	{% endif %}
 
 	{# Bouton puis génération de l'arborescence #}
@@ -153,55 +127,48 @@
 		{{ _self.genereArborescence(dossiersRacines) }}
 	</ul>
 
-	<script>
-		/* Doit être chargé après la
-		génération de l'arborescence */
-		let nodes = document.getElementsByClassName("node")
-
-		for (let i = 0; i < nodes.length; i++) {
-			nodes[i].addEventListener("click", function() {
-				this.parentElement.querySelector(".nest").classList.toggle("active")
-				this.classList.toggle("active")
-			});
-		}
-	</script>
+	{{ encore_entry_script_tags('treeStructure') }}
 
 {# Popup de création d'un dossier #}
 <div class="modal fade" id="creerDossier" tabindex="-1" role="dialog" aria-labelledby="creerDossierLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title" id="creerDossierLabel">Ajouter un dossier</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			  <span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		{{ form_start(form) }}
-		<div class="modal-body">
-			{{ form_row(form.nom) }}
-			{{ form_row(form.classes) }}
-			<div class="d-none">
-				{{ form_widget(form.coursParent) }}
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="creerDossierLabel">Ajouter un dossier</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
 			</div>
+			{{ form_start(form) }}
+			<div class="modal-body">
+				{{ form_row(form.nom) }}
+				{{ form_row(form.classes) }}
+				<div class="d-none">
+					{{ form_widget(form.coursParent) }}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+				<button type="submit" class="btn btn-primary">Créer</button>
+			</div>
+			{{ form_end(form) }}
 		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-			<button type="submit" class="btn btn-primary">Créer</button>
-		</div>
-		{{ form_end(form) }}
 	</div>
-</div>
 </div>
 {# FIN popup #}
 
 <script>
 	/* Prepare l'affichage de la popup */
-	function prepareModal(id) {
+	function prepareModal(idParent) {
+		/* Ajoute à la popup le dossier dans
+		   lequel ce cours doit etre ajouter
+		   dans un champs caché */
 		let coursParent = document.getElementById('form_coursParent')
+		const classes = document.getElementsByName('form[classes][]')
 
-		if (coursParent.value != id) {
+		if (coursParent.value != idParent) {
 			// Dossier dans lequel on insert
-			coursParent.value = id
+			coursParent.value = idParent
 
 			// Reset nom + focus
 			let nom = document.getElementById('form_nom')
@@ -209,11 +176,39 @@
 			nom.focus()
 			
 			// Reset classes
-			const classes = document.getElementsByName('form[classes][]')
 			for (let i = classes.length - 1; i >= 0; i--) {
 				classes[i].checked = false
+				classes[i].parentNode.removeAttribute('style')
 			}
 		}
+
+		/* Restraint le choix des classes
+		   du dossier/cours par rapport à
+		   son père
+		*/
+		if (idParent != null) {
+			// Recupère les id des classes du parent
+			const classesParent = document.querySelectorAll('.node')[0].dataset.classes.split(',')
+			
+			for (let i = classes.length - 1; i >= 0; i--) {
+
+				let inParent = false
+		
+				// Controle si les classes sont des classes du parent
+				for (var j = classesParent.length - 1; j >= 0; j--) {
+					
+					if(classesParent[j]==classes[i].value) {
+						inParent = true
+					}
+
+				}
+
+				// Cache les classes qui ne sont pas dans la liste des classes du parent
+				if (!inParent) {
+					classes[i].parentNode.setAttribute('style', 'display:none;')
+				}
+			}
+		} 
 	}
 </script>
 {% endblock %}

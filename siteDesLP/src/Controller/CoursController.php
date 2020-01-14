@@ -13,103 +13,98 @@ use App\Entity\Classes;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Repository\CoursRepository;
+use App\Repository\ProfesseursRepository;
+use App\Repository\ClassesRepository;
 
 class CoursController extends AbstractController
 {
     /**
      * @Route("/ent/gestion", name="cours_gest")
      */
-    public function gererCours(Request $request)
-    {
-    	/* Récupère le prof connecté */
-		$prof = $this->getUser();
+    public function gererCours(Request $request) {
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
 
-		if(! $prof instanceof Professeurs)
-			return $this->redirectToRoute('connexion');
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
 
-       	/* Formulaire d'ajout d'un dossier
-       	   de cours */
-		$cours = new Cours();
+        /* Formulaire d'ajout d'un dossier de cours */
+        $cours = new Cours();
 
-		$form = $this->createFormBuilder($cours)
+        $form = $this->createFormBuilder($cours)
         ->add('nom')
         ->add('classes', EntityType::class,
         [
-          'class' => Classes::class,
-          'choice_label' => 'nomClasse',
-          'label' => 'Classes de l\'article',
-          'expanded' => true,
-          'multiple' => true,
-          'mapped' => true,
-          'by_reference' => false,
+            'class' => Classes::class,
+            'choice_label' => 'nomClasse',
+            'label' => 'Classes de l\'article',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+            'by_reference' => false,
+            'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                return $repoC->createQueryBuilder('c')
+                    ->andWhere(':id MEMBER OF c.professeurs')
+                    ->setParameter('id', $prof->getId())
+                    ->orderBy('c.nomClasse', 'ASC');
+            }
         ])
         ->add('coursParent', EntityType::class,
-		[
-			'class' => Cours::class,
-			'choice_label' => 'id',
-			'label' => 'Dossier de cours parent',
-			'expanded' => false,
-			'multiple' => false,
-			'required' => false,
-		])
-
-	 	->getForm();
+        [
+            'class' => Cours::class,
+            'choice_label' => 'id',
+            'label' => 'Dossier de cours parent',
+            'expanded' => false,
+            'multiple' => false,
+            'required' => false,
+        ])
+        ->getForm();
 
         $form->handleRequest($request);
 
-		// Réception du form valide -> add/update
-		if($form->isSubmitted() && $form->isValid())
-		{
-				$cours->setProf($prof);
+        // Réception du form valide -> add/update
+        if($form->isSubmitted() && $form->isValid()) {
+            $cours->setProf($prof);
+            $cours->setVisible(true);
 
-				$manager = $this->getDoctrine()->getManager();
-				$cours->setVisible(true);
-				$manager->persist($cours);
-				$manager->flush();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($cours);
+            $manager->flush();
 
-				// Réinitialisation du formulaire
-				unset($cours);
-				unset($form);
-				$cours = new Cours();
-				$form = $this->createFormBuilder($cours)
-		        ->add('nom')
-		        ->add('classes', EntityType::class,
-		        [
-		          'class' => Classes::class,
-		          'choice_label' => 'nomClasse',
-		          'label' => 'Classes de l\'article',
-		          'expanded' => true,
-		          'multiple' => true,
-		          'mapped' => true,
-		          'by_reference' => false,
-		        ])
-		        ->add('coursParent', EntityType::class,
-				[
-					'class' => Cours::class,
-					'choice_label' => 'id',
-					'label' => 'Dossier de cours parent',
-					'expanded' => false,
-					'multiple' => false,
-					'required' => false,
-				])
-			 	->getForm();
-		}
+            // Réinitialisation du formulaire
+            unset($cours);
+            unset($form);
+            $cours = new Cours();
+            $form = $this->createFormBuilder($cours)
+            ->add('nom')
+            ->add('classes', EntityType::class,
+            [
+                'class' => Classes::class,
+                'choice_label' => 'nomClasse',
+                'label' => 'Classes de l\'article',
+                'expanded' => true,
+                'multiple' => true,
+                'mapped' => true,
+                'by_reference' => false,
+            ])
+            ->add('coursParent', EntityType::class,
+            [
+                'class' => Cours::class,
+                'choice_label' => 'id',
+                'label' => 'Dossier de cours parent',
+                'expanded' => false,
+                'multiple' => false,
+                'required' => false,
+            ])
+            ->getForm();
+        }
 
-    	/* Récupère ses dossiers de cours */
-    	$cours = $prof->getDossiersCours();
+        /* Récupère les dossiers racines */
+        $cours = $prof->getDossiersRacinesCours();
 
-		/* Va chercher les dossiers racines
-		   (sans parent) */
-    	// -> faire une requete dans le modele
-		$dossiersPrincipaux = [];
-    	foreach ($cours as $dossier) {
-	    	if($dossier->getCoursParent() == null)
-    			$dossiersPrincipaux[] = $dossier;
-       	}
-
-    	/* Affichage */
-		return $this->render('cours/gestion.html.twig', [
-            'dossiersRacines' => $dossiersPrincipaux,
+        /* Affichage */
+        return $this->render('cours/gestion.html.twig', [
+            'dossiersRacines' => $cours,
             'form' => $form->createView(),
         ]);
     }
@@ -119,43 +114,70 @@ class CoursController extends AbstractController
      */
     public function afficherCours(CoursRepository $coursRepo)
     {
-    	/* Récuperation de l'utilisateur connecté */
-		$etu = $this->getUser();
+        /* Récuperation de l'utilisateur connecté */
+        $etu = $this->getUser();
 
-		/* Verification que ce soit un etudiant */
-		if(! $etu instanceof Etudiants)
-			return $this->redirectToRoute('connexion');
+        /* Verification que ce soit un etudiant */
+        if(! $etu instanceof Etudiants)
+            return $this->redirectToRoute('connexion');
 
-    	/* Récupère la classe de l'étudiant */
-    	$classe = $etu->getClasseEtudiant();
+        /* Récupère la classe de l'étudiant */
+        $classe = $etu->getClasseEtudiant();
 
-		/* Récupère l'arborescence */
-    	$results = $coursRepo->getTreeClasse($classe);
+        /* Récupère l'arborescence */
+        $results = $coursRepo->getTreeClasse($classe);
 
-    	// debug
-    	foreach ($results as $cours) {
-    		$id      = $cours->getId();
-    		$nom     = $cours->getNom();
-    		$prof    = $cours->getProf();
-    		$parent  = $cours->getCoursParent();
-    		$visible = $cours->getVisible();
-    		
-    		if($parent != null)
-    			$parent = $parent->getNom();
-    		else
-    			$parent = 'racine';
+        // debug
+        print_r('
+        <style>
+        table, th, td {
+          padding: 5px;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        </style>
+        <table>
+        <tr>
+        <th>Parent</th>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Info supplémentaire</th>
+        <th>Prof</th>
+        <th>Visible</th>
+        </tr>');
+        foreach ($results as $cours) {
+            $id      = $cours->getId();
+            $nom     = $cours->getNom();
+            $prof    = $cours->getProf();
+            $parent  = $cours->getCoursParent();
+            $visible = $cours->getVisible();
+            
+            if($parent != null)
+                $parent = $parent->getId();
+            else
+                $parent = 'null';
 
-    		if($prof != null)
-    			$prof = $prof->getNomProfesseur();
-    		else
-    			$prof = 'null';
-    		
-    		print_r('id:' . $id . ' | nom:' . $nom . ' | parent:' . $parent . ' | prof:' . $prof . ' | visible:' . $visible . '<br>');
-    	}
-    	// fin debug
+            if($prof != null)
+                $prof = $prof->getLogin();
+            else
+                $prof = 'null';
+            
+        print_r('
+        <tr>
+        <td style="color:#'.$parent.'7"><strong>'. $parent .'</strong></td>
+        <td style="color:#'.$id.'7"><strong>'. $id .'</strong></td>
+        <td>'. $nom .'</td>
+        <td></td>
+        <td>'. $prof .'</td>
+        <td>'. $visible .'</td>
+        </tr>
+        ');
+        }
+        print_r('</table>');
+        // fin debug
 
-    	/* Affichage */
-		return $this->render('cours/affichage.html.twig', [
+        /* Affichage */
+        return $this->render('cours/affichage.html.twig', [
             'data' => $results,
         ]);
     }
@@ -165,35 +187,35 @@ class CoursController extends AbstractController
      */
     public function supprimeCours(Cours $cours, Request $req)
     {
-		/* Récupère le prof connecté */
-		$prof = $this->getUser();
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
 
-		if(! $prof instanceof Professeurs)
-			return $this->redirectToRoute('connexion');
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
 
-		//Si le formulaire à été soumis
-		if($req->isMethod('POST'))
-		{
-    		// En cas de validation on supprime et on redirige
-			if($req->request->has('oui'))
-			{
-				$em=$this->getDoctrine()->getManager();
-				$em->remove($cours);
-				$em->flush();
-      			$this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
-			}
-			return $this->redirectToRoute('cours_gest');
-		} else {
-			//Si le formulaire n'a pas été soumis alors on l'affiche
-			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
+        //Si le formulaire à été soumis
+        if($req->isMethod('POST'))
+        {
+            // En cas de validation on supprime et on redirige
+            if($req->request->has('oui'))
+            {
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($cours);
+                $em->flush();
+                $this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
+            }
+            return $this->redirectToRoute('cours_gest');
+        } else {
+            //Si le formulaire n'a pas été soumis alors on l'affiche
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
 
-			$message = 'Le dossier "'.$cours->getNom().'" sera supprimé de manière irréversible.';
+            $message = 'Le dossier "'.$cours->getNom().'" sera supprimé de manière irréversible.';
 
-    		return $this->render('confirmation.html.twig', [
-					'titre' => $title,
-					'message' => $message
-	        	]);
-	    }
+            return $this->render('confirmation.html.twig', [
+                'titre' => $title,
+                'message' => $message
+            ]);
+        }
     }
 
     /**

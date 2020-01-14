@@ -59,13 +59,12 @@ class CoursRepository extends ServiceEntityRepository
                 SELECT @cr := 
                 (
                     SELECT 
-                    GROUP_CONCAT(DISTINCT cours.id) AS id
+                    GROUP_CONCAT(cours.id) AS id
                     FROM cours
                     JOIN cours_classes ON cours_id = cours.id
-                    JOIN classes ON classes_id = classes.id
-                    WHERE classes.id = :cla_id
+                    WHERE classes_id = :cla_id
                     AND cours_parent_id IS NULL
-                    GROUP BY classes.id
+                    GROUP BY classes_id
                 )
             ) entree
             -- Affiche les dossiers racines
