@@ -32,7 +32,8 @@ class Entreprises
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contacts")
+     * @ORM\OneToMany(targetEntity="App\Entity\Contacts" , mappedBy="contactEntreprise")
+     *
      */
     private $contactEntreprise;
 

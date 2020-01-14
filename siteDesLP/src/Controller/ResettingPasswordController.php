@@ -86,7 +86,7 @@ class ResettingPasswordController extends AbstractController
 
     //si la rêquete de mot de passe a été envoyé il y a plus de 24h retourne false
     //sinon retourne true
-    private function isRequestedInTime(\Datetime $passwordRequestedAt = null)
+    private function isRequestedInTime(\DateTimeInterface $passwordRequestedAt = null)
     {
       if($passwordRequestedAt === null)
       {
@@ -126,12 +126,17 @@ class ResettingPasswordController extends AbstractController
         }
         elseif(!$user)
         {
-          $user = $repoS->findOneBy(['token' => $token]);
+            $user = $repoC->findOneBy(['token' => $token]);
+
         }elseif(!$user)
         {
-            $user = $repoC->findOneBy(['token' => $token]);
+            $user = $repoS->findOneBy(['token' => $token]);
         }
 
+
+        if(!$user){
+            throw new AccessDeniedHttpException("Utilisateur non trouvé");
+        }
 
         if(!$user || !$this->isRequestedInTime($user->getPasswordRequestedAt()))
         {
