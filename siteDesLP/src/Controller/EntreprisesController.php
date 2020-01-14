@@ -40,49 +40,36 @@ class EntreprisesController extends AbstractController
             $editMode = false;
         }
 
-        if(!$editMode) {
+        $form = $this->createFormBuilder($entreprise)
+            ->add('nom')
+            ->getForm();
 
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->getForm();
-
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
 
-            $nom = strtoupper($form['nom']->getData());
-            $entreprise->setNom($nom);
-            $entreprise->setValide(false);
-            $entreprise->setContactEntreprise(null);
-
-
-        }else {
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->getForm();
-            $form->handleRequest($request);
-            $nom = strtoupper($form['nom']->getData());
-
-            $entreprise->setNom($nom);
-            $entreprise->setValide(true);
-
-
-        }
-
-        if($form->isSubmitted() && $form->isValid()) {
-            if ($editMode == false) {
-                $this->addFlash('success', 'l\'entreprise a bien été créé');
-            } else {
-                $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            if ($editMode == false) 
+            {
+                $this->addFlash('success', 'L\'entreprise a bien été créé');
+            } 
+            else 
+            {
+                $this->addFlash('success_modifie', 'Les changements on biens été pris en compte');
             }
+
+            $nom = strtoupper($form['nom']->getData());
+            $entreprise->setNom($nom);
+
             $em->persist($entreprise);
             $em->flush();
-            if ($editMode == false) {
-                return $this->redirectToRoute('contact_add');
-            } else {
-                return $this->redirectToRoute("research_entreprise");
-            }
+
+            dump($entreprise);
+
+            return $this->redirectToRoute('research_entreprise');
 
         }
+
         return $this->render('entreprises/index.html.twig', [
             'form_create_entreprise' => $form->createView(),
             'editMode' => $entreprise->getId() !== null,
@@ -165,8 +152,8 @@ class EntreprisesController extends AbstractController
         $manager->persist($entreprise);
         $manager->flush();
         $this->addFlash('success','L\'entreprise a bien été validé');
-        return $this->render('entreprises/attente.html.twig', [
-            'entreprises' => $repo->findAllUnvalide(),
+        return $this->render('Entreprises/attente.html.twig', [
+            'Entreprises' => $repo->findAllUnvalide(),
 
         ]);
 

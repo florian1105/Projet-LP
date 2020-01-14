@@ -22,7 +22,7 @@ class InformationsClassesController extends AbstractController
   /**
   * @Route("/informations/classes", name="informations_classes")
   */
-  public function afficherLes(ClassesRepository $repoC)
+  public function afficherLesClasses(ClassesRepository $repoC)
   {
     $classes = $repoC->findAll();
 

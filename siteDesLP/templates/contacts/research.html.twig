@@ -17,7 +17,7 @@
 {% endfor %}
 
 {% for msg in app.session.flashBag.get('delete') %}
-  <div class="alert alert-danger" role="alert">
+  <div class="alert alert-success" role="alert">
     {{ msg }}
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -79,9 +79,5 @@
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script>$(".alert").delay(2000).slideUp(200, function() {
-            $(this).alert('close');
-        });</script>
-
     {{ encore_entry_script_tags('data-tables') }}
 {% endblock %}
