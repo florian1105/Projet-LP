@@ -56,7 +56,7 @@
             {{ msg }}
         </div>
     {% endfor %}
-    <table id="tab_candidat" class="table table-striped table-bordered table-hover" style="width:100%">
+    <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
         <thead>
         <tr>
             <th scope="col">Nom Candidat</th>
@@ -69,13 +69,13 @@
         </thead>
         <tbody>
         {% for candidat in candidats %}
-            <tr onmouseover="showModifs(this,{{ candidat.id }})"  >
+            <tr class="ligne">
                 <td>{{candidat.nom}}</td>
                 <td>{{candidat.prenom}}</td>
                 <td>{{candidat.mail}}</td>
                 <td>{{candidat.dateNaissance | date('d/m/Y')}}</td>
                 <td><a href="{{ path('candidat_edit', {'id' : candidat.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href="{{ path('candidat_delete', {'id' : candidat.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href="{{ path('candidat_delete', {'id' : candidat.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
 
         {% endfor %}
@@ -83,74 +83,10 @@
     </table>
     <a class="btn btn-success" href= {{ path('candidat_create')}} role="button">Créer un candidat</a>
 
-<script>
-function showModifs(tr,id){
-    // Get all list buttons and pass them invisible
-    const allEdit = Object.values(document.getElementsByClassName('edit-btn'));
-    const allDel = Object.values(document.getElementsByClassName('delete-btn'));
-    const allBtns = allEdit.concat(allDel);
-    for(let i=0;i<allBtns.length;i++)
-        allBtns[i].classList.add('invisible');
-
-    //Make visible only the row buttons
-    const editBtn = tr.getElementsByClassName('edit-btn')[0];
-    const deleteBtn = tr.getElementsByClassName('delete-btn')[0];
-    editBtn.classList.remove("invisible");
-    deleteBtn.classList.remove("invisible");
-}
-</script>
-
 {% endblock %}
 {%  block javascripts %}
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<script  type="text/javascript">
-    $(document).ready(function() {
-        const table = $('#tab_candidat').removeAttr('width').DataTable({
-            select: true,
-            scroll : 2000,
-            lengthChange : false ,
-            pageLength : 50,
-            autoWidth : true ,
-            columnDefs : [
-                {width:200,target: 7}
-            ],
-            "language": {
-            "sEmptyTable":     "Aucune donnée disponible dans le tableau",
-     "sInfo":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
-     "sInfoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
-     "sInfoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
-     "sInfoPostFix":    "",
-     "sInfoThousands":  ",",
-     "sLengthMenu":     "Afficher _MENU_ éléments",
-     "sLoadingRecords": "Chargement...",
-     "sProcessing":     "Traitement...",
-     "sSearch":         "Rechercher :",
-     "sZeroRecords":    "Aucun élément correspondant trouvé",
-     "oPaginate": {
-         "sFirst":    "Premier",
-         "sLast":     "Dernier",
-         "sNext":     "Suivant",
-         "sPrevious": "Précédent"
-     },
-     "oAria": {
-         "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-         "sSortDescending": ": activer pour trier la colonne par ordre décroissant"
-     },
-     "select": {
-             "rows": {
-                 "_": "%d lignes sélectionnées",
-                 "0": "Aucune ligne sélectionnée",
-                 "1": "1 ligne sélectionnée"
-             }
-     }
-       }
-
-        });
-        $('#container').css( 'display', 'block' );
-        table.columns.adjust().draw()
-    } );
-
-</script>
+    {{ encore_entry_script_tags('data-tables') }}
 {% endblock %}
