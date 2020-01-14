@@ -7,12 +7,6 @@
 // Step 1: change the true for whatever condition you use in your environment to verify that the user
 // is logged in and is allowed to use the script
 
-if($_SESSION == null)
-{
-  header('Location: http://localhost:8888/Projet-LP/siteDesLP/public/index.php/');
-  exit();
-}
-
 // Step 2: Put here the full absolute path of the folder where you want to save the files:
 // You must set the proper permissions on that folder (I think that it's 644, but don't trust me on this one)
 // ALWAYS put the final slash (/)
