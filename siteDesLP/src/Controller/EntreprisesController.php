@@ -63,9 +63,7 @@ class EntreprisesController extends AbstractController
             $nom = strtoupper($form['nom']->getData());
 
             $entreprise->setNom($nom);
-            $entreprise->setValide(false);
-            $entreprise->setContactEntreprise(null);
-            $entreprise->setValide(false);
+            $entreprise->setValide(true);
 
 
         }
@@ -78,8 +76,11 @@ class EntreprisesController extends AbstractController
             }
             $em->persist($entreprise);
             $em->flush();
-
-            return $this->redirectToRoute('contact_add');
+            if ($editMode == false) {
+                return $this->redirectToRoute('contact_add');
+            } else {
+                return $this->redirectToRoute("research_entreprise");
+            }
 
         }
         return $this->render('entreprises/index.html.twig', [
@@ -164,8 +165,8 @@ class EntreprisesController extends AbstractController
         $manager->persist($entreprise);
         $manager->flush();
         $this->addFlash('success','L\'entreprise a bien été validé');
-        return $this->render('Entreprises/attente.html.twig', [
-            'Entreprises' => $repo->findAllUnvalide(),
+        return $this->render('entreprises/attente.html.twig', [
+            'entreprises' => $repo->findAllUnvalide(),
 
         ]);
 

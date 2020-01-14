@@ -43,7 +43,7 @@ class ContactsController extends AbstractController
                 ->getForm();
 
             $form->handleRequest($request);
-
+            $contact->setValide(false);
             // Encodage du mot de passe
 
         }
@@ -62,6 +62,7 @@ class ContactsController extends AbstractController
                 ->getForm();
 
             $form->handleRequest($request);
+            $contact->setValide(true);
         }
 
         // Réception du form valide -> add/update
@@ -79,10 +80,10 @@ class ContactsController extends AbstractController
 
             }
             else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
-            $contact->setValide(false);
+
             $manager->persist($contact);
             $manager->flush();
-            return $this->redirectToRoute('entreprises');
+            return $this->redirectToRoute('contact_add');
         }
 
 
