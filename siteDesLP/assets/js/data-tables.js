@@ -7,7 +7,8 @@ $(document).ready(function()
         lengthChange : false ,
         pageLength : 20,
         autoWidth : true ,
-        columnDefs : 
+        order : [[0,"desc"]],
+            columnDefs :
         [
             { width: 200, target: 7 }
         ],
