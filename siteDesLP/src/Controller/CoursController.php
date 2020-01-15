@@ -86,6 +86,12 @@ class CoursController extends AbstractController
                 'multiple' => true,
                 'mapped' => true,
                 'by_reference' => false,
+                'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                    return $repoC->createQueryBuilder('c')
+                        ->andWhere(':id MEMBER OF c.professeurs')
+                        ->setParameter('id', $prof->getId())
+                        ->orderBy('c.nomClasse', 'ASC');
+                }
             ])
             ->add('coursParent', EntityType::class,
             [
@@ -203,18 +209,30 @@ class CoursController extends AbstractController
      */
     public function edit(Request $request, Cours $cours, ObjectManager $em)
     {
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
+
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
+
         $form = $this->createFormBuilder($cours)
         ->add('nom')
         ->add('visible')
         ->add('classes', EntityType::class,
         [
-          'class' => Classes::class,
-          'choice_label' => 'nomClasse',
-          'label' => 'Classes de l\'article',
-          'expanded' => true,
-          'multiple' => true,
-          'mapped' => true,
-          'by_reference' => false,
+            'class' => Classes::class,
+            'choice_label' => 'nomClasse',
+            'label' => 'Classes de l\'article',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+            'by_reference' => false,
+            'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                return $repoC->createQueryBuilder('c')
+                    ->andWhere(':id MEMBER OF c.professeurs')
+                    ->setParameter('id', $prof->getId())
+                    ->orderBy('c.nomClasse', 'ASC');
+            }
         ])
         ->getForm();
 
