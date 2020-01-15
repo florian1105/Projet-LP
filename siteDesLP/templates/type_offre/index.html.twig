@@ -3,15 +3,20 @@
 {% block title %}Les types d'offres d'emploi{% endblock %}
 
 {% block body %}
-    <div class="lesClasses">
-        {% for type in types %}
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Offre {{ type.nomType }}</h5>
-                    <a href="" class="btn btn-primary">Afficher</a>
-                </div>
+    <div class="info-globales">
+        <div class="col">
+            <p>Voici les différents types d'offres s'emploi :</p>
+            <div class="lesTypesOffre">
+                {% for type in types %}
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Offre {{ type.nomType }}</h5>
+                            <a href="" class="btn btn-primary">Afficher</a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
 
 {% endblock %}
