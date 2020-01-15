@@ -47,4 +47,25 @@ class ContactRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllUnvalide()
+    {
+        return $this->createQueryBuilder('contact')
+            ->andWhere('contact.valide = :val')
+            ->setParameter('val', false)
+            ->orderBy('contact.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllValide()
+    {
+        return $this->createQueryBuilder('contact')
+            ->andWhere('contact.valide = :val')
+            ->setParameter('val', true)
+            ->orderBy('contact.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

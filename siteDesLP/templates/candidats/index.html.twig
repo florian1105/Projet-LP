@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% form_theme form_create_candidat 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    {% if editMode %}
+        <h1>Modification du candidat {{ Candidat.nom }} {{ Candidat.prenom }}</h1>
+    {% else %}
+        <h1>Création d'un candidat</h1>
+    {% endif %}
+
+    {{ form_start(form_create_candidat) }}
+
+    {{ form_row(form_create_candidat.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom du candidat" }}) }}
+    {{ form_row(form_create_candidat.prenom , {'label': 'Prénom','attr' : {'placeholder' : "Prénom du candidat" }}) }}
+
+    {% if editMode == false %}
+        {{ form_row(form_create_candidat.new_password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe du candidat" }}) }}
+        {{ form_row(form_create_candidat.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe du candidat" }}) }}
+    {% endif %}
+
+    {{ form_row(form_create_candidat.mail, {'label': 'Mail','attr' : {'placeholder' : "Mail du candidat" }}) }}
+    {##}{{ form_row(form_create_candidat.date_Naissance, {'label': 'Date Naissance','attr' : {'placeholder' : "Date de naissance du candidat" }}) }}
+
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier candidat
+        {% else %}
+            Créer candidat
+        {% endif %}
+    </button>
+
+    {{ form_end(form_create_candidat) }}
+{% endblock %}

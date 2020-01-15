@@ -70,12 +70,24 @@ class Classes
      */
     private $cours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Promotions", inversedBy="classe")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $promotions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Offres", mappedBy="classes")
+     */
+    private $offres;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
         $this->professeurs = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->cours = new ArrayCollection();
+        $this->offres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +269,46 @@ class Classes
         if ($this->cours->contains($cour)) {
             $this->cours->removeElement($cour);
             $cour->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function getPromotions(): ?Promotions
+    {
+        return $this->promotions;
+    }
+
+    public function setPromotions(?Promotions $promotions): self
+    {
+        $this->promotions = $promotions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Offres[]
+     */
+    public function getOffres(): Collection
+    {
+        return $this->offres;
+    }
+
+    public function addOffre(Offres $offre): self
+    {
+        if (!$this->offres->contains($offre)) {
+            $this->offres[] = $offre;
+            $offre->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffre(Offres $offre): self
+    {
+        if ($this->offres->contains($offre)) {
+            $this->offres->removeElement($offre);
+            $offre->removeClass($this);
         }
 
         return $this;

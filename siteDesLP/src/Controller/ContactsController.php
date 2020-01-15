@@ -5,20 +5,25 @@ namespace App\Controller;
 use App\Entity\Contacts;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
+use App\Services\Mailer;
+use Symfony\Component\DependencyInjection\Tests\Compiler\C;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-class   ContactsController extends AbstractController
+class ContactsController extends AbstractController
 {
 
     /**
      * @Route("/contact/new", name="contact_add")
      * @Route("/contact/edit/{id}", name="contact_edit")
      */
-    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager)
+    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$contact)
@@ -63,15 +68,26 @@ class   ContactsController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             if(!$editMode){
-//                $hash = $encoder->encodePassword($secretaire, $secretaire->getNewPassword());
-//                $secretaire->setPassword($hash);
                 $this->addFlash('success','Le contact a bien été créé');
-            }
-            else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
 
+                $bodyMail = $mailer->createBodyMail('contacts/mail_new_contact.html.twig', [
+                    'contact' => $contact
+                ]);
+                //envoie du mail
+                $mailer->sendMessage('sitedeslp@gmail.com','sitedeslp@gmail.com', 'Inscription d\'un nouveau contact', $bodyMail);
+                $this->addFlash('succes',"Un mail va vous être envoyé une fois la demande validée");
+
+            }
+            else {
+                $this->addFlash('success_modifie', 'Le contact a bien été modifié');
+            }
+            $contact->setValide(false);
             $manager->persist($contact);
             $manager->flush();
-            return $this->redirectToRoute('contact_search');
+            if($this->getUser()->getRoles()){
+
+            }
+            return $this->redirectToRoute('entreprises');
         }
 
 
@@ -125,7 +141,54 @@ class   ContactsController extends AbstractController
     public function search(ContactRepository $repo)
     {
         return $this->render('contacts/research.html.twig', [
-            'contacts' => $repo->findAll(),
+            'contacts' => $repo->findAllValide(),
         ]);
+    }
+    /**
+     * @Route("/contact/search_valide", name="contact_search_valide")
+     */
+
+    public function search_valide(ContactRepository $repo)
+    {
+        return $this->render('contacts/attente.html.twig', [
+            'contacts' => $repo->findAllUnvalide(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/contact/valide/{id}", name="contact_valide")
+     */
+    public function valide(Contacts $contact=null,  ObjectManager $manager, TokengeneratorInterface $tokenGenerator,ContactRepository $repo, Mailer $mailer){
+        if(!$contact)
+        {
+            $contact = new Contacts();
+        }
+
+        $entreprise=$contact->getEntreprise();
+        if($contact->getEntreprise()->getValide()==false){
+            $entreprise->setValide(true);
+            $entreprise->setContactEntreprise($contact);
+        }
+        //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
+        $contact->setToken($tokenGenerator->generateToken());
+        $contact->setPasswordRequestedAt(new \Datetime());
+
+        $contact->setValide(true);
+        $manager->persist($contact);
+        $manager->persist($entreprise);
+        $manager->flush();
+        $this->addFlash('success','Le contact a bien été validé');
+        $bodyMail = $mailer->createBodyMail('contacts/mail_contact_valide.html.twig', [
+            'contact' => $contact
+        ]);
+        //envoie du mail
+        $mailer->sendMessage('sitedeslp@gmail.com',$contact->getMail(), 'Validation de votre demande de contact', $bodyMail);
+        $this->addFlash('goodMail',"Un mail a été envoyé au nouveau contact");
+        return $this->render('contacts/attente.html.twig', [
+            'contacts' => $repo->findAllUnvalide(),
+
+        ]);
+        
     }
 }

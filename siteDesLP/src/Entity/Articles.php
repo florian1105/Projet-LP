@@ -36,7 +36,7 @@ class Articles
     private $date;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", fetch="EAGER", inversedBy="articles")
      */
     private $classes;
 

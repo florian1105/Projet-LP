@@ -15,7 +15,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light my_nav">
     {# Navbar - Logo #}
-    <img src="{{ asset('../assets/images/logo.png') }}" width="80" height="80" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="{{ asset('build/images/logo.png') }}" width="80" height="80" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,7 +28,8 @@
           <a class="nav-link my_nav_item" href={{ path('home') }}><i class="fas fa-home"></i>&nbsp;&nbsp;Accueil <span class="sr-only"></span></a>
         </li>
 
-        {# A propos #}
+        {% if not app.user %}
+          {# A propos #}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;À propos</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -37,14 +38,15 @@
             <a class="dropdown-item" href={{ path('informations_classes') }}>Les licences</a>
           </div>
         </li>
-
-        {% if not app.user or is_granted('ROLE_PROFESSEURRESPONSABLE')%}
-
-        {# Entreprises #}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
-        </li>
-
+          {# Entreprises #}
+          <li class="nav-item active">
+            <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
+          </li>
+        {% endif %}
+        {% if is_granted('ROLE_ETUDIANT') %}
+          <li class="nav-item active">
+            <a class="nav-link my_nav_item" href="{{ path('type_offre') }}">Offres d'emploi<span class="sr-only"></span></a>
+          </li>
         {% endif %}
 
 
@@ -56,42 +58,52 @@
         {% endif %}
 
         {# Etudiants #}
-        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_ADMIN') %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={{ path('research_etudiant') }}>Étudiants <span class="sr-only"></span></a>
-        </li>
-        {% endif %}
-
-        {# Info licence du prof #}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('research_etudiant') }}>Ma classe<span class="sr-only"></span></a>
+        </li>
+        {# Info licence du prof #}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('informations_classes_print') }}>Informations licence<span class="sr-only"></span></a>
         </li>
-        {% endif %}
-
+        {#Candidat#}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('research_candidat') }}>Candidats<span class="sr-only"></span></a>
+        </li>
         {# Contact #}
-        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-            <li class="nav-item active">
-                <a class="nav-link my_nav_item" href={{ path('contact_search') }}>Contacts<span class="sr-only"></span></a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href={{ path('contact_search_valide') }}>En attentes</a>
+                <a class="dropdown-item" href={{ path('contact_search') }}>Validés</a>
+                </div>
             </li>
         {% endif %}
 
-        {# Classes #}
         {% if is_granted('ROLE_ADMIN') %}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={{ path('classe_research') }}>Classes <span class="sr-only"></span></a>
-        </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {# Étudiants #}
+              <a class="dropdown-item" href={{ path('research_etudiant') }}>Étudiants</a>
+              {# Classes #}
+              <a class="dropdown-item" href={{ path('classe_research') }}>Classes</a>
+              {# Profs #}
+              <a class="dropdown-item" href={{ path('prof_search') }}>Professeurs</a>
+              {# Secrétaires #}
+              <a class="dropdown-item" href={{ path('secretaire_search') }}>Secrétaires</a>
+              {# Entreprises #}
+              <a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
+              {# Contacts #}
+              <a class="dropdown-item" href={{ path('contact_search') }}>Contacts</a>
+              {#Candidat
+              <a class="dropdown-item" href={{ path('research_candidat') }}>Candidats</a>#}
+            </div>
+          </li>
+        {% endif %}
 
-        {# Profs #}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={{ path('prof_search') }}>Professeurs <span class="sr-only"></span></a>
-        </li>
-
-        {# Secrétaires #}
-        <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={{ path('secretaire_search') }}>Secrétaires <span class="sr-only"></span></a>
-        </li>
-
+       
+        {% if is_granted('ROLE_ADMIN') %}
         {# Informations globales #}
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('informations_globales_edit', {'id' : 1}) }}>Informations globales<span class="sr-only"></span></a>
@@ -108,7 +120,7 @@
         {# Affichage cours etudiant #}
         {% if is_granted('ROLE_ETUDIANT') %}
         <li class="nav-item active">
-          <a class="nav-link my_nav_item" href={{ path('cours_affi') }}>Voir les cours<span class="sr-only"></span></a>
+          <a class="nav-link my_nav_item" href={{ path('cours_affi') }}>Mes cours<span class="sr-only"></span></a>
         </li>
         {% endif %}
       </ul>
@@ -135,7 +147,7 @@
                   {% elseif not is_granted('ROLE_ADMIN') and app.user %}
 
                   {# Compte #}
-                  <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}><i class="fas fa-user-circle"></i>&nbsp;&nbsp;&nbsp;Mon compte<span class="sr-only"></span></a>
+                  <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}{% if is_granted('ROLE_CANDIDAT') %}"{{ path('candidat_account') }}"{% endif %}><i class="fas fa-user-circle"></i>&nbsp;&nbsp;&nbsp;Mon compte<span class="sr-only"></span></a>
                   {% endif %}
 
                   {# Déconnexion #}

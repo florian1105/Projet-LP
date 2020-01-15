@@ -40,59 +40,36 @@ class EntreprisesController extends AbstractController
             $editMode = false;
         }
 
-        if(!$editMode) {
+        $form = $this->createFormBuilder($entreprise)
+            ->add('nom')
+            ->getForm();
 
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->add('adresseMail')
-                ->add('new_password', PasswordType::class, [
-                    'attr' => ['maxlength' => '64']
-                ])
-                 ->add('confirm_password', PasswordType::class, [
-                     'attr' => ['maxlength' => '64'],
-                 ])
-                ->getForm();
-
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
 
-            $nom = strtoupper($form['nom']->getData());
-            $adresseMail = strtolower($form['adresseMail']->getData());
-            $entreprise->setNom($nom);
-            $entreprise->setAdresseMail($adresseMail);
-;
-
-
-        }else {
-            $form = $this->createFormBuilder($entreprise)
-                ->add('nom')
-                ->add('adresseMail')
-                ->getForm();
-            $form->handleRequest($request);
-            $adresseMail = strtolower($form['adresseMail']->getData());
-            $nom = strtoupper($form['nom']->getData());
-
-            $entreprise->setAdresseMail($adresseMail);
-            $entreprise->setNom($nom);
-
-
-
-        }
-
-        if($form->isSubmitted() && $form->isValid()) {
-            if ($editMode == false) {
-                $hash = $encoder->encodePassword($entreprise, $entreprise->getNew_password());
-                $entreprise->setPassword($hash);
-                $this->addFlash('success', 'l\'entreprise a bien été créé');
-            } else {
-                $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            if ($editMode == false) 
+            {
+                $this->addFlash('success', 'L\'entreprise a bien été créé');
+            } 
+            else 
+            {
+                $this->addFlash('success_modifie', 'Les changements on biens été pris en compte');
             }
+
+            $nom = strtoupper($form['nom']->getData());
+            $entreprise->setNom($nom);
+
             $em->persist($entreprise);
             $em->flush();
+
+            dump($entreprise);
 
             return $this->redirectToRoute('research_entreprise');
 
         }
+
         return $this->render('entreprises/index.html.twig', [
             'form_create_entreprise' => $form->createView(),
             'editMode' => $entreprise->getId() !== null,
@@ -139,14 +116,48 @@ class EntreprisesController extends AbstractController
     {
         //if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
         //{
-            $entreprises = $repoE->findAll();
+            $entreprises = $repoE->findAllValide();
             return $this->render('entreprises/research.html.twig', [
                 'entreprises' => $entreprises,
             ]);
        // }else $this->redirectToRoute('entreprise_create');
 
     }
+    /**
+     * @Route("/entreprise/search_valide", name="entreprise_search_valide")
+     */
 
+    public function search_valide(EntreprisesRepository $repo)
+    {
+        return $this->render('entreprises/attente.html.twig', [
+            'entreprises' => $repo->findAllUnvalide(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/entreprise/valide/{id}", name="entreprise_valide")
+     */
+    public function valide(Entreprises $entreprise=null,  ObjectManager $manager,EntreprisesRepository $repo){
+        if(!$entreprise)
+        {
+            $entreprise = new Entreprises();
+        }
+
+
+        if($entreprise->getValide()==false){
+            $entreprise->setValide(true);
+        }
+
+        $manager->persist($entreprise);
+        $manager->flush();
+        $this->addFlash('success','L\'entreprise a bien été validé');
+        return $this->render('Entreprises/attente.html.twig', [
+            'Entreprises' => $repo->findAllUnvalide(),
+
+        ]);
+
+    }
 
 
 }

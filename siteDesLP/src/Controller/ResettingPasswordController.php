@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,7 +86,7 @@ class ResettingPasswordController extends AbstractController
 
     //si la rêquete de mot de passe a été envoyé il y a plus de 24h retourne false
     //sinon retourne true
-    private function isRequestedInTime(\Datetime $passwordRequestedAt = null)
+    private function isRequestedInTime(\DateTimeInterface $passwordRequestedAt = null)
     {
       if($passwordRequestedAt === null)
       {
@@ -109,7 +110,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("resetpassword/{id}/{token}", name="resetting_password")
    */
-    public function resetPassword($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function resetPassword($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       // interdit l'accès à la page si:
         // le token associé au membre est null
@@ -119,15 +120,21 @@ class ResettingPasswordController extends AbstractController
         //On vérifie qu'il existe un utilisateur avec le token en paramètre
         $user = $repoE->findOneBy(['token' => $token]);
 
-        if (!$user)
+        if ($user==null)
         {
           $user = $repoP->findOneBy(['token' => $token]);
         }
-        elseif(!$user)
+        if($user==null)
         {
-          $user = $repoS->findOneBy(['token' => $token]);
+            $user = $repoC->findOneBy(['token' => $token]);
         }
-
+        if($user==null)
+        {
+            $user = $repoS->findOneBy(['token' => $token]);
+        }
+        if(!$user){
+            throw new AccessDeniedHttpException("Utilisateur non trouvé");
+        }
 
         if(!$user || !$this->isRequestedInTime($user->getPasswordRequestedAt()))
         {

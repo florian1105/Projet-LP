@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Licence Pro Informatique Montpellier{% endblock %}
+{% block title %}Licences Pro Informatique Montpellier{% endblock %}
 
 {% block body %}
 
 	{% if not app.user %}
-		<h1 class="title">Lincence Pro Informatique Montpellier</h1>
+		<h1 class="title">Licences Pro Informatique Montpellier</h1>
 
 		<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
@@ -16,18 +16,18 @@
 			<div class="carousel-inner">
 
 				<div class="carousel-item active">
-				<img src="{{ asset('../assets/images/slide1.png') }}" class="d-block w-100" alt="...">
+				<img src="{{ asset('build/images/slide1.png') }}" class="d-block w-100" alt="...">
 				</div>
 				
 				<div class="carousel-item">
 				<a href="{{ path('informations_classes') }}">
-					<img src="{{ asset('../assets/images/slide2.png') }}" class="d-block w-100" alt="...">
+					<img src="{{ asset('build/images/slide2.png') }}" class="d-block w-100" alt="...">
 				</a>
 				</div>
 
 				<div class="carousel-item">
 				<a href="{{ path('entreprises') }}">
-					<img src="{{ asset('../assets/images/slide3.png') }}" class="d-block w-100" alt="...">
+					<img src="{{ asset('build/images/slide3.png') }}" class="d-block w-100" alt="...">
 				</a>
 				</div>
 
