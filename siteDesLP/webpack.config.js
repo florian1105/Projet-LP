@@ -34,6 +34,7 @@ Encore
     .addEntry('writeFileName','./assets/js/writeFileName.js')
     .addEntry('treeStructure', './assets/js/treeStructure.js')
     .addEntry('gestionCours', './assets/js/gestionCours.js')
+    .addEntry('alert', './assets/js/alert.js')
 
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

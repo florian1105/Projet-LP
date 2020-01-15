@@ -50,7 +50,7 @@
 
 
 
-    <table id="tab_contact" class="table table-striped table-bordered table-hover" style="width:100%">
+    <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
         <thead>
         <tr>
             <th scope="col">Nom</th>
@@ -65,7 +65,7 @@
 
         <tbody>
         {% for contact in contacts %}
-                <tr class="ligne" {{ contact.id }})  >
+            <tr class="ligne">
                 <td>{{contact.nom}}</td>
                 <td>{{contact.prenom}}</td>
                 <td>{{contact.mail}}</td>
@@ -84,10 +84,5 @@
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(".alert").delay(4000).slideUp(200, function() {
-            $(this).alert('close');
-        });
-    </script>
     {{ encore_entry_script_tags('data-tables') }}
 {% endblock %}
