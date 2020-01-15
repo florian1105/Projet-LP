@@ -78,10 +78,15 @@ class ContactsController extends AbstractController
                 $this->addFlash('succes',"Un mail va vous être envoyé une fois la demande validée");
 
             }
-            else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
+            else {
+                $this->addFlash('success_modifie', 'Le contact a bien été modifié');
+            }
             $contact->setValide(false);
             $manager->persist($contact);
             $manager->flush();
+            if($this->getUser()->getRoles()){
+
+            }
             return $this->redirectToRoute('entreprises');
         }
 
@@ -179,7 +184,7 @@ class ContactsController extends AbstractController
         ]);
         //envoie du mail
         $mailer->sendMessage('sitedeslp@gmail.com',$contact->getMail(), 'Validation de votre demande de contact', $bodyMail);
-        $this->addFlash('goodMail',"Un mail à été envoyé au nouveau contact");
+        $this->addFlash('goodMail',"Un mail a été envoyé au nouveau contact");
         return $this->render('contacts/attente.html.twig', [
             'contacts' => $repo->findAllUnvalide(),
 

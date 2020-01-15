@@ -55,6 +55,11 @@ class Cours
      */
     private $prof;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
@@ -65,6 +70,13 @@ class Cours
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getNom(): ?string
@@ -113,6 +125,27 @@ class Cours
         return $this->fichiers;
     }
 
+    /**
+     * Vides les fichiers du Cours
+     */
+    public function clearFichiers(): self
+    {
+        $this->fichiers = new ArrayCollection();
+        return $this;
+    }
+
+    /**
+     * Remplace les fichiers par ceux d'une liste
+     */
+    public function copyFichiers(Collection $fichiers): self
+    {
+        $this->clearFichiers();
+        foreach ($fichiers as $fichier) {
+            $this->addFichier($fichier);
+        }
+        return $this;
+    }
+
     public function addFichier(Fichiers $fichier): self
     {
         if (!$this->fichiers->contains($fichier)) {
@@ -141,6 +174,11 @@ class Cours
         return $this->coursParent;
     }
 
+    public function hasParent(): ?bool
+    {
+        return ($this->coursParent != null);
+    }
+
     public function setCoursParent(?self $coursParent): self
     {
         $this->coursParent = $coursParent;
@@ -154,6 +192,18 @@ class Cours
     public function getCoursEnfants(): Collection
     {
         return $this->coursEnfants;
+    }
+
+    /**
+     * Vides les enfants du Cours.
+     * IMPORTANT ne supprime pas les parents
+     * en cascade et c'est le comportement
+     * désiré ! (a des fins d'affichage)
+     */
+    public function clearCoursEnfants(): self
+    {
+        $this->coursEnfants = new ArrayCollection();
+        return $this;
     }
 
     public function addCoursEnfant(self $coursEnfant): self
@@ -187,6 +237,18 @@ class Cours
     public function setProf(?Professeurs $prof): self
     {
         $this->prof = $prof;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }

@@ -116,6 +116,16 @@
   display: flex;
   flex-direction: column;
 }
+
+.lesTypesOffre
+{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10%;
+}
+
 .bg-dark-opacity
 {
 	background-color: rgba(30, 30, 30, 0.7);
