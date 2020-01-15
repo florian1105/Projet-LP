@@ -49,9 +49,10 @@ class Entreprises
      */
     private $offres;
 
-    public function __construct()
+
+    public function __toString()
     {
-        $this->offres = new ArrayCollection();
+        return $this->getNom();
     }
 
     public function getId(): ?int

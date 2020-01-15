@@ -84,8 +84,8 @@ class ContactsController extends AbstractController
             $contact->setValide(false);
             $manager->persist($contact);
             $manager->flush();
-            if($this->getUser()->getRoles()){
-
+            if($this->getUser()->getRoles()==["ROLE_ADMIN"] || $this->getUser()->getRoles()==["ROLE_PROFESSEURRESPONSABLE"]){
+                return $this->redirectToRoute("contact_valide",['id'=>$contact->getId()]);
             }
             return $this->redirectToRoute('entreprises');
         }
@@ -160,6 +160,7 @@ class ContactsController extends AbstractController
      * @Route("/contact/valide/{id}", name="contact_valide")
      */
     public function valide(Contacts $contact=null,  ObjectManager $manager, TokengeneratorInterface $tokenGenerator,ContactRepository $repo, Mailer $mailer){
+
         if(!$contact)
         {
             $contact = new Contacts();
@@ -177,7 +178,9 @@ class ContactsController extends AbstractController
         $contact->setValide(true);
         $manager->persist($contact);
         $manager->persist($entreprise);
+
         $manager->flush();
+
         $this->addFlash('success','Le contact a bien été validé');
         $bodyMail = $mailer->createBodyMail('contacts/mail_contact_valide.html.twig', [
             'contact' => $contact
