@@ -24,7 +24,7 @@
 			<a class="btn btn-success" href={{path('upload', {'cours':dossier.id})}}>
 				<i class="far fa-file-code"></i>
 			</a>
-			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}})">
+			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}}, event)">
 				<i class="fas fa-folder-plus"></i>
 			</button>
 			{# doss - visibilité #}
@@ -159,7 +159,7 @@
 
 <script>
 	/* Prepare l'affichage de la popup */
-	function prepareModal(idParent) {
+	function prepareModal(idParent, event) {
 		/* Ajoute à la popup le dossier dans
 		   lequel ce cours doit etre ajouter
 		   dans un champs caché */
@@ -188,10 +188,9 @@
 		*/
 		if (idParent != null) {
 			// Recupère les id des classes du parent
-			const classesParent = document.querySelectorAll('.node')[0].dataset.classes.split(',')
-			
-			for (let i = classes.length - 1; i >= 0; i--) {
+			const classesParent = findFirstParentNode(event.target).dataset.classes.split(',')
 
+			for (let i = classes.length - 1; i >= 0; i--) {
 				let inParent = false
 		
 				// Controle si les classes sont des classes du parent
@@ -209,6 +208,19 @@
 				}
 			}
 		} 
+	}
+
+	function findFirstParentNode(element) {
+		element = element.parentNode
+		// Va chercher le premier li au dessus
+		if(element.nodeName.toLowerCase() == 'li') {
+			let e = element.querySelectorAll('.node')
+			if (e[0].classList.contains("node")) {
+				return e[0]
+			}
+			
+		}
+		return findFirstParentNode(element)
 	}
 </script>
 {% endblock %}
