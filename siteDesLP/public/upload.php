@@ -13,12 +13,12 @@
 
 //$basePath = "/Applications/MAMP/htdocs/Projet-LP/siteDesLP/public/ck_upload/";
 
-$basePath = $_SERVER['DOCUMENT_ROOT'] . '/Projet-LP/sitedesLP/public/ck_upload/';
+$basePath = $_SERVER['DOCUMENT_ROOT'] . '/Projet-LP/Projet-LP/sitedesLP/public/ck_upload/';
 
 // Step 3: Put here the Url that should be used for the upload folder (it the URL to access the folder that you have set in $basePath
 // you can use a relative url "/images/", or a path including the host "http://example.com/images/"
 // ALWAYS put the final slash (/)
-$baseUrl = "http://localhost:8888/Projet-LP/siteDesLP/public/ck_upload/";
+$baseUrl = "http://localhost:8888/Projet-LP/Projet-LP/siteDesLP/public/ck_upload/";
 // Done. Now test it!
 // No need to modify anything below this line
 //----------------------------------------------------
