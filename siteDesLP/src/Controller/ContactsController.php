@@ -179,7 +179,7 @@ class ContactsController extends AbstractController
         ]);
         //envoie du mail
         $mailer->sendMessage('sitedeslp@gmail.com',$contact->getMail(), 'Validation de votre demande de contact', $bodyMail);
-        $this->addFlash('goodMail',"Un mail à été envoyé au nouveau contact");
+        $this->addFlash('goodMail',"Un mail a été envoyé au nouveau contact");
         return $this->render('contacts/attente.html.twig', [
             'contacts' => $repo->findAllUnvalide(),
 
