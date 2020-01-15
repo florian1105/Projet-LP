@@ -210,12 +210,18 @@ class ClasseController extends AbstractController
     }
 
     /**
-     * @Route("classe/classe_purge/{id}", name="classe_purge")
+     * @Route("purge/classe_purge/{id}", name="classe_purge")
      */
      public function purge(Classes $classe)
      {
-       $profResponsable = $classe->getProfesseurResponsable();
-       dump($classe->getEtudiants());
+
+       //$lesEtudiants = $repoE->getEtudiantsByPromotionAndClasse
+
+       //setMailToNull($lesEtudiants);
+
+       $promo = $classe->getPromotions()->getAnnee();
+       dump($promo);
+
        return $this->render('confirmation.html.twig', [
          'titre' => 'Mes morts',
          'message' => 'Tes moulots',

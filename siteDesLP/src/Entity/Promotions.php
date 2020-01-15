@@ -29,13 +29,15 @@ class Promotions
     private $annee;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Classes", mappedBy="promotions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="promotions")
      */
-    private $classe;
+    private $classes;
+
 
     public function __construct()
     {
         $this->classe = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,6 +83,32 @@ class Promotions
             if ($classe->getPromotions() === $this) {
                 $classe->setPromotions(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Classes[]
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classes $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classes $class): self
+    {
+        if ($this->classes->contains($class)) {
+            $this->classes->removeElement($class);
         }
 
         return $this;
