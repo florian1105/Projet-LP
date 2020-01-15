@@ -87,7 +87,7 @@ class Candidats extends Utilisateurs implements UserInterface
         return parent::setMail($mail);
     }
 
-    public function getClasse(): Classes
+    public function getClasse(): ?Classes
     {
         return parent::getClasse();
     }
