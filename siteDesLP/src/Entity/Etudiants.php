@@ -154,6 +154,16 @@ class Etudiants extends Utilisateurs implements UserInterface
         return parent::getDateNaissance();
     }
 
+    public function getClasseEtudiant(): ?Classes
+    {
+        return parent::getClasse();
+    }
+
+    public function setClasseEtudiant(?Classes $classe): Utilisateurs
+    {
+        return parent::setClasse($classe);
+    }
+
 
     public function eraseCredentials()
     {

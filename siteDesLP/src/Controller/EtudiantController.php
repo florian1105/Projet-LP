@@ -312,7 +312,7 @@ class EtudiantController extends AbstractController
   { 
     if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
     {
-      $etudiants = $repoE->findBy(['classeEtudiant' => $this->getUser()->getClasseResponsable()]);
+      $etudiants = $repoE->findBy(['classe' => $this->getUser()->getClasseResponsable()]);
     }
     else $etudiants = $repoE->findAll();
 
