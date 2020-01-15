@@ -287,6 +287,15 @@ class Professeurs implements UserInterface
         return $this->dossiersCours;
     }
 
+    public function getDossiersRacinesCours(): Collection
+    {
+        $dossiersPrincipaux = [];
+        foreach ($this->dossiersCours as $dossier)
+            if($dossier->getCoursParent() == null)
+                $dossiersPrincipaux[] = $dossier;
+        return new ArrayCollection($dossiersPrincipaux);
+    }
+
     public function addDossiersCour(Cours $dossiersCour): self
     {
         if (!$this->dossiersCours->contains($dossiersCour)) {

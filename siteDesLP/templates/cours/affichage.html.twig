@@ -3,37 +3,53 @@
 {% block head %}
 	{% block stylesheets %}
 		{{ parent() }}
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+		{{ encore_entry_link_tags('treeStructure') }}
 	{% endblock %}
 {% endblock %}
 
 {% macro genereArborescence(dossiers) %}
 {% for dossier in dossiers %}
-<ul>
-	<li data-jstree='{"opened":true}'>
-		<a href={{ path('dossier_dl', {'id' : dossier.id}) }}>{{dossier.nom}}.zip</a>
-		<ul>
-			{% for fichier in dossier.fichiers %}
+<li>
+	{# Dossier #}
+	<span class="node">
+		{% if not dossier.visible %}
+			<i class="fas fa-eye-slash text-success"></i>
+		{% endif %}
+		{{dossier.nom}}
+	</span>
+
+	{# Bouton téléchargement .ZIP #}
+	<span>
+		<div class="btn-group ml-2" role="group">
+	  		<a class="btn btn-light" href={{ path('dossier_dl', {'id' : dossier.id}) }}>
+				<i class="far fa-file-archive"></i>
+	  		</a>
+		</div>
+	</span>
+
+	{# Fichiers #}
+	<ul class="nest">
+		{% for fichier in dossier.fichiers %}
 			{% if fichier.visible %}
-		  		<li data-jstree='{"icon":"none"}'>
-		  			<a href="{{path('fichier_dl', {'id':fichier.id})}}" target="_blank">{{ fichier.nom }}</a>
+				<li class="leaf">
+		  			<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
 		  		</li>
 			{% endif %}
-			{% endfor %}
-		</ul>
+		{% endfor %}
+
 		{{ _self.genereArborescence(dossier.coursEnfants) }}
-	</li>
-</ul>
+	</ul>
+</li>
+
+
+
 {% endfor %}
 {% endmacro %}
 
 {% block body %}
-	<div id="arborescence">
+	<ul class="tree">
 		{{ _self.genereArborescence(data) }}
-	</div>
-{% endblock %}
+	</ul>
 
-{% block javascripts %}
-	{{ parent() }}
-	{{ encore_entry_script_tags('cours') }}
+	{{ encore_entry_script_tags('treeStructure') }}
 {% endblock %}

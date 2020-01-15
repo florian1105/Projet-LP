@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Classes;
 use App\Entity\Etudiants;
+use App\Entity\Promotions;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -18,6 +20,16 @@ class EtudiantsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Etudiants::class);
     }
+
+    public function getEtudiantsByPromotionAndClasse(Promotions $promotion, Classes $classe)
+    {
+      $qb = $this->createQueryBuilder("p")
+          ->where(':classe MEMBER OF p.classes')
+          ->setParameters(array('classe' => $classe));
+
+        return $qb->getQuery()->getResult();
+    }
+
 
     // /**
     //  * @return Etudiants[] Returns an array of Etudiants objects

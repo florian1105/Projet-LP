@@ -71,15 +71,14 @@ class Classes
     private $cours;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Promotions", inversedBy="classe")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $promotions;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Offres", mappedBy="classes")
      */
     private $offres;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Promotions", mappedBy="classes")
+     */
+    private $promotions;
 
     public function __construct()
     {
@@ -88,6 +87,7 @@ class Classes
         $this->articles = new ArrayCollection();
         $this->cours = new ArrayCollection();
         $this->offres = new ArrayCollection();
+        $this->promotions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,6 +309,26 @@ class Classes
         if ($this->offres->contains($offre)) {
             $this->offres->removeElement($offre);
             $offre->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function addPromotion(Promotions $promotion): self
+    {
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions[] = $promotion;
+            $promotion->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotions $promotion): self
+    {
+        if ($this->promotions->contains($promotion)) {
+            $this->promotions->removeElement($promotion);
+            $promotion->removeClass($this);
         }
 
         return $this;

@@ -32,7 +32,8 @@ Encore
     .addEntry('data-tables','./assets/js/data-tables.js')
     .addEntry('checkbox', './assets/js/checkbox.js')
     .addEntry('writeFileName','./assets/js/writeFileName.js')
-    .addEntry('cours','./assets/js/cours.js')
+    .addEntry('treeStructure', './assets/js/treeStructure.js')
+    .addEntry('gestionCours', './assets/js/gestionCours.js')
 
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

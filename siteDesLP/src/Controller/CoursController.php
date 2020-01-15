@@ -12,101 +12,105 @@ use App\Entity\Cours;
 use App\Entity\Classes;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use App\Repository\CoursRepository;
+use App\Repository\ProfesseursRepository;
+use App\Repository\ClassesRepository;
+
 class CoursController extends AbstractController
 {
     /**
      * @Route("/ent/gestion", name="cours_gest")
      */
-    public function gererCours(Request $request)
-    {
-		/* Récupère le prof connecté */
-		$prof = $this->getUser();
+    public function gererCours(Request $request) {
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
 
-		if(! $prof instanceof Professeurs)
-			return $this->redirectToRoute('connexion');
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
 
-       	/* Formulaire d'ajout d'un dossier
-       	   de cours */
-		$cours = new Cours();
+        /* Formulaire d'ajout d'un dossier de cours */
+        $cours = new Cours();
 
-		$form = $this->createFormBuilder($cours)
+        $form = $this->createFormBuilder($cours)
         ->add('nom')
         ->add('classes', EntityType::class,
         [
-          'class' => Classes::class,
-          'choice_label' => 'nomClasse',
-          'label' => 'Classes de l\'article',
-          'expanded' => true,
-          'multiple' => true,
-          'mapped' => true,
-          'by_reference' => false,
+            'class' => Classes::class,
+            'choice_label' => 'nomClasse',
+            'label' => 'Classes de l\'article',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+            'by_reference' => false,
+            'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                return $repoC->createQueryBuilder('c')
+                    ->andWhere(':id MEMBER OF c.professeurs')
+                    ->setParameter('id', $prof->getId())
+                    ->orderBy('c.nomClasse', 'ASC');
+            }
         ])
         ->add('coursParent', EntityType::class,
-		[
-			'class' => Cours::class,
-			'choice_label' => 'id',
-			'label' => 'Dossier de cours parent',
-			'expanded' => false,
-			'multiple' => false,
-			'required' => false,
-		])
-
-	 	->getForm();
+        [
+            'class' => Cours::class,
+            'choice_label' => 'id',
+            'label' => 'Dossier de cours parent',
+            'expanded' => false,
+            'multiple' => false,
+            'required' => false,
+        ])
+        ->getForm();
 
         $form->handleRequest($request);
 
-		// Réception du form valide -> add/update
-		if($form->isSubmitted() && $form->isValid())
-		{
-				$cours->setProf($prof);
+        // Réception du form valide -> add/update
+        if($form->isSubmitted() && $form->isValid()) {
+            $cours->setProf($prof);
+            $cours->setVisible(true);
 
-				$manager = $this->getDoctrine()->getManager();
-				$manager->persist($cours);
-				$manager->flush();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($cours);
+            $manager->flush();
 
-				// Réinitialisation du formulaire
-				unset($cours);
-				unset($form);
-				$cours = new Cours();
-				$form = $this->createFormBuilder($cours)
-		        ->add('nom')
-		        ->add('classes', EntityType::class,
-		        [
-		          'class' => Classes::class,
-		          'choice_label' => 'nomClasse',
-		          'label' => 'Classes de l\'article',
-		          'expanded' => true,
-		          'multiple' => true,
-		          'mapped' => true,
-		          'by_reference' => false,
-		        ])
-		        ->add('coursParent', EntityType::class,
-				[
-					'class' => Cours::class,
-					'choice_label' => 'id',
-					'label' => 'Dossier de cours parent',
-					'expanded' => false,
-					'multiple' => false,
-					'required' => false,
-				])
-			 	->getForm();
-		}
+            // Réinitialisation du formulaire
+            unset($cours);
+            unset($form);
+            $cours = new Cours();
+            $form = $this->createFormBuilder($cours)
+            ->add('nom')
+            ->add('classes', EntityType::class,
+            [
+                'class' => Classes::class,
+                'choice_label' => 'nomClasse',
+                'label' => 'Classes de l\'article',
+                'expanded' => true,
+                'multiple' => true,
+                'mapped' => true,
+                'by_reference' => false,
+                'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                    return $repoC->createQueryBuilder('c')
+                        ->andWhere(':id MEMBER OF c.professeurs')
+                        ->setParameter('id', $prof->getId())
+                        ->orderBy('c.nomClasse', 'ASC');
+                }
+            ])
+            ->add('coursParent', EntityType::class,
+            [
+                'class' => Cours::class,
+                'choice_label' => 'id',
+                'label' => 'Dossier de cours parent',
+                'expanded' => false,
+                'multiple' => false,
+                'required' => false,
+            ])
+            ->getForm();
+        }
 
-    	/* Récupère ses dossiers de cours */
-    	$cours = $prof->getDossiersCours();
+        /* Récupère les dossiers racines */
+        $cours = $prof->getDossiersRacinesCours();
 
-		/* Va chercher les dossiers racines
-		   (sans parent) */
-    	// -> faire une requete dans le modele
-		$dossiersPrincipaux = [];
-    	foreach ($cours as $dossier) {
-	    	if($dossier->getCoursParent() == null)
-    			$dossiersPrincipaux[] = $dossier;
-       	}
-
-    	/* Affichage */
-		return $this->render('cours/gestion.html.twig', [
-            'dossiersRacines' => $dossiersPrincipaux,
+        /* Affichage */
+        return $this->render('cours/gestion.html.twig', [
+            'dossiersRacines' => $cours,
             'form' => $form->createView(),
         ]);
     }
@@ -114,77 +118,53 @@ class CoursController extends AbstractController
     /**
      * @Route("/ent/cours", name="cours_affi")
      */
-    public function afficherCours()
+    public function afficherCours(CoursRepository $coursRepo)
     {
-    	/* Récuperation de l'étudiant connecté */
-		$etu = $this->getUser();
+        // Récupère l'utilisateur connecté
+        $etu = $this->getUser();
 
-		/* Verification que ce soit un etudiant */
-		if(! $etu instanceof Etudiants)
-			return $this->redirectToRoute('connexion');
+        // Vérification que ce soit un etudiant
+        if(! $etu instanceof Etudiants)
+            return $this->redirectToRoute('connexion');
 
-    	/* Va chercher la classe de l'étudiant */
-    	$classe = $etu->getClasseEtudiant();
+        // Récupère la classe de l'étudiant
+        $classe = $etu->getClasseEtudiant();
 
-    	/* Va chercher les dossiers de cours
-    	   auquels la classe à accès */
-    	$cours = $classe->getCours();
+        // Récupère les dossiers de la classe
+        $results = $coursRepo->getTreeClasse($classe);
 
-    	// Crée l'arborescence des dossiers accessibles
-    	//-> simplifier avec requete modele
-    	$dossiers = [];
-    	foreach ($cours as $dossier) {
-			//Vérifie si parent est déjà dans la liste
-			$skip = false;
-			foreach ($dossiers as $parent) {
-				if($dossier->getCoursParent() !== null)
-					if($dossier->getCoursParent()->getId()==$parent->getId()){
-						$parent->addCoursEnfant($dossier);
-						//$dossiers[] = $dossier;
-						$skip = true;
-					}
-			}
+        // Generation de l'affichage de l'arborescence
+        // Liste finale d'affichage des dossiers
+        $final = [];
 
-			if(!$skip) {
-	// Copie des enfants
-	$listeEnfants = $dossier->getCoursEnfants();
-	/*$listeEnfants = new Cours();
-	foreach ($dossier->getCoursEnfants() as $enfant) {
-		$listeEnfants->addCoursEnfant($enfant);
-	}
+        // Vide les enfants des dossiers
+// TODO demander au repo de faire ca
+        foreach ($results as $dossier) {
+            $dossier->clearCoursEnfants();
+        }
 
+        foreach ($results as $dossier) {
+            if ($dossier->hasParent()) {
+                // Recupère l'index du parent du dossier dans la liste 
+                $i = getIndexDossier($dossier, $results);
 
-	//Vidage des enfants
-	foreach ($dossier->getCoursEnfants() as $enfant) {
-		$dossier->removeCoursEnfant($enfant);
-	}*/
+                // Si le dossier parent est dans la liste
+                if ($i >= 0) {
+                    // Sous-dossier
+                    $dossier->getCoursParent()->addCoursEnfant($dossier);
+                } else {
+                    // Dossier orphelin
+                    $final[] = $dossier;
+                }
+            } else {
+                // Dossier racine
+                $final[] = $dossier;
+            }
+        }
 
-	foreach ($listeEnfants as $enfant){
-		foreach ($cours as $dir) {
-			// Si enfant est dans liste d'origine
-			if($enfant->getId() == $dir->getId()){
-				// Enlève enfant de la liste finale si il a déjà été ajouté
-				$id = array_search($enfant, $dossiers);
-				if($id !== false)
-					array_splice($dossiers, $id);
-
-				// Déplace enfant dans son parent
-				$dossier->addCoursEnfant($enfant);
-
-				// Supprime de la liste de cours
-				$dir = null;
-			}
-		}
-	}
-
-	//Ajout
-	$dossiers[] = $dossier;
-			}
-		}
-
-    	/* Affichage */
-		return $this->render('cours/affichage.html.twig', [
-            'data' => $dossiers,
+        // Affichage 
+        return $this->render('cours/affichage.html.twig', [
+            'data' => $final,
         ]);
     }
 
@@ -193,35 +173,35 @@ class CoursController extends AbstractController
      */
     public function supprimeCours(Cours $cours, Request $req)
     {
-		/* Récupère le prof connecté */
-		$prof = $this->getUser();
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
 
-		if(! $prof instanceof Professeurs)
-			return $this->redirectToRoute('connexion');
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
 
-		//Si le formulaire à été soumis
-		if($req->isMethod('POST'))
-		{
-    		// En cas de validation on supprime et on redirige
-			if($req->request->has('oui'))
-			{
-				$em=$this->getDoctrine()->getManager();
-				$em->remove($cours);
-				$em->flush();
-      			$this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
-			}
-			return $this->redirectToRoute('cours_gest');
-		} else {
-			//Si le formulaire n'a pas été soumis alors on l'affiche
-			$title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
+        //Si le formulaire à été soumis
+        if($req->isMethod('POST'))
+        {
+            // En cas de validation on supprime et on redirige
+            if($req->request->has('oui'))
+            {
+                $em=$this->getDoctrine()->getManager();
+                $em->remove($cours);
+                $em->flush();
+                $this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
+            }
+            return $this->redirectToRoute('cours_gest');
+        } else {
+            //Si le formulaire n'a pas été soumis alors on l'affiche
+            $title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
 
-			$message = 'Le dossier "'.$cours->getNom().'" sera supprimé de manière irréversible.';
+            $message = 'Le dossier "'.$cours->getNom().'" sera supprimé de manière irréversible.';
 
-    		return $this->render('confirmation.html.twig', [
-					'titre' => $title,
-					'message' => $message
-	        	]);
-	    }
+            return $this->render('confirmation.html.twig', [
+                'titre' => $title,
+                'message' => $message
+            ]);
+        }
     }
 
     /**
@@ -229,24 +209,36 @@ class CoursController extends AbstractController
      */
     public function edit(Request $request, Cours $cours, ObjectManager $em)
     {
+        /* Récupère le prof connecté */
+        $prof = $this->getUser();
+
+        if(! $prof instanceof Professeurs)
+            return $this->redirectToRoute('connexion');
+
         $form = $this->createFormBuilder($cours)
         ->add('nom')
+        ->add('visible')
         ->add('classes', EntityType::class,
         [
-          'class' => Classes::class,
-          'choice_label' => 'nomClasse',
-          'label' => 'Classes de l\'article',
-          'expanded' => true,
-          'multiple' => true,
-          'mapped' => true,
-          'by_reference' => false,
+            'class' => Classes::class,
+            'choice_label' => 'nomClasse',
+            'label' => 'Classes de l\'article',
+            'expanded' => true,
+            'multiple' => true,
+            'mapped' => true,
+            'by_reference' => false,
+            'query_builder' => function (ClassesRepository $repoC) use ($prof) {
+                return $repoC->createQueryBuilder('c')
+                    ->andWhere(':id MEMBER OF c.professeurs')
+                    ->setParameter('id', $prof->getId())
+                    ->orderBy('c.nomClasse', 'ASC');
+            }
         ])
         ->getForm();
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if($form->isSubmitted() && $form->isValid()) {
           $em->persist($cours);
           $em->flush();
           $this->addFlash('editTrue','Le dossier a été modifié avec succès');
@@ -260,4 +252,50 @@ class CoursController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/ent/cours/{id}/visibilite", name="cours_visi")
+     */
+    public function changeVisibilite(Cours $cours, ObjectManager $em)
+    {
+        if ($cours->getVisible()) 
+            $cours->setVisible(false);
+        else
+            $cours->setVisible(true);
+
+        $em->persist($cours);
+        $em->flush();
+
+        return $this->redirectToRoute('cours_gest');
+    }
+}
+
+
+
+/**
+ * Fournit une copie du dossier sans
+ * ses enfants
+ * @param Le dossier
+ * @return La copie
+ */
+function videFils($dossier) {
+    $copie = new Cours();
+    $copie->setId($dossier->getId());
+    $copie->setNom($dossier->getNom());
+    $copie->setProf($dossier->getProf());
+    $copie->setVisible($dossier->getVisible());
+    $copie->copyFichiers($dossier->getFichiers());
+    return $copie;
+}
+
+
+function getIndexDossier($needle, $haystack) {
+    $i = -1;
+    foreach ($haystack as $index => $dossierFinal) {
+        if ($needle->getCoursParent()->getId() == $dossierFinal->getId()){
+            $i = $index;
+            break;
+        }
+    }
+    return $i;
 }
