@@ -43,13 +43,6 @@ class Etudiants extends Utilisateurs implements UserInterface
      */
     private $login;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
-     * @ORM\JoinColumn(name="classe_etudiant_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    private $classeEtudiant;
-
     public function getNomEtudiant(): ?string
     {
         return parent::getNom();
@@ -180,18 +173,6 @@ class Etudiants extends Utilisateurs implements UserInterface
     public function getUsername()
     {
       return $this->login;
-    }
-
-    public function getClasseEtudiant(): ?Classes
-    {
-       return $this->classeEtudiant;
-    }
-
-    public function setClasseEtudiant(?Classes $classeEtudiant): self
-    {
-        $this->classeEtudiant = $classeEtudiant;
-
-        return $this;
     }
 
     public function __toString()

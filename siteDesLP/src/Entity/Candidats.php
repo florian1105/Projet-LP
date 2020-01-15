@@ -87,6 +87,16 @@ class Candidats extends Utilisateurs implements UserInterface
         return parent::setMail($mail);
     }
 
+    public function getClasse(): Classes
+    {
+        return parent::getClasse();
+    }
+
+    public function setClasse(?Classes $classe): Utilisateurs
+    {
+        return parent::setClasse($classe);
+    }
+
     public function getRoles()
     {
         return ['ROLE_CANDIDAT'];
