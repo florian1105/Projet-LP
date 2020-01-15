@@ -65,7 +65,7 @@ class Contacts implements UserInterface {
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="contactEntreprise")
-     * @ORM\JoinColumn(name="entreprise_contact_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
      * @Assert\NotNull(message="Une entreprise est nécessaire.")
      */
     private $entreprise;

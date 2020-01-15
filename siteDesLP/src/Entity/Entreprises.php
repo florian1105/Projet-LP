@@ -20,7 +20,7 @@ class Entreprises
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",name="id")
      */
     private $id;
 
@@ -34,7 +34,7 @@ class Entreprises
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Contacts" , mappedBy="contactEntreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Contacts" , mappedBy="entreprise")
      *
      */
     private $contactEntreprise;

@@ -78,10 +78,15 @@ class ContactsController extends AbstractController
                 $this->addFlash('succes',"Un mail va vous être envoyé une fois la demande validée");
 
             }
-            else{$this->addFlash('success_modifie','Le contact a bien été modifié');}
+            else {
+                $this->addFlash('success_modifie', 'Le contact a bien été modifié');
+            }
             $contact->setValide(false);
             $manager->persist($contact);
             $manager->flush();
+            if($this->getUser()->getRoles()){
+
+            }
             return $this->redirectToRoute('entreprises');
         }
 
