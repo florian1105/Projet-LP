@@ -75,19 +75,24 @@ class ContactsController extends AbstractController
                 ]);
                 //envoie du mail
                 $mailer->sendMessage('sitedeslp@gmail.com','sitedeslp@gmail.com', 'Inscription d\'un nouveau contact', $bodyMail);
-                $this->addFlash('succes',"Un mail va vous être envoyé une fois la demande validée");
-
+                $this->addFlash('success_contact',"Un mail va vous être envoyé une fois la demande validée");
+                $contact->setValide(false);
             }
             else {
                 $this->addFlash('success_modifie', 'Le contact a bien été modifié');
+                $manager->persist($contact);
+                $manager->flush();
+                return $this->redirectToRoute("contact_search");
             }
-            $contact->setValide(false);
+
             $manager->persist($contact);
             $manager->flush();
-            if($this->getUser()->getRoles()){
-
+            if($this->getUser()==null){
+                return $this->redirectToRoute('entreprises');
+            }elseif($this->getUser()->getRoles()==["ROLE_ADMIN"] || $this->getUser()->getRoles()==["ROLE_PROFESSEURRESPONSABLE"]){
+                return $this->redirectToRoute("contact_valide",['id'=>$contact->getId()]);
             }
-            return $this->redirectToRoute('entreprises');
+
         }
 
 
@@ -117,7 +122,7 @@ class ContactsController extends AbstractController
                 $this->addFlash('delete',"Le contact a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun contact n'a été supprimé");}
-            return $this->redirectToRoute('contact_search');
+            return $this->redirectToRoute('contact_search_valide');
         }
         else
         {
@@ -160,6 +165,7 @@ class ContactsController extends AbstractController
      * @Route("/contact/valide/{id}", name="contact_valide")
      */
     public function valide(Contacts $contact=null,  ObjectManager $manager, TokengeneratorInterface $tokenGenerator,ContactRepository $repo, Mailer $mailer){
+
         if(!$contact)
         {
             $contact = new Contacts();
@@ -177,7 +183,9 @@ class ContactsController extends AbstractController
         $contact->setValide(true);
         $manager->persist($contact);
         $manager->persist($entreprise);
+
         $manager->flush();
+
         $this->addFlash('success','Le contact a bien été validé');
         $bodyMail = $mailer->createBodyMail('contacts/mail_contact_valide.html.twig', [
             'contact' => $contact

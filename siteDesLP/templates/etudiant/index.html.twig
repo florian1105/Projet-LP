@@ -62,7 +62,7 @@
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-{{ form_row(form_create_etudiant.classeEtudiant,{'label': 'Classe'}) }}
+{{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
 {% endif %}
 
 <button type="submit" class="btn btn-success">

@@ -50,7 +50,7 @@
 
 
 
-    <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
+    <table id="tab_contact" class="table table-striped table-bordered table-hover" style="width:100%">
         <thead>
         <tr>
             <th scope="col">Nom</th>
@@ -65,24 +65,29 @@
 
         <tbody>
         {% for contact in contacts %}
-            <tr class="ligne">
+                <tr class="ligne" {{ contact.id }})  >
                 <td>{{contact.nom}}</td>
                 <td>{{contact.prenom}}</td>
                 <td>{{contact.mail}}</td>
                 <td>{{contact.telephone}}</td>
-                <td>{{contact.entreprise.getNom()}}</td>
-                <td><a href="{{ path('contact_valide', {'id' : contact.id}) }}" class="edit-btn btn btn-success active invisible"><i class="far fa-check-circle"></i></a></td>
+                <td>{{contact.entreprise}}</td>
+                <td><a href="{{ path('contact_valide', {'id' : contact.id}) }}" class="edit-btn btn btn-success active invisible">✎</a></td>
                 <td><a href="{{ path('contact_delete', {'id' : contact.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
 
 {%  block javascripts %}
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(".alert").delay(4000).slideUp(200, function() {
+            $(this).alert('close');
+        });
+    </script>
     {{ encore_entry_script_tags('data-tables') }}
-    
 {% endblock %}

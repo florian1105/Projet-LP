@@ -76,6 +76,12 @@ abstract class Utilisateurs
      */
     private $date_naissance;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
+     * @ORM\JoinColumn(name="classe_utilisateur_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $classe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,9 +140,6 @@ abstract class Utilisateurs
 
         return $this;
     }
-    /**
-     * @return mixed
-     */
     public function getMail()
     {
         return $this->mail;
@@ -149,37 +152,37 @@ abstract class Utilisateurs
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getNewPassword()
     {
         return $this->new_password;
     }
 
-    /**
-     * @param mixed $new_password
-     */
+
     public function setNewPassword($new_password): void
     {
         $this->new_password = $new_password;
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfirmPassword()
     {
         return $this->confirm_password;
     }
 
-    /**
-     * @param mixed $confirm_password
-     */
     public function setConfirmPassword($confirm_password): void
     {
         $this->confirm_password = $confirm_password;
     }
 
+    public function getClasse(): ?Classes
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?Classes $classe): self
+    {
+        $this->classe = $classe;
+
+        return $this;
+    }
 
 }

@@ -43,7 +43,7 @@
             <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
           </li>
         {% endif %}
-        {% if is_granted('ROLE_ETUDIANT') %}
+        {% if is_granted('ROLE_ETUDIANT') or  is_granted('ROLE_CANDIDAT')%}
           <li class="nav-item active">
             <a class="nav-link my_nav_item" href="{{ path('type_offre') }}">Offres d'emploi<span class="sr-only"></span></a>
           </li>
@@ -86,6 +86,8 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               {# Étudiants #}
               <a class="dropdown-item" href={{ path('research_etudiant') }}>Étudiants</a>
+              {# Anciens Étudiants #}
+              <a class="dropdown-item" href={{ path('anciens_etudiants_recherche') }}>Anciens étudiants</a>
               {# Classes #}
               <a class="dropdown-item" href={{ path('classe_research') }}>Classes</a>
               {# Profs #}
@@ -112,6 +114,9 @@
 
         {# Gestion cours prof #}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') or is_granted('ROLE_PROFESSEUR') %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href={{ path('anciens_etudiants_recherche') }}>Anciens étudiants<span class="sr-only"></span></a>
+        </li>
         <li class="nav-item active">
           <a class="nav-link my_nav_item" href={{ path('cours_gest') }}>Gestion des cours<span class="sr-only"></span></a>
         </li>

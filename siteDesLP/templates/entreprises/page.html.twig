@@ -2,7 +2,14 @@
 {% block title %}Espace entreprises{% endblock %}
 
 {% block body %}
-
+    {% for message in app.flashes('success_contact') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
     <div class="actu">
         <div class="btn-group" role="group" aria-label="Basic example">
             <a href="{{ path('connexion') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</button></a>

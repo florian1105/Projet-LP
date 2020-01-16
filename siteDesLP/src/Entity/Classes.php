@@ -34,7 +34,7 @@ class Classes
     private $nomClasse;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Etudiants", mappedBy="classeEtudiant")
+     * @ORM\OneToMany(targetEntity="App\Entity\Utilisateurs", mappedBy="classe")
      */
     private $etudiants;
 
@@ -274,7 +274,7 @@ class Classes
         return $this;
     }
 
-    public function getPromotions()
+    public function getPromotions(): ArrayCollection
     {
         return $this->promotions;
     }

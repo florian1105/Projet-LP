@@ -61,10 +61,14 @@ class EntreprisesController extends AbstractController
             $nom = strtoupper($form['nom']->getData());
             $entreprise->setNom($nom);
 
+            if($this->getUser()->getRoles()=="ROLE_ADMIN" || $this->getUser()->getRoles()=="ROLE_PROFRESPONSABLE"){
+               $entreprise->setValide(true);
+            }else {
+                $entreprise->setValide(false);
+            }
             $em->persist($entreprise);
             $em->flush();
 
-            dump($entreprise);
 
             return $this->redirectToRoute('research_entreprise');
 
@@ -152,8 +156,8 @@ class EntreprisesController extends AbstractController
         $manager->persist($entreprise);
         $manager->flush();
         $this->addFlash('success','L\'entreprise a bien été validé');
-        return $this->render('Entreprises/attente.html.twig', [
-            'Entreprises' => $repo->findAllUnvalide(),
+        return $this->render('entreprises/attente.html.twig', [
+            'entreprises' => $repo->findAllUnvalide(),
 
         ]);
 

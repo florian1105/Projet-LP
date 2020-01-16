@@ -60,8 +60,7 @@ class CandidatsController extends AbstractController
         }
         if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
         {
-            if($editMode == false)
-            {
+            if ($editMode == false) {
                 $form = $this->createFormBuilder($Candidat)
                     ->add('nom')
                     ->add('prenom')
@@ -75,14 +74,11 @@ class CandidatsController extends AbstractController
                     ->add('date_Naissance', DateType::class, [
                         'widget' => 'single_text'
                     ])
-
                     ->getForm();
 
                 $form->handleRequest($request);
 
-            }
-            else
-            {
+            } else {
 
                 $form = $this->createFormBuilder($Candidat)
                     ->add('nom')
@@ -91,7 +87,6 @@ class CandidatsController extends AbstractController
                     ->add('date_Naissance', DateType::class, [
                         'widget' => 'single_text'
                     ])
-
                     ->getForm();
 
                 $form->handleRequest($request);
@@ -104,7 +99,7 @@ class CandidatsController extends AbstractController
             $Candidat->setMail($mail);
             $Candidat->setNom($nom);
             $Candidat->setPrenom($prenom);
-
+            $Candidat->setClasse($this->getUser()->getClasseResponsable());
 
             if($form->isSubmitted() && $form->isValid())
             {
@@ -317,7 +312,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidat_account/change_mail", name="change_mail")
+     * @Route("candidat_account/change_mail", name="candidat_change_mail")
      */
     public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
     {

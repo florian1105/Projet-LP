@@ -31,32 +31,31 @@ class EtudiantsRepository extends ServiceEntityRepository
     }
 
 
-    // /**
-    //  * @return Etudiants[] Returns an array of Etudiants objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Recupère les anciens étudiants.
+     * @return Etudiants[] Returns an array of Etudiants objects
+     */
+    public function getAnciensEtudiants()
     {
+        // Recupère la dernière année de promotion
+        // -> peut eventuellement être remplacé par la date actuelle
+        $res = $this->createQueryBuilder('e')
+            ->select('p.anneeFin')
+            ->from('App\Entity\Promotions', 'p')
+            ->getQuery()
+            ->getResult();
+
+        $anneeMax = max($res)['anneeFin'];
+
+        // Recupere les anciens etudiants
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('e.promotion', 'p')
+            ->andWhere('p.anneeFin < :promo')
+            ->setParameter('promo', $anneeMax)
+            ->orderBy('e.login','ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Etudiants
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

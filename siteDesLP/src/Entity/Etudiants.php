@@ -43,12 +43,10 @@ class Etudiants extends Utilisateurs implements UserInterface
      */
     private $login;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Classes", inversedBy="etudiants")
-     * @ORM\JoinColumn(name="classe_etudiant_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Promotions", inversedBy="etudiants")
      */
-    private $classeEtudiant;
+    private $promotion;
 
     public function getNomEtudiant(): ?string
     {
@@ -161,6 +159,16 @@ class Etudiants extends Utilisateurs implements UserInterface
         return parent::getDateNaissance();
     }
 
+    public function getClasseEtudiant(): ?Classes
+    {
+        return parent::getClasse();
+    }
+
+    public function setClasseEtudiant(?Classes $classe): Utilisateurs
+    {
+        return parent::setClasse($classe);
+    }
+
 
     public function eraseCredentials()
     {
@@ -182,21 +190,21 @@ class Etudiants extends Utilisateurs implements UserInterface
       return $this->login;
     }
 
-    public function getClasseEtudiant(): ?Classes
-    {
-       return $this->classeEtudiant;
-    }
-
-    public function setClasseEtudiant(?Classes $classeEtudiant): self
-    {
-        $this->classeEtudiant = $classeEtudiant;
-
-        return $this;
-    }
-
     public function __toString()
     {
         return parent::getNom()." ".parent::getPrenom();
+    }
+
+    public function getPromotion(): ?Promotions
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion(?Promotions $promotion): self
+    {
+        $this->promotion = $promotion;
+
+        return $this;
     }
 
 }
