@@ -38,14 +38,16 @@ class EtudiantsRepository extends ServiceEntityRepository
     public function getAnciensEtudiants()
     {
         // Recupère la dernière année de promotion
-        // -> peut eventuellement être remplacé par la date actuelle
         $res = $this->createQueryBuilder('e')
             ->select('p.anneeFin')
             ->from('App\Entity\Promotions', 'p')
             ->getQuery()
             ->getResult();
 
-        $anneeMax = max($res)['anneeFin'];
+        // Si il n'y a pas de promotion on renvois l'annee en cours
+        $anneeMax = getdate()['year'];
+        if(!empty($res))
+            $anneeMax = max($res)['anneeFin'];
 
         // Recupere les anciens etudiants
         return $this->createQueryBuilder('e')
@@ -56,6 +58,35 @@ class EtudiantsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function isAncienEtudiant(Etudiants $etu)
+    {
+        // Recupère la dernière année de promotion
+        $res = $this->createQueryBuilder('e')
+            ->select('p.anneeFin')
+            ->from('App\Entity\Promotions', 'p')
+            ->getQuery()
+            ->getResult();
+
+        // Si il n'y a pas de promotion on renvois l'annee en cours
+        $anneeMax = getdate()['year'];
+        if(!empty($res))
+            $anneeMax = max($res)['anneeFin'];
+
+        // Recupere les anciens etudiants
+        $this->createQueryBuilder('e')
+            ->join('e.promotion', 'p')
+            ->andWhere('p.anneeFin < :promo')
+            ->setParameter('promo', $anneeMax)
+            ->where('p.id = :id')
+            ->setParameter('id', $etu->getId())
+            ->orderBy('e.login','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  * @UniqueEntity("mail",message="Ce mail est déjà utilisé")
- * @UniqueEntity("telephone",message="Ce numéro de tel est déjà utilisé")
+ * @UniqueEntity("telephone",message="Ce numéro de téléphone est déjà utilisé")
  */
 class Contacts implements UserInterface {
     /**
@@ -57,7 +57,7 @@ class Contacts implements UserInterface {
     /**
      * @ORM\Column(type="string", length=10)
      *
-     * @Assert\NotNull(message="Contact doit avoir un numéro de télephone")
+     * @Assert\NotNull(message="Contact doit avoir un numéro de téléphone")
      * @Assert\Regex(pattern="/[[:digit:]]/", match=true, message="Seuls les chiffres sont autorisés")
      *
      */
@@ -65,7 +65,7 @@ class Contacts implements UserInterface {
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="contactEntreprise")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id_entreprise", referencedColumnName="id", nullable=false)
      * @Assert\NotNull(message="Une entreprise est nécessaire.")
      */
     private $entreprise;
@@ -170,9 +170,11 @@ class Contacts implements UserInterface {
     /**
      * @param mixed $entreprise
      */
-    public function setEntreprise($entreprise): void
+    public function setEntreprise($entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
     }
 
     public function getValide(): ?bool
@@ -202,9 +204,11 @@ class Contacts implements UserInterface {
         return $this->password;
     }
 
-    public function setPassword(string $password)
+    public function setPassword(string $password): self
     {
         $this->password=$password;
+
+        return $this;
     }
 
     public function getNewPassword(): ?string
@@ -212,9 +216,11 @@ class Contacts implements UserInterface {
         return $this->new_password;
     }
 
-    public function setNewPassword($new_password): void
+    public function setNewPassword($new_password): self
     {
         $this->new_password=$new_password;
+
+        return $this;
     }
 
     public function getPasswordRequestedAt(): ?\DateTimeInterface
@@ -222,7 +228,7 @@ class Contacts implements UserInterface {
         return $this->passwordRequestedAt;
     }
 
-    public function setPasswordRequestedAt($passwordRequestedAt)
+    public function setPasswordRequestedAt($passwordRequestedAt): self
     {
         $this->passwordRequestedAt = $passwordRequestedAt;
         return $this;
@@ -231,9 +237,11 @@ class Contacts implements UserInterface {
     {
         return $this->confirm_password;
     }
-    public function setConfirmPassword($confirm_password): void
+    public function setConfirmPassword($confirm_password): self
     {
         $this->confirm_password=$confirm_password;
+
+        return $this;
     }
 
     public function getToken()
@@ -241,7 +249,7 @@ class Contacts implements UserInterface {
         return $this->token;
     }
 
-    public function setToken($token)
+    public function setToken($token): self
     {
         $this->token = $token;
         return $this;
