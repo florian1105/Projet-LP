@@ -8,6 +8,7 @@ use App\Entity\Professeurs;
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
 use Symfony\Component\Form\FormBuilder;
+use App\Repository\PromotionsRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,10 +23,9 @@ class ClasseController extends AbstractController
      * @Route("/classe/new", name="classe_create")
      * @Route("/classe/{id}/edit", name="classe_edit")
      */
-  public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
+  public function form(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     $editMode = true;
-
     if(!$classe)
     {
       $classe = new Classes();
@@ -37,10 +37,6 @@ class ClasseController extends AbstractController
       $form = $this->createFormBuilder($classe)
       ->add('nomClasse')
       ->add('nomComplet')
-      ->add('promotions', EntityType::class, [
-          'class' => Promotions::class,
-          'choice_label' => 'annee',
-      ])
       ->add('professeurResponsable',
       EntityType::class,
       [
@@ -63,6 +59,29 @@ class ClasseController extends AbstractController
       {
         if($form->isSubmitted() && $form->isValid())
         {
+          $annee = date('Y');
+          $mois = date('n');
+
+
+          $dateActuelle = Promotions::getPromo($annee, $mois);
+
+          $unePromo = $repoP->findOneBy(['annee' => $dateActuelle]);
+          if($unePromo == null)
+          {
+            $currentPromo = new Promotions();
+            $currentPromo->setPromo($annee, $mois);
+            $classe->addPromotion($currentPromo);
+            $manager->persist($currentPromo);
+          }
+          else
+          {
+            $classe->addPromotion($unePromo);
+          }
+
+
+
+
+
           $classe->setNomClasse($nomClasse);
           $info = new InformationsClasses();
           $info->setClasse($classe);
@@ -124,6 +143,9 @@ class ClasseController extends AbstractController
       {
         if($form->isSubmitted() && $form->isValid())
         {
+
+
+
           $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));
           $manager->persist($classe);
           $manager->flush();
@@ -196,24 +218,5 @@ class ClasseController extends AbstractController
             'classes' => $classes,
         ]);
     }
-
-    /**
-     * @Route("purge/classe_purge/{id}", name="classe_purge")
-     */
-     public function purge(Classes $classe)
-     {
-
-       //$lesEtudiants = $repoE->getEtudiantsByPromotionAndClasse
-
-       //setMailToNull($lesEtudiants);
-
-       $promo = $classe->getPromotions()->getAnnee();
-       dump($promo);
-
-       return $this->render('confirmation.html.twig', [
-         'titre' => 'Mes morts',
-         'message' => 'Tes moulots',
-       ]);
-     }
 
 }

@@ -29,7 +29,7 @@ class Promotions
     private $annee;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="promotions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", fetch="EAGER", inversedBy="promotions")
      */
     private $classes;
 
@@ -70,7 +70,7 @@ class Promotions
 
     public function __construct()
     {
-        $this->classe = new ArrayCollection();
+
         $this->classes = new ArrayCollection();
         $this->etudiants = new ArrayCollection();
         $this->candidats = new ArrayCollection();
@@ -81,16 +81,15 @@ class Promotions
         return $this->id;
     }
 
-    public function getAnnee(): ?string
+    public function setAnnee($anneeDebut, $anneeFin)
     {
-        return $this->annee;
+      $this->annee = strval($anneeDebut) . '/' . strval($anneeFin);
+      return $this;
     }
 
-    public function setAnnee(string $annee): self
+    public function getAnnee()
     {
-        $this->annee = $annee;
-
-        return $this;
+        return $this->annee;
     }
 
     /**
@@ -173,6 +172,45 @@ class Promotions
 
         return $this;
     }
+
+    public function setPromo($annee, $mois)
+    {
+      if($mois > 9)
+      {
+        $this->setAnneeDebut($annee + 1);
+        $this->setAnneeFin($annee + 2);
+
+      }
+
+      else
+      {
+        $this->setAnneeDebut($annee);
+        $this->setAnneeFin($annee + 1);
+      }
+
+      $this->setAnnee($this->anneeDebut, $this->anneeFin);
+    }
+
+    static function getPromo($annee,$mois)
+    {
+      $anneeDebut;
+      $anneeFin;
+      if($mois > 9)
+      {
+        $anneeDebut = $annee + 1;
+        $anneeFin = $annee + 2;
+      }
+      else
+      {
+        $anneeDebut = $annee;
+        $anneeFin = $annee + 1;
+      }
+
+      return strval($anneeDebut) . '/' . $anneeFin;
+
+    }
+
+
 
     /**
      * @return Collection|Etudiants[]
