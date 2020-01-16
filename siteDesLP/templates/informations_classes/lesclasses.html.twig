@@ -3,16 +3,23 @@
 {% block title %}Les LP de l'IUT{% endblock %}
 
 {% block body %}
-<div class="lesClasses">
-    {% for classe in classes %}
-    <div class="card text-center">
-  <div class="card-body">
-    <h5 class="card-title">{{ classe.nomClasse }}</h5>
-    <p class="card-text">{{ classe.nomComplet }}</p>
-    <a href="{{ path('informations_classes_id', {'id' : classe.informationsClasses.id }) }}" class="btn btn-primary">Découvrir</a>
+
+  <div class="info-globales">
+    <div class="col">
+      <div class="lesClasses">
+        <h3 style="text-align:center;margin-bottom:2%;">Nos licences</h3>
+        <p>L'IUT de Montpellier possède {{ nbClasse }} différentes licences professionnelles en informatique, chacune possédant des enseignements différent tous plus riches les uns que les autres.</p>
+        {% for classe in classes %}
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">{{ classe.nomClasse }}</h5>
+              <p class="card-text">{{ classe.nomComplet }}</p>
+              <a href="{{ path('informations_classes_id', {'id' : classe.informationsClasses.id }) }}" class="btn btn-primary">Découvrir</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
-</div>
-    {% endfor %}
-</div>
 
 {% endblock %}

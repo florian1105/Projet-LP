@@ -28,6 +28,7 @@ class InformationsClassesController extends AbstractController
 
     return $this->render('informations_classes/lesclasses.html.twig', [
       'classes' => $classes,
+      'nbClasse' => sizeof($classes)
     ]);
   }
 

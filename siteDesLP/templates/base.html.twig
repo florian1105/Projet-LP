@@ -43,7 +43,16 @@
             <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
           </li>
         {% endif %}
+<<<<<<< HEAD
+        {% if is_granted('ROLE_CONTACT') %}
+          <li class="nav-item active">
+            <a class="nav-link my_nav_item" href="{{ path('offres_research') }}">Mes offres d'emploi<span class="sr-only"></span></a>
+          </li>
+        {% endif %}
+        {% if is_granted('ROLE_ETUDIANT') %}
+=======
         {% if is_granted('ROLE_ETUDIANT') or  is_granted('ROLE_CANDIDAT')%}
+>>>>>>> 1e9f718e4567df637980f984daecb10c7044acbb
           <li class="nav-item active">
             <a class="nav-link my_nav_item" href="{{ path('type_offre') }}">Offres d'emploi<span class="sr-only"></span></a>
           </li>
@@ -98,8 +107,6 @@
               <a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
               {# Contacts #}
               <a class="dropdown-item" href={{ path('contact_search') }}>Contacts</a>
-              {#Candidat
-              <a class="dropdown-item" href={{ path('research_candidat') }}>Candidats</a>#}
             </div>
           </li>
         {% endif %}
@@ -187,7 +194,7 @@
               <div class="modal-footer">
                   {# Déconnexion #}
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                  <a role="button" class="btn btn-success" href="{{ path('deconnexion') }}">Confirmer&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
+                  <a role="button" class="btn btn-primary" href="{{ path('deconnexion') }}">Déconnexion&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
               </div>
           </div>
       </div>
@@ -196,7 +203,6 @@
   <br/>
   <br/>
   <br/>
-<!-- Footer -->
 
 <footer class="page-footer font-small blue">
 
@@ -212,6 +218,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         {{ encore_entry_script_tags('writeFileName') }}
+        {{ encore_entry_script_tags('alert') }}
       {% endblock %}
     </body>
 </html>

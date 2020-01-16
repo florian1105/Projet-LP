@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     {
       if($this->getUser() && $this->getUser()->getRoles()[0] == "ROLE_ETUDIANT") //Si l'utilisateur est connecté et est un étudiant
       {
-        $classe = $this->getUser()->getClasseEtudiant();
+        $classe = $this->getUser()->getClasse();
         $articles = $repoA->getArticlePublicByClasse($classe); //On récupère les articles de sa classe en plus des articles publics
       }
       else $articles = $repoA->getArticlePublicTries();

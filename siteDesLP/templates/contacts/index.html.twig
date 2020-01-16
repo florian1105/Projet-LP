@@ -6,7 +6,7 @@
     {% if editMode %}
         <h1>Modification d'un contact {{ contacts.nom }} {{ contacts.prenom }}</h1>
     {% else %}
-        <h1>Création d'un contact</h1>
+        <h1>Demande de contact</h1>
     {% endif %}
 
     {{ form_start(form) }}
@@ -35,13 +35,16 @@
             'placeholder' : "Numéro de Téléphone"
         }
     }) }}
-    <a href="{{ path('entreprise_create') }}" class="btn-sm btn-secondary mb-1" style="margin-left: 100px;margin-top: 100px" >+</a>
+
     {{ form_row(form.entreprise, {
         'label':'Entreprise',
         'attr' : {
             'placeholder' : 'Entreprise',
         }
     }) }}
+    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_create') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
+
+
 
 
     {# Bonton de création #}
@@ -49,7 +52,7 @@
         {% if editMode %}
             Modifier
         {% else %}
-            Créer le contact
+            Envoyer ma demande
         {% endif %}
     </button>
 
