@@ -29,14 +29,13 @@ class Promotions
     private $annee;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", inversedBy="promotions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Classes", fetch="EAGER", inversedBy="promotions")
      */
     private $classes;
 
-
     public function __construct()
     {
-        $this->classe = new ArrayCollection();
+
         $this->classes = new ArrayCollection();
     }
 
@@ -45,12 +44,12 @@ class Promotions
         return $this->id;
     }
 
-    public function getAnnee(): ?string
+    public function getAnnee()
     {
         return $this->annee;
     }
 
-    public function setAnnee(string $annee): self
+    public function setAnnee($annee): self
     {
         $this->annee = $annee;
 
@@ -112,5 +111,19 @@ class Promotions
         }
 
         return $this;
+    }
+
+    public function setPromo($annee, $mois)
+    {
+      if($mois > 9)
+      {
+        $this->setAnnee(strval($annee + 1) . "/" + strval($annee + 2));
+
+      }
+
+      else
+      {
+        $this->setAnnee(strval($annee) . '/' + strval($annee + 1));
+      }
     }
 }

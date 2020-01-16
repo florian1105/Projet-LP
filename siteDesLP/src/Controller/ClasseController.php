@@ -25,7 +25,6 @@ class ClasseController extends AbstractController
   public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     $editMode = true;
-
     if(!$classe)
     {
       $classe = new Classes();
@@ -37,10 +36,6 @@ class ClasseController extends AbstractController
       $form = $this->createFormBuilder($classe)
       ->add('nomClasse')
       ->add('nomComplet')
-      ->add('promotions', EntityType::class, [
-          'class' => Promotions::class,
-          'choice_label' => 'annee',
-      ])
       ->add('professeurResponsable',
       EntityType::class,
       [
@@ -124,6 +119,9 @@ class ClasseController extends AbstractController
       {
         if($form->isSubmitted() && $form->isValid())
         {
+
+
+
           $classe->setNomClasse("LP - ".strtoupper($form['nomClasse']->getData()));
           $manager->persist($classe);
           $manager->flush();
@@ -196,24 +194,5 @@ class ClasseController extends AbstractController
             'classes' => $classes,
         ]);
     }
-
-    /**
-     * @Route("purge/classe_purge/{id}", name="classe_purge")
-     */
-     public function purge(Classes $classe)
-     {
-
-       //$lesEtudiants = $repoE->getEtudiantsByPromotionAndClasse
-
-       //setMailToNull($lesEtudiants);
-
-       $promo = $classe->getPromotions()->getAnnee();
-       dump($promo);
-
-       return $this->render('confirmation.html.twig', [
-         'titre' => 'Mes morts',
-         'message' => 'Tes moulots',
-       ]);
-     }
 
 }

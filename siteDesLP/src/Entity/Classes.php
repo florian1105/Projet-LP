@@ -76,7 +76,7 @@ class Classes
     private $offres;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Promotions", mappedBy="classes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Promotions",fetch="EAGER",mappedBy="classes")
      */
     private $promotions;
 
@@ -274,12 +274,12 @@ class Classes
         return $this;
     }
 
-    public function getPromotions(): ?Promotions
+    public function getPromotions()
     {
         return $this->promotions;
     }
 
-    public function setPromotions(?Promotions $promotions): self
+    public function setPromotions($promotions): self
     {
         $this->promotions = $promotions;
 
