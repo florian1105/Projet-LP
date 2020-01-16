@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Classes;
+use App\Entity\Contacts;
+use App\Entity\Entreprises;
 use App\Entity\Etudiants;
 use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
@@ -271,9 +273,9 @@ class EtudiantController extends AbstractController
 		]);
 	}
 
-		/**
-		 * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
-		 */
+	/**
+	 * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
+	 */
 	public function deleteEtudiant(Etudiants $etu, Request $req)
 	{
 		//Si le formulaire à été soumis
@@ -328,21 +330,79 @@ class EtudiantController extends AbstractController
 	{
 		$etudiants = $repoE->getAnciensEtudiants();
 		
-		return $this->render('etudiant/research.html.twig', [
+		return $this->render('etudiant/researchAncien.html.twig', [
 				'etudiants' => $etudiants,
 		]);
 	}
-	
-			/**
-		 * @Route("etudiant_account", name="etudiant_account")
-		 */
-		public function monCompte(UserInterface $etudiant)
-		{
-				$etudiant = $this->getUser();
-				return $this->render('etudiant/moncompte.html.twig', [
-						'etudiant' => $etudiant,
-				]);
+
+	/**
+	 * @Route("etudiant/{id}/transform", name="etudiant_to_contact")
+	 */
+	public function transformeEtudiantEnContact(Etudiants $etudiant, Request $request, ObjectManager $manager)
+	{
+		if (!$etudiant->isAncienEtudiant()) {
+			$this->addFlash('error', 'Cette étudiant n\' a pas été détecté comme étant un ancien étudiant. Procédure annulée.');
+			return $this->redirectToRoute('anciens_etudiants_recherche');
 		}
+
+		$contact = new Contacts();
+		$contact->setNom($etudiant->getNom())
+		->setPrenom($etudiant->getPrenom())
+		->setMail($etudiant->getMail())
+		//->setTelephone()
+		//->setEntreprise()
+		->setValide(true)
+		->setPassword($etudiant->getPassword())
+		//->setNewPassword($etudiant->getNewPassword())
+		//->setPasswordRequestedAt($etudiant->getPasswordRequestedAt())
+		//->setConfirmPassword($etudiant->getConfirmPassword())
+		//->setToken($etudiant->getToken())
+		;
+
+
+		$form = $this->createFormBuilder($contact)
+		->add('nom')
+		->add('prenom')
+		->add('mail')
+		->add('telephone')
+		->add('entreprise', EntityType::class, [
+		  'class' => Entreprises::class,
+		  'choice_label' => 'Nom',
+		])
+		->getForm();
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid())
+		{   
+			$this->addFlash('success_modifie', 'Le contact a bien été modifié');
+
+			$manager->persist($contact);
+			$manager->remove($etudiant);
+			$manager->flush();
+
+			return $this->redirectToRoute("contact_search");
+
+			//return $this->redirectToRoute("contact_valide",['id'=>$contact->getId()]);
+		}
+
+		return $this->render('contacts/index.html.twig', [
+			'form' => $form->createView(),
+			'editMode' => $contact->getId() !== null,
+			'contacts' => $contact
+		]);
+	}
+	
+	/**
+	 * @Route("etudiant_account", name="etudiant_account")
+	 */
+	public function monCompte(UserInterface $etudiant)
+	{
+			$etudiant = $this->getUser();
+			return $this->render('etudiant/moncompte.html.twig', [
+					'etudiant' => $etudiant,
+			]);
+	}
 
 		/**
 		 * @Route("etudiant_account/change_password", name="etudiant_change_password")

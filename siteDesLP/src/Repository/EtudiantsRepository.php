@@ -38,14 +38,16 @@ class EtudiantsRepository extends ServiceEntityRepository
     public function getAnciensEtudiants()
     {
         // Recupère la dernière année de promotion
-        // -> peut eventuellement être remplacé par la date actuelle
         $res = $this->createQueryBuilder('e')
             ->select('p.anneeFin')
             ->from('App\Entity\Promotions', 'p')
             ->getQuery()
             ->getResult();
 
-        $anneeMax = max($res)['anneeFin'];
+        // Si il n'y a pas de promotion on renvois l'annee en cours
+        $anneeMax = getdate()['year'];
+        if(!empty($res))
+            $anneeMax = max($res)['anneeFin'];
 
         // Recupere les anciens etudiants
         return $this->createQueryBuilder('e')

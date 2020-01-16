@@ -207,4 +207,8 @@ class Etudiants extends Utilisateurs implements UserInterface
         return $this;
     }
 
+    public function isAncienEtudiant(): bool
+    {
+        return true;
+    }
 }
