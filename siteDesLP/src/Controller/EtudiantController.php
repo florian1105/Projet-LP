@@ -394,7 +394,7 @@ class EtudiantController extends AbstractController
 
 
 		 /**
-		 * @Route("etudiant_account/change_mail", name="change_mail")
+		 * @Route("etudiant_account/change_mail", name="etudiant_change_mail")
 		 */
 		public function changeMail(UserInterface $etudiant, Request $request, ObjectManager $em)
 		{

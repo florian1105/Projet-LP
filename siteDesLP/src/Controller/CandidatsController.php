@@ -312,7 +312,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidat_account/change_mail", name="change_mail")
+     * @Route("candidat_account/change_mail", name="candidat_change_mail")
      */
     public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
     {
