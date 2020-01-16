@@ -82,7 +82,7 @@
                 <td>{{etudiant.mail}}</td>
                 <td>{{etudiant.dateNaissance | date('d/m/Y')}}</td>
                 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-                    <td>{{etudiant.classeEtudiant}}</td>
+                    <td>{{etudiant.classe}}</td>
                 {% endif %}
                 <td><a href="{{ path('etudiant_edit', {'id' : etudiant.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
                 <td><a href="{{ path('etudiant_delete', {'id' : etudiant.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>

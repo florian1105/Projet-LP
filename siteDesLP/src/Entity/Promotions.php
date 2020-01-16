@@ -33,11 +33,47 @@ class Promotions
      */
     private $classes;
 
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Unique
+     * @Assert\Range(
+     *      min = 1900,
+     *      max = 2899,
+     *      minMessage = "La date début de la promotion doit au minimum être {{ limit }} ou plus.",
+     *      maxMessage = "La date début de la promotion doit au maximum être {{ limit }} ou moins."
+     * )
+     */
+    private $anneeDebut;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Unique
+     * @Assert\Range(
+     *      min = 1901,
+     *      max = 2900,
+     *      minMessage = "La date de fin de la promotion doit au minimum être {{ limit }} ou plus.",
+     *      maxMessage = "La date de fin de la promotion doit au maximum être {{ limit }} ou moins."
+     * )
+     */
+    private $anneeFin;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Etudiants", mappedBy="promotion")
+     */
+    private $etudiants;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Candidats", mappedBy="promotions")
+     */
+    private $candidats;
+
 
     public function __construct()
     {
         $this->classe = new ArrayCollection();
         $this->classes = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
+        $this->candidats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +145,89 @@ class Promotions
     {
         if ($this->classes->contains($class)) {
             $this->classes->removeElement($class);
+        }
+
+        return $this;
+    }
+
+    public function getAnneeDebut(): ?int
+    {
+        return $this->anneeDebut;
+    }
+
+    public function setAnneeDebut(int $anneeDebut): self
+    {
+        $this->anneeDebut = $anneeDebut;
+
+        return $this;
+    }
+
+    public function getAnneeFin(): ?int
+    {
+        return $this->anneeFin;
+    }
+
+    public function setAnneeFin(int $anneeFin): self
+    {
+        $this->anneeFin = $anneeFin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Etudiants[]
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiants $etudiant): self
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants[] = $etudiant;
+            $etudiant->setPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiants $etudiant): self
+    {
+        if ($this->etudiants->contains($etudiant)) {
+            $this->etudiants->removeElement($etudiant);
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getPromotion() === $this) {
+                $etudiant->setPromotion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Candidats[]
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidats $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats[] = $candidat;
+            $candidat->addPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidats $candidat): self
+    {
+        if ($this->candidats->contains($candidat)) {
+            $this->candidats->removeElement($candidat);
+            $candidat->removePromotion($this);
         }
 
         return $this;
