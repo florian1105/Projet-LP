@@ -58,6 +58,11 @@ class TypeOffre
         return $this->offres;
     }
 
+    public function getNbOffres()
+    {
+        return sizeof($this->offres);
+    }
+
     public function addOffre(Offres $offre): self
     {
         if (!$this->offres->contains($offre)) {
@@ -79,5 +84,10 @@ class TypeOffre
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nomType;
     }
 }

@@ -51,7 +51,6 @@
         <tr>
             <th scope="col">Nom</th>
             <th scope="col">Modifier</th>
-            <th scope="col">Supprimer</th>
         </tr>
         </thead>
         <tbody>
@@ -59,7 +58,6 @@
             <tr class="ligne">
                 <th id="{{ entreprise.nom }}" >{{entreprise.nom}}</th>
                 <td><a href="{{ path('entreprise_edit', {'id' : entreprise.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href="{{ path('entreprise_delete', {'id' : entreprise.id}) }}" class="delete-btn btn btn-danger active invisible">❌</a></td>
             </tr>
         {% endfor %}
         </tbody>

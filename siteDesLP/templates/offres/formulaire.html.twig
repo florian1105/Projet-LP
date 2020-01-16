@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion de mes offres{% endblock %}
+
+{% block body %}
+
+
+  {{form_start(form_offre) }}
+  {{ form_row(form_offre.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'offre" }}) }}
+  {{ form_row(form_offre.description, {'label': 'Description de l\'offre'}) }}
+    {{ form_row(form_offre.typeOffre,{'label': 'Type d\'offre'}) }}
+      <br>
+    <button type="submit" class="btn btn-success mb-5">
+        {% if editMode %}
+  	        Modifier l'offre
+  	    {% else %}
+  	        Créer l'offre
+  	    {% endif %}
+    </button>
+
+  {{ form_end(form_offre) }}
+
+{% endblock %}

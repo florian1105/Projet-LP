@@ -570,5 +570,4 @@ class EtudiantController extends AbstractController
 				$em->flush();
 		}
 
-
 }
