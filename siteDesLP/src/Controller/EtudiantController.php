@@ -492,7 +492,7 @@ class EtudiantController extends AbstractController
         $etudiant->setLogin($login.$i);
         $etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
         $etudiant->setPassword($hash);
-        $etudiant->setClasseEtudiant($this->getUser()->getClasseResponsable());
+        $etudiant->setClasse($this->getUser()->getClasseResponsable());
         $etudiant->setDateNaissance($date);
         $em->persist($etudiant);
         $em->flush();

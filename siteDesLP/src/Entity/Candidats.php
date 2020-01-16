@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,6 +15,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Candidats extends Utilisateurs implements UserInterface
 {
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Promotions", inversedBy="candidats")
+     */
+    private $promotions;
+
+    public function __construct()
+    {
+        $this->promotions = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return parent::getId();
@@ -87,7 +99,7 @@ class Candidats extends Utilisateurs implements UserInterface
         return parent::setMail($mail);
     }
 
-    public function getClasse(): Classes
+    public function getClasse(): ?Classes
     {
         return parent::getClasse();
     }
@@ -120,6 +132,32 @@ class Candidats extends Utilisateurs implements UserInterface
     public function __toString()
     {
         return parent::getNom()." ".parent::getPrenom();
+    }
+
+    /**
+     * @return Collection|Promotions[]
+     */
+    public function getPromotions(): Collection
+    {
+        return $this->promotions;
+    }
+
+    public function addPromotion(Promotions $promotion): self
+    {
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions[] = $promotion;
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotions $promotion): self
+    {
+        if ($this->promotions->contains($promotion)) {
+            $this->promotions->removeElement($promotion);
+        }
+
+        return $this;
     }
 
 }
