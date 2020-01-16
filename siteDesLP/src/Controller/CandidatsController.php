@@ -99,7 +99,8 @@ class CandidatsController extends AbstractController
             $Candidat->setMail($mail);
             $Candidat->setNom($nom);
             $Candidat->setPrenom($prenom);
-            $Candidat->setClasse($this->getUser()->getClasseResponsable());
+            $classe = $this->getUser()->getClasseResponsable();
+            $Candidat->setClasse($classe);
 
             if($form->isSubmitted() && $form->isValid())
             {
@@ -186,6 +187,7 @@ class CandidatsController extends AbstractController
             'form_create_candidat' => $form->createView(),
             'editMode' => $Candidat->getId() !== null,
             'Candidat' => $Candidat,
+            'classe' => $classe
         ]);
     }
 
