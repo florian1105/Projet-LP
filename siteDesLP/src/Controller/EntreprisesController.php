@@ -61,16 +61,16 @@ class EntreprisesController extends AbstractController
             $nom = strtoupper($form['nom']->getData());
             $entreprise->setNom($nom);
 
-            if($this->getUser()->getRoles()=="ROLE_ADMIN" || $this->getUser()->getRoles()=="ROLE_PROFRESPONSABLE"){
-               $entreprise->setValide(true);
-            }else {
+            if($this->getUser()==null){
                 $entreprise->setValide(false);
+            }else {
+                $entreprise->setValide(true);
             }
             $em->persist($entreprise);
             $em->flush();
 
 
-            return $this->redirectToRoute('research_entreprise');
+            return $this->redirectToRoute('contact_add');
 
         }
 
