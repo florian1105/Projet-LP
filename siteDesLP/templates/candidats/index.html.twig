@@ -6,7 +6,7 @@
         <h1>Modification du candidat {{ Candidat.nom }} {{ Candidat.prenom }}</h1>
     {% else %}
         {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-            <h1>Création d'un candidat de la {{ classex.nomClasse }}</h1>
+            <h1>Création d'un candidat de la {{ classe.nomClasse }}</h1>
         {% else %}
             <h1>Création d'un candidat</h1>
         {% endif %}
