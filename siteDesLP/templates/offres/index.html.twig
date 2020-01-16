@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres d'emploi{% endblock %}
+
+{% block body %}
+	<div class="actu">
+		<h3>Les offres</h3>
+		{% for offre in offres %}
+			<div class="blog-post">
+				<a class="blog-title" href=""><h2>{{ offre.titre }}</h2></a>
+				<p class="blog-post-meta font-italic"><i class="far fa-calendar-alt"></i> &nbsp;Publié le : {{ offre.date | date('d/m/Y') }}</p>
+                <p class="blog-post-meta"><i class="far fa-building"></i> &nbsp;Par : {{ offre.entreprise }}</p>
+				{{ offre.description|raw }}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

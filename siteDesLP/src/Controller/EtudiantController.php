@@ -177,7 +177,7 @@ class EtudiantController extends AbstractController
       ->add('dateNaissance', DateType::class, [
         'widget' => 'single_text'
       ])
-      ->add('classeEtudiant', EntityType::class, [
+      ->add('classe', EntityType::class, [
         'class' => Classes::class,
         'choice_label' => 'nomClasse',
     ])
@@ -221,7 +221,7 @@ class EtudiantController extends AbstractController
       ->add('dateNaissance', DateType::class, [
         'widget' => 'single_text'
       ])
-      ->add('classeEtudiant', EntityType::class, [
+      ->add('classe', EntityType::class, [
         'class' => Classes::class,
         'choice_label' => 'nomClasse',
       ])

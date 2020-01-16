@@ -52,7 +52,7 @@ class Entreprises
 
     public function __toString()
     {
-        return $this->getNom();
+        return $this->nom;
     }
 
     public function getId(): ?int

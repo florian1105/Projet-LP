@@ -71,7 +71,7 @@
                 <td>{{contact.mail}}</td>
                 <td>{{contact.telephone}}</td>
                 <td>{{contact.entreprise}}</td>
-                <td><a href="{{ path('contact_valide', {'id' : contact.id}) }}" class="edit-btn btn btn-success active invisible">✎</a></td>
+                <td><a href="{{ path('contact_valide', {'id' : contact.id}) }}" class="edit-btn btn btn-success active invisible"><i class="far fa-check-circle"></i></a></td>
                 <td><a href="{{ path('contact_delete', {'id' : contact.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
         {% endfor %}

@@ -43,6 +43,11 @@
             <a class="nav-link my_nav_item" href="{{ path('entreprises') }}"><i class="far fa-building"></i>&nbsp;&nbsp;Espace entreprises<span class="sr-only"></span></a>
           </li>
         {% endif %}
+        {% if is_granted('ROLE_CONTACT') %}
+          <li class="nav-item active">
+            <a class="nav-link my_nav_item" href="{{ path('offres_research') }}">Mes offres d'emploi<span class="sr-only"></span></a>
+          </li>
+        {% endif %}
         {% if is_granted('ROLE_ETUDIANT') %}
           <li class="nav-item active">
             <a class="nav-link my_nav_item" href="{{ path('type_offre') }}">Offres d'emploi<span class="sr-only"></span></a>

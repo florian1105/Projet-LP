@@ -128,7 +128,7 @@ class CoursController extends AbstractController
             return $this->redirectToRoute('connexion');
 
         // Récupère la classe de l'étudiant
-        $classe = $etu->getClasseEtudiant();
+        $classe = $etu->getClasse();
 
         // Récupère les dossiers de la classe
         $results = $coursRepo->getTreeClasse($classe);
