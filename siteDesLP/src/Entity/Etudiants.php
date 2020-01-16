@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
+use app\Repository\EtudiantsRepository;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EtudiantsRepository")
@@ -209,6 +210,8 @@ class Etudiants extends Utilisateurs implements UserInterface
 
     public function isAncienEtudiant(): bool
     {
+        //$repoE = $this->getDoctrine()->getRepository(Etudiants::class);
         return true;
+        //return $repoE->isAncienEtudiant($this);
     }
 }
