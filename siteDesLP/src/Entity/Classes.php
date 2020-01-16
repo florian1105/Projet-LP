@@ -274,7 +274,7 @@ class Classes
         return $this;
     }
 
-    public function getPromotions(): ArrayCollection
+    public function getPromotions(): Collection
     {
         return $this->promotions;
     }

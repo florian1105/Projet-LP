@@ -8,6 +8,7 @@ use App\Entity\Professeurs;
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
 use Symfony\Component\Form\FormBuilder;
+use App\Repository\PromotionsRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -22,7 +23,7 @@ class ClasseController extends AbstractController
      * @Route("/classe/new", name="classe_create")
      * @Route("/classe/{id}/edit", name="classe_edit")
      */
-  public function form(Classes $classe = null, ClassesRepository $repoC, Request $request, ObjectManager $manager)
+  public function form(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     $editMode = true;
     if(!$classe)
@@ -58,6 +59,29 @@ class ClasseController extends AbstractController
       {
         if($form->isSubmitted() && $form->isValid())
         {
+          $annee = date('Y');
+          $mois = date('n');
+
+
+          $dateActuelle = Promotions::getPromo($annee, $mois);
+
+          $unePromo = $repoP->findOneBy(['annee' => $dateActuelle]);
+          if($unePromo == null)
+          {
+            $currentPromo = new Promotions();
+            $currentPromo->setPromo($annee, $mois);
+            $classe->addPromotion($currentPromo);
+            $manager->persist($currentPromo);
+          }
+          else
+          {
+            $classe->addPromotion($unePromo);
+          }
+
+
+
+
+
           $classe->setNomClasse($nomClasse);
           $info = new InformationsClasses();
           $info->setClasse($classe);

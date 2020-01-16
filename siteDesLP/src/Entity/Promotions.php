@@ -81,16 +81,15 @@ class Promotions
         return $this->id;
     }
 
+    public function setAnnee($anneeDebut, $anneeFin)
+    {
+      $this->annee = strval($anneeDebut) . '/' . strval($anneeFin);
+      return $this;
+    }
+
     public function getAnnee()
     {
         return $this->annee;
-    }
-
-    public function setAnnee($annee): self
-    {
-        $this->annee = $annee;
-
-        return $this;
     }
 
     /**
@@ -173,6 +172,45 @@ class Promotions
 
         return $this;
     }
+
+    public function setPromo($annee, $mois)
+    {
+      if($mois > 9)
+      {
+        $this->setAnneeDebut($annee + 1);
+        $this->setAnneeFin($annee + 2);
+
+      }
+
+      else
+      {
+        $this->setAnneeDebut($annee);
+        $this->setAnneeFin($annee + 1);
+      }
+
+      $this->setAnnee($this->anneeDebut, $this->anneeFin);
+    }
+
+    static function getPromo($annee,$mois)
+    {
+      $anneeDebut;
+      $anneeFin;
+      if($mois > 9)
+      {
+        $anneeDebut = $annee + 1;
+        $anneeFin = $annee + 2;
+      }
+      else
+      {
+        $anneeDebut = $annee;
+        $anneeFin = $annee + 1;
+      }
+
+      return strval($anneeDebut) . '/' . $anneeFin;
+
+    }
+
+
 
     /**
      * @return Collection|Etudiants[]
