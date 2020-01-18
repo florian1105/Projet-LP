@@ -162,7 +162,7 @@ class Contacts implements UserInterface {
     /**
      * @return mixed
      */
-    public function getEntreprise(): Entreprises
+    public function getEntreprise()
     {
         return $this->entreprise;
     }

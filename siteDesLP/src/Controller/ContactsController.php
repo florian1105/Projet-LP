@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class ContactsController extends AbstractController
@@ -160,6 +161,98 @@ class ContactsController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("contact_account", name="contact_account")
+     */
+    public function monCompte(UserInterface $contact)
+    {
+        $contact = $this->getUser();
+        return $this->render('contacts/moncompte.html.twig', [
+            'contact' => $contact,
+        ]);
+    }
+
+    /**
+     * @Route("contact_account/change_password", name="contact_change_password")
+     */
+    public function changePassword(UserInterface $contact, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    {
+        $contact = $this->getUser();
+
+        $form = $this->createFormBuilder($contact)
+            ->add('password', PasswordType::class, array('mapped' => false))
+            ->add('new_password', PasswordType::class)
+            ->add('confirm_password', PasswordType::class)
+
+
+            ->getForm();
+
+
+        $form->handleRequest($request);
+
+        $mdpNonChange = "";
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $match = $encoder->isPasswordValid($contact, $form['password']->getData());
+            //si password valide
+            if($match)
+            {
+                $hash = $encoder->encodePassword($contact, $form['new_password']->getData());
+                $contact->setPassword($hash);
+                $em->persist($contact);
+                $em->flush();
+                $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
+                return $this->redirectToRoute('contact_account');
+            }
+            else {
+                $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+            }
+        }
+
+
+
+        return $this->render('contacts/changepassword.html.twig', [
+            'contact' => $contact,
+            'form_change_password' => $form->createView(),
+            'error' => $mdpNonChange,
+        ]);
+    }
+
+
+
+    /**
+     * @Route("contact_account/change_mail", name="contact_change_mail")
+     */
+    public function changeMail(UserInterface $contact, Request $request, ObjectManager $em)
+    {
+        $contact = $this->getUser();
+
+        $form = $this->createFormBuilder($contact)
+            ->add('mail')
+
+
+            ->getForm();
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($contact);
+            $em->flush();
+            $this->addFlash('mail_change','Votre mail a été modifié avec succès');
+            return $this->redirectToRoute('contact_account');
+
+        }
+
+        return $this->render('contacts/changeemail.html.twig', [
+            'contact' => $contact,
+            'form_change_email' => $form->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/contact/valide/{id}", name="contact_valide")

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer de mot de passe - site des LP{% endblock %}
+
+{% block body %}
+    {{ form_start(form_change_email) }}
+    {{ form_widget(form_change_email) }}
+    <span>
+    <button type="submit" class="btn btn-success">Changer l'email</button>
+    {{ form_end(form_change_email) }}
+    <a class="btn btn-primary" href= {{ path('etudiant_account')}} role="button">Annuler</a>
+    </span>
+{% endblock %}
