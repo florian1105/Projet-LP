@@ -172,19 +172,22 @@ class ContactsController extends AbstractController
         }
 
         $entreprise=$contact->getEntreprise();
-        if($contact->getEntreprise()->getValide()==false){
-            $entreprise->setValide(true);
-            $entreprise->setContactEntreprise($contact);
+
+        if($entreprise->getValide()==false){
+            $entreprise=$entreprise->setValide(true);
+
         }
-        //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
-        $contact->setToken($tokenGenerator->generateToken());
+        $contact=$contact->setValide(true);
+
         $contact->setPasswordRequestedAt(new \Datetime());
 
-        $contact->setValide(true);
-        $manager->persist($contact);
+        //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
+        $contact->setToken($tokenGenerator->generateToken());
         $manager->persist($entreprise);
-
+        $manager->persist($contact);
         $manager->flush();
+
+
 
         $this->addFlash('success','Le contact a bien été validé');
         $bodyMail = $mailer->createBodyMail('contacts/mail_contact_valide.html.twig', [

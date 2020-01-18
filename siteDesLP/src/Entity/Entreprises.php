@@ -83,7 +83,7 @@ class Entreprises
     /**
      * @param mixed $contactEntreprise
      */
-    public function setContactEntreprise($contactEntreprise): void
+    public function setContactEntreprise(Contacts $contactEntreprise): void
     {
         $this->contactEntreprise = $contactEntreprise;
     }
