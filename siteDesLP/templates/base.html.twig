@@ -157,7 +157,12 @@
                   {% elseif not is_granted('ROLE_ADMIN') and app.user %}
 
                   {# Compte #}
-                  <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}{% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}{% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}{% if is_granted('ROLE_CANDIDAT') %}"{{ path('candidat_account') }}"{% endif %}><i class="fas fa-user-circle"></i>&nbsp;&nbsp;&nbsp;Mon compte<span class="sr-only"></span></a>
+                  <a class="dropdown-item" href={% if is_granted('ROLE_ETUDIANT') %}"{{ path('etudiant_account') }}"{% endif %}
+                      {% if is_granted('ROLE_PROFESSEUR') %}"{{ path('professeur_account') }}"{% endif %}
+                      {% if is_granted('ROLE_SECRETAIRE') %}"{{ path('secretaire_account') }}"{% endif %}
+                      {% if is_granted('ROLE_CANDIDAT') %}"{{ path('candidat_account') }}"{% endif %}
+                      {% if is_granted('ROLE_CONTACT') %}"{{ path('contact_account') }}"{% endif %}
+                      ><i class="fas fa-user-circle"></i>&nbsp;&nbsp;&nbsp;Mon compte<span class="sr-only"></span></a>
                   {% endif %}
 
                   {# Déconnexion #}
