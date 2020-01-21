@@ -21,16 +21,6 @@ class EtudiantsRepository extends ServiceEntityRepository
         parent::__construct($registry, Etudiants::class);
     }
 
-    public function getEtudiantsByPromotionAndClasse(Promotions $promotion, Classes $classe)
-    {
-      $qb = $this->createQueryBuilder("p")
-          ->where(':classe MEMBER OF p.classes')
-          ->setParameters(array('classe' => $classe));
-
-        return $qb->getQuery()->getResult();
-    }
-
-
     /**
      * Recupère les anciens étudiants.
      * @return Etudiants[] Returns an array of Etudiants objects

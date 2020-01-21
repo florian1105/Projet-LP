@@ -102,8 +102,8 @@ class Promotions
 
     public function addClasse(Classes $classe): self
     {
-        if (!$this->classe->contains($classe)) {
-            $this->classe[] = $classe;
+        if (!$this->classes->contains($classe)) {
+            $this->classes[] = $classe;
             $classe->setPromotions($this);
         }
 

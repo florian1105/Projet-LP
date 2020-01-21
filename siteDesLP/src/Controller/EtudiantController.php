@@ -93,6 +93,7 @@ class EtudiantController extends AbstractController
 
 				$form->handleRequest($request);
 
+
 				$prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
 				$prenomLogin1 = substr($prenomLogin, 0,1);
 				$login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
@@ -185,7 +186,6 @@ class EtudiantController extends AbstractController
 		])
 
 			->getForm();
-
 			$form->handleRequest($request);
 
 			$prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
@@ -229,11 +229,11 @@ class EtudiantController extends AbstractController
 			])
 
 			->getForm();
-
 			$form->handleRequest($request);
-
 			$mailAca = strtolower($form['mailAcademique']->getData());
 			$etudiant->setMailAcademique($mailAca);
+
+
 		}
 
 		$mail = strtolower($form['mail']->getData());
@@ -246,15 +246,22 @@ class EtudiantController extends AbstractController
 
 
 
+
 		if($form->isSubmitted() && $form->isValid())
 		{
 			if($editMode == false)
 			{
+				$classeEtudiant = $etudiant->getClasse();
+				$promoEtudiant = $etudiant->getDernierePromo($classeEtudiant);
+				$etudiant->setPromotion($promoEtudiant);
 				$hash = $encoder->encodePassword($etudiant, $etudiant->getNewPassword());
 				$etudiant->setPassword($hash);
 				$this->addFlash('success','L\'étudiant a bien été créé');
 			}
-			else{
+			else
+			{
+
+
 					$this->addFlash('success_modifie','Les changements on biens été pris en compte');
 			}
 			$em->persist($etudiant);
@@ -289,7 +296,9 @@ class EtudiantController extends AbstractController
 			// Sinon on redirige simplement
 				$this->addFlash('delete','Étudiant supprimé');
 			return $this->redirectToRoute('research_etudiant');
-		} else {
+		}
+		else
+		{
 			//Si le formulaire n'a pas été soumis alors on l'affiche
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
 
@@ -314,12 +323,19 @@ class EtudiantController extends AbstractController
 	{
 		if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
 		{
-			$etudiants = $repoE->findBy(['classe' => $this->getUser()->getClasseResponsable()]);
+			$classe = $this->getUser()->getClasseResponsable();
+			$etudiants = $repoE->findBy(['classe' => $classe, 'mailAcademique' => !null]);
+
+			return $this->render('etudiant/research.html.twig', [
+					'etudiants' => $etudiants,
+					'classeID' => $classe->getId(),
+			]);
 		}
 		else $etudiants = $repoE->findAll();
 
 			return $this->render('etudiant/research.html.twig', [
 					'etudiants' => $etudiants,
+
 			]);
 	}
 
@@ -328,8 +344,9 @@ class EtudiantController extends AbstractController
 	 */
 	public function searchAncienEtudiant(EtudiantsRepository $repoE)
 	{
+		$classe = $this->getUser()->getClasseResponsable();
 		$etudiants = $repoE->getAnciensEtudiants();
-		
+
 		return $this->render('etudiant/researchAncien.html.twig', [
 				'etudiants' => $etudiants,
 		]);
@@ -374,7 +391,7 @@ class EtudiantController extends AbstractController
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid())
-		{   
+		{
 			$this->addFlash('success_modifie', 'Le contact a bien été modifié');
 
 			$manager->persist($contact);
@@ -392,7 +409,7 @@ class EtudiantController extends AbstractController
 			'contacts' => $contact
 		]);
 	}
-	
+
 	/**
 	 * @Route("etudiant_account", name="etudiant_account")
 	 */
@@ -503,7 +520,7 @@ class EtudiantController extends AbstractController
 								$this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
 								return $this->redirectToRoute("research_etudiant");
 						}
-						foreach ($csv as $row) 
+						foreach ($csv as $row)
 						{
 								try
 								{

@@ -21,7 +21,7 @@ class Etudiants extends Utilisateurs implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $mailAcademique;
 
@@ -69,12 +69,12 @@ class Etudiants extends Utilisateurs implements UserInterface
         return parent::setPrenom($prenomEtudiant);
     }
 
-    public function getMailAcademique(): ?string
+    public function getMailAcademique()
     {
         return $this->mailAcademique;
     }
 
-    public function setMailAcademique(string $mailAcademique): self
+    public function setMailAcademique($mailAcademique): self
     {
         $this->mailAcademique = $mailAcademique;
 
@@ -206,6 +206,16 @@ class Etudiants extends Utilisateurs implements UserInterface
         $this->promotion = $promotion;
 
         return $this;
+    }
+
+    public function getDernierePromo($classe):Promotions
+    {
+      $lastPromo = null;
+      if(!$classe->getPromotions()->isEmpty())
+      {
+        $lastPromo = $classe->getPromotions()->last();
+      }
+      return $lastPromo;
     }
 
     public function isAncienEtudiant(): bool

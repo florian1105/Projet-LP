@@ -79,7 +79,7 @@
                 <td>{{etudiant.nomEtudiant}}</td>
                 <td>{{etudiant.prenomEtudiant}}</td>
                 <td>{{etudiant.mail}}</td>
-                <td>{{etudiant.classe.nomClasse}} {{etudiant.promotion.anneeDebut}}-{{etudiant.promotion.anneeFin}}</td>
+                <td>{{etudiant.classe.nomClasse}} {{etudiant.promotion.annee}}</td>
                 <td>{{etudiant.dateNaissance | date('d/m/Y')}}</td>
                 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
                     <td>{{etudiant.classe}}</td>
