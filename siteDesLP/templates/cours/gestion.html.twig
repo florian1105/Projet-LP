@@ -7,6 +7,7 @@
 	{% endblock %}
 {% endblock %}
 
+
 {# Fonction récursive d'affichage
    des dossiers & fichiers #}
 {% macro genereArborescence(dossiers) %}
@@ -98,6 +99,14 @@
 
 
 	{# Erreurs #}
+	{% for message in app.flashes('delete') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
 	{% for msg in app.session.flashBag.get('editTrue') %}
 		<div class="alert alert-success">
 			{{ msg }}

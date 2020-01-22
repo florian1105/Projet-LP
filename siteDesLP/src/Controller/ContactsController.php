@@ -69,6 +69,8 @@ class ContactsController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             if(!$editMode){
+                $contact->setNom(strtoupper($contact->getNom()));
+                $contact->setPrenom(ucfirst(strtolower($contact->getPrenom())));
                 $this->addFlash('success','Le contact a bien été créé');
 
                 $bodyMail = $mailer->createBodyMail('contacts/mail_new_contact.html.twig', [
@@ -123,7 +125,8 @@ class ContactsController extends AbstractController
                 $this->addFlash('delete',"Le contact a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun contact n'a été supprimé");}
-            return $this->redirectToRoute('contact_search_valide');
+            if($contacts->getValide() == true) return $this->redirectToRoute('contact_search_valide');
+            else return $this->redirectToRoute('contact_search');
         }
         else
         {
@@ -146,8 +149,8 @@ class ContactsController extends AbstractController
      */
     public function search(ContactRepository $repo)
     {
-        return $this->render('contacts/research.html.twig', [
-            'contacts' => $repo->findAllValide(),
+        return $this->render('contacts/attente.html.twig', [
+            'contacts' => $repo->findAllUnvalide(),
         ]);
     }
     /**
@@ -156,8 +159,8 @@ class ContactsController extends AbstractController
 
     public function search_valide(ContactRepository $repo)
     {
-        return $this->render('contacts/attente.html.twig', [
-            'contacts' => $repo->findAllUnvalide(),
+        return $this->render('contacts/research.html.twig', [
+            'contacts' => $repo->findAllValide(),
         ]);
 
     }
