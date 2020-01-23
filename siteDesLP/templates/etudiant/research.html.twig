@@ -103,7 +103,9 @@
     </table>
     <a class="btn btn-success" href= {{ path('etudiant_create')}} role="button">Créer un étudiant</a>
     {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-  <br><br><a class="btn btn-danger" href= {{ path('classe_purge' , {'id' : classeID}) }} role="button">Passer les étudiants de la classe en ancien étudiant</a>
+        {% if mois >= 7 and mois <= 9  and clique == false %}
+            <br><br><a class="btn btn-danger" href= {{ path('classe_purge' , {'id' : classeID}) }} role="button">Passer les étudiants de la classe en ancien étudiant</a>
+        {% endif %}
     {% endif %}
 
 {% endblock %}

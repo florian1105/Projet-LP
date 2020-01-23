@@ -50,7 +50,7 @@
           </li>
         {% endif %}
 
-        {% if is_granted('ROLE_ETUDIANT') or  is_granted('ROLE_CANDIDAT')%}
+        {% if is_granted('ROLE_ETUDIANT') or is_granted('ROLE_CANDIDAT') or is_granted('ROLE_ANCIENETUDIANT')%}
           <li class="nav-item active">
             <a class="nav-link my_nav_item" href="{{ path('type_offre') }}">Offres d'emploi<span class="sr-only"></span></a>
           </li>
@@ -79,7 +79,7 @@
         </li>
         {# Contact #}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle my_nav_item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+                <a class="nav-link dropdown-toggle my_nav_item" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href={{ path('contact_search') }}>En attentes</a>
                 <a class="dropdown-item" href={{ path('contact_search_valide') }}>Validés</a>
@@ -104,7 +104,9 @@
               {# Entreprises #}
               <a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
               {# Contacts #}
-              <a class="dropdown-item" href={{ path('contact_search') }}>Contacts</a>
+              <a class="dropdown-item" href={{ path('contact_search') }}>Contacts en attentes</a>
+              {# Contacts #}
+              <a class="dropdown-item" href={{ path('contact_search_valide') }}>Contacts validés</a>
             </div>
           </li>
         {% endif %}
@@ -133,6 +135,9 @@
           <a class="nav-link my_nav_item" href={{ path('cours_affi') }}>Mes cours<span class="sr-only"></span></a>
         </li>
         {% endif %}
+        <li class="nav-item active">
+          <a class="nav-link my_nav_item" href="{{ path('date_edit',{'id': 1} ) }}">TEST DATE POUR LES BRAVES<span class="sr-only"></span></a>
+        </li>
       </ul>
 
       {# Connexion #}

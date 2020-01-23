@@ -6,10 +6,11 @@ use App\Entity\Classes;
 use App\Entity\Etudiants;
 use App\Entity\Promotions;
 use App\Entity\Professeurs;
+use App\Repository\DateRepository;
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
-use Symfony\Component\Form\FormBuilder;
 use App\Repository\EtudiantsRepository;
+use Symfony\Component\Form\FormBuilder;
 use App\Repository\PromotionsRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -224,7 +225,7 @@ class ClasseController extends AbstractController
         /**
         * @Route("purge/classe/{id}", name="classe_purge")
         */
-        public function purge(Classes $classe, EtudiantsRepository $repoE, ObjectManager $em, PromotionsRepository $repoPr, Request $req)
+        public function purge(Classes $classe, EtudiantsRepository $repoE, ObjectManager $em, PromotionsRepository $repoPr, Request $req, DateRepository $repoD)
         {
           if($req->isMethod('POST'))
           {
@@ -262,6 +263,8 @@ class ClasseController extends AbstractController
               {
                 $classe->addPromotion($promo);
               }
+
+              $repoD->find(1)->setClique(true);
 
               $em->flush();
               $this->addFlash('purge','La classe a bien été purgé');

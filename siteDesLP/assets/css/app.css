@@ -168,7 +168,12 @@ footer a:hover
 
 .btn-secondary:hover
 {
-  color: white;
+  color: white !important;
+}
+
+.btn-secondary:active
+{
+  color: white !important;
 }
 
 .footer-copyright
@@ -187,5 +192,10 @@ input.custom-file-input::after{
 .is-error
 {
   color : red;
+}
+
+.card
+{
+  border: 0px !important;
 }
 

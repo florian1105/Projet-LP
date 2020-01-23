@@ -191,7 +191,7 @@ class Promotions
       $this->setAnnee($this->anneeDebut, $this->anneeFin);
     }
 
-    static function getPromo($annee,$mois)
+    static function getPromo($annee, $mois)
     {
       $anneeDebut;
       $anneeFin;

@@ -50,6 +50,18 @@ class EtudiantsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getEtudiantsByClasse(Classes $classe)
+    {
+        $etudiants = $this->findBy(['classe' => $classe]);
+
+        for ($i= 0 ; $i < sizeof($etudiants); $i++) 
+        { 
+            if($etudiants[$i]->getMailAcademique() == null) unset($etudiants[$i]);
+        }
+
+        return $etudiants;
+    }
+
     public function isAncienEtudiant(Etudiants $etu)
     {
         // Recupère la dernière année de promotion
