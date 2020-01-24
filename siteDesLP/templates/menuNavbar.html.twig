@@ -121,7 +121,7 @@
 				{# Offres - Modification #}
 				{% if offresEmploiEdit %}
 					{{ debutBouton }}
-						{{ path('offres_research') }}>Mes offres d'emploi
+						{{ path('offres_rechercher') }}>Mes offres d'emploi
 					{{ finBouton }}
 				{% endif %}
 
@@ -135,7 +135,7 @@
 				{# Articles #}
 				{% if articles %}
 					{{ debutBouton }}
-						{{ path('article_search') }}>Articles
+						{{ path('article_rechercher') }}>Articles
 					{{ finBouton }}
 				{% endif %}
 
@@ -143,21 +143,21 @@
 				{# Classe du prof #}
 				{% if maClasse %}
 					{{ debutBouton }}
-						{{ path('research_etudiant') }}>Ma classe
+						{{ path('etudiant_rechercher') }}>Ma classe
 					{{ finBouton }}
 				{% endif %}
 
 				{# Info licence du prof #}
 				{% if infoLicenceProf %}
 					{{ debutBouton }}
-						{{ path('informations_classes_print') }}>Informations licence
+						{{ path('information_classe_afficher') }}>Informations licence
 					{{ finBouton }}
 				{% endif %}
 
 				{#Candidat#}
 				{% if candidats %}
 					{{ debutBouton }}
-						{{ path('research_candidat') }}>Candidats
+						{{ path('candidat_rechercher') }}>Candidats
 					{{ finBouton }}
 				{% endif %}
 
@@ -166,8 +166,8 @@
 					<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href={{ path('contact_search') }}>En attente</a>
-							<a class="dropdown-item" href={{ path('contact_search_valide') }}>Validés</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher') }}>En attente</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>Validés</a>
 							</div>
 					</li>
 				{% endif %}
@@ -177,21 +177,21 @@
 						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							{# Étudiants #}
-							<a class="dropdown-item" href={{ path('research_etudiant') }}>Étudiants</a>
+							<a class="dropdown-item" href={{ path('etudiant_rechercher') }}>Étudiants</a>
 							{# Anciens Étudiants #}
-							<a class="dropdown-item" href={{ path('anciens_etudiants_recherche') }}>Anciens étudiants</a>
+							<a class="dropdown-item" href={{ path('ancien_etudiant_rechercher') }}>Anciens étudiants</a>
 							{# Classes #}
-							<a class="dropdown-item" href={{ path('classe_research') }}>Classes</a>
+							<a class="dropdown-item" href={{ path('classe_rechercher') }}>Classes</a>
 							{# Profs #}
-							<a class="dropdown-item" href={{ path('prof_search') }}>Professeurs</a>
+							<a class="dropdown-item" href={{ path('prof_rechercher') }}>Professeurs</a>
 							{# Secrétaires #}
-							<a class="dropdown-item" href={{ path('secretaire_search') }}>Secrétaires</a>
+							<a class="dropdown-item" href={{ path('secretaire_rechercher') }}>Secrétaires</a>
 							{# Entreprises #}
-							<a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
+							<a class="dropdown-item" href={{ path('entreprise_rechercher') }}>Entreprises</a>
 							{# Contacts #}
-							<a class="dropdown-item" href={{ path('contact_search') }}>Contacts en attente</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>Contacts en attente</a>
 							{# Contacts #}
-							<a class="dropdown-item" href={{ path('contact_search_valide') }}>Contacts validés</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Contacts validés</a>
 						</div>
 					</li>
 				{% endif %}
@@ -200,34 +200,34 @@
 				{# Informations globales #}
 				{% if infosGlobales %}
 					{{ debutBouton }}
-						{{ path('informations_globales_edit', {'id' : 1}) }}>Informations globales
+						{{ path('information_globale_modifier', {'id' : 1}) }}>Informations globales
 					{{ finBouton }}
 				{% endif %}
 
 				{# Anciens Etudiants #}
 				{% if anciensEtudiants %}
 					{{ debutBouton }}
-						{{ path('anciens_etudiants_recherche') }}>Anciens étudiants
+						{{ path('ancien_etudiant_rechercher') }}>Anciens étudiants
 					{{ finBouton }}
 				{% endif %}
 
 				{# Gestion cours prof #}
 				{% if gestionCours %}
 					{{ debutBouton }}
-						{{ path('cours_gest') }}>Gestion des cours
+						{{ path('cours_gerer') }}>Gestion des cours
 					{{ finBouton }}
 				{% endif %}
 
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
 					{{ debutBouton }}
-						{{ path('cours_affi') }}>Mes cours
+						{{ path('cours_afficher') }}>Mes cours
 					{{ finBouton }}
 				{% endif %}
 
 				{# Test date #}
 					{{ debutBouton }}
-						{{ path('date_edit',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
+						{{ path('date_modifier',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
 					{{ finBouton }}
 				</li>
 			</ul>
@@ -250,22 +250,22 @@
 
 								{# Modifier Mot de passe #}
 								{% if modifMdp %}
-									<a class="dropdown-item" href={{ path('admin_change_password') }}><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a>
+									<a class="dropdown-item" href={{ path('admin_changer_mdp') }}><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a>
 
 								{% elseif app.user %}
 
 									{# Compte #}
 									<a href=
 										{% if is_granted('ROLE_ETUDIANT') %}
-											{{ path('etudiant_account') }}
+											{{ path('etudiant_compte') }}
 										{% elseif is_granted('ROLE_PROFESSEUR') %}
-											{{ path('professeur_account') }}
+											{{ path('professeur_compte') }}
 										{% elseif is_granted('ROLE_SECRETAIRE') %}
-											{{ path('secretaire_account') }}
+											{{ path('secretaire_compte') }}
 										{% elseif is_granted('ROLE_CANDIDAT') %}
-											{{ path('candidat_account') }}
+											{{ path('candidat_compte') }}
 										{% elseif is_granted('ROLE_CONTACT') %}
-											{{ path('contact_account') }}
+											{{ path('contact_compte') }}
 										{% else %}
 											"#"
 										{% endif %}

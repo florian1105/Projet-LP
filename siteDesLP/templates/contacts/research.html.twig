@@ -64,13 +64,13 @@
                     <td>{{contact.mail}}</td>
                     <td>{{contact.telephone}}</td>
                     <td>{{contact.entreprise.getNom()}}</td>
-                    <td><a href="{{ path('contact_edit', {'id' : contact.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                    <td><a href="{{ path('contact_delete', {'id' : contact.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                    <td><a href="{{ path('contact_modifier', {'id' : contact.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+                    <td><a href="{{ path('contact_supprimer', {'id' : contact.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-success" href= {{ path('contact_add')}} role="button">Créer un contact</a>
+    <a class="btn btn-success" href= {{ path('contact_nouveau')}} role="button">Créer un contact</a>
 
 
 {% endblock %}
