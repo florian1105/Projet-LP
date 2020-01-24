@@ -27,8 +27,8 @@ class EntreprisesController extends AbstractController
     }
     
     /**
-     * @Route("/entreprise/new", name="entreprise_create")
-     * @Route("/entreprise/{id}/edit", name="entreprise_edit")
+     * @Route("/entreprise/nouveau", name="entreprise_nouveau")
+     * @Route("/entreprise/modifier/{id}", name="entreprise_modifier")
      */
     public function form(Entreprises $entreprise = null, EntreprisesRepository $repoE, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -84,7 +84,7 @@ class EntreprisesController extends AbstractController
 
 
     /**
-     * @Route("/entreprises/entreprise_research", name="research_entreprise")
+     * @Route("/entreprises/rechercher", name="entreprise_rechercher")
      */
     public function researchentreprise(EntreprisesRepository $repoE)
     {
@@ -98,7 +98,7 @@ class EntreprisesController extends AbstractController
 
     }
     /**
-     * @Route("/entreprise/search_valide", name="entreprise_search_valide")
+     * @Route("/entreprise/rechercher_invalide", name="entreprise_rechercher_invalide")
      */
 
     public function search_valide(EntreprisesRepository $repo)
@@ -110,7 +110,7 @@ class EntreprisesController extends AbstractController
     }
 
     /**
-     * @Route("/entreprise/valide/{id}", name="entreprise_valide")
+     * @Route("/entreprise/valider/{id}", name="entreprise_valider")
      */
     public function valide(Entreprises $entreprise=null,  ObjectManager $manager,EntreprisesRepository $repo){
         if(!$entreprise)

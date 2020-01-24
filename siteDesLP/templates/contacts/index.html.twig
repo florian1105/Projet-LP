@@ -42,7 +42,7 @@
             'placeholder' : 'Entreprise',
         }
     }) }}
-    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_create') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
+    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_nouveau') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
 
 
 
@@ -59,7 +59,7 @@
     {# Affichage du buton supprimer
        si on est en mode édition #}
     {% if editMode %}
-        <a href="{{ path('contact_delete',{id:contacts.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
+        <a href="{{ path('contact_supprimer',{id:contacts.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
     {% endif %}
     {{ form_end(form) }}
 

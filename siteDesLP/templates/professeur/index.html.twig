@@ -107,7 +107,7 @@
 	{# Affichage du buton supprimer
 	   si on est en mode édition #}
 	{% if editMode %}
-		<a href="{{ path('prof_delete',{id:prof.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
+		<a href="{{ path('prof_supprimer',{id:prof.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
 	{% endif %}
 {{ form_end(form) }}
 

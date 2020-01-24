@@ -13,9 +13,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 class InformationsGlobalesController extends AbstractController
 {
     /**
-     * @Route("/informations/globales", name="informations_globales")
+     * @Route("/informations/globale/afficher", name="information_globale_afficher")
      */
-    public function print(InformationsGlobalesRepository $repoI)
+    public function afficherInformationGlobale(InformationsGlobalesRepository $repoI)
     {
             $info = $repoI->find(1);
             
@@ -25,9 +25,9 @@ class InformationsGlobalesController extends AbstractController
     }
 
     /**
-     * @Route("/informations/globales/edit/{id}", name="informations_globales_edit")
+     * @Route("/information/globale/modifier/{id}", name="information_globale_modifier")
      */
-    public function form(InformationsGlobales $info, Request $request, ObjectManager $manager)
+    public function formulaireInformationGlobale(InformationsGlobales $info, Request $request, ObjectManager $manager)
     {
 
 			$form = $this->createFormBuilder($info)

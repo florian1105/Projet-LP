@@ -21,20 +21,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ResettingPasswordController extends AbstractController
 {
-    /**
-     * @Route("/resetting/password", name="resetting_password")
-     */
-    public function index()
-    {
-        return $this->render('resetting_password/index.html.twig', [
-            'controller_name' => 'ResettingPasswordController',
-        ]);
-    }
 
     /**
-   * @Route("resetpasswordrequest", name="reset_password_request")
+   * @Route("requete_reinitialiser_mot_de_passe", name="requete_reinitialiser_mot_de_passe")
    */
-    public function resetPasswordRequest($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, ObjectManager $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, ObjectManager $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       $form = $this->createFormBuilder()
       ->add('email', EmailType::class)
@@ -60,7 +51,7 @@ class ResettingPasswordController extends AbstractController
         if(!$user)
         {
           $this->addFlash('badMail',"Cet email n'existe pas, veuillez réessayer");
-          return $this->redirectToRoute('reset_password_request');
+          return $this->redirectToRoute('requete_reinitialiser_mot_de_passe');
         }
         //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
         $user->setToken($tokenGenerator->generateToken());
@@ -86,7 +77,7 @@ class ResettingPasswordController extends AbstractController
 
     //si la rêquete de mot de passe a été envoyé il y a plus de 24h retourne false
     //sinon retourne true
-    private function isRequestedInTime(\DateTimeInterface $passwordRequestedAt = null)
+    private function demandeReinitialisationMotDePasseEstValide(\DateTimeInterface $passwordRequestedAt = null)
     {
       if($passwordRequestedAt === null)
       {
@@ -108,9 +99,9 @@ class ResettingPasswordController extends AbstractController
 
 
     /**
-   * @Route("resetpassword/{id}/{token}", name="resetting_password")
+   * @Route("reinitialiser_mot_de_passe/{id}/{token}", name="reinitialiser_mot_de_passe")
    */
-    public function resetPassword($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function reinitialiserMotDePasse($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       // interdit l'accès à la page si:
         // le token associé au membre est null

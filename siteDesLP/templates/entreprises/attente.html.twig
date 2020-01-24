@@ -56,8 +56,8 @@
         {% for entreprise in entreprises %}
             <tr onmouseover="showModifs(this,{{ contact.id }})"  >
                 <td>{{entreprise.nom}}</td>
-                <td><a href="{{ path('entreprise_valide', {'id' : entreprise.id}) }}" class="edit-btn btn btn-success active invisible">✎</a></td>
-                <td><a href="{{ path('entreprise_delete', {'id' : entreprise.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href="{{ path('entreprise_valider', {'id' : entreprise.id}) }}" class="edit-btn btn btn-success active invisible">✎</a></td>
+                <td><a href="{{ path('entreprise_supprimer', {'id' : entreprise.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
         {% endfor %}
         </tbody>
