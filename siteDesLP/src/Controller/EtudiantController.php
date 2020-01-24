@@ -350,7 +350,7 @@ class EtudiantController extends AbstractController
 	 */
 	public function searchAncienEtudiant(EtudiantsRepository $repoE)
 	{
-		$etudiants = $repoE->getAnciensEtudiants();
+		$etudiants = $repoE->findBy(['mailAcademique' => null]);
 
 		return $this->render('etudiant/researchAncien.html.twig', [
 				'etudiants' => $etudiants,
