@@ -2,20 +2,21 @@
 
 namespace App\Controller;
 
+use DateTime;
+use League\Csv\Reader;
 use App\Entity\Classes;
 use App\Entity\Contacts;
-use App\Entity\Entreprises;
-use App\Entity\Etudiants;
-use App\Repository\EtudiantsRepository;
-use App\Repository\ProfesseursRepository;
-use App\Repository\SecretaireRepository;
 use App\Services\Mailer;
-use App\Form\ResettingPasswordType;
-
-
-use DateTime;
+use App\Entity\Etudiants;
 use League\Csv\Exception;
-use League\Csv\Reader;
+use App\Entity\Entreprises;
+use App\Repository\DateRepository;
+
+
+use App\Form\ResettingPasswordType;
+use App\Repository\EtudiantsRepository;
+use App\Repository\SecretaireRepository;
+use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,13 +24,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 
 class EtudiantController extends AbstractController
@@ -117,6 +118,8 @@ class EtudiantController extends AbstractController
 				$etudiant->setLogin($login.$i);
 				$etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
 				$classe = $this->getUser()->getClasseResponsable();
+				$promoEtudiant = $etudiant->getDernierePromo($classe);
+				$etudiant->setPromotion($promoEtudiant);
 
 			}
 			else
@@ -319,16 +322,19 @@ class EtudiantController extends AbstractController
 	/**
 	 * @Route("etudiant/etudiant_research", name="research_etudiant")
 	 */
-	public function researchEtudiant(EtudiantsRepository $repoE)
+	public function researchEtudiant(EtudiantsRepository $repoE, DateRepository $repoD)
 	{
 		if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
 		{
 			$classe = $this->getUser()->getClasseResponsable();
-			$etudiants = $repoE->findBy(['classe' => $classe, 'mailAcademique' => !null]);
-
+			$etudiants = $repoE->getEtudiantsByClasse($classe);
+			//$mois = date('n'); 
+			dump($repoD->find(1)->getDate()->format('n'));
 			return $this->render('etudiant/research.html.twig', [
 					'etudiants' => $etudiants,
 					'classeID' => $classe->getId(),
+					'mois' => $repoD->find(1)->getDate()->format('n'),
+					'clique' => $repoD->find(1)->getClique()
 			]);
 		}
 		else $etudiants = $repoE->findAll();
@@ -344,7 +350,6 @@ class EtudiantController extends AbstractController
 	 */
 	public function searchAncienEtudiant(EtudiantsRepository $repoE)
 	{
-		$classe = $this->getUser()->getClasseResponsable();
 		$etudiants = $repoE->getAnciensEtudiants();
 
 		return $this->render('etudiant/researchAncien.html.twig', [
@@ -398,7 +403,7 @@ class EtudiantController extends AbstractController
 			$manager->remove($etudiant);
 			$manager->flush();
 
-			return $this->redirectToRoute("contact_search");
+			return $this->redirectToRoute("contact_search_valide");
 
 			//return $this->redirectToRoute("contact_valide",['id'=>$contact->getId()]);
 		}

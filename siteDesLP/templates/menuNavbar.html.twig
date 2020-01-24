@@ -33,8 +33,13 @@
 	{% set coursEtudiant = true %}
 {% endif %}
 
-{% if is_granted('ROLE_CANDIDAT') %}
+{% if is_granted('ROLE_ANCIENETUDIANT') %}
 	{% set offresEmploiListe = true %}
+{% endif %}
+
+{% if is_granted('ROLE_ETUDIANT') %}
+	{% set offresEmploiListe = true %}
+	{% set coursEtudiant = true %}
 {% endif %}
 
 {% if is_granted('ROLE_SECRETAIRE') %}
@@ -129,7 +134,6 @@
 
 				{# Articles #}
 				{% if articles %}
-					<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('article_search') }}>Articles
 					{{ finBouton }}
@@ -138,7 +142,6 @@
 
 				{# Classe du prof #}
 				{% if maClasse %}
-					<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('research_etudiant') }}>Ma classe
 					{{ finBouton }}
@@ -146,7 +149,6 @@
 
 				{# Info licence du prof #}
 				{% if infoLicenceProf %}
-					<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('informations_classes_print') }}>Informations licence
 					{{ finBouton }}
@@ -154,7 +156,6 @@
 
 				{#Candidat#}
 				{% if candidats %}
-					<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('research_candidat') }}>Candidats
 					{{ finBouton }}
@@ -163,9 +164,9 @@
 				{# Contact #}
 				{% if contactsProf %}
 					<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href={{ path('contact_search') }}>En attentes</a>
+							<a class="dropdown-item" href={{ path('contact_search') }}>En attente</a>
 							<a class="dropdown-item" href={{ path('contact_search_valide') }}>Validés</a>
 							</div>
 					</li>
@@ -188,7 +189,9 @@
 							{# Entreprises #}
 							<a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
 							{# Contacts #}
-							<a class="dropdown-item" href={{ path('contact_search') }}>Contacts</a>
+							<a class="dropdown-item" href={{ path('contact_search') }}>Contacts en attente</a>
+							{# Contacts #}
+							<a class="dropdown-item" href={{ path('contact_search_valide') }}>Contacts validés</a>
 						</div>
 					</li>
 				{% endif %}
@@ -210,7 +213,6 @@
 
 				{# Gestion cours prof #}
 				{% if gestionCours %}
-					<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('cours_gest') }}>Gestion des cours
 					{{ finBouton }}
@@ -218,11 +220,16 @@
 
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
-				<li class="nav-item active">
 					{{ debutBouton }}
 						{{ path('cours_affi') }}>Mes cours
 					{{ finBouton }}
 				{% endif %}
+
+				{# Test date #}
+					{{ debutBouton }}
+						{{ path('date_edit',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
+					{{ finBouton }}
+				</li>
 			</ul>
 
 			{# Connexion #}

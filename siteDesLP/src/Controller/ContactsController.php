@@ -68,7 +68,8 @@ class ContactsController extends AbstractController
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
-            if(!$editMode){
+            if(!$editMode)
+            {
                 $contact->setNom(strtoupper($contact->getNom()));
                 $contact->setPrenom(ucfirst(strtolower($contact->getPrenom())));
                 $this->addFlash('success','Le contact a bien été créé');
@@ -81,7 +82,8 @@ class ContactsController extends AbstractController
                 $this->addFlash('success_contact',"Un mail va vous être envoyé une fois la demande validée");
                 $contact->setValide(false);
             }
-            else {
+            else 
+            {
                 $this->addFlash('success_modifie', 'Le contact a bien été modifié');
                 $manager->persist($contact);
                 $manager->flush();
@@ -90,10 +92,14 @@ class ContactsController extends AbstractController
 
             $manager->persist($contact);
             $manager->flush();
-            if($this->getUser()==null){
+
+            if($this->getUser() == null)
+            {
                 return $this->redirectToRoute('entreprises');
-            }elseif($this->getUser()->getRoles()==["ROLE_ADMIN"] || $this->getUser()->getRoles()==["ROLE_PROFESSEURRESPONSABLE"]){
-                return $this->redirectToRoute("contact_valide",['id'=>$contact->getId()]);
+            }
+            elseif($this->getUser()->getRoles() == ["ROLE_ADMIN"] || $this->getUser()->getRoles() == ["ROLE_PROFESSEURRESPONSABLE"])
+            {
+                return $this->redirectToRoute("contact_valide", ['id'=>$contact->getId()]);
             }
 
         }
@@ -112,16 +118,29 @@ class ContactsController extends AbstractController
      */
     public function delete(Contacts $contacts, Request $req)
     {
+        $risque = "";
+        $entreprise = $contacts->getEntreprise();
         //Si le formulaire à été soumis
         if($req->isMethod('POST'))
-        {
+        {   
             // En cas de validation on supprime et on redirige
             if($req->request->has('oui'))
             {
-
+                
                 $em=$this->getDoctrine()->getManager();
                 $em->remove($contacts);
                 $em->flush();
+                if(sizeof($entreprise->getContactEntreprise()) == 0)
+                {
+                    $offres = $entreprise->getOffres();
+                    foreach ($offres as $offre) 
+                    {
+                        $em->remove($offre);
+                        $em->flush();
+                    }
+                    $em->remove($entreprise);
+                    $em->flush();
+                }
                 $this->addFlash('delete',"Le contact a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun contact n'a été supprimé");}
@@ -130,12 +149,13 @@ class ContactsController extends AbstractController
         }
         else
         {
+            if(sizeof($entreprise->getContactEntreprise()) == 1) $risque = "(Cette supression entrainera la suppression de l'entreprise ainsi que toutes les offres d'emploi qui y sont rattaché !)";
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce contact ?';
 
             $message = 'N°'.$contacts->getId().' : '.
                 $contacts->getPrenom().' '.
-                $contacts->getNom().')';
+                $contacts->getNom().'  '.$risque;
 
             return $this->render('confirmation.html.twig', [
                 'titre' => $title,
@@ -260,7 +280,8 @@ class ContactsController extends AbstractController
     /**
      * @Route("/contact/valide/{id}", name="contact_valide")
      */
-    public function valide(Contacts $contact=null,  ObjectManager $manager, TokengeneratorInterface $tokenGenerator,ContactRepository $repo, Mailer $mailer){
+    public function valide(Contacts $contact=null, ObjectManager $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
+    {
 
         if(!$contact)
         {
@@ -269,9 +290,9 @@ class ContactsController extends AbstractController
 
         $entreprise=$contact->getEntreprise();
 
-        if($entreprise->getValide()==false){
+        if($entreprise->getValide() == false)
+        {
             $entreprise=$entreprise->setValide(true);
-
         }
         $contact=$contact->setValide(true);
 
@@ -283,15 +304,17 @@ class ContactsController extends AbstractController
         $manager->persist($contact);
         $manager->flush();
 
-
-
         $this->addFlash('success','Le contact a bien été validé');
+
         $bodyMail = $mailer->createBodyMail('contacts/mail_contact_valide.html.twig', [
             'contact' => $contact
         ]);
+
         //envoie du mail
         $mailer->sendMessage('sitedeslp@gmail.com',$contact->getMail(), 'Validation de votre demande de contact', $bodyMail);
+
         $this->addFlash('goodMail',"Un mail a été envoyé au nouveau contact");
+
         return $this->render('contacts/attente.html.twig', [
             'contacts' => $repo->findAllUnvalide(),
 

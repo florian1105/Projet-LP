@@ -183,7 +183,9 @@ class Etudiants extends Utilisateurs implements UserInterface
 
     public function getRoles()
     {
-      return ['ROLE_ETUDIANT'];
+        if($this->getMailAcademique() != null) return ['ROLE_ETUDIANT'];
+        else return ['ROLE_ANCIENETUDIANT'];
+      
     }
 
     public function getUsername()

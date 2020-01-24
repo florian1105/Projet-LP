@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% form_theme form_create_date 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+
+    {{ form_start(form_create_date) }}
+
+    {{ form_row(form_create_date.date, {'label': 'Date test pour les braves','attr' : {'placeholder' : "Date test" }}) }}
+
+    <button type="submit" class="btn btn-success">
+        Modifier la date pour les braves
+    </button>
+
+    {{ form_end(form_create_date) }}
+{% endblock %}
+
