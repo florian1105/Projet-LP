@@ -20,9 +20,9 @@ class InformationsClassesController extends AbstractController
 {
 
   /**
-  * @Route("/informations/classes", name="informations_classes")
+  * @Route("/information/classe", name="information_classe")
   */
-  public function afficherLesClasses(ClassesRepository $repoC)
+  public function afficherClasse(ClassesRepository $repoC)
   {
     $classes = $repoC->findAll();
 
@@ -33,9 +33,9 @@ class InformationsClassesController extends AbstractController
   }
 
   /**
-  * @Route("/informations/classes/{id}", name="informations_classes_id")
+  * @Route("/information/classe/afficher/{id}", name="information_classe_afficher")
   */
-  public function afficher(InformationsClasses $info)
+  public function afficherInformationClasse(InformationsClasses $info)
   {
     return $this->render('informations_classes/info.html.twig', [
       'info' => $info,
@@ -43,9 +43,9 @@ class InformationsClassesController extends AbstractController
   }
 
   /**
-  * @Route("/informations/classes/edit/print", name="informations_classes_print")
+  * @Route("/information/classe/afficher/modifiable", name="information_classe_afficher_modifiable")
   */
-  public function print(InformationsClassesRepository $repoI)
+  public function afficherInformationClasseModifiable(InformationsClassesRepository $repoI)
   {
     $classe = $this->getUser()->getClasseResponsable();
 
@@ -59,9 +59,9 @@ class InformationsClassesController extends AbstractController
 
   /**
   * @Security("is_granted('ROLE_PROFESSEURRESPONSABLE')")
-  * @Route("/informations/classes/edit/{id}", name="informations_classes_edit")
+  * @Route("/information/classe/modifier/{id}", name="informations_classes_modifier")
   */
-  public function form(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, ObjectManager $manager)
+  public function formulaireInformationClasse(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, ObjectManager $manager)
   {
     $classe = $this->getUser()->getClasseResponsable();
 

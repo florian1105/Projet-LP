@@ -21,8 +21,8 @@ class ContactsController extends AbstractController
 {
 
     /**
-     * @Route("/contact/new", name="contact_add")
-     * @Route("/contact/edit/{id}", name="contact_edit")
+     * @Route("/contact/nouveau", name="contact_nouveau")
+     * @Route("/contact/modifier/{id}", name="contact_modifier")
      */
     public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
@@ -114,7 +114,7 @@ class ContactsController extends AbstractController
 
 
     /**
-     * @Route("/contact/remove/{id}", name="contact_delete")
+     * @Route("/contact/supprimer/{id}", name="contact_supprimer")
      */
     public function delete(Contacts $contacts, Request $req)
     {
@@ -145,7 +145,7 @@ class ContactsController extends AbstractController
             }
             else{$this->addFlash('delete',"Aucun contact n'a été supprimé");}
             if($contacts->getValide() == true) return $this->redirectToRoute('contact_search_valide');
-            else return $this->redirectToRoute('contact_search');
+            else return $this->redirectToRoute('contact_rechercher');
         }
         else
         {
@@ -165,7 +165,7 @@ class ContactsController extends AbstractController
     }
 
     /**
-     * @Route("/contact/search", name="contact_search")
+     * @Route("/contact/rechercher", name="contact_rechercher")
      */
     public function search(ContactRepository $repo)
     {
@@ -174,7 +174,7 @@ class ContactsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/contact/search_valide", name="contact_search_valide")
+     * @Route("/contact/rechercher_invalide", name="contact_rechercher_invalide")
      */
 
     public function search_valide(ContactRepository $repo)
@@ -186,7 +186,7 @@ class ContactsController extends AbstractController
     }
 
     /**
-     * @Route("contact_account", name="contact_account")
+     * @Route("contact_compte", name="contact_compte")
      */
     public function monCompte(UserInterface $contact)
     {
@@ -197,7 +197,7 @@ class ContactsController extends AbstractController
     }
 
     /**
-     * @Route("contact_account/change_password", name="contact_change_password")
+     * @Route("contact_compte/changer_mdp", name="contact_changer_mdp")
      */
     public function changePassword(UserInterface $contact, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -246,7 +246,7 @@ class ContactsController extends AbstractController
 
 
     /**
-     * @Route("contact_account/change_mail", name="contact_change_mail")
+     * @Route("contact_compte/changer_mail", name="contact_changer_mail")
      */
     public function changeMail(UserInterface $contact, Request $request, ObjectManager $em)
     {
@@ -266,7 +266,7 @@ class ContactsController extends AbstractController
             $em->persist($contact);
             $em->flush();
             $this->addFlash('mail_change','Votre mail a été modifié avec succès');
-            return $this->redirectToRoute('contact_account');
+            return $this->redirectToRoute('contact_compte');
 
         }
 
@@ -278,7 +278,7 @@ class ContactsController extends AbstractController
 
 
     /**
-     * @Route("/contact/valide/{id}", name="contact_valide")
+     * @Route("/contact/valider/{id}", name="contact_valider")
      */
     public function valide(Contacts $contact=null, ObjectManager $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
     {

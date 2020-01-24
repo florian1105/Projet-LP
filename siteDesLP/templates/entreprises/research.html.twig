@@ -57,7 +57,7 @@
         {% for entreprise in entreprises %}
             <tr class="ligne">
                 <th id="{{ entreprise.nom }}" >{{entreprise.nom}}</th>
-                <td><a href="{{ path('entreprise_edit', {'id' : entreprise.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+                <td><a href="{{ path('entreprise_modifier', {'id' : entreprise.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
             </tr>
         {% endfor %}
         </tbody>
