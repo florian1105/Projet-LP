@@ -22,14 +22,14 @@
 	{# Menu du dossier #}
 	<span>
 		<div class="btn-group ml-2" role="group">
-			<a class="btn btn-success" href={{path('upload', {'cours':dossier.id})}}>
+			<a class="btn btn-success" href={{path('fichier_envoyer', {'cours':dossier.id})}}>
 				<i class="far fa-file-code"></i>
 			</a>
 			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#creerDossier" onclick="prepareModal({{dossier.id}}, event)">
 				<i class="fas fa-folder-plus"></i>
 			</button>
 			{# doss - visibilité #}
-			<a class="btn btn-light" href={{ path('cours_visi', {'id' : dossier.id}) }}>
+			<a class="btn btn-light" href={{ path('cours_visibilite', {'id' : dossier.id}) }}>
 				{% if dossier.visible %}
 					<i class="fas fa-eye"></i>
 				{% else %}
@@ -39,11 +39,11 @@
 			<div class="btn-group" role="group">
 				<button id={{ dossier.id }} type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 				<div class="dropdown-menu" aria-labelledby={{ dossier.id }}>
-					<a class="dropdown-item" href={{ path('dossier_edit', {'id' : dossier.id}) }}>
+					<a class="dropdown-item" href={{ path('cours_modifier', {'id' : dossier.id}) }}>
 						<i class="fas fa-cog"></i> Modifier
 					</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item text-danger" href={{path('cours_delete', {'id':dossier.id})}}>
+					<a class="dropdown-item text-danger" href={{path('cours_supprimer', {'id':dossier.id})}}>
 					<i class="far fa-trash-alt"></i> Supprimer
 					</a>
 				</div>
@@ -56,10 +56,10 @@
 		{% for fichier in dossier.fichiers %}
 			<li class="leaf">
 
-				<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
+				<a href={{path('fichier_telecharger', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
 
 				<div class="btn-group ml-2" role="group">
-					<a class="btn btn-light" href={{ path('fichier_visi', {'id' : fichier.id}) }}>
+					<a class="btn btn-light" href={{ path('fichier_visibilite', {'id' : fichier.id}) }}>
 						{% if fichier.visible %}
 							<i class="fas fa-eye"></i>
 						{% else %}
@@ -75,7 +75,7 @@
 								<i class="fas fa-pencil-alt"></i> Renommer
 							</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item text-danger" href={{ path('fichier_delete', {'id' : fichier.id}) }}>
+							<a class="dropdown-item text-danger" href={{ path('fichier_supprimer', {'id' : fichier.id}) }}>
 								<i class="far fa-trash-alt"></i> Supprimer
 							</a>
 						</div>

@@ -19,9 +19,9 @@ use App\Repository\ClassesRepository;
 class CoursController extends AbstractController
 {
     /**
-     * @Route("/ent/gestion", name="cours_gest")
+     * @Route("/cours/gerer", name="cours_gerer")
      */
-    public function gererCours(Request $request) {
+    public function gerer(Request $request) {
         /* Récupère le prof connecté */
         $prof = $this->getUser();
 
@@ -116,9 +116,9 @@ class CoursController extends AbstractController
     }
 
     /**
-     * @Route("/ent/cours", name="cours_affi")
+     * @Route("/cours/afficher", name="cours_afficher")
      */
-    public function afficherCours(CoursRepository $coursRepo)
+    public function afficher(CoursRepository $coursRepo)
     {
         // Récupère l'utilisateur connecté
         $etu = $this->getUser();
@@ -146,7 +146,7 @@ class CoursController extends AbstractController
         foreach ($results as $dossier) {
             if ($dossier->hasParent()) {
                 // Recupère l'index du parent du dossier dans la liste 
-                $i = getIndexDossier($dossier, $results);
+                $i = getIdCours($dossier, $results);
 
                 // Si le dossier parent est dans la liste
                 if ($i >= 0) {
@@ -169,9 +169,9 @@ class CoursController extends AbstractController
     }
 
     /**
-     * @Route("/ent/cours/delete/{id}", name="cours_delete")
+     * @Route("/cours/supprimer/{id}", name="cours_supprimer")
      */
-    public function supprimeCours(Cours $cours, Request $req)
+    public function supprimer(Cours $cours, Request $req)
     {
         /* Récupère le prof connecté */
         $prof = $this->getUser();
@@ -190,7 +190,7 @@ class CoursController extends AbstractController
                 $em->flush();
                 $this->addFlash('delete',"Ce cours et tout ce qu'il contenais a été supprimé avec succès");
             }
-            return $this->redirectToRoute('cours_gest');
+            return $this->redirectToRoute('cours_gerer');
         } else {
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce dossier et tout ce qu\'il contient ?';
@@ -205,9 +205,9 @@ class CoursController extends AbstractController
     }
 
     /**
-     * @Route("/ent/cours/edit/{id}", name="dossier_edit")
+     * @Route("/cours/modifier/{id}", name="cours_modifier")
      */
-    public function edit(Request $request, Cours $cours, ObjectManager $em)
+    public function modifier(Request $request, Cours $cours, ObjectManager $em)
     {
         /* Récupère le prof connecté */
         $prof = $this->getUser();
@@ -243,7 +243,7 @@ class CoursController extends AbstractController
           $em->flush();
           $this->addFlash('editTrue','Le dossier a été modifié avec succès');
 
-          return $this->redirectToRoute('cours_gest');
+          return $this->redirectToRoute('cours_gerer');
         }
 
         return $this->render('cours/edit.html.twig', [
@@ -254,9 +254,9 @@ class CoursController extends AbstractController
     }
 
     /**
-     * @Route("/ent/cours/{id}/visibilite", name="cours_visi")
+     * @Route("/cours/visibilite/{id}", name="cours_visibilite")
      */
-    public function changeVisibilite(Cours $cours, ObjectManager $em)
+    public function changerVisibilite(Cours $cours, ObjectManager $em)
     {
         if ($cours->getVisible()) 
             $cours->setVisible(false);
@@ -266,33 +266,37 @@ class CoursController extends AbstractController
         $em->persist($cours);
         $em->flush();
 
-        return $this->redirectToRoute('cours_gest');
+        return $this->redirectToRoute('cours_gerer');
     }
 }
 
 
 
 /**
- * Fournit une copie du dossier sans
+ * Fournit une copie du cours sans
  * ses enfants
- * @param Le dossier
+ * @param $cours Le cours
  * @return La copie
  */
-function videFils($dossier) {
+function viderFils($cours) {
     $copie = new Cours();
-    $copie->setId($dossier->getId());
-    $copie->setNom($dossier->getNom());
-    $copie->setProf($dossier->getProf());
-    $copie->setVisible($dossier->getVisible());
-    $copie->copyFichiers($dossier->getFichiers());
+    $copie->setId($cours->getId());
+    $copie->setNom($cours->getNom());
+    $copie->setProf($cours->getProf());
+    $copie->setVisible($cours->getVisible());
+    $copie->copyFichiers($cours->getFichiers());
     return $copie;
 }
 
-
-function getIndexDossier($needle, $haystack) {
+/**
+ * Cherche l'identifiant d'un cours dans une liste de cours.
+ * @param $cours Le cours à chercher
+ * @param $listeCours La liste dans laquelle chercher
+ */
+function getIdCours($cours, $listeCours) {
     $i = -1;
-    foreach ($haystack as $index => $dossierFinal) {
-        if ($needle->getCoursParent()->getId() == $dossierFinal->getId()){
+    foreach ($listeCours as $index => $dossierFinal) {
+        if ($cours->getCoursParent()->getId() == $dossierFinal->getId()){
             $i = $index;
             break;
         }

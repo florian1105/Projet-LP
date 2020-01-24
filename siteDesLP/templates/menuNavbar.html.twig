@@ -185,7 +185,7 @@
 							{# Profs #}
 							<a class="dropdown-item" href={{ path('prof_search') }}>Professeurs</a>
 							{# Secrétaires #}
-							<a class="dropdown-item" href={{ path('secretaire_search') }}>Secrétaires</a>
+							<a class="dropdown-item" href={{ path('secretaire_rechercher') }}>Secrétaires</a>
 							{# Entreprises #}
 							<a class="dropdown-item" href={{ path('research_entreprise') }}>Entreprises</a>
 							{# Contacts #}
@@ -214,14 +214,14 @@
 				{# Gestion cours prof #}
 				{% if gestionCours %}
 					{{ debutBouton }}
-						{{ path('cours_gest') }}>Gestion des cours
+						{{ path('cours_gerer') }}>Gestion des cours
 					{{ finBouton }}
 				{% endif %}
 
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
 					{{ debutBouton }}
-						{{ path('cours_affi') }}>Mes cours
+						{{ path('cours_afficher') }}>Mes cours
 					{{ finBouton }}
 				{% endif %}
 
@@ -261,7 +261,7 @@
 										{% elseif is_granted('ROLE_PROFESSEUR') %}
 											{{ path('professeur_account') }}
 										{% elseif is_granted('ROLE_SECRETAIRE') %}
-											{{ path('secretaire_account') }}
+											{{ path('secretaire_compte') }}
 										{% elseif is_granted('ROLE_CANDIDAT') %}
 											{{ path('candidat_account') }}
 										{% elseif is_granted('ROLE_CONTACT') %}

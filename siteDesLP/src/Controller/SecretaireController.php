@@ -21,10 +21,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SecretaireController extends AbstractController
 {
     /**
-     * @Route("/secretaire/new", name="secretaire_add")
-     * @Route("/secretaire/edit/{id}", name="secretaire_edit")
+     * @Route("/secretaire/nouveau", name="secretaire_nouveau")
+     * @Route("/secretaire/modifier/{id}", name="secretaire_modifier")
      */
-    public function form(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function formulaire(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$secretaire)
@@ -113,7 +113,7 @@ class SecretaireController extends AbstractController
 
             $manager->persist($secretaire);
             $manager->flush();
-            return $this->redirectToRoute('secretaire_search');
+            return $this->redirectToRoute('secretaire_rechercher');
         }
 
 
@@ -126,9 +126,9 @@ class SecretaireController extends AbstractController
 
 
     /**
-     * @Route("/secretaire/remove/{id}", name="secretaire_delete")
+     * @Route("/secretaire/supprimer/{id}", name="secretaire_supprimer")
      */
-    public function delete(Secretaire $secretaire, Request $req)
+    public function supprimer(Secretaire $secretaire, Request $req)
     {
         //Si le formulaire à été soumis
         if($req->isMethod('POST'))
@@ -143,7 +143,7 @@ class SecretaireController extends AbstractController
                 $this->addFlash('delete',"La/Le secretaire a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun(e) secretaire n'a été supprimé");}
-            return $this->redirectToRoute('secretaire_search');
+            return $this->redirectToRoute('secretaire_rechercher');
         }
         else
         {
@@ -163,9 +163,9 @@ class SecretaireController extends AbstractController
     }
 
     /**
-     * @Route("/secretaire/search", name="secretaire_search")
+     * @Route("/secretaire/rechercher", name="secretaire_rechercher")
      */
-    public function search(SecretaireRepository $repo)
+    public function rechercher(SecretaireRepository $repo)
     {
         return $this->render('secretaire/research.html.twig', [
             'secretaires' => $repo->findAll(),
@@ -173,7 +173,7 @@ class SecretaireController extends AbstractController
     }
 
     /**
-     * @Route("secretaire_account", name="secretaire_account")
+     * @Route("secretaire/compte", name="secretaire_compte")
      */
     public function monCompte(UserInterface $secretaire)
     {
@@ -191,9 +191,9 @@ class SecretaireController extends AbstractController
     }
 
     /**
-     * @Route("secretaire_account/change_password", name="secretaire_change_password")
+     * @Route("secretaire/changer_mdp", name="secretaire_changer_mdp")
      */
-    public function changePassword(UserInterface $secretaire, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changerMdp(UserInterface $secretaire, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
 
         $secretaire = $this->getUser();
@@ -202,10 +202,7 @@ class SecretaireController extends AbstractController
             ->add('password', PasswordType::class, array('mapped' => false))
             ->add('new_password', PasswordType::class)
             ->add('confirm_password', PasswordType::class)
-
-
             ->getForm();
-
 
         $form->handleRequest($request);
 
@@ -223,7 +220,7 @@ class SecretaireController extends AbstractController
                 $em->persist($secretaire);
                 $em->flush();
                 $this->addFlash('success', 'Mot de passe modifié ! ');
-                return $this->redirectToRoute('secretaire_account');
+                return $this->redirectToRoute('secretaire_compte');
             }
 
             else {
@@ -231,8 +228,6 @@ class SecretaireController extends AbstractController
             }
 
         }
-
-
 
         return $this->render('secretaire/changepassword.html.twig', [
             'secretaire' => $secretaire,
