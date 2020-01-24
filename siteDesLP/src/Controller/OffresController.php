@@ -17,9 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class OffresController extends AbstractController
 {
     /**
-     * @Route("/offres/type-offre/{id}", name="offres_id")
+     * @Route("/offre/afficher_par_type/{id}", name="offre_afficher")
     */
-    public function afficher(TypeOffre $typeOffre, OffresRepository $oRepo)
+    public function afficherOffre(TypeOffre $typeOffre, OffresRepository $oRepo)
     {
         $offres = $oRepo->findBy(["typeOffre" => $typeOffre]);
 
@@ -30,9 +30,9 @@ class OffresController extends AbstractController
 
     /**
      * @Security("is_granted('ROLE_CONTACT')")
-     * @Route("/offres/offres_research", name="offres_research")
+     * @Route("/offre/rechercher", name="offre_rechercher")
      */
-    public function researchOffre(OffresRepository $oRepo)
+    public function rechercherOffre(OffresRepository $oRepo)
     {
         $entreprise = $this->getUser()->getEntreprise();
         $offres = $oRepo->findBy(["entreprise" => $entreprise]);
@@ -42,10 +42,10 @@ class OffresController extends AbstractController
     }
 
 /**
-  * @Route("/offre/add", name="offre_add")
-  * @Route("/offre/edit/{id}", name="offre_edit")
+  * @Route("/offre/nouveau", name="offre_nouveau")
+  * @Route("/offre/modifier/{id}", name="offre_modifier")
   */
-  public function form(Offres $offre = null, Request $request, ObjectManager $em)
+  public function formulaireOffre(Offres $offre = null, Request $request, ObjectManager $em)
   {
     $editMode = false;
 
@@ -66,7 +66,7 @@ class OffresController extends AbstractController
         [
           'class' => TypeOffre::class,
           'choice_label' => 'nomType',
-          
+
         ])
         ->getForm();
         $form->handleRequest($request);
@@ -92,20 +92,20 @@ class OffresController extends AbstractController
         [
           'class' => TypeOffre::class,
           'choice_label' => 'nomType',
-          
+
         ])
-       
+
         ->getForm();
         $form->handleRequest($request);
     }
-      
+
 
     if($form->isSubmitted() && $form->isValid())
     {
       $em->persist($offre);
       $em->flush();
       $this->addFlash('success_modifie','L\'offre a bien été ajouté / mise à jour');
-      return $this->redirectToRoute('offres_research');
+      return $this->redirectToRoute('offre_rechercher');
     }
 
 
@@ -119,9 +119,9 @@ class OffresController extends AbstractController
 
 
     /**
-     * @Route("/offres/remove/{id}", name="offres_delete")
+     * @Route("/offre/supprimer/{id}", name="offre_rechercher")
     */
-    public function delete(Offres $offre, Request $request, ObjectManager $em)
+    public function supprimerOffre(Offres $offre, Request $request, ObjectManager $em)
     {
 
         //Si le formulaire à été soumis
@@ -133,7 +133,7 @@ class OffresController extends AbstractController
             $em->remove($offre);
             $em->flush();
             $this->addFlash('delete',"Cet offre a été supprimé avec succès");
-            return $this->redirectToRoute('offres_research');
+            return $this->redirectToRoute('offre_rechercher');
         }
 
         }
@@ -151,7 +151,7 @@ class OffresController extends AbstractController
             'message' => $message
         ]);
         }
-        
+
     }
-    
+
 }
