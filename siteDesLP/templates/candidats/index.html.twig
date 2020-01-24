@@ -23,7 +23,8 @@
     {% endif %}
 
     {{ form_row(form_create_candidat.mail, {'label': 'Mail','attr' : {'placeholder' : "Mail du candidat" }}) }}
-    {##}{{ form_row(form_create_candidat.date_Naissance, {'label': 'Date Naissance','attr' : {'placeholder' : "Date de naissance du candidat" }}) }}
+
+    {{ form_row(form_create_candidat.date_Naissance, {'label': 'Date Naissance','attr' : {'placeholder' : "Date de naissance du candidat" }}) }}
 
     <button type="submit" class="btn btn-success">
         {% if editMode %}
