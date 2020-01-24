@@ -22,10 +22,10 @@ class ArticlesController extends AbstractController
 {
   /**
   * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
-  * @Route("/article/add", name="article_add")
-  * @Route("/article/edit/{id}", name="article_edit")
+  * @Route("/article/nouveau", name="article_nouveau")
+  * @Route("/article/modifier/{id}", name="article_modifier")
   */
-  public function form(Articles $article = null,Request $request, ObjectManager $em)
+  public function formulaireArticle(Articles $article = null,Request $request, ObjectManager $em)
   {
     $classe = null; //Classe du prof responsable
     $nbClasses = null; //nb de classes de l'article en edit mode
@@ -152,9 +152,9 @@ class ArticlesController extends AbstractController
 
   /**
   * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
-  * @Route("/articles", name="article_search")
+  * @Route("/article/rechercher", name="article_rechercher")
   */
-  public function research(ArticlesRepository $repoA)
+  public function rechercherArticle(ArticlesRepository $repoA)
   {
     $classe = null;
     $articles = $repoA->findAll();
@@ -174,9 +174,9 @@ class ArticlesController extends AbstractController
 
   /**
   * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
-  * @Route("/article/remove/{id}", name="article_delete")
+  * @Route("/article/supprimer/{id}", name="article_supprimer")
   */
-  public function delete(Articles $article, Request $request, ObjectManager $em)
+  public function supprimerArticle(Articles $article, Request $request, ObjectManager $em)
   {
 
     //Si le formulaire à été soumis
@@ -209,9 +209,9 @@ class ArticlesController extends AbstractController
   }
 
   /**
-  * @Route("/article/{id}", name="article_show")
+  * @Route("/article/afficher/{id}", name="article_afficher")
   */
-  public function show(Articles $article)
+  public function afficherArticle(Articles $article)
   {
       return $this->render('articles/show.html.twig', [
       'article' => $article

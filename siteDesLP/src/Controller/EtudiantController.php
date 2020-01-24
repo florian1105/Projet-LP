@@ -59,10 +59,10 @@ class EtudiantController extends AbstractController
 
 
 	/**
-	* @Route("/etudiant/new", name="etudiant_create")
-	* @Route("/etudiant/{id}/edit", name="etudiant_edit")
+	* @Route("/etudiant/nouveau", name="etudiant_nouveau")
+	* @Route("/etudiant/modifier/{id}", name="etudiant_modifier")
 	*/
-	public function form(Etudiants $etudiant = null, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+	public function formulaireEtudiant(Etudiants $etudiant = null, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
 	{
 		$classe = "";
 		$editMode = true;
@@ -284,9 +284,9 @@ class EtudiantController extends AbstractController
 	}
 
 	/**
-	 * @Route("etudiant/etudiant_delete/{id}", name="etudiant_delete")
+	 * @Route("etudiant/supprimer/{id}", name="etudiant_supprimer")
 	 */
-	public function deleteEtudiant(Etudiants $etu, Request $req)
+	public function supprimerEtudiant(Etudiants $etu, Request $req)
 	{
 		//Si le formulaire à été soumis
 		if($req->isMethod('POST')){
@@ -320,9 +320,9 @@ class EtudiantController extends AbstractController
 	}
 
 	/**
-	 * @Route("etudiant/etudiant_research", name="research_etudiant")
+	 * @Route("etudiant/rechercher", name="etudiant_rechercher")
 	 */
-	public function researchEtudiant(EtudiantsRepository $repoE, DateRepository $repoD)
+	public function rechercherEtudiant(EtudiantsRepository $repoE, DateRepository $repoD)
 	{
 		if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
 		{
@@ -346,9 +346,9 @@ class EtudiantController extends AbstractController
 	}
 
 	/**
-	 * @Route("anciens-etudiants", name="anciens_etudiants_recherche")
+	 * @Route("ancien_etudiant/rechercher", name="ancien_etudiant_rechercher")
 	 */
-	public function searchAncienEtudiant(EtudiantsRepository $repoE)
+	public function rechercherAncienEtudiant(EtudiantsRepository $repoE)
 	{
 		$etudiants = $repoE->findBy(['mailAcademique' => null]);
 
@@ -358,9 +358,9 @@ class EtudiantController extends AbstractController
 	}
 
 	/**
-	 * @Route("etudiant/{id}/transform", name="etudiant_to_contact")
+	 * @Route("etudiant/transformer_contact/{id}", name="etudiant_transformer_contact")
 	 */
-	public function transformeEtudiantEnContact(Etudiants $etudiant, Request $request, ObjectManager $manager)
+	public function transformerEtudiantEnContact(Etudiants $etudiant, Request $request, ObjectManager $manager)
 	{
 		if (!$etudiant->isAncienEtudiant()) {
 			$this->addFlash('error', 'Cette étudiant n\' a pas été détecté comme étant un ancien étudiant. Procédure annulée.');
@@ -416,9 +416,9 @@ class EtudiantController extends AbstractController
 	}
 
 	/**
-	 * @Route("etudiant_account", name="etudiant_account")
+	 * @Route("etudiant/compte", name="etudiant_compte")
 	 */
-	public function monCompte(UserInterface $etudiant)
+	public function compteEtudiant(UserInterface $etudiant)
 	{
 			$etudiant = $this->getUser();
 			return $this->render('etudiant/moncompte.html.twig', [
@@ -427,9 +427,9 @@ class EtudiantController extends AbstractController
 	}
 
 		/**
-		 * @Route("etudiant_account/change_password", name="etudiant_change_password")
+		 * @Route("etudiant/compte/changer_mdp", name="etudiant_changer_mdp")
 		 */
-		public function changePassword(UserInterface $etudiant, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+		public function changerMdp(UserInterface $etudiant, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
 		{
 				$etudiant = $this->getUser();
 
@@ -476,9 +476,9 @@ class EtudiantController extends AbstractController
 
 
 		 /**
-		 * @Route("etudiant_account/change_mail", name="etudiant_change_mail")
+		 * @Route("etudiant/compte/changer_mail", name="etudiant_changer_mail")
 		 */
-		public function changeMail(UserInterface $etudiant, Request $request, ObjectManager $em)
+		public function changerMail(UserInterface $etudiant, Request $request, ObjectManager $em)
 		{
 				$etudiant = $this->getUser();
 
@@ -509,10 +509,10 @@ class EtudiantController extends AbstractController
 
 
 		/**
-		 * @Route("/etudiant/importCsv",name="etu_importCsv")
+		 * @Route("/etudiant/importer_csv",name="etudiant_importer_csv")
 		 *
 		 */
-		public function importCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+		public function importerCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
 		{
 				$classe=$this->getUser()->getClasseResponsable();
 				if(isset($_POST['sub'])){
@@ -529,7 +529,7 @@ class EtudiantController extends AbstractController
 						{
 								try
 								{
-									$this->createEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],
+									$this->creerEtudiant($row['nom_etudiant'],$row['prenom_etudiant'],$row['mdp_etudiant'],$row['mail_etudiant'],
 									new DateTime($row['date_naissance']),$repoE,$em,$encoder,$repoP,$repoS);
 								}
 								catch (\Exception $errorException)
@@ -551,7 +551,7 @@ class EtudiantController extends AbstractController
 		}
 
 
-		public function createEtudiant($nomEtudiant,$prenomEtudiant,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+		public function creerEtudiant($nomEtudiant,$prenomEtudiant,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
 
 				$etudiant = new Etudiants();
 				$prenomLogin = strtolower($this->str_to_noaccent($prenomEtudiant));
