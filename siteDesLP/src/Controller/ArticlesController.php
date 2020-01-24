@@ -137,7 +137,7 @@ class ArticlesController extends AbstractController
       $em->persist($article);
       $em->flush();
       $this->addFlash('success_modifie','L\'article a bien été ajouté / mis à jour');
-      return $this->redirectToRoute('article_search');
+      return $this->redirectToRoute('article_rechercher');
     }
 
 
@@ -188,7 +188,7 @@ class ArticlesController extends AbstractController
         $em->remove($article);
         $em->flush();
         $this->addFlash('delete',"Cet article a été supprimé avec succès");
-        return $this->redirectToRoute('article_search');
+        return $this->redirectToRoute('article_rechercher');
       }
 
     }

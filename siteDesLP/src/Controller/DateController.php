@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DateController extends AbstractController
 {
     /**
-     * @Route("/date/{id}/edit", name="date_edit")
+     * @Route("/date/modifier/{id}", name="date_modifier")
      */
-    public function form(Date $date, Request $request, ObjectManager $em)
+    public function formulaire(Date $date, Request $request, ObjectManager $em)
     {
         $form = $this->createFormBuilder($date)
             ->add('date', DateType::class, [
