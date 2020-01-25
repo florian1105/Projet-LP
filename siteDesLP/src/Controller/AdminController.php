@@ -21,10 +21,10 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
         ]);
     }
-    /**
-     * @Route("/admin/change_password", name="admin_change_password")
-     */
 
+    /**
+     * @Route("/admin/changer_mdp", name="admin_changer_mdp")
+     */
     public function changePassword(UserInterface $admin, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
         $admin = $this->getUser();
@@ -62,7 +62,7 @@ class AdminController extends AbstractController
 
 
 
-        return $this->render('etudiant/changepassword.html.twig', [
+        return $this->render('admin/changepassword.html.twig', [
             'admin' => $admin,
             'form_change_password' => $form->createView(),
             'error' => $mdpNonChange,

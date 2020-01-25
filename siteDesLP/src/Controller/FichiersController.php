@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +19,9 @@ use App\Repository\CoursRepository;
 class FichiersController extends AbstractController
 {
   /**
-  * @Route("/ent/send/{cours}", name="upload")
+  * @Route("/fichier/envoyer/{cours}", name="fichier_envoyer")
   */
-    public function upload(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
+    public function envoyer(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
     {
         // Contrôle des droits d'accès
         // Récupère le prof connecté
@@ -65,7 +64,7 @@ class FichiersController extends AbstractController
                         $this->addFlash('fileExist', $nomfichier." existe déjà dans le dossier");
 
                         // Retourne sur la page de gestion des cours
-                        return $this->redirectToRoute('cours_gest');
+                        return $this->redirectToRoute('cours_gerer');
                     }
                 }
 
@@ -95,7 +94,7 @@ class FichiersController extends AbstractController
                 $upload = new Fichiers();
             }
 
-            return $this->redirectToRoute('cours_gest');
+            return $this->redirectToRoute('cours_gerer');
         }
         return $this->render('fichiers/index.html.twig',[
           'form' => $form->createView(),
@@ -103,9 +102,9 @@ class FichiersController extends AbstractController
     }
 
     /**
-     * @Route("/ent/fichier/{id}/delete", name="fichier_delete")
+     * @Route("/fichier/supprimer/{id}", name="fichier_supprimer")
      */
-    public function supprimeFichier(Fichiers $fichier, Request $req)
+    public function supprimerFichier(Fichiers $fichier, Request $req)
     {
         // Récupère le prof connecté
         $prof = $this->getUser();
@@ -137,7 +136,7 @@ class FichiersController extends AbstractController
                 $em->flush();
                 $this->addFlash('delete','Le fichier "'.$fichier->getNom().'" a été supprimé avec succès');
             }
-            return $this->redirectToRoute('cours_gest');
+            return $this->redirectToRoute('cours_gerer');
         } else {
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce fichier ?';
@@ -152,9 +151,9 @@ class FichiersController extends AbstractController
     }
 
   /**
-  * @Route("/ent/dl/{id}", name="fichier_dl")
+  * @Route("/fichier/telecharger/{id}", name="fichier_telecharger")
   */
-  public function download(Fichiers $fichier, Request $req, Filesystem $fs)
+  public function telecharger(Fichiers $fichier, Request $req, Filesystem $fs)
   {
     /* Tester si l'utilisateur
     à accès à la ressource */
@@ -195,9 +194,9 @@ class FichiersController extends AbstractController
   }
 
   /**
-  * @Route("/ent/archive/{id}", name="dossier_dl")
+  * @Route("/fichier/compresser/{id}", name="fichier_compresser")
   */
-  public function makeZip(Cours $cours, Request $req, Filesystem $fs)
+  public function compresser(Cours $cours, Request $req, Filesystem $fs)
   {
     $files = [];
     $em = $this->getDoctrine()->getManager();
@@ -240,9 +239,9 @@ class FichiersController extends AbstractController
   }
 
     /**
-     * @Route("/ent/fichier/{id}/visibilite", name="fichier_visi")
+     * @Route("/fichier/visibilite/{id}", name="fichier_visibilite")
      */
-    public function changeVisibilite(Fichiers $fichier, ObjectManager $em)
+    public function changerVisibilite(Fichiers $fichier, ObjectManager $em)
     {
         if ($fichier->getVisible()) 
             $fichier->setVisible(false);
@@ -252,19 +251,6 @@ class FichiersController extends AbstractController
         $em->persist($fichier);
         $em->flush();
 
-        return $this->redirectToRoute('cours_gest');
+        return $this->redirectToRoute('cours_gerer');
     }
 }
-
-  /* Verifie par sécurité le nom du ficheir transmit */
-  // private function verifFileName($filename)
-  // {
-  //   $filename = pathinfo($filename, PATHINFO_FILENAME);
-  //   $filename = @stripslashes(@strip_tags($filename));
-  //   if ($filename->guessExtension())
-  //   $filename .= '.'.$fichier->guessExtension();
-  //   else
-  //   $filename .= '.unknown';
-  //   return $filename;
-  //
-  // }

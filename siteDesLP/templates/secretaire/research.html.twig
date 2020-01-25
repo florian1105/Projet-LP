@@ -62,13 +62,13 @@
                     <td>{{secretaire.nomSecretaire}}</td>
                     <td>{{secretaire.prenomSecretaire}}</td>
                     <td>{{secretaire.mailAcademique}}</td>
-                    <td><a href="{{ path('secretaire_edit', {'id' : secretaire.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                    <td><a href="{{ path('secretaire_delete', {'id' : secretaire.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                    <td><a href={{ path('secretaire_modifier', {'id' : secretaire.id}) }} class="edit-btn btn btn-warning active invisible">✎</a></td>
+                    <td><a href="{{ path('secretaire_supprimer', {'id' : secretaire.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-success" href= {{ path('secretaire_add')}} role="button">Créer un(e) secrétaire</a>
+    <a class="btn btn-success" href= {{ path('secretaire_nouveau')}} role="button">Créer un(e) secrétaire</a>
 
 {% endblock %}
 

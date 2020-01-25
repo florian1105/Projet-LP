@@ -22,31 +22,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CandidatsController extends AbstractController
 {
-    public function str_to_noaccent($str)
-    {
-        $url = $str;
-        $url = preg_replace('#Ç#', 'C', $url);
-        $url = preg_replace('#ç#', 'c', $url);
-        $url = preg_replace('#è|é|ê|ë#', 'e', $url);
-        $url = preg_replace('#È|É|Ê|Ë#', 'E', $url);
-        $url = preg_replace('#à|á|â|ã|ä|å#', 'a', $url);
-        $url = preg_replace('#@|À|Á|Â|Ã|Ä|Å#', 'A', $url);
-        $url = preg_replace('#ì|í|î|ï#', 'i', $url);
-        $url = preg_replace('#Ì|Í|Î|Ï#', 'I', $url);
-        $url = preg_replace('#ð|ò|ó|ô|õ|ö#', 'o', $url);
-        $url = preg_replace('#Ò|Ó|Ô|Õ|Ö#', 'O', $url);
-        $url = preg_replace('#ù|ú|û|ü#', 'u', $url);
-        $url = preg_replace('#Ù|Ú|Û|Ü#', 'U', $url);
-        $url = preg_replace('#ý|ÿ#', 'y', $url);
-        $url = preg_replace('#Ý#', 'Y', $url);
-
-        return ($url);
-    }
-
 
     /**
-     * @Route("/candidats/new", name="candidat_create")
-     * @Route("/candidats/{id}/edit", name="candidat_edit")
+     * @Route("/candidats_nouveau", name="candidat_ajouter")
+     * @Route("/candidats_modifier/{id}", name="candidat_modifier")
      */
     public function form(Candidats $Candidat = null, Candidatsrepository $repoC, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -192,7 +171,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidats/candidat_delete/{id}", name="candidat_delete")
+     * @Route("/candidat_supprimer/{id}", name="candidat_supprimer")
      */
     public function deleteCandidat(Candidats $candi, Request $req)
     {
@@ -225,7 +204,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidats/candidat_research", name="research_candidat")
+     * @Route("/candidat_rechercher", name="candidat_rechercher")
      */
     public function researchCandidat(CandidatsRepository $repoC)
     {
@@ -255,7 +234,7 @@ class CandidatsController extends AbstractController
 //    }
 //
     /**
-     * @Route("candidat_account", name="candidat_account")
+     * @Route("candidat_compte", name="candidat_compte")
      */
 
     public function monCompte(UserInterface $candidat)
@@ -267,7 +246,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidat_account/change_password", name="candidat_change_password")
+     * @Route("candidat_compte/changer_mdp", name="candidat_changer_mdp")
      */
     public function changePassword(UserInterface $candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -297,7 +276,7 @@ class CandidatsController extends AbstractController
                 $em->persist($candidat);
                 $em->flush();
                 $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-                return $this->redirectToRoute('candidat_account');
+                return $this->redirectToRoute('candidat_compte');
             }
             else {
                 $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
@@ -314,7 +293,7 @@ class CandidatsController extends AbstractController
     }
 
     /**
-     * @Route("candidat_account/change_mail", name="candidat_change_mail")
+     * @Route("candidat_compte/changer_mail", name="candidat_changer_mail")
      */
     public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
     {
@@ -334,7 +313,7 @@ class CandidatsController extends AbstractController
             $em->persist($candidat);
             $em->flush();
             $this->addFlash('mail_change','Votre mail a été modifié avec succès');
-            return $this->redirectToRoute('candidat_account');
+            return $this->redirectToRoute('candidat_compte');
 
         }
 

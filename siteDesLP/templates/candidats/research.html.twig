@@ -74,14 +74,14 @@
                 <td>{{candidat.prenom}}</td>
                 <td>{{candidat.mail}}</td>
                 <td>{{candidat.dateNaissance | date('d/m/Y')}}</td>
-                <td><a href="{{ path('candidat_edit', {'id' : candidat.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href="{{ path('candidat_delete', {'id' : candidat.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href="{{ path('candidat_modifier', {'id' : candidat.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+                <td><a href="{{ path('candidat_supprimer', {'id' : candidat.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
 
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-success" href= {{ path('candidat_create')}} role="button">Créer un candidat</a>
+    <a class="btn btn-success" href= {{ path('candidat_ajouter')}} role="button">Créer un candidat</a>
 
 {% endblock %}
 {%  block javascripts %}

@@ -28,8 +28,8 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 class ProfesseurController extends AbstractController
 {
     /**
-     * @Route("/professeur/new", name="prof_add")
-     * @Route("/professeur/edit/{id}", name="prof_edit")
+     * @Route("/professeur/nouveau", name="prof_ajouter")
+     * @Route("/professeur/modifier/{id}", name="prof_modifier")
      */
     public function form(Professeurs $prof = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -167,7 +167,7 @@ class ProfesseurController extends AbstractController
     }
 
     /**
-     * @Route("/professeur/remove/{id}", name="prof_delete")
+     * @Route("/professeur/supprimer/{id}", name="prof_supprimer")
      */
     public function delete(Professeurs $prof, Request $req)
     {
@@ -180,7 +180,7 @@ class ProfesseurController extends AbstractController
 				if($prof->getClasseResponsable() != null)
 				{
           			$this->addFlash('notDelete',"Ce professeur ne peut pas être supprimé car il est responsable d'une classe");
-					return $this->redirectToRoute('prof_search');
+					return $this->redirectToRoute('prof_rechercher');
 				}
 				else
 				{
@@ -188,7 +188,7 @@ class ProfesseurController extends AbstractController
 					$em->remove($prof);
 					$em->flush();
           			$this->addFlash('delete',"Ce professeur a été supprimé avec succès");
-					return $this->redirectToRoute('prof_search');
+					return $this->redirectToRoute('prof_rechercher');
 				}
 			}
 
@@ -209,7 +209,7 @@ class ProfesseurController extends AbstractController
     }
 
     /**
-     * @Route("/professeur/search", name="prof_search")
+     * @Route("/professeur/rechercher", name="prof_rechercher")
      */
     public function search(ProfesseursRepository $repo)
     {
@@ -219,7 +219,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	 /**
-     * @Route("professeur_account", name="professeur_account")
+     * @Route("/professeur_compte", name="professeur_compte")
      */
     public function monCompte(UserInterface $prof)
     {
@@ -237,7 +237,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	/**
-     * @Route("professeur_account/change_password", name="professeur_change_password")
+     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdr")
      */
     public function changePassword(UserInterface $prof, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
@@ -269,7 +269,7 @@ class ProfesseurController extends AbstractController
             $em->persist($prof);
             $em->flush();
             $this->addFlash('success', 'Mot de passe modifié ! ');
-            return $this->redirectToRoute('professeur_account');
+            return $this->redirectToRoute('professeur_compte');
           }
 
           else {

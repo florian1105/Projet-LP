@@ -57,13 +57,13 @@
                 <td>{{prof.nomProfesseur}}</td>
                 <td>{{prof.prenomProfesseur}}</td>
                 <td>{{prof.mailAcademique}}</td>
-                <td><a href="{{ path('prof_edit', {'id' : prof.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href="{{ path('prof_delete', {'id' : prof.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href="{{ path('prof_modifier', {'id' : prof.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+                <td><a href="{{ path('prof_supprimer', {'id' : prof.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-success" href= {{ path('prof_add')}} role="button">Créer un professeur</a>
+    <a class="btn btn-success" href= {{ path('prof_ajouter')}} role="button">Créer un professeur</a>
 {% endblock %}
 
 {%  block javascripts %}

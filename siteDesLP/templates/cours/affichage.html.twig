@@ -21,7 +21,7 @@
 	{# Bouton téléchargement .ZIP #}
 	<span>
 		<div class="btn-group ml-2" role="group">
-	  		<a class="btn btn-light" href={{ path('dossier_dl', {'id' : dossier.id}) }}>
+	  		<a class="btn btn-light" href={{ path('fichier_compresser', {'id' : dossier.id}) }}>
 				<i class="far fa-file-archive"></i>
 	  		</a>
 		</div>
@@ -32,7 +32,7 @@
 		{% for fichier in dossier.fichiers %}
 			{% if fichier.visible %}
 				<li class="leaf">
-		  			<a href={{path('fichier_dl', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
+		  			<a href={{path('fichier_telecharger', {'id':fichier.id})}} target="_blank">{{ fichier.nom }}</a>
 		  		</li>
 			{% endif %}
 		{% endfor %}

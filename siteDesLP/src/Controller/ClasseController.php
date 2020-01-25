@@ -23,10 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ClasseController extends AbstractController
 {
   /**
-  * @Route("/classe/new", name="classe_create")
-  * @Route("/classe/{id}/edit", name="classe_edit")
+  * @Route("/classe/nouveau", name="classe_nouveau")
+  * @Route("/classe//modifier/{id}", name="classe_modifier")
   */
-  public function form(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
+  public function formulaireClasse(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     $editMode = true;
     if(!$classe)
@@ -153,7 +153,7 @@ class ClasseController extends AbstractController
                 $manager->persist($classe);
                 $manager->flush();
                 $this->addFlash('success_modifie','Cette classe a bien été modifié');
-                return $this->redirectToRoute('classe_research');
+                return $this->redirectToRoute('classe_rechercher');
               }
             }
             else $this->addFlash('errorAjouterClasse',"Ce nom de classe existe déjà");
@@ -170,9 +170,9 @@ class ClasseController extends AbstractController
         }
 
         /**
-        * @Route("classe/classe_delete/{id}", name="classe_delete")
+        * @Route("classe/supprimer/{id}", name="classe_supprimer")
         */
-        public function deleteClasse(Classes $classe, Request $req)
+        public function supprimerClasse(Classes $classe, Request $req)
         {
 
           //Si le formulaire à été soumis
@@ -194,7 +194,7 @@ class ClasseController extends AbstractController
               }
             }
             // Sinon on redirige simplement
-            return $this->redirectToRoute('classe_research');
+            return $this->redirectToRoute('classe_rechercher');
           }
           else
           {
@@ -212,9 +212,9 @@ class ClasseController extends AbstractController
         }
 
         /**
-        * @Route("classe/classe_research", name="classe_research")
+        * @Route("classe/rechercher", name="classe_rechercher")
         */
-        public function researchClasse(ClassesRepository $repoC)
+        public function rechercherClasse(ClassesRepository $repoC)
         {
           $classes =$repoC->findAll();
           return $this->render('classe/research.html.twig', [
@@ -223,9 +223,9 @@ class ClasseController extends AbstractController
         }
 
         /**
-        * @Route("purge/classe/{id}", name="classe_purge")
+        * @Route("classe/purger/{id}", name="classe_purger")
         */
-        public function purge(Classes $classe, EtudiantsRepository $repoE, ObjectManager $em, PromotionsRepository $repoPr, Request $req, DateRepository $repoD)
+        public function purgerClasse(Classes $classe, EtudiantsRepository $repoE, ObjectManager $em, PromotionsRepository $repoPr, Request $req, DateRepository $repoD)
         {
           if($req->isMethod('POST'))
           {
@@ -268,7 +268,7 @@ class ClasseController extends AbstractController
 
               $em->flush();
               $this->addFlash('purge','La classe a bien été purgé');
-              return $this->redirectToRoute('research_etudiant');
+              return $this->redirectToRoute('etudiant_rechercher');
             }
           }
             else

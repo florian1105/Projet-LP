@@ -101,13 +101,13 @@ security:
     access_control:
         - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/informations/globales, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^informations/classes, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/candidat_account, role: ROLE_CANDIDAT }
-        - { path: ^/etudiant_account, role: ROLE_ETUDIANT }
-        - { path: ^/professeur_account, role: ROLE_PROFESSEUR }
-        - { path: ^/secretaire_account, role: ROLE_SECRETAIRE }
+        - { path: ^/informations/classes, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/candidat/compte, role: ROLE_CANDIDAT }
+        - { path: ^/etudiant/compte, role: ROLE_ETUDIANT }
+        - { path: ^/professeur/compte, role: ROLE_PROFESSEUR }
+        - { path: ^/secretaire/compte, role: ROLE_SECRETAIRE }
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
         - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
         - { path: ^/classe, role: [ROLE_ADMIN] }
-        - { path: ^/contact_account, role: ROLE_CONTACT }
+        - { path: ^/contact/compte, role: ROLE_CONTACT }
