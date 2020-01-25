@@ -170,7 +170,7 @@ class ContactsController extends AbstractController
     public function search(ContactRepository $repo)
     {
         return $this->render('contacts/attente.html.twig', [
-            'contacts' => $repo->findAllUnvalide(),
+            'contacts' => $repo->findAllValide(),
         ]);
     }
     /**
@@ -180,7 +180,7 @@ class ContactsController extends AbstractController
     public function search_valide(ContactRepository $repo)
     {
         return $this->render('contacts/research.html.twig', [
-            'contacts' => $repo->findAllValide(),
+            'contacts' => $repo->findAllUnvalide(),
         ]);
 
     }

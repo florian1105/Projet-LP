@@ -74,14 +74,14 @@
         {% else %}
             <td>(non assigné)</td>
         {% endif %}
-        <td><a href="{{ path('classe_edit', {'id' : classe.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-        <td><a href="{{ path('classe_delete', {'id' : classe.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+        <td><a href="{{ path('classe_modifier', {'id' : classe.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+        <td><a href="{{ path('classe_supprimer', {'id' : classe.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
     </tr>
 
     {% endfor %}
     </tbody>
 </table>
-<a class="btn btn-success" href= {{ path('classe_create')}} role="button">Créer une classe</a>
+<a class="btn btn-success" href= {{ path('classe_nouveau')}} role="button">Créer une classe</a>
 
 {% endblock %}
 {%  block javascripts %}

@@ -13,7 +13,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 class InformationsGlobalesController extends AbstractController
 {
     /**
-     * @Route("/informations/globale/afficher", name="information_globale_afficher")
+     * @Route("/information/globale/afficher", name="information_globale_afficher")
      */
     public function afficherInformationGlobale(InformationsGlobalesRepository $repoI)
     {

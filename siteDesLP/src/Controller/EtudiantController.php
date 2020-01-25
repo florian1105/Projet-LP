@@ -164,7 +164,7 @@ class EtudiantController extends AbstractController
 				$em->flush();
 
 
-				return $this->redirectToRoute('research_etudiant');
+				return $this->redirectToRoute('etudiant_rechercher');
 
 			}
 		}
@@ -271,7 +271,7 @@ class EtudiantController extends AbstractController
 			$em->flush();
 
 
-			return $this->redirectToRoute('research_etudiant');
+			return $this->redirectToRoute('etudiant_rechercher');
 
 		}
 
@@ -298,7 +298,7 @@ class EtudiantController extends AbstractController
 			}
 			// Sinon on redirige simplement
 				$this->addFlash('delete','Étudiant supprimé');
-			return $this->redirectToRoute('research_etudiant');
+			return $this->redirectToRoute('etudiant_rechercher');
 		}
 		else
 		{
@@ -523,7 +523,7 @@ class EtudiantController extends AbstractController
 						if(empty($csv->getHeader()) ||count($csv)==0) {
 								$this->addFlash('error','Erreur lors du chargement du fichier');
 								$this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
-								return $this->redirectToRoute("research_etudiant");
+								return $this->redirectToRoute("etudiant_rechercher");
 						}
 						foreach ($csv as $row)
 						{
@@ -536,11 +536,11 @@ class EtudiantController extends AbstractController
 								{
 												$this->addFlash('error','Erreur lors du chargement du fichier');
 												$this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
-												return $this->redirectToRoute("research_etudiant");
+												return $this->redirectToRoute("etudiant_rechercher");
 								}
 						}
 						$this->addFlash('success','La liste de '.count($csv).' étudiant(s) a bien été importée');
-						return $this->redirectToRoute("research_etudiant");
+						return $this->redirectToRoute("etudiant_rechercher");
 				}
 				else
 				{
