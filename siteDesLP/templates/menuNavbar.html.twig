@@ -105,8 +105,8 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
 							{# Informations #}
-							<a class="dropdown-item" href={{ path('informations_globales') }}>L'IUT</a>
-							<a class="dropdown-item" href={{ path('informations_classes') }}>Les licences</a>
+							<a class="dropdown-item" href={{ path('information_globale_afficher') }}>L'IUT</a>
+							<a class="dropdown-item" href={{ path('informations_classes_afficher') }}>Les licences</a>
 						</div>
 					</li>
 				{% endif %}
@@ -227,7 +227,7 @@
 
 				{# Test date #}
 					{{ debutBouton }}
-						{{ path('date_modifier',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
+						{{ path('date_edit',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
 					{{ finBouton }}
 				</li>
 			</ul>

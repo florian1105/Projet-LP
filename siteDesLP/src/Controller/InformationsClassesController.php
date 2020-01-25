@@ -20,7 +20,17 @@ class InformationsClassesController extends AbstractController
 {
 
   /**
-  * @Route("/information/classe", name="information_classe")
+  * @Route("/information/classe/afficher/{id}", name="information_classe_afficher")
+  */
+  public function afficherInformationClasse(InformationsClasses $info)
+  {
+    return $this->render('informations_classes/info.html.twig', [
+      'info' => $info,
+    ]);
+  }
+
+  /**
+  * @Route("/information/classe/afficher", name="informations_classes_afficher")
   */
   public function afficherClasse(ClassesRepository $repoC)
   {
@@ -29,16 +39,6 @@ class InformationsClassesController extends AbstractController
     return $this->render('informations_classes/lesclasses.html.twig', [
       'classes' => $classes,
       'nbClasse' => sizeof($classes)
-    ]);
-  }
-
-  /**
-  * @Route("/information/classe/afficher/{id}", name="information_classe_afficher")
-  */
-  public function afficherInformationClasse(InformationsClasses $info)
-  {
-    return $this->render('informations_classes/info.html.twig', [
-      'info' => $info,
     ]);
   }
 
