@@ -87,7 +87,7 @@ class ContactsController extends AbstractController
                 $this->addFlash('success_modifie', 'Le contact a bien été modifié');
                 $manager->persist($contact);
                 $manager->flush();
-                return $this->redirectToRoute("contact_search");
+                return $this->redirectToRoute("contact_rechercher");
             }
 
             $manager->persist($contact);
@@ -144,7 +144,7 @@ class ContactsController extends AbstractController
                 $this->addFlash('delete',"Le contact a été supprimé avec succès");
             }
             else{$this->addFlash('delete',"Aucun contact n'a été supprimé");}
-            if($contacts->getValide() == true) return $this->redirectToRoute('contact_search_valide');
+            if($contacts->getValide() == true) return $this->redirectToRoute('contact_rechercher');
             else return $this->redirectToRoute('contact_rechercher');
         }
         else
@@ -169,7 +169,7 @@ class ContactsController extends AbstractController
      */
     public function search(ContactRepository $repo)
     {
-        return $this->render('contacts/attente.html.twig', [
+        return $this->render('contacts/research.html.twig', [
             'contacts' => $repo->findAllValide(),
         ]);
     }
@@ -179,7 +179,7 @@ class ContactsController extends AbstractController
 
     public function search_valide(ContactRepository $repo)
     {
-        return $this->render('contacts/research.html.twig', [
+        return $this->render('contacts/attente.html.twig', [
             'contacts' => $repo->findAllUnvalide(),
         ]);
 
