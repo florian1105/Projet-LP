@@ -117,11 +117,11 @@
 						{{ path('entreprises') }}><i class="far fa-building mr-2"></i>Espace entreprises
 					{{ finBouton }}
 				{% endif %}
-					
+
 				{# Offres - Modification #}
 				{% if offresEmploiEdit %}
 					{{ debutBouton }}
-						{{ path('offres_rechercher') }}>Mes offres d'emploi
+						{{ path('offre_rechercher') }}>Mes offres d'emploi
 					{{ finBouton }}
 				{% endif %}
 
@@ -150,7 +150,7 @@
 				{# Info licence du prof #}
 				{% if infoLicenceProf %}
 					{{ debutBouton }}
-						{{ path('information_classe_afficher') }}>Informations licence
+						{{ path('informations_classes_afficher') }}>Informations licence
 					{{ finBouton }}
 				{% endif %}
 
@@ -196,7 +196,7 @@
 					</li>
 				{% endif %}
 
-			 
+
 				{# Informations globales #}
 				{% if infosGlobales %}
 					{{ debutBouton }}
@@ -238,7 +238,7 @@
 					{{ debutBouton }}
 						{{ path('connexion') }}><i class="fas fa-sign-in-alt mr-2"></i>Connexion
 					{{ finBouton }}
-				
+
 				{# Connecté #}
 				{% else %}
 					<div class="dropdown dropleft float-right">

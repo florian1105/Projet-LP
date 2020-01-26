@@ -127,7 +127,7 @@ class ResettingPasswordController extends AbstractController
             throw new AccessDeniedHttpException("Utilisateur non trouvé");
         }
 
-        if(!$user || !$this->isRequestedInTime($user->getPasswordRequestedAt()))
+        if(!$user || !$this->demandeReinitialisationMotDePasseEstValide($user->getPasswordRequestedAt()))
         {
           throw new AccessDeniedHttpException("Votre demande de mot de passe a expiré, veuillez en faire une autre s'il vous plait.");
         }

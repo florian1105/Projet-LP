@@ -41,13 +41,13 @@
                 <th>{{offre.date | date('d/m/Y') }}</th>
                 <td>{{offre.titre}}</td>
                 <td>{{offre.typeOffre}}</td>
-                <td><a href="{{ path('offre_edit', {'id' : offre.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href="{{ path('offres_delete', {'id': offre.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href="{{ path('offre_modifier', {'id' : offre.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+                <td><a href="{{ path('offre_supprimer', {'id': offre.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-success" href="{{ path('offre_add') }}" role="button">Ajouter une offre d'emploi</a>
+    <a class="btn btn-success" href="{{ path('offre_nouveau') }}" role="button">Ajouter une offre d'emploi</a>
 {% endblock %}
 
 {%  block javascripts %}

@@ -93,7 +93,7 @@ class ClasseController extends AbstractController
             $manager->persist($info);
             $manager->flush();
             $this->addFlash('success','La classe a bien été créée');
-            return $this->redirectToRoute('classe_research');
+            return $this->redirectToRoute('classe_rechercher');
           }
         }
         else $this->addFlash('errorAjouterClasse',"Ce nom de classe existe déjà");

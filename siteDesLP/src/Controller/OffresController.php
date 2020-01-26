@@ -16,6 +16,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OffresController extends AbstractController
 {
+
+  /**
+   * @Security("is_granted('ROLE_CONTACT')")
+   * @Route("/offre/rechercher", name="offre_rechercher")
+   */
+  public function rechercherOffre(OffresRepository $oRepo)
+  {
+      $entreprise = $this->getUser()->getEntreprise();
+      $offres = $oRepo->findBy(["entreprise" => $entreprise]);
+      return $this->render('offres/research.html.twig', [
+          'offres' => $offres,
+      ]);
+  }
+
     /**
      * @Route("/offre/afficher_par_type/{id}", name="offre_afficher")
     */
@@ -25,19 +39,6 @@ class OffresController extends AbstractController
 
         return $this->render('offres/index.html.twig', [
         'offres' => $offres
-        ]);
-    }
-
-    /**
-     * @Security("is_granted('ROLE_CONTACT')")
-     * @Route("/offre/rechercher", name="offre_rechercher")
-     */
-    public function rechercherOffre(OffresRepository $oRepo)
-    {
-        $entreprise = $this->getUser()->getEntreprise();
-        $offres = $oRepo->findBy(["entreprise" => $entreprise]);
-        return $this->render('offres/research.html.twig', [
-            'offres' => $offres,
         ]);
     }
 
@@ -119,7 +120,7 @@ class OffresController extends AbstractController
 
 
     /**
-     * @Route("/offre/supprimer/{id}", name="offre_rechercher")
+     * @Route("/offre/supprimer/{id}", name="offre_supprimer")
     */
     public function supprimerOffre(Offres $offre, Request $request, ObjectManager $em)
     {
