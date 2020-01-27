@@ -177,6 +177,11 @@ footer a:hover
   background-color: #FF5563;
 }
 
+.border-bottom 
+{
+  border-bottom: none !important;
+}
+
 label.custom-file-label::after{
   content: "Ouvrir" !important;
 }
