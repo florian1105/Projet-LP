@@ -1,3 +1,7 @@
+{# Pour plus de clarté #}
+{% import _self as this %}
+{% set UTILISATEUR_CONNECTE = app.user %}
+
 {# Boutons du menu #}
 {% set accueil = true %}
 {% set aPropos = false %}
@@ -18,7 +22,7 @@
 {% set modifMdp = false %}
 
 {# Gestion de l'affichage #}
-{% if not app.user %} {# Utilisateur non connecté #}
+{% if not UTILISATEUR_CONNECTE %}
 	{% set aPropos = true %}
 	{% set entreprise = true %}
 	{% set connexion = true %}
@@ -37,7 +41,7 @@
 	{% set offresEmploiListe = true %}
 {% endif %}
 
-{% if is_granted('ROLE_ETUDIANT') %}
+{% if is_granted('ROLE_CANDIDAT') %}
 	{% set offresEmploiListe = true %}
 	{% set coursEtudiant = true %}
 {% endif %}
@@ -46,7 +50,7 @@
 	{% set articles = true %}
 {% endif %}
 
-{% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+{% if is_granted('ROLE_PROFESSEUR') %}
 	{% set anciensEtudiants = true %}
 	{% set gestionCours = true %}
 {% endif %}
@@ -68,12 +72,13 @@
 {% endif %}
 
 {# Boutons du menus #}
-{% set debutBouton %}
-	<li class="nav-item active"><a class="nav-link text-white" href=
-{% endset %}
-{% set finBouton %}
-	<span class="sr-only"></span></a></li>
-{% endset %}
+{% macro boutonMenu(url, title) %}
+	<li class="nav-item active">
+		<a class="nav-link text-white" href={{ url }}>
+			{{ title|raw }}<span class="sr-only"></span>
+		</a>
+	</li>
+{% endmacro %}
 
 
 {# ===== MENU ===== #}
@@ -93,9 +98,7 @@
 
 				{# Accueil #}
 				{% if accueil %}
-					{{ debutBouton }}
-						{{ path('home') }}><i class="fas fa-home mr-2"></i>Accueil
-					{{ finBouton }}
+					{{ this.boutonMenu( path('home') , '<i class="fas fa-home mr-2"></i>Accueil') }}
 				{% endif %}
 
 				{# A propos #}
@@ -113,52 +116,37 @@
 
 				{# Entreprises #}
 				{% if entreprise %}
-					{{ debutBouton }}
-						{{ path('entreprises') }}><i class="far fa-building mr-2"></i>Espace entreprises
-					{{ finBouton }}
+					{{ this.boutonMenu( path('entreprises') , '<i class="far fa-building mr-2"></i>Espace entreprises') }}
 				{% endif %}
 
 				{# Offres - Modification #}
 				{% if offresEmploiEdit %}
-					{{ debutBouton }}
-						{{ path('offre_rechercher') }}>Mes offres d'emploi
-					{{ finBouton }}
+					{{ this.boutonMenu( path('offre_rechercher') , "Mes offres d'emploi") }}
 				{% endif %}
 
 				{# Offres - Liste #}
 				{% if offresEmploiListe %}
-					{{ debutBouton }}
-						{{ path('type_offre') }}>Offres d'emploi
-					{{ finBouton }}
+					{{ this.boutonMenu( path('type_offre') , "Offres d'emploi") }}
 				{% endif %}
 
 				{# Articles #}
 				{% if articles %}
-					{{ debutBouton }}
-						{{ path('article_rechercher') }}>Articles
-					{{ finBouton }}
+					{{ this.boutonMenu( path('article_rechercher') , "Articles") }}
 				{% endif %}
-
 
 				{# Classe du prof #}
 				{% if maClasse %}
-					{{ debutBouton }}
-						{{ path('etudiant_rechercher') }}>Ma classe
-					{{ finBouton }}
+					{{ this.boutonMenu( path('etudiant_rechercher') , "Ma classe") }}
 				{% endif %}
 
 				{# Info licence du prof #}
 				{% if infoLicenceProf %}
-					{{ debutBouton }}
-						{{ path('informations_classes_afficher') }}>Informations licence
-					{{ finBouton }}
+					{{ this.boutonMenu( path('informations_classes_afficher') , "Informations licence") }}
 				{% endif %}
 
 				{#Candidat#}
 				{% if candidats %}
-					{{ debutBouton }}
-						{{ path('candidat_rechercher') }}>Candidats
-					{{ finBouton }}
+					{{ this.boutonMenu( path('candidat_rechercher') , "Candidats") }}
 				{% endif %}
 
 				{# Contact #}
@@ -199,60 +187,48 @@
 
 				{# Informations globales #}
 				{% if infosGlobales %}
-					{{ debutBouton }}
-						{{ path('information_globale_modifier', {'id' : 1}) }}>Informations globales
-					{{ finBouton }}
+					{{ this.boutonMenu( path('information_globale_modifier', {'id' : 1}) , "Informations globales") }}
 				{% endif %}
 
 				{# Anciens Etudiants #}
 				{% if anciensEtudiants %}
-					{{ debutBouton }}
-						{{ path('ancien_etudiant_rechercher') }}>Anciens étudiants
-					{{ finBouton }}
+					{{ this.boutonMenu( path('ancien_etudiant_rechercher') , "Anciens étudiants") }}
 				{% endif %}
 
 				{# Gestion cours prof #}
 				{% if gestionCours %}
-					{{ debutBouton }}
-						{{ path('cours_gerer') }}>Gestion des cours
-					{{ finBouton }}
+					{{ this.boutonMenu( path('cours_gerer') , "Gestion des cours") }}
 				{% endif %}
 
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
-					{{ debutBouton }}
-						{{ path('cours_afficher') }}>Mes cours
-					{{ finBouton }}
+					{{ this.boutonMenu( path('cours_afficher') , "Mes cours") }}
 				{% endif %}
 
 				{# Test date #}
-					{{ debutBouton }}
-						{{ path('date_modifier',{'id': 1} ) }}>TEST DATE POUR LES BRAVES
-					{{ finBouton }}
+					{{ this.boutonMenu( path('date_modifier',{'id': 1}) , "TEST DATE POUR LES BRAVES") }}
 				</li>
 			</ul>
 
 			{# Connexion #}
 			<ul class="nav navbar-nav ml-auto">
 				{% if connexion %}
-					{{ debutBouton }}
-						{{ path('connexion') }}><i class="fas fa-sign-in-alt mr-2"></i>Connexion
-					{{ finBouton }}
+					{{ this.boutonMenu( path('connexion') , '<i class="fas fa-sign-in-alt mr-2"></i>Connexion') }}
 
 				{# Connecté #}
 				{% else %}
 					<div class="dropdown dropleft float-right">
 							<button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
-								<i class="far fa-user mr-2"></i>{{ app.user }}
+								<i class="far fa-user mr-2"></i>{{ UTILISATEUR_CONNECTE }}
 							</button>
 							<div class="dropdown-menu">
-								<h6 class="dropdown-header">{{ app.user }}</h6>
+								<h6 class="dropdown-header">{{ UTILISATEUR_CONNECTE }}</h6>
 
 								{# Modifier Mot de passe #}
 								{% if modifMdp %}
 									<a class="dropdown-item" href={{ path('admin_changer_mdp') }}><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a>
 
-								{% elseif app.user %}
+								{% elseif UTILISATEUR_CONNECTE %}
 
 									{# Compte #}
 									<a href=

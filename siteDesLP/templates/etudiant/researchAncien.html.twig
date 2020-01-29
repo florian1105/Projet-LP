@@ -84,8 +84,8 @@
                 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
                     <td>{{etudiant.classe}}</td>
                 {% endif %}
-                <td><a href={{ path('etudiant_edit', {'id' : etudiant.id}) }} class="edit-btn btn btn-warning active invisible">✎</a></td>
-                <td><a href={{ path('etudiant_delete', {'id' : etudiant.id}) }} class="edit-btn btn btn-danger active invisible">❌</a></td>
+                <td><a href={{ path('etudiant_modifier', {'id' : etudiant.id}) }} class="edit-btn btn btn-warning active invisible">✎</a></td>
+                <td><a href={{ path('etudiant_supprimer', {'id' : etudiant.id}) }} class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>
 
         {% endfor %}
