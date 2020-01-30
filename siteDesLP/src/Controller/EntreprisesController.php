@@ -70,7 +70,7 @@ class EntreprisesController extends AbstractController
             $em->flush();
 
 
-            return $this->redirectToRoute('entreprise_rechercher');
+            return $this->redirectToRoute('contact_nouveau');
 
         }
 

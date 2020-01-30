@@ -24,7 +24,7 @@ class ContactsController extends AbstractController
      * @Route("/contact/nouveau", name="contact_nouveau")
      * @Route("/contact/modifier/{id}", name="contact_modifier")
      */
-    public function form( Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager,  Mailer $mailer, UserPasswordEncoderInterface $encoder)
+    public function formulaireContact(Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager, Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$contact)
@@ -99,7 +99,7 @@ class ContactsController extends AbstractController
             }
             elseif($this->getUser()->getRoles() == ["ROLE_ADMIN"] || $this->getUser()->getRoles() == ["ROLE_PROFESSEURRESPONSABLE"])
             {
-                return $this->redirectToRoute("contact_valide", ['id'=>$contact->getId()]);
+                return $this->redirectToRoute("contact_valider", ['id'=>$contact->getId()]);
             }
 
         }
@@ -116,7 +116,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("/contact/supprimer/{id}", name="contact_supprimer")
      */
-    public function delete(Contacts $contacts, Request $req)
+    public function supprimer(Contacts $contacts, Request $req)
     {
         $risque = "";
         $entreprise = $contacts->getEntreprise();
@@ -167,7 +167,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("/contact/rechercher", name="contact_rechercher")
      */
-    public function search(ContactRepository $repo)
+    public function rechercher(ContactRepository $repo)
     {
         return $this->render('contacts/research.html.twig', [
             'contacts' => $repo->findAllValide(),
@@ -177,10 +177,10 @@ class ContactsController extends AbstractController
      * @Route("/contact/rechercher_invalide", name="contact_rechercher_invalide")
      */
 
-    public function search_valide(ContactRepository $repo)
+    public function rechercher_invalide(ContactRepository $repo)
     {
-        return $this->render('contacts/attente.html.twig', [
-            'contacts' => $repo->findAllUnvalide(),
+        return $this->render('contacts/attentes.html.twig', [
+            'contacts' => $repo->findAllUnValide(),
         ]);
 
     }
@@ -227,7 +227,7 @@ class ContactsController extends AbstractController
                 $em->persist($contact);
                 $em->flush();
                 $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-                return $this->redirectToRoute('contact_account');
+                return $this->redirectToRoute('contact_compte');
             }
             else {
                 $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
@@ -280,7 +280,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("/contact/valider/{id}", name="contact_valider")
      */
-    public function valide(Contacts $contact=null, ObjectManager $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
+    public function valider(Contacts $contact=null, ObjectManager $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
     {
 
         if(!$contact)
