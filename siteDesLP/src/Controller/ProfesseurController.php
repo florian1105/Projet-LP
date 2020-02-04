@@ -187,10 +187,14 @@ class ProfesseurController extends AbstractController
 					$em=$this->getDoctrine()->getManager();
 					$em->remove($prof);
 					$em->flush();
-          			$this->addFlash('delete',"Ce professeur a été supprimé avec succès");
+    			$this->addFlash('delete',"Ce professeur a été supprimé avec succès");
 					return $this->redirectToRoute('prof_rechercher');
 				}
 			}
+      else
+      {
+        return $this->redirectToRoute('prof_rechercher');
+      }
 
 		}
 		else
