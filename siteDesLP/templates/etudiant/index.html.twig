@@ -3,7 +3,7 @@
 
 {% block body %}
 {% if editMode %}
-    <h1>Modification de l'étudiant {{ etudiant.nomEtudiant }} {{ etudiant.prenomEtudiant }}</h1>
+    <h1>Modification de l'étudiant {{ etudiant.nom }} {{ etudiant.prenom }}</h1>
 {% else %}
     {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         <h1>Création d'un étudiant de la {{ classe.nomClasse }}</h1>
@@ -46,8 +46,8 @@
 
     {{ form_start(form_create_etudiant) }}
 
-{{ form_row(form_create_etudiant.nomEtudiant , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.prenomEtudiant , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.prenom , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 
 {% if editMode %}
 {{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
@@ -60,7 +60,7 @@
 {% endif %}
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.dateNaissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.date_naissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
 {{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
 {% endif %}

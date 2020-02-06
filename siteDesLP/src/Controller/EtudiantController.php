@@ -77,8 +77,8 @@ class EtudiantController extends AbstractController
 			if($editMode == false)
 			{
 				$form = $this->createFormBuilder($etudiant)
-				->add('nomEtudiant')
-				->add('prenomEtudiant')
+				->add('nom')
+				->add('prenom')
 				->add('new_password', PasswordType::class, [
 					'attr' => ['maxlength' => '64']
 				])
@@ -86,7 +86,7 @@ class EtudiantController extends AbstractController
 					'attr' => ['maxlength' => '64'],
 				])
 				->add('mail')
-				->add('dateNaissance', DateType::class, [
+				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
 
@@ -95,10 +95,10 @@ class EtudiantController extends AbstractController
 				$form->handleRequest($request);
 
 
-				$prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
+				$prenomLogin = strtolower($this->str_to_noaccent($form['prenom']->getData()));
 				$prenomLogin1 = substr($prenomLogin, 0,1);
-				$login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
-				$mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());
+				$login = strtolower($form['nom']->getData()).$prenomLogin1;
+				$mailAcademique = $prenomLogin.".".strtolower($form['nom']->getData());
 
 				$i = "";
 				$j = "";
@@ -126,12 +126,12 @@ class EtudiantController extends AbstractController
 			{
 
 				$form = $this->createFormBuilder($etudiant)
-				->add('nomEtudiant')
-				->add('prenomEtudiant')
+				->add('nom')
+				->add('prenom')
 				->add('login')
 				->add('mail')
 				->add('mailAcademique')
-				->add('dateNaissance', DateType::class, [
+				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
 
@@ -144,13 +144,12 @@ class EtudiantController extends AbstractController
 			}
 
 			$mail = strtolower($form['mail']->getData());
-			$prenom = ucfirst(strtolower($form['prenomEtudiant']->getData()));
-			$nom = strtoupper($form['nomEtudiant']->getData());
+			$prenom = ucfirst(strtolower($form['prenom']->getData()));
+			$nom = strtoupper($form['nom']->getData());
 
 			$etudiant->setMail($mail);
-			$etudiant->setNomEtudiant($nom);
-			$etudiant->setPrenomEtudiant($prenom);
-
+			$etudiant->setnom($nom);
+			$etudiant->setPrenom($prenom);
 
 			if($form->isSubmitted() && $form->isValid())
 			{
@@ -171,8 +170,8 @@ class EtudiantController extends AbstractController
 		else if($editMode == false) //Sinon si l'utilisateur n'est pas prof responsable
 		{
 			$form = $this->createFormBuilder($etudiant)
-			->add('nomEtudiant')
-			->add('prenomEtudiant')
+			->add('nom')
+			->add('prenom')
 			->add('new_password', PasswordType::class, [
 				'attr' => ['maxlength' => '64']
 			])
@@ -180,7 +179,7 @@ class EtudiantController extends AbstractController
 				'attr' => ['maxlength' => '64'],
 			])
 			->add('mail')
-			->add('dateNaissance', DateType::class, [
+			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
 			->add('classe', EntityType::class, [
@@ -191,10 +190,10 @@ class EtudiantController extends AbstractController
 			->getForm();
 			$form->handleRequest($request);
 
-			$prenomLogin = strtolower($this->str_to_noaccent($form['prenomEtudiant']->getData()));
+			$prenomLogin = strtolower($this->str_to_noaccent($form['prenom']->getData()));
 			$prenomLogin1 = substr($prenomLogin, 0,1);
-			$login = strtolower($form['nomEtudiant']->getData()).$prenomLogin1;
-			$mailAcademique = $prenomLogin.".".strtolower($form['nomEtudiant']->getData());
+			$login = strtolower($form['prenom']->getData()).$prenomLogin1;
+			$mailAcademique = $prenomLogin.".".strtolower($form['nom']->getData());
 
 			$i = "";
 			$j = "";
@@ -218,12 +217,12 @@ class EtudiantController extends AbstractController
 		else
 		{
 			$form = $this->createFormBuilder($etudiant)
-			->add('nomEtudiant')
-			->add('prenomEtudiant')
+			->add('nom')
+			->add('prenom')
 			->add('login')
 			->add('mail')
 			->add('mailAcademique')
-			->add('dateNaissance', DateType::class, [
+			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
 			->add('classe', EntityType::class, [
@@ -240,12 +239,12 @@ class EtudiantController extends AbstractController
 		}
 
 		$mail = strtolower($form['mail']->getData());
-		$prenom = ucfirst(strtolower($form['prenomEtudiant']->getData()));
-		$nom = strtoupper($form['nomEtudiant']->getData());
+		$prenom = ucfirst(strtolower($form['prenom']->getData()));
+		$nom = strtoupper($form['nom']->getData());
 
 		$etudiant->setMail($mail);
-		$etudiant->setNomEtudiant($nom);
-		$etudiant->setPrenomEtudiant($prenom);
+		$etudiant->setnom($nom);
+		$etudiant->setPrenom($prenom);
 
 
 
@@ -306,8 +305,8 @@ class EtudiantController extends AbstractController
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
 
 			$message = 'N°'.$etu->getId().' : '.
-			$etu->getPrenomEtudiant().' '.
-			$etu->getNomEtudiant(). ' ('.
+			$etu->getPrenom().' '.
+			$etu->getnom(). ' ('.
 			$etu->getLogin().')';
 
 
@@ -328,8 +327,7 @@ class EtudiantController extends AbstractController
 		{
 			$classe = $this->getUser()->getClasseResponsable();
 			$etudiants = $repoE->getEtudiantsByClasse($classe);
-			//$mois = date('n'); 
-			dump($repoD->find(1)->getDate()->format('n'));
+			//$mois = date('n');
 			return $this->render('etudiant/research.html.twig', [
 					'etudiants' => $etudiants,
 					'classeID' => $classe->getId(),
@@ -551,13 +549,13 @@ class EtudiantController extends AbstractController
 		}
 
 
-		public function creerEtudiant($nomEtudiant,$prenomEtudiant,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+		public function creerEtudiant($nom,$prenom,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
 
 				$etudiant = new Etudiants();
-				$prenomLogin = strtolower($this->str_to_noaccent($prenomEtudiant));
+				$prenomLogin = strtolower($this->str_to_noaccent($prenom));
 				$prenomLogin1 = substr($prenomLogin, 0,1);
-				$login = strtolower($nomEtudiant).$prenomLogin1;
-				$mailAcademique = $prenomLogin.".".strtolower($nomEtudiant);
+				$login = strtolower($nom).$prenomLogin1;
+				$mailAcademique = $prenomLogin.".".strtolower($nom);
 
 				$i = "";
 				$j = "";
@@ -576,18 +574,18 @@ class EtudiantController extends AbstractController
 
 
 				$mail = strtolower($mail);
-				$prenom = ucfirst(strtolower($prenomEtudiant));
-				$nom = strtoupper($nomEtudiant);
+				$prenom = ucfirst(strtolower($prenom));
+				$nom = strtoupper($nom);
 				$hash = $encoder->encodePassword($etudiant,$mdpEtudiant);
 
 				$etudiant->setMail($mail);
-				$etudiant->setNomEtudiant($nom);
-				$etudiant->setPrenomEtudiant($prenom);
+				$etudiant->setnom($nom);
+				$etudiant->setPrenom($prenom);
 				$etudiant->setLogin($login.$i);
 				$etudiant->setMailAcademique($mailAcademique.$j."@etu.umontpellier.fr");
 				$etudiant->setPassword($hash);
 				$etudiant->setClasse($this->getUser()->getClasseResponsable());
-				$etudiant->setDateNaissance($date);
+				$etudiant->setdate_naissance($date);
 				$em->persist($etudiant);
 				$em->flush();
 		}
