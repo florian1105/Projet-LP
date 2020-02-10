@@ -515,12 +515,12 @@ class EtudiantController extends AbstractController
 		public function importerCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
 		{
 				$classe=$this->getUser()->getClasseResponsable();
-				if(isset($_POST['sub'])){
+				if(isset($_POST['sub']) && $_FILES['importEtu']!=null){
 						$file=$_FILES['importEtu'];
 						$csv = Reader::createFromPath($file['tmp_name'], 'r');
 						$csv->skipEmptyRecords();
 						$csv->setHeaderOffset(0); //set the CSV header offset
-						if(empty($csv->getHeader()) ||count($csv)==0) {
+						if(empty($csv->getHeader()) || count($csv)==0) {
 								$this->addFlash('error','Erreur lors du chargement du fichier');
 								$this->addFlash('info','Veuillez respecter la syntaxe : nom, prenom, mdp, mail, date');
 								return $this->redirectToRoute("etudiant_rechercher");

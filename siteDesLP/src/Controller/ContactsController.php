@@ -179,7 +179,7 @@ class ContactsController extends AbstractController
 
     public function rechercher_invalide(ContactRepository $repo)
     {
-        return $this->render('contacts/attentes.html.twig', [
+        return $this->render('contacts/attente.html.twig', [
             'contacts' => $repo->findAllUnValide(),
         ]);
 

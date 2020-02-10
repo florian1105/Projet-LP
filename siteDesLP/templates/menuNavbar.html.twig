@@ -154,8 +154,8 @@
 					<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href={{ path('contact_rechercher') }}>En attente</a>
-							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>Validés</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>En attente</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Validés</a>
 							</div>
 					</li>
 				{% endif %}
@@ -210,7 +210,7 @@
 				</li>
 			</ul>
 
-			{# Connexion #}
+			{# Connexion #} <
 			<ul class="nav navbar-nav ml-auto">
 				{% if connexion %}
 					{{ this.boutonMenu( path('connexion') , '<i class="fas fa-sign-in-alt mr-2"></i>Connexion') }}
