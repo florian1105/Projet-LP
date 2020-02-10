@@ -207,10 +207,9 @@
 
 				{# Test date #}
 					{{ this.boutonMenu( path('date_modifier',{'id': 1}) , "TEST DATE POUR LES BRAVES") }}
-				</li>
 			</ul>
 
-			{# Connexion #} <
+			{# Connexion #}
 			<ul class="nav navbar-nav ml-auto">
 				{% if connexion %}
 					{{ this.boutonMenu( path('connexion') , '<i class="fas fa-sign-in-alt mr-2"></i>Connexion') }}

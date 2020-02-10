@@ -542,7 +542,7 @@ class EtudiantController extends AbstractController
 				}
 				else
 				{
-						return $this->render("index.html.twig");
+                    return $this->redirectToRoute("etudiant_rechercher");
 				}
 
 

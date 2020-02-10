@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Rechercher un étudiant</h1>
+    <h1 xmlns:disable="http://www.w3.org/1999/xhtml">Rechercher un étudiant</h1>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
@@ -66,6 +66,7 @@
             {{ msg }}
         </div>
     {% endfor %}
+
     <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
         <thead>
         <tr>
@@ -103,6 +104,40 @@
     </table>
     <a class="btn btn-success" href= {{ path('etudiant_nouveau')}} role="button">Créer un étudiant</a>
     {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="position: relative ;">Importer un fichier CSV</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Importer un CSV</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{path("etudiant_importer_csv")}}" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" id="inputGroupFile01" class="custom-file-input"
+                                           aria-describedby="inputGroupFileAddon01" name="importEtu" onchange="afficheBtn()">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button type="submit" name ="sub" class="btn btn-success mb-5"  id="sub" style="margin-left: 15px;" disabled>Importer</button>
+                    </form>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
         {% if mois >= 7 and mois <= 9  and clique == false %}
             <br><br><a class="btn btn-danger" href= {{ path('classe_purger' , {'id' : classeID}) }} role="button">Passer les étudiants de la classe en ancien étudiant</a>
         {% endif %}
@@ -113,5 +148,12 @@
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        function afficheBtn(){
+            let inputElt = document.getElementById('inputGroupFile01');
+            let btn = document.getElementById('sub');
+            btn.disabled = inputElt.value === "";
+        }
+    </script>
     {{ encore_entry_script_tags('data-tables') }}
 {% endblock %}
