@@ -49,6 +49,22 @@ class Entreprises
      */
     private $offres;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="entreprise")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $numSiret;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $rue;
+
 
     public function __toString()
     {
@@ -160,6 +176,42 @@ class Entreprises
                 $offre->setEntreprise(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getNumSiret(): ?string
+    {
+        return $this->numSiret;
+    }
+
+    public function setNumSiret(?string $numSiret): self
+    {
+        $this->numSiret = $numSiret;
+
+        return $this;
+    }
+
+    public function getRue(): ?string
+    {
+        return $this->rue;
+    }
+
+    public function setRue(string $rue): self
+    {
+        $this->rue = $rue;
 
         return $this;
     }

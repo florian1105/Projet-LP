@@ -49,6 +49,22 @@ class Etudiants extends Utilisateurs implements UserInterface
      */
     private $promotion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="etudiants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $rue;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $telephone;
+
     public function getNomEtudiant(): ?string
     {
         return parent::getNom();
@@ -225,5 +241,41 @@ class Etudiants extends Utilisateurs implements UserInterface
         //$repoE = $this->getDoctrine()->getRepository(Etudiants::class);
         return true;
         //return $repoE->isAncienEtudiant($this);
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getRue(): ?string
+    {
+        return $this->rue;
+    }
+
+    public function setRue(?string $rue): self
+    {
+        $this->rue = $rue;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
     }
 }

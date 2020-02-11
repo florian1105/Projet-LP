@@ -12,7 +12,9 @@
 
     {{ form_row(form_create_entreprise.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'entreprise" }}) }}
 
+    {{ form_row(form_create_entreprise.ville) }}
 
+    {{ form_row(form_create_entreprise.rue) }}
 
     <button type="submit" class="btn btn-success">
         {% if editMode %}

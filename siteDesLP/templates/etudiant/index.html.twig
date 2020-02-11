@@ -31,6 +31,8 @@
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.date_naissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+{{ form_row(form_create_etudiant.ville) }}
+{{ form_row(form_create_etudiant.rue) }}
 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
 {{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
 {% endif %}

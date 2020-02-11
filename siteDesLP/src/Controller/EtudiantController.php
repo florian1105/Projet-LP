@@ -89,6 +89,8 @@ class EtudiantController extends AbstractController
 				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
+				->add('ville')
+				->add('rue')
 
 				->getForm();
 
@@ -134,6 +136,8 @@ class EtudiantController extends AbstractController
 				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
+				->add('ville')
+				->add('rue')
 
 				->getForm();
 
@@ -182,6 +186,8 @@ class EtudiantController extends AbstractController
 			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
+			->add('ville')
+			->add('rue')
 			->add('classe', EntityType::class, [
 				'class' => Classes::class,
 				'choice_label' => 'nomClasse',
@@ -225,6 +231,8 @@ class EtudiantController extends AbstractController
 			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
+			->add('ville')
+			->add('rue')
 			->add('classe', EntityType::class, [
 				'class' => Classes::class,
 				'choice_label' => 'nomClasse',
@@ -262,9 +270,7 @@ class EtudiantController extends AbstractController
 			}
 			else
 			{
-
-
-					$this->addFlash('success_modifie','Les changements on biens été pris en compte');
+				$this->addFlash('success_modifie','Les changements on biens été pris en compte');
 			}
 			$em->persist($etudiant);
 			$em->flush();

@@ -19,13 +19,15 @@
 	</span>
 
 	{# Bouton téléchargement .ZIP #}
-	<span>
-		<div class="btn-group ml-2" role="group">
-	  		<a class="btn btn-light" href={{ path('fichier_compresser', {'id' : dossier.id}) }}>
-				<i class="far fa-file-archive"></i>
-	  		</a>
-		</div>
-	</span>
+	{% if not dossier.coursEnfants is empty or not dossier.fichiers is empty %}
+		<span>
+			<div class="btn-group ml-2" role="group">
+		  		<a class="btn btn-light" href={{ path('fichier_compresser', {'id' : dossier.id}) }}>
+					<i class="far fa-file-archive"></i>
+		  		</a>
+			</div>
+		</span>
+	{% endif %}
 
 	{# Fichiers #}
 	<ul class="nest">
