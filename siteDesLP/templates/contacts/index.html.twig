@@ -11,6 +11,13 @@
 
     {{ form_start(form) }}
 
+    {{ form_row(form.entreprise, {
+        'label':'Entreprise',
+        'attr' : {
+            'placeholder' : 'Entreprise',
+        }
+    }) }}
+    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_nouveau') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
     {{ form_row(form.nom, {
         'label':'Nom de famille',
         'attr' : {
@@ -36,13 +43,8 @@
         }
     }) }}
 
-    {{ form_row(form.entreprise, {
-        'label':'Entreprise',
-        'attr' : {
-            'placeholder' : 'Entreprise',
-        }
-    }) }}
-    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_nouveau') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
+
+
 
 
 

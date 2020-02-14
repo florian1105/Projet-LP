@@ -6,6 +6,7 @@ use App\Entity\Contacts;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
 use App\Services\Mailer;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\DependencyInjection\Tests\Compiler\C;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
@@ -197,20 +198,29 @@ class ContactsController extends AbstractController
     }
 
     /**
-     * @Route("contact_compte/changer_mdp", name="contact_changer_mdp")
+     * @Route("contact_compte/changer_mdp/{id}", name="contact_changer_mdp")
      */
-    public function changePassword(UserInterface $contact, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(Contacts $contact=null, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {
-        $contact = $this->getUser();
+        if($contact->getPassword()==null){
+            $firstConnexion=true;
+            $form = $this->createFormBuilder($contact)
+                ->add('new_password', PasswordType::class)
+                ->add('confirm_password', PasswordType::class)
 
-        $form = $this->createFormBuilder($contact)
-            ->add('password', PasswordType::class, array('mapped' => false))
-            ->add('new_password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class)
+
+                ->getForm();
+
+        }else{
+            $firstConnexion=false;
+            $form = $this->createFormBuilder($contact)
+                ->add('password', PasswordType::class, array('mapped' => false))
+                ->add('new_password', PasswordType::class)
+                ->add('confirm_password', PasswordType::class)
 
 
-            ->getForm();
-
+                ->getForm();
+        }
 
         $form->handleRequest($request);
 
@@ -218,28 +228,37 @@ class ContactsController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $match = $encoder->isPasswordValid($contact, $form['password']->getData());
-            //si password valide
-            if($match)
-            {
+            if($firstConnexion){
                 $hash = $encoder->encodePassword($contact, $form['new_password']->getData());
                 $contact->setPassword($hash);
                 $em->persist($contact);
                 $em->flush();
-                $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-                return $this->redirectToRoute('contact_compte');
-            }
-            else {
-                $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+                $this->addFlash('info','Votre mot de passe a été modifié avec succès');
+                return $this->redirectToRoute('home');
+
+            }else{
+                $match = $encoder->isPasswordValid($contact, $form['password']->getData());
+                //si password valide
+                if($match)
+                {
+                    $hash = $encoder->encodePassword($contact, $form['new_password']->getData());
+                    $contact->setPassword($hash);
+                    $em->persist($contact);
+                    $em->flush();
+                    $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
+                    return $this->redirectToRoute('contact_compte');
+                }
+                else {
+                    $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+                }
             }
         }
-
-
 
         return $this->render('contacts/changepassword.html.twig', [
             'contact' => $contact,
             'form_change_password' => $form->createView(),
             'error' => $mdpNonChange,
+            'firstConnexion' => $firstConnexion,
         ]);
     }
 
