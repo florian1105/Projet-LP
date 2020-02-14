@@ -115,28 +115,30 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{path("etudiant_importer_csv")}}" method="post" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" id="inputGroupFile01" class="custom-file-input"
-                                           aria-describedby="inputGroupFileAddon01" name="importEtu" onchange="afficheBtn()">
-                                    <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+                    <div class="modal-body">
+                        <form action="{{path("etudiant_importer_csv")}}" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" id="inputGroupFile01" class="custom-file-input"
+                                               aria-describedby="inputGroupFileAddon01" name="importEtu" onchange="afficheBtn()">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+                                    </div>
+                                    <a class="btn btn-light btn-outline-secondary" onclick="afficherInfo(this)" id="btnInfo" >?</a>
                                 </div>
-                                <a class="btn btn-light btn-outline-secondary" onclick="afficherInfo()" id="btnInfo" >?</a>
-                            </div>
 
-                        </div>
-                        <button type="submit" name ="sub" class="btn btn-success mb-5"  id="sub" style="margin-left: 15px;" disabled>Importer</button>
-                    </form>
-                    <div id="infoCsv" class="card" style="display: none" >
-                        <div class="card-body">
+                            </div>
+                            <button type="submit" name ="sub" class="btn btn-success mb-5"  id="sub" style="margin-left: 15px;" disabled>Importer</button>
+                        </form>
+
+                        <div id="infoCsv" class="card" style="display: none" >
+                            <div class="card-body">
                                 Le format à respecter pour le fichier CSV est ceci : <br>
-                            <br>"nom_etudiant","prenom_etudiant","mdp_etudiant", <br>"mail_etudiant","date_naissance"<br>
-                               <br> nom,prenom,mdp,mail,date<br>
+                                <br>"nom_etudiant","prenom_etudiant","mdp_etudiant", <br>"mail_etudiant","date_naissance"<br>
+                                <br> nom,prenom,mdp,mail,date<br>
+                            </div>
                         </div>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
