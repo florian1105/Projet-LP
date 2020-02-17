@@ -163,8 +163,7 @@ class StageForm
 
     public function __construct()
     {
-        $this->etat = new ArrayCollection();
-        $this->etatStages = new ArrayCollection();
+
     }
 
 
@@ -437,40 +436,6 @@ class StageForm
         return $this;
     }
 
-    public function getEtat(): ?string
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(EtatStage $etat): self
-    {
-        $this->etat = $etat;
-
-        return $this;
-    }
-
-    public function addEtat(EtatStage $etat): self
-    {
-        if (!$this->etat->contains($etat)) {
-            $this->etat[] = $etat;
-            $etat->setStageForm($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEtat(EtatStage $etat): self
-    {
-        if ($this->etat->contains($etat)) {
-            $this->etat->removeElement($etat);
-            // set the owning side to null (unless already changed)
-            if ($etat->getStageForm() === $this) {
-                $etat->setStageForm(null);
-            }
-        }
-
-        return $this;
-    }
 
 
     public function getEtatStages(): EtatStage
@@ -478,12 +443,9 @@ class StageForm
         return $this->etatStages;
     }
 
-    public function addEtatStage(EtatStage $etatStage): self
+    public function setEtatStages(EtatStage $etatStage): self
     {
-        if (!$this->etatStages->contains($etatStage)) {
-            $this->etatStages[] = $etatStage;
-            $etatStage->setStage($this);
-        }
+        $this->etatStages= $etatStage;
 
         return $this;
     }

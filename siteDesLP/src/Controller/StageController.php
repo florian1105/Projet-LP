@@ -79,7 +79,7 @@ class StageController extends AbstractController
 
             $stageForm->setEtudiant($this->getUser());
             $etatEnvoyer = $etatRepo->findOneBy(["id"=>"1"]);
-            $stageForm->setEtat($etatEnvoyer);
+            $stageForm->setEtatStages($etatEnvoyer);
             $manager->persist($stageForm);
             $manager->flush();
             $this->addFlash('success','La demande de convention a bien été envoyé');
@@ -217,7 +217,7 @@ class StageController extends AbstractController
             $stage->setCommentaire($stageForm->getInformationSupp());
             $stage->setRue($stageForm->getAddresseStage());
             $etatValider = $etatRepo->findOneBy(["id"=>"2"]);
-            $stageForm=$stageForm->setEtat($etatValider);
+            $stageForm=$stageForm->setEtatStages($etatValider);
             $manager->persist($stageForm);
             $manager->persist($stage);
 
