@@ -162,7 +162,7 @@
 					</li>
 				{% endif %}
 
-				{# Etudiant #}
+				{# Stage Etudiant #}
 				{% if etudiant %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</a>
@@ -173,6 +173,17 @@
 					</li>
 				{% endif %}
 
+				{# Stage secretaire #}
+				{% if articles %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href={{ path('stage_rechercher') }}>Demandes de convention</a>
+						</div>
+					</li>
+				{% endif %}
+
+				{# Admin #}
 				{% if menuAdmin %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>

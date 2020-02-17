@@ -442,7 +442,7 @@ class StageForm
         return $this->etat;
     }
 
-    public function setEtat(string $etat): self
+    public function setEtat(EtatStage $etat): self
     {
         $this->etat = $etat;
 
