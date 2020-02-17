@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\StageForm;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Stage;
@@ -25,11 +28,43 @@ class StageController extends AbstractController
      * Affiche le formulaire à remplir pour obtenir une convention de stage.
      * @Route("/stage/nouveau", name="stage_nouveau")
      */
-    public function formulaire()
+    public function formulaire( Request $request, ObjectManager $manager)
     {
-        return $this->render('stage/index.html.twig', [
-            'controller_name' => 'StageController',
-        ]);
+
+            $stageForm=new StageForm();
+
+            $form = $this->createFormBuilder($stageForm)
+                ->add('num_ine')
+                ->add('sex')
+                ->add('numero_tel_etudiant')
+                ->add('mail_perso_etudiant')
+                ->add('nom_entreprise')
+                ->add('num_siret')
+                ->add('addresse_siege_entreprise')
+                ->add('code_postal')
+                ->add('ville')
+                ->add('addresse_stage')
+                ->add('nom_prenom_signataire')
+                ->add('fonction_signataire')
+                ->add('num_tel_signataire')
+                ->add('mail_signataire')
+                ->add('sujet_stage')
+                ->add('nom_tuteur')
+                ->add('prenom_tuteur')
+                ->add('num_tel_tuteur')
+                ->add('mail_tuteur')
+                ->add('fonction_tuteur')
+                ->add('information_supp')
+                ->getForm();
+
+            $form->handleRequest($request);
+
+
+            return $this->render('stage/index.html.twig', [
+                'form' => $form->createView(),
+            ]);
+
+
     }
 
 	/**

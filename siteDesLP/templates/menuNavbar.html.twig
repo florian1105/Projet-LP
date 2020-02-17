@@ -20,6 +20,7 @@
 {% set coursEtudiant = false %}
 {% set connexion = false %}
 {% set modifMdp = false %}
+{% set nouveauStage = false %}
 
 {# Gestion de l'affichage #}
 {% if not UTILISATEUR_CONNECTE %}
@@ -35,6 +36,7 @@
 {% if is_granted('ROLE_ETUDIANT') %}
 	{% set offresEmploiListe = true %}
 	{% set coursEtudiant = true %}
+	{% set nouveauStage = true %}
 {% endif %}
 
 {% if is_granted('ROLE_ANCIENETUDIANT') %}
@@ -203,6 +205,11 @@
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
 					{{ this.boutonMenu( path('cours_afficher') , "Mes cours") }}
+				{% endif %}
+
+				{# Affichage formulaire stage etudiant #}
+				{% if coursEtudiant %}
+					{{ this.boutonMenu( path('stage_nouveau') , "Nouveau Stage") }}
 				{% endif %}
 
 				{# Test date #}

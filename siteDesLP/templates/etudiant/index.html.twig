@@ -46,7 +46,7 @@
 </button>
 
 {% if editMode and etudiant.isAncienEtudiant %}
-<a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white">Transformer en contact</a>
+<a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white" >Transformer en contact</a>
 {% endif %}
 
 {{ form_end(form_create_etudiant) }}
