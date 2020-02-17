@@ -20,7 +20,7 @@
 {% set coursEtudiant = false %}
 {% set connexion = false %}
 {% set modifMdp = false %}
-{% set nouveauStage = false %}
+{% set etudiant = false %}
 
 {# Gestion de l'affichage #}
 {% if not UTILISATEUR_CONNECTE %}
@@ -36,7 +36,7 @@
 {% if is_granted('ROLE_ETUDIANT') %}
 	{% set offresEmploiListe = true %}
 	{% set coursEtudiant = true %}
-	{% set nouveauStage = true %}
+	{% set etudiant = true %}
 {% endif %}
 
 {% if is_granted('ROLE_ANCIENETUDIANT') %}
@@ -162,6 +162,17 @@
 					</li>
 				{% endif %}
 
+				{# Etudiant #}
+				{% if etudiant %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href={{ path('stage_nouveau') }}>Demande de convention</a>
+							<a class="dropdown-item" href={{ path('stage_informations') }}>Demande en cours</a>
+						</div>
+					</li>
+				{% endif %}
+
 				{% if menuAdmin %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>
@@ -205,11 +216,6 @@
 				{# Affichage cours etudiant #}
 				{% if coursEtudiant %}
 					{{ this.boutonMenu( path('cours_afficher') , "Mes cours") }}
-				{% endif %}
-
-				{# Affichage formulaire stage etudiant #}
-				{% if coursEtudiant %}
-					{{ this.boutonMenu( path('stage_nouveau') , "Nouveau Stage") }}
 				{% endif %}
 
 				{# Test date #}

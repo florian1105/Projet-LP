@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\StageForm;
+use App\Repository\StageFormRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,15 +14,15 @@ use App\Entity\Stage;
 
 class StageController extends AbstractController
 {
-	/*
-	   Status d'un stage :
-		formulaire envoyé	ENVOYE
-		validé				VALIDE
-		signé				SIGNE
-		tuteur affecté		COMMENCE
-		terminé				TERMINE
-	*/
-    
+    /*
+       Status d'un stage :
+        formulaire envoyé	ENVOYE
+        validé				VALIDE
+        signé				SIGNE
+        tuteur affecté		COMMENCE
+        terminé				TERMINE
+    */
+
 
     /**
      * Etudiant
@@ -31,43 +33,79 @@ class StageController extends AbstractController
     public function formulaire( Request $request, ObjectManager $manager)
     {
 
-            $stageForm=new StageForm();
+        $stageForm=new StageForm();
 
-            $form = $this->createFormBuilder($stageForm)
-                ->add('num_ine')
-                ->add('sex')
-                ->add('numero_tel_etudiant')
-                ->add('mail_perso_etudiant')
-                ->add('nom_entreprise')
-                ->add('num_siret')
-                ->add('addresse_siege_entreprise')
-                ->add('code_postal')
-                ->add('ville')
-                ->add('addresse_stage')
-                ->add('nom_prenom_signataire')
-                ->add('fonction_signataire')
-                ->add('num_tel_signataire')
-                ->add('mail_signataire')
-                ->add('sujet_stage')
-                ->add('nom_tuteur')
-                ->add('prenom_tuteur')
-                ->add('num_tel_tuteur')
-                ->add('mail_tuteur')
-                ->add('fonction_tuteur')
-                ->add('information_supp')
-                ->getForm();
+        $form = $this->createFormBuilder($stageForm)
+            ->add('num_ine')
+            ->add('sex', ChoiceType::class, [
+                'choices'  => [
+                    'F' => true,
+                    'M' => false,
+                ],
+            ])
+            ->add('numero_tel_etudiant')
+            ->add('mail_perso_etudiant')
+            ->add('nom_entreprise')
+            ->add('num_siret')
+            ->add('addresse_siege_entreprise')
+            ->add('code_postal')
+            ->add('ville')
+            ->add('addresse_stage')
+            ->add('nom_prenom_signataire')
+            ->add('fonction_signataire')
+            ->add('num_tel_signataire')
+            ->add('mail_signataire')
+            ->add('sujet_stage')
+            ->add('nom_tuteur')
+            ->add('prenom_tuteur')
+            ->add('num_tel_tuteur')
+            ->add('mail_tuteur')
+            ->add('fonction_tuteur')
+            ->add('information_supp')
+            ->getForm();
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
+        // Réception du form valide -> add/update
+        if($form->isSubmitted() && $form->isValid())
+        {
 
-            return $this->render('stage/index.html.twig', [
-                'form' => $form->createView(),
+            $stageForm->setEtudiant($this->getUser());
+            $stageForm->setEtat("envoyer");
+            $manager->persist($stageForm);
+            $manager->flush();
+            $this->addFlash('success','La demande de convention a bien été envoyé');
+            return $this->redirectToRoute('stage_informations',[
+                'stageForm' => $stageForm
             ]);
+        }
+
+        return $this->render('stage/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
 
 
     }
 
-	/**
+    /**
+     * @Route("/stage/informations",name="stage_informations")
+     * @param StageForm $stageForm
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function afficherInformationsStage(StageForm $stageForm=null,StageFormRepository $stageFormRepository){
+        if(!$stageForm){
+            $etudiant=$this->getUser();
+            $id=$etudiant->getId();
+            $stageForm=$stageFormRepository->findOneBy([
+                'etudiant' =>$id,
+            ]);
+        }
+        return $this->render('stage/informations.html.twig',[
+            'stageForm' => $stageForm,
+        ]);
+    }
+
+    /**
      * Responsable des stages + secretaire + TuteurIUT
      *
      * Afficher la liste des stages selon l'utilisateur.
@@ -80,7 +118,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * Responsable des stages + secretaire + TuteurIUT
      *
      * Affiche un stage avec des options différentes
@@ -95,7 +133,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * Responsable des stages
      *
      * ! A voir si faisable dans afficher avec button valider !
@@ -110,9 +148,9 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
-	 * [Automatique après valider]
-	 *
+    /**
+     * [Automatique après valider]
+     *
      * Genère une convention au format PDF puis l'envoie :
      *   A l'etudiant (stagiaire)
      *   A l'entrprise (representant + tuteur)
@@ -126,7 +164,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * Secretaire
      *
      * Affiche le formulaire de validation que toutes
@@ -140,7 +178,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * Responsable des stages
      *
      * ! A voir si faisable dans afficher avec button valider !
@@ -155,7 +193,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * TuteurIUT
      *
      * Affiche le formulaire de compte rendu de la visite de stage.
@@ -168,7 +206,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * TuteurEntreprise
      *
      * Recu un mail avec lien unique pour faire son evaluation
@@ -184,7 +222,7 @@ class StageController extends AbstractController
         ]);
     }
 
-	/**
+    /**
      * TuteurIUT
      *
      * ! A voir si faisable dans afficher avec nouveau champs 'note' !

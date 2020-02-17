@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StageFormRepository")
@@ -17,7 +20,8 @@ class StageForm
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=11)
+     * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numINE;
 
@@ -27,37 +31,46 @@ class StageForm
     private $sex;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numeroTelEtudiant;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailPersoEtudiant;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom")
      */
     private $nomEntreprise;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=15)
+     * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numSIRET;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner une addresse")
      */
     private $addresseSiegeEntreprise;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5)
+     * @Assert\NotBlank(message="Veuillez renseigner un code postal")
      */
     private $codePostal;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner une ville")
      */
     private $ville;
 
@@ -68,58 +81,92 @@ class StageForm
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un prenom")
      */
     private $nomPrenomSignataire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner une fonction")
      */
     private $fonctionSignataire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numTelSignataire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailSignataire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un sujet")
      */
     private $sujetStage;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom")
      */
     private $nomTuteur;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un prenom")
      */
     private $prenomTuteur;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numTelTuteur;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un mail")
+     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mailTuteur;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner une fonction")
      */
     private $fonctionTuteur;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $informationSupp;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etudiant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\EtatStage", inversedBy="stage")
+     */
+    private $etatStages;
+
+
+
+    public function __construct()
+    {
+        $this->etat = new ArrayCollection();
+        $this->etatStages = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -374,6 +421,82 @@ class StageForm
     public function setInformationSupp(string $informationSupp): self
     {
         $this->informationSupp = $informationSupp;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiants
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(Etudiants $etudiant): self
+    {
+        $this->etudiant = $etudiant;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function addEtat(EtatStage $etat): self
+    {
+        if (!$this->etat->contains($etat)) {
+            $this->etat[] = $etat;
+            $etat->setStageForm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtat(EtatStage $etat): self
+    {
+        if ($this->etat->contains($etat)) {
+            $this->etat->removeElement($etat);
+            // set the owning side to null (unless already changed)
+            if ($etat->getStageForm() === $this) {
+                $etat->setStageForm(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    public function getEtatStages(): EtatStage
+    {
+        return $this->etatStages;
+    }
+
+    public function addEtatStage(EtatStage $etatStage): self
+    {
+        if (!$this->etatStages->contains($etatStage)) {
+            $this->etatStages[] = $etatStage;
+            $etatStage->setStage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtatStage(EtatStage $etatStage): self
+    {
+        if ($this->etatStages->contains($etatStage)) {
+            $this->etatStages->removeElement($etatStage);
+            // set the owning side to null (unless already changed)
+            if ($etatStage->getStage() === $this) {
+                $etatStage->setStage(null);
+            }
+        }
 
         return $this;
     }
