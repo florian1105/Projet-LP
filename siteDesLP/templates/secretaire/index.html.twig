@@ -64,5 +64,5 @@
         <a href="{{ path('secretaire_supprimer',{id:secretaire.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
     {% endif %}
     {{ form_end(form) }}
-
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}
