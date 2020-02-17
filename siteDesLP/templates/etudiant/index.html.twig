@@ -2,52 +2,55 @@
 {% form_theme form_create_etudiant 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-{% if editMode %}
-    <h1>Modification de l'étudiant {{ etudiant.nom }} {{ etudiant.prenom }}</h1>
-{% else %}
-    {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-        <h1>Création d'un étudiant de la {{ classe.nomClasse }}</h1>
+    {% if editMode %}
+        <h1>Modification de l'étudiant {{ etudiant.nom }} {{ etudiant.prenom }}</h1>
     {% else %}
-         <h1>Création d'un étudiant</h1>
+        {% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+            <h1>Création d'un étudiant de la {{ classe.nomClasse }}</h1>
+        {% else %}
+            <h1>Création d'un étudiant</h1>
+        {% endif %}
     {% endif %}
-{% endif %}
 
 
 
     {{ form_start(form_create_etudiant) }}
 
-{{ form_row(form_create_etudiant.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.prenom , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.prenom , {'label': 'Prénom','attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
 
-{% if editMode %}
-{{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.mailAcademique , {'label': 'Mail académique','attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
-{% endif %}
-
-{% if editMode == false %}
-    {{ form_row(form_create_etudiant.new_password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe de l'étudiant" }}) }}
-    {{ form_row(form_create_etudiant.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe de l'étudiant" }}) }}
-{% endif %}
-
-{{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.date_naissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.ville) }}
-{{ form_row(form_create_etudiant.rue) }}
-{% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
-{{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
-{% endif %}
-
-<button type="submit" class="btn btn-success">
     {% if editMode %}
-        Modifier l'<étudiant></étudiant>
-    {% else %}
-        Créer l'étudiant
+        {{ form_row(form_create_etudiant.login , {'attr' : {'placeholder' : "Prénom de l'étudiant" }}) }}
+        {{ form_row(form_create_etudiant.mailAcademique , {'label': 'Mail académique','attr' : {'placeholder' : "Mail académique de l'étudiant" }}) }}
     {% endif %}
-</button>
 
-{% if editMode and etudiant.isAncienEtudiant %}
-<a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white">Transformer en contact</a>
-{% endif %}
+    {% if editMode == false %}
+        {{ form_row(form_create_etudiant.new_password,{'label': 'Mot de passe','attr' : {'placeholder' : "Mot de passe de l'étudiant" }}) }}
+        {{ form_row(form_create_etudiant.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe de l'étudiant" }}) }}
+    {% endif %}
 
-{{ form_end(form_create_etudiant) }}
+    {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.date_naissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
+    {{ form_row(form_create_etudiant.ville) }}
+    {{ form_row(form_create_etudiant.rue) }}
+    {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+        {{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
+    {% endif %}
+
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier l'
+            <étudiant></étudiant>
+        {% else %}
+            Créer l'étudiant
+        {% endif %}
+    </button>
+
+    {% if editMode and etudiant.isAncienEtudiant %}
+        <a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white">Transformer en contact</a>
+    {% endif %}
+
+    {{ form_end(form_create_etudiant) }}
+
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

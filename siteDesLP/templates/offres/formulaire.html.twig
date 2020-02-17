@@ -5,19 +5,19 @@
 {% block body %}
 
 
-  {{form_start(form_offre) }}
-  {{ form_row(form_offre.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'offre" }}) }}
-  {{ form_row(form_offre.description, {'label': 'Description de l\'offre'}) }}
+    {{ form_start(form_offre) }}
+    {{ form_row(form_offre.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'offre" }}) }}
+    {{ form_row(form_offre.description, {'label': 'Description de l\'offre'}) }}
     {{ form_row(form_offre.typeOffre,{'label': 'Type d\'offre'}) }}
-      <br>
+    <br>
     <button type="submit" class="btn btn-success mb-5">
         {% if editMode %}
-  	        Modifier l'offre
-  	    {% else %}
-  	        Créer l'offre
-  	    {% endif %}
+            Modifier l'offre
+        {% else %}
+            Créer l'offre
+        {% endif %}
     </button>
 
-  {{ form_end(form_offre) }}
-
+    {{ form_end(form_offre) }}
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}
