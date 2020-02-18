@@ -12,6 +12,8 @@ use App\Repository\EtatStageRepository;
 use App\Repository\StageFormRepository;
 use App\Repository\VilleRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,8 +93,6 @@ class StageController extends AbstractController
         return $this->render('stage/index.html.twig', [
             'form' => $form->createView(),
         ]);
-
-
     }
 
     /**
@@ -223,7 +223,9 @@ class StageController extends AbstractController
 
             $manager->flush();
 
-            return $this->redirectToRoute('stage_rechercher');
+            return $this->redirectToRoute('stage_generer_convention',[
+                'id'=>$stage->getId()
+            ]);
 
         }else{
             return $this->render('stage/index.html.twig', [
@@ -240,12 +242,40 @@ class StageController extends AbstractController
      *   A l'entrprise (representant + tuteur)
      *   Au chef du departement
      *   Au responsable des stages (enseignant referant)
+     * @Route("/stage/convention/{id}", name="stage_generer_convention")
+     * @return string
      */
-    public function genererConvention()
+    public function genererConvention(Stage $stage)
     {
-        return $this->render('stage/index.html.twig', [
-            'controller_name' => 'StageController',
+        return $this->render('stage/convention.html.twig');
+        /**
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        return $this->renderView('stage/convention.html.twig', [
         ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+    */
+
     }
 
     /**

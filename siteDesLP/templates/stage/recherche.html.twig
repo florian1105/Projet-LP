@@ -21,6 +21,7 @@
         <tr>
             <th scope="col">Etudiant</th>
             <th scope="col">Entreprise</th>
+            <th scope="col">Etat</th>
             <th scope="col">Détails </th>
             <th scope="col">Supprimer</th>
         </tr>
@@ -29,8 +30,9 @@
         <tbody>
         {% for stage in stageForms %}
             <tr class="ligne">
-                <td>{{stage.etudiant}}</td>
+                <td>{{stage.etudiant}}   {{ stage.etudiant.classe }}</td>
                 <td>{{stage.nomEntreprise}}</td>
+                <td>{{stage.etatStages.nomEtat}}</td>
                 <td><a href="{{ path('stage_informations', {'id' : stage.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
                 <td><a href="{{ path('stage_supprimer', {'id' : stage.id}) }}" class="edit-btn btn btn-danger active invisible">❌</a></td>
             </tr>

@@ -26,7 +26,7 @@
         <tbody>
         <tr>
             <th scope="row"><i class=""></i>&nbsp;&nbsp;Etudiant</th>
-            <td>    {{ stageForm.etudiant }}</td>
+            <td>    {{ stageForm.etudiant }} -  {{ stageForm.etudiant.classe }}</td>
         </tr>
         <tr>
             <th scope="row"><i class=""></i>&nbsp;&nbsp;NumINE</th>
@@ -102,13 +102,15 @@
     </table>
 
     {% if is_granted('ROLE_SECRETAIRE') %}
-    <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
-        Valider la convention
-    </a>
-
-    <button type="button" class="btn btn-danger">
-        Supprimer la demande
-    </button>
+        <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
+            Valider la convention
+        </a>
+        <a type="button" class="btn btn-success" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
+            Editer la convention
+        </a>
+        <button type="button" class="btn btn-danger">
+            Supprimer la demande
+        </button>
     {% endif %}
 
 {% endblock %}
