@@ -87,10 +87,12 @@ class StageController extends AbstractController
             $stageForm->setEtudiant($this->getUser());
             $etatEnvoyer = $etatRepo->findOneBy(["id"=>"1"]);
             $stageForm->setEtatStages($etatEnvoyer);
+
             $manager->persist($stageForm);
             $manager->flush();
+
             $this->addFlash('success','La demande de convention a bien été envoyé');
-            return $this->redirectToRoute('stage_informations',[
+            return $this->redirectToRoute('stage_afficher',[
                 'stageForm' => $stageForm
             ]);
         }
@@ -154,10 +156,13 @@ class StageController extends AbstractController
      * (valider), (confirmer signatures), (compte rendu / noter)
      * @Route("/stage/afficher", name="stage_afficher")
      */
-    public function afficher(Stage $stage)
+    public function afficher(StageForm $stageForm = null, StageFormRepository $stageFormRepo)
     {
-        return $this->render('stage/index.html.twig', [
-            'controller_name' => 'StageController',
+        if(!$stageForm){
+            $stageForm = $stageFormRepo->findOneBy(['etudiant' => $this->getUser()->getId()]);
+        }
+        return $this->render('stage/informations.html.twig', [
+            'stageForm' => $stageForm,
         ]);
     }
 
@@ -176,7 +181,6 @@ class StageController extends AbstractController
             $entreprise = $entRepo->findOneBy(["nom"=>$stageForm->getNomEntreprise()]);
             $tuteur = $contactEntRepo->findOneBy(["mail"=>$stageForm->getMailTuteur()]);
             $signataire = $contactEntRepo->findOneBy(["mail"=>$stageForm->getMailSignataire()]);
-
             if($ville==null ){
                 $ville = new Ville();
                 $ville->setNom($stageForm->getVille());
@@ -221,6 +225,7 @@ class StageController extends AbstractController
             $stage->setSujet($stageForm->getSujetStage());
             $stage->setCommentaire($stageForm->getInformationSupp());
             $stage->setRue($stageForm->getAddresseStage());
+            $stage->setEtudiant($stageForm->getEtudiant());
             $etatValider = $etatRepo->findOneBy(["id"=>"2"]);
             $stageForm=$stageForm->setEtatStages($etatValider);
             $manager->persist($stageForm);
@@ -278,7 +283,7 @@ class StageController extends AbstractController
         $message = (new \Swift_Message())
             ->setSubject('convention de stage')
             ->setFrom('sitedeslp@gmail.com')
-            ->setTo($stage->get.mailPerso)
+            ->setTo([$stage->getEtudiant()->getMail()])
             ->setBody($this->renderView('stage/mail_convention.html.twig'))
             ->attach($pdf);
 
