@@ -2,32 +2,34 @@
 {% form_theme form_create_classe 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-{% for msg in app.session.flashBag.get('errorAjouterClasse') %}
-  <div class="alert alert-primary" role="alert">
-    {{ msg }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-{% endfor %}
-{% if editMode %}
-    <h1>Modification de la classe {{ classe.nomClasse }}</h1>
-{% else %}
-    <h1>Création d'une classe</h1>
-{% endif %}
-{{ form_start(form_create_classe) }}
-
-{{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe (ex : APIDAE)" }}) }}
-{{ form_row(form_create_classe.nomComplet , {'attr' : {'placeholder' : "Nom complet de la classe (ex : Assistant de projet informatique, développement d’application e-business)" }}) }}
-{{ form_row(form_create_classe.professeurResponsable , {'attr' : {'label' : "Professeur responsable" }}) }}
-
-<button type="submit" class="btn btn-success">
+    {% for msg in app.session.flashBag.get('errorAjouterClasse') %}
+        <div class="alert alert-primary" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
     {% if editMode %}
-        Modifier la classe
+        <h1>Modification de la classe {{ classe.nomClasse }}</h1>
     {% else %}
-        Créer la classe
+        <h1>Création d'une classe</h1>
     {% endif %}
-</button>
+    {{ form_start(form_create_classe) }}
 
-{{ form_end(form_create_classe) }}
+    {{ form_row(form_create_classe.nomClasse , {'attr' : {'placeholder' : "Nom de la classe (ex : APIDAE)" }}) }}
+    {{ form_row(form_create_classe.nomComplet , {'attr' : {'placeholder' : "Nom complet de la classe (ex : Assistant de projet informatique, développement d’application e-business)" }}) }}
+    {{ form_row(form_create_classe.professeurResponsable , {'attr' : {'label' : "Professeur responsable" }}) }}
+
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Modifier la classe
+        {% else %}
+            Créer la classe
+        {% endif %}
+    </button>
+
+    {{ form_end(form_create_classe) }}
+
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

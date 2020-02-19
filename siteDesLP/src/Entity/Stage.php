@@ -27,25 +27,40 @@ class Stage
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $rue;
-
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $commentaire;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ContactEntreprise", mappedBy="stages")
-     */
-    private $contactsEntreprise;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="stages")
      */
     private $ville;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tuteurEntreprise;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $signataire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $entreprise;
+
     public function __construct()
     {
-        $this->contactsEntreprise = new ArrayCollection();
+        $this->tuteurEntrprise = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,15 +107,15 @@ class Stage
     /**
      * @return Collection|ContactEntreprise[]
      */
-    public function getContactsEntreprise(): Collection
+    public function getTuteurEntrprise(): Collection
     {
-        return $this->contactsEntreprise;
+        return $this->tuteurEntrprise;
     }
 
     public function addContactsEntreprise(ContactEntreprise $contactsEntreprise): self
     {
-        if (!$this->contactsEntreprise->contains($contactsEntreprise)) {
-            $this->contactsEntreprise[] = $contactsEntreprise;
+        if (!$this->tuteurEntrprise->contains($contactsEntreprise)) {
+            $this->tuteurEntrprise[] = $contactsEntreprise;
             $contactsEntreprise->addStage($this);
         }
 
@@ -109,8 +124,8 @@ class Stage
 
     public function removeContactsEntreprise(ContactEntreprise $contactsEntreprise): self
     {
-        if ($this->contactsEntreprise->contains($contactsEntreprise)) {
-            $this->contactsEntreprise->removeElement($contactsEntreprise);
+        if ($this->tuteurEntrprise->contains($contactsEntreprise)) {
+            $this->tuteurEntrprise->removeElement($contactsEntreprise);
             $contactsEntreprise->removeStage($this);
         }
 
@@ -125,6 +140,42 @@ class Stage
     public function setVille(?Ville $ville): self
     {
         $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getTuteurEntreprise(): ?ContactEntreprise
+    {
+        return $this->tuteurEntreprise;
+    }
+
+    public function setTuteurEntreprise(?ContactEntreprise $tuteurEntreprise): self
+    {
+        $this->tuteurEntreprise = $tuteurEntreprise;
+
+        return $this;
+    }
+
+    public function getSignataire(): ?ContactEntreprise
+    {
+        return $this->signataire;
+    }
+
+    public function setSignataire(?ContactEntreprise $signataire): self
+    {
+        $this->signataire = $signataire;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprises
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprises $entreprise): self
+    {
+        $this->entreprise = $entreprise;
 
         return $this;
     }

@@ -25,11 +25,11 @@ class Entreprises
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,!?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nom;
 

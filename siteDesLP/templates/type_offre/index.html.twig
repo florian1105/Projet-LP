@@ -12,21 +12,27 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">Offre {{ type.nomType }} ({{ type.NbOffres }})</h5>
-                            {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher_type', {'id': type.id}) }}" class="btn btn-primary">Afficher les offres</a> {% endif %}
+                                {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher', {'id': type.id}) }}"
+                                                              class="btn btn-primary">Afficher les
+                                    offres</a> {% endif %}
                             </div>
                         </div>
                     {% elseif is_granted('ROLE_ETUDIANT') %}
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">Offre {{ type.nomType }} ({{ type.NbOffres }})</h5>
-                            {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher_type', {'id': type.id}) }}" class="btn btn-primary">Afficher les offres</a> {% endif %}
+                                {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher', {'id': type.id}) }}"
+                                                              class="btn btn-primary">Afficher les
+                                    offres</a> {% endif %}
                             </div>
                         </div>
                     {% elseif is_granted('ROLE_CANDIDAT') and type.nomType != 'Emploi' %}
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">Offre {{ type.nomType }} ({{ type.NbOffres }})</h5>
-                            {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher_type', {'id': type.id}) }}" class="btn btn-primary">Afficher les offres</a> {% endif %}
+                                {% if type.NbOffres > 0 %} <a href="{{ path('offre_afficher', {'id': type.id}) }}"
+                                                              class="btn btn-primary">Afficher les
+                                    offres</a> {% endif %}
                             </div>
                         </div>
                     {% endif %}

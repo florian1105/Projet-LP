@@ -19,7 +19,8 @@
             'placeholder' : 'Entreprise',
         }
     }) }}
-    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ?  &nbsp;&nbsp;<a href="{{ path('entreprise_nouveau') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
+    <p style="margin-bottom:2%;">Votre entreprise n'est pas dans la liste ? &nbsp;&nbsp;<a
+                href="{{ path('entreprise_nouveau') }}" class="btn-sm btn-secondary mb-1">Ajouter mon entreprise</a></p>
     {{ form_row(form.nom, {
         'label':'Nom de famille',
         'attr' : {
@@ -67,4 +68,5 @@
     {% endif %}
     {{ form_end(form) }}
 
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

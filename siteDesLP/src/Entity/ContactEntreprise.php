@@ -44,9 +44,11 @@ class ContactEntreprise
     private $fonction;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stage", inversedBy="contactsEntreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="tuteurEntreprise")
      */
     private $stages;
+
+
 
     public function __construct()
     {
