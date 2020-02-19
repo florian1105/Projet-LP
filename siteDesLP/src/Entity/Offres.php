@@ -50,6 +50,26 @@ class Offres
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contratAlternance;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $remuneration;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $dateDuree;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mailContact;
+
 
     public function __construct()
     {
@@ -155,6 +175,54 @@ class Offres
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getContratAlternance(): ?string
+    {
+        return $this->contratAlternance;
+    }
+
+    public function setContratAlternance(?string $contratAlternance): self
+    {
+        $this->contratAlternance = $contratAlternance;
+
+        return $this;
+    }
+
+    public function getRemuneration(): ?string
+    {
+        return $this->remuneration;
+    }
+
+    public function setRemuneration(?string $remuneration): self
+    {
+        $this->remuneration = $remuneration;
+
+        return $this;
+    }
+
+    public function getDateDuree(): ?string
+    {
+        return $this->dateDuree;
+    }
+
+    public function setDateDuree(?string $dateDuree): self
+    {
+        $this->dateDuree = $dateDuree;
+
+        return $this;
+    }
+
+    public function getMailContact(): ?string
+    {
+        return $this->mailContact;
+    }
+
+    public function setMailContact(string $mailContact): self
+    {
+        $this->mailContact = $mailContact;
 
         return $this;
     }

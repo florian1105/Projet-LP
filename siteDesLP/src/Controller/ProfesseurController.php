@@ -223,7 +223,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	 /**
-     * @Route("/professeur_compte", name="professeur_compte")
+     * @Route("/professeur/compte", name="professeur_compte")
      */
     public function monCompte(UserInterface $prof)
     {
@@ -241,7 +241,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	/**
-     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdr")
+     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdp")
      */
     public function changePassword(UserInterface $prof, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
     {

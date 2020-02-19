@@ -10,6 +10,6 @@
 {{ form_row(form.description , {'label': 'Description'}) }}
 {{ form_row(form.cheminPlaquette , {'label': 'Plaquette de la licence pro'}) }}
 <button type="submit" class="btn btn-success">Modifier les informations</button>
-<a class="btn btn-primary" href="{{ path('home') }}" role="button">Annuler</a>
+<a class="btn btn-primary" href="{{ path('information_classe_afficher_modifiable') }}" role="button">Annuler</a>
 {{ form_end(form) }}
 {% endblock %}

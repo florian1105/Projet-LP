@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ offre.titre }}{% endblock %}
+
+{% block body %}
+
+	<div class="info-globales">
+		<div class="col">
+			<h3 class="pb-3 mb-4 font-italic border-bottom">{{ offre.titre }}</h3>
+			<p class="blog-post-meta font-italic"><i class="far fa-calendar-alt"></i> &nbsp;Publié le : {{ offre.date | date('d/m/Y') }}</p>
+			{% if offre.ContratAlternance != null %}
+				<p class="blog-post-meta"><i class="fas fa-info-circle"></i> &nbsp;Type de contrat : {{ offre.ContratAlternance }}</p>
+			{% endif %}
+			{% if offre.dateDuree != null %}
+				<p class="blog-post-meta"><i class="far fa-hourglass"></i> &nbsp;Durée : {{ offre.dateDuree }}</p>
+			{% endif %}
+			<p class="blog-post-meta"><i class="fas fa-euro-sign"></i> &nbsp;Remunération : {{ offre.remuneration }}</p>
+			<p class="blog-post-meta"><i class="far fa-envelope"></i> &nbsp;Contact : {{ offre.mailContact }}</p>
+			<div class="black-line"></div>
+			<p>{{ offre.description|raw}}</p>
+		</div>
+	</div>
+
+{% endblock %}

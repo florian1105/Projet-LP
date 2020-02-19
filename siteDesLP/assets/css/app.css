@@ -207,3 +207,8 @@ input.custom-file-input::after{
   margin-bottom:20px;
 }
 
+.hidden
+{
+  display: none;
+}
+

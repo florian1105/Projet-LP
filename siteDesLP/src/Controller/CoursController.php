@@ -37,7 +37,7 @@ class CoursController extends AbstractController
         [
             'class' => Classes::class,
             'choice_label' => 'nomClasse',
-            'label' => 'Classes de l\'article',
+            'label' => 'Classes du dossier',
             'expanded' => true,
             'multiple' => true,
             'mapped' => true,

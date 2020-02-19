@@ -11,6 +11,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -31,14 +32,15 @@ class OffresController extends AbstractController
   }
 
     /**
-     * @Route("/offre/afficher_par_type/{id}", name="offre_afficher")
+     * @Route("/offre/afficher_par_type/{id}", name="offre_afficher_type")
     */
-    public function afficherOffre(TypeOffre $typeOffre, OffresRepository $oRepo)
+    public function afficherOffres(TypeOffre $typeOffre, OffresRepository $oRepo)
     {
         $offres = $oRepo->findBy(["typeOffre" => $typeOffre]);
 
         return $this->render('offres/index.html.twig', [
-        'offres' => $offres
+        'offres' => $offres,
+        'typeOffre' => $typeOffre
         ]);
     }
 
@@ -48,58 +50,46 @@ class OffresController extends AbstractController
   */
   public function formulaireOffre(Offres $offre = null, Request $request, ObjectManager $em)
   {
-    $editMode = false;
+    $editMode = true;
 
     if(!$offre)
     {
+        $editMode = false;
         $offre = new Offres();
-
-        $form = $this->createFormBuilder($offre)
-        ->add('titre')
-        ->add('description', CKEditorType::class, [
-          'config' => [
-            'uiColor' => '#e2e2e2',
-            'toolbar' => 'full',
-            'required' => 'true'
-          ]
-        ])
-        ->add('typeOffre', EntityType::class,
-        [
-          'class' => TypeOffre::class,
-          'choice_label' => 'nomType',
-
-        ])
-        ->getForm();
-        $form->handleRequest($request);
-
         $offre->setDate(new \DateTime);
         $offre->setEntreprise($this->getUser()->getEntreprise());
     }
-    else
-    { // Mode edit
 
-        $editMode = true;
+      $form = $this->createFormBuilder($offre)
+      ->add('titre')
+      ->add('description', CKEditorType::class, [
+        'config' => [
+          'uiColor' => '#e2e2e2',
+          'toolbar' => 'full',
+          'required' => 'true'
+        ]
+      ])
+      ->add('typeOffre', EntityType::class,
+      [
+        'class' => TypeOffre::class,
+        'choice_label' => 'nomType',
 
-        $form = $this->createFormBuilder($offre)
-        ->add('titre')
-        ->add('description', CKEditorType::class, [
-          'config' => [
-            'uiColor' => '#e2e2e2',
-            'toolbar' => 'full',
-            'required' => 'true'
-          ]
-        ])
-        ->add('typeOffre', EntityType::class,
-        [
-          'class' => TypeOffre::class,
-          'choice_label' => 'nomType',
+      ])
+      ->add('ContratAlternance', ChoiceType::class, [
+        'choices'  => [
+            '---- Choisir un type de contrat ----' => null,
+            'Apprentissage' => 'Apprentissage',
+            'Professionnalisation' => 'Professionnalisation'
+        ]
+    ])
+      ->add('dateDuree')
+      ->add('remuneration', null, [
+        'required' => true
+      ])
+      ->add('mailContact')
+      ->getForm();
 
-        ])
-
-        ->getForm();
-        $form->handleRequest($request);
-    }
-
+      $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid())
     {
@@ -112,7 +102,7 @@ class OffresController extends AbstractController
 
     return $this->render('offres/formulaire.html.twig', [
       'form_offre' => $form->createView(),
-      'offres' => $offre,
+      'offre' => $offre,
       'editMode' => $editMode
     ]);
   }
@@ -154,5 +144,15 @@ class OffresController extends AbstractController
         }
 
     }
+
+  /**
+  * @Route("/offre/afficher/{id}", name="offre_afficher")
+  */
+  public function afficherOffre(Offres $offre)
+  {
+      return $this->render('offres/show.html.twig', [
+      'offre' => $offre
+    ]);
+  }
 
 }

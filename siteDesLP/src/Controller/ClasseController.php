@@ -24,13 +24,18 @@ class ClasseController extends AbstractController
 {
   /**
   * @Route("/classe/nouveau", name="classe_nouveau")
-  * @Route("/classe//modifier/{id}", name="classe_modifier")
+  * @Route("/classe/modifier/{id}", name="classe_modifier")
   */
-  public function formulaireClasse(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
+  public function formulaireClasse(Classes $classe = null, ProfesseursRepository $repoProf, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
   {
     $editMode = true;
     if(!$classe)
     {
+      if(sizeof($repoProf->findAll()) <= sizeof($repoC->findAll()))
+      {
+        $this->addFlash('erreurProfDisponible','Pas assez de professeur disponible pour créer une nouvelle classe');
+        return $this->redirectToRoute('classe_rechercher');
+      }
       $classe = new Classes();
       $editMode = false;
     }

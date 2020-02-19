@@ -109,6 +109,7 @@ security:
         - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
         - { path: ^/secretaire, role: [ROLE_ADMIN] }
         - { path: ^/professeur, role: [ROLE_ADMIN] }
-        - { path : ^/classe/purger, role: ROLE_PROFESSEURRESPONSABLE }
+        - { path: ^/classe/purger, role: ROLE_PROFESSEURRESPONSABLE }
         - { path: ^/classe, role: [ROLE_ADMIN] }
         - { path: ^/contact/compte, role: ROLE_CONTACT }
+        - { path: ^/offre/nouveau, role: [ROLE_CONTACT, ROLE_SECRETAIRE] }

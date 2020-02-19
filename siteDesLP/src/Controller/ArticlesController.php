@@ -188,8 +188,9 @@ class ArticlesController extends AbstractController
         $em->remove($article);
         $em->flush();
         $this->addFlash('delete',"Cet article a été supprimé avec succès");
-        return $this->redirectToRoute('article_rechercher');
       }
+
+      return $this->redirectToRoute('article_rechercher');
 
     }
     else
