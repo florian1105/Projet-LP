@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InformationsClassesRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -62,7 +62,7 @@ class InformationsClassesController extends AbstractController
   * @Security("is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/information/classe/modifier/{id}", name="informations_classes_modifier")
   */
-  public function formulaireInformationClasse(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, ObjectManager $manager)
+  public function formulaireInformationClasse(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, EntityManagerInterface $manager)
   {
     $classe = $this->getUser()->getClasseResponsable();
 

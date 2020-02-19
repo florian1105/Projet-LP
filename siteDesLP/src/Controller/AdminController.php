@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use Doctrine\Common\Persistence\ObjectManager;
+
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/changer_mdp", name="admin_changer_mdp")
      */
-    public function changePassword(UserInterface $admin, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(UserInterface $admin, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         $admin = $this->getUser();
 

@@ -58,6 +58,12 @@ class Stage
      */
     private $entreprise;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", inversedBy="stage", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etudiant;
+
     public function __construct()
     {
         $this->tuteurEntrprise = new ArrayCollection();
@@ -176,6 +182,18 @@ class Stage
     public function setEntreprise(?Entreprises $entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiants
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(Etudiants $etudiant): self
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }

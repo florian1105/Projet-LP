@@ -54,6 +54,11 @@ class Etudiants extends Utilisateurs implements UserInterface
      */
     private $telephone;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Stage", mappedBy="etudiant", cascade={"persist", "remove"})
+     */
+    private $stage;
+
     public function getNomEtudiant(): ?string
     {
         return parent::getNom();
@@ -240,6 +245,23 @@ class Etudiants extends Utilisateurs implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getStage(): ?Stage
+    {
+        return $this->stage;
+    }
+
+    public function setStage(Stage $stage): self
+    {
+        $this->stage = $stage;
+
+        // set the owning side of the relation if necessary
+        if ($stage->getEtudiant() !== $this) {
+            $stage->setEtudiant($this);
+        }
 
         return $this;
     }

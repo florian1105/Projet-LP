@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -21,7 +21,7 @@ class FichiersController extends AbstractController
   /**
   * @Route("/fichier/envoyer/{cours}", name="fichier_envoyer")
   */
-    public function envoyer(Cours $cours, Request $request, ObjectManager $em, CoursRepository $repoC)
+    public function envoyer(Cours $cours, Request $request, EntityManagerInterface $em, CoursRepository $repoC)
     {
         // Contrôle des droits d'accès
         // Récupère le prof connecté
@@ -241,7 +241,7 @@ class FichiersController extends AbstractController
     /**
      * @Route("/fichier/visibilite/{id}", name="fichier_visibilite")
      */
-    public function changerVisibilite(Fichiers $fichier, ObjectManager $em)
+    public function changerVisibilite(Fichiers $fichier, EntityManagerInterface $em)
     {
         if ($fichier->getVisible()) 
             $fichier->setVisible(false);

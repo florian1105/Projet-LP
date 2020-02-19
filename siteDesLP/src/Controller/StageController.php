@@ -11,7 +11,8 @@ use App\Repository\EntreprisesRepository;
 use App\Repository\EtatStageRepository;
 use App\Repository\StageFormRepository;
 use App\Repository\VilleRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Services\Mailer;
+use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,8 +39,12 @@ class StageController extends AbstractController
      *
      * Affiche le formulaire à remplir pour obtenir une convention de stage.
      * @Route("/stage/nouveau", name="stage_nouveau")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param EtatStageRepository $etatRepo
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function formulaire( Request $request, ObjectManager $manager, EtatStageRepository $etatRepo)
+    public function formulaire( Request $request, EntityManagerInterface $manager, EtatStageRepository $etatRepo)
     {
 
         $stageForm=new StageForm();
@@ -147,7 +152,7 @@ class StageController extends AbstractController
      * Affiche un stage avec des options différentes
      * selon l'utilisateur connecté.
      * (valider), (confirmer signatures), (compte rendu / noter)
-     * @Route("/stage/{id}", name="stage_afficher")
+     * @Route("/stage/afficher", name="stage_afficher")
      */
     public function afficher(Stage $stage)
     {
@@ -164,7 +169,7 @@ class StageController extends AbstractController
      * Valide un stage.
      * @Route("/stage/valider/{id}", name="stage_valider")
      */
-    public function valider(StageForm $stageForm=null,EtatStageRepository $etatRepo,ObjectManager $manager,VilleRepository $villeRepository, ContactEntrepriseRepository $contactEntRepo,EntreprisesRepository $entRepo)
+    public function valider(StageForm $stageForm=null,EtatStageRepository $etatRepo,EntityManagerInterface $manager,VilleRepository $villeRepository, ContactEntrepriseRepository $contactEntRepo,EntreprisesRepository $entRepo)
     {
         if($stageForm){
             $ville = $villeRepository->findOneBy(["nom"=>$stageForm->getVille()]);
@@ -243,38 +248,46 @@ class StageController extends AbstractController
      *   Au chef du departement
      *   Au responsable des stages (enseignant referant)
      * @Route("/stage/convention/{id}", name="stage_generer_convention")
+     * @param Stage $stage
+     * @param Mailer $mailer
+     * @param Options $options
      * @return string
      */
-    public function genererConvention(Stage $stage)
+    public function genererConvention(Stage $stage, \Swift_Mailer $mailer)
     {
-        return $this->render('stage/convention.html.twig');
-        /**
-        // Configure Dompdf according to your needs
-        $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
 
         // Instantiate Dompdf with our options
-        $dompdf = new Dompdf($pdfOptions);
+        $dompdf = new Dompdf();
 
         // Retrieve the HTML generated in our twig file
-        return $this->renderView('stage/convention.html.twig', [
+        $html = $this->renderView('stage/convention.html.twig', [
+            'stage' => $stage
         ]);
 
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
 
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-        $dompdf->setPaper('A4', 'portrait');
 
         // Render the HTML as PDF
         $dompdf->render();
 
-        // Output the generated PDF to Browser (force download)
-        $dompdf->stream("mypdf.pdf", [
-            "Attachment" => true
-        ]);
 
-    */
+        $pdf = new \Swift_Attachment($dompdf->output(),'convention.pdf');
+
+
+        $message = (new \Swift_Message())
+            ->setSubject('convention de stage')
+            ->setFrom('sitedeslp@gmail.com')
+            ->setTo($stage->get.mailPerso)
+            ->setBody($this->renderView('stage/mail_convention.html.twig'))
+            ->attach($pdf);
+
+        //envoie du mail
+        $mailer->send($message);
+
+        $this->addFlash('success','La convention à bien été générer et envoyer à l\'étudiant');
+        return $this->redirectToRoute('stage_rechercher');
+
 
     }
 

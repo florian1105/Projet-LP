@@ -9,7 +9,7 @@ use App\Repository\SecretaireRepository;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -24,7 +24,7 @@ class SecretaireController extends AbstractController
      * @Route("/secretaire/nouveau", name="secretaire_nouveau")
      * @Route("/secretaire/modifier/{id}", name="secretaire_modifier")
      */
-    public function formulaire(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function formulaire(Secretaire $secretaire = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$secretaire)
@@ -193,7 +193,7 @@ class SecretaireController extends AbstractController
     /**
      * @Route("secretaire/changer_mdp", name="secretaire_changer_mdp")
      */
-    public function changerMdp(UserInterface $secretaire, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changerMdp(UserInterface $secretaire, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
 
         $secretaire = $this->getUser();

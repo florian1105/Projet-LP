@@ -6,11 +6,11 @@ use App\Entity\Contacts;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
 use App\Services\Mailer;
+use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\DependencyInjection\Tests\Compiler\C;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +25,7 @@ class ContactsController extends AbstractController
      * @Route("/contact/nouveau", name="contact_nouveau")
      * @Route("/contact/modifier/{id}", name="contact_modifier")
      */
-    public function formulaireContact(Contacts $contact = null, ContactRepository $repoS, Request $request, ObjectManager $manager, Mailer $mailer, UserPasswordEncoderInterface $encoder)
+    public function formulaireContact(Contacts $contact = null, ContactRepository $repoS, Request $request, EntityManagerInterface $manager, Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$contact)
@@ -200,7 +200,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("contact_compte/changer_mdp/{id}", name="contact_changer_mdp")
      */
-    public function changePassword(Contacts $contact=null, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(Contacts $contact=null, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         if($contact->getPassword()==null){
             $firstConnexion=true;
@@ -267,7 +267,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("contact_compte/changer_mail", name="contact_changer_mail")
      */
-    public function changeMail(UserInterface $contact, Request $request, ObjectManager $em)
+    public function changeMail(UserInterface $contact, Request $request, EntityManagerInterface $em)
     {
         $contact = $this->getUser();
 
@@ -299,7 +299,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("/contact/valider/{id}", name="contact_valider")
      */
-    public function valider(Contacts $contact=null, ObjectManager $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
+    public function valider(Contacts $contact=null, EntityManagerInterface $manager, TokengeneratorInterface $tokenGenerator, ContactRepository $repo, Mailer $mailer)
     {
 
         if(!$contact)

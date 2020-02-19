@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +11,6 @@ use App\Entity\Professeurs;
 use App\Entity\Etudiants;
 use App\Entity\Cours;
 use App\Entity\Classes;
-use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Repository\CoursRepository;
 use App\Repository\ProfesseursRepository;
@@ -207,7 +207,7 @@ class CoursController extends AbstractController
     /**
      * @Route("/cours/modifier/{id}", name="cours_modifier")
      */
-    public function modifier(Request $request, Cours $cours, ObjectManager $em)
+    public function modifier(Request $request, Cours $cours, EntityManagerInterface $em)
     {
         /* Récupère le prof connecté */
         $prof = $this->getUser();
@@ -256,7 +256,7 @@ class CoursController extends AbstractController
     /**
      * @Route("/cours/visibilite/{id}", name="cours_visibilite")
      */
-    public function changerVisibilite(Cours $cours, ObjectManager $em)
+    public function changerVisibilite(Cours $cours, EntityManagerInterface $em)
     {
         if ($cours->getVisible()) 
             $cours->setVisible(false);

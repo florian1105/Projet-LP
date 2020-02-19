@@ -7,7 +7,7 @@ use App\Entity\Offres;
 use App\Entity\TypeOffre;
 use App\Repository\OffresRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -48,7 +48,7 @@ class OffresController extends AbstractController
   * @Route("/offre/nouveau", name="offre_nouveau")
   * @Route("/offre/modifier/{id}", name="offre_modifier")
   */
-  public function formulaireOffre(Offres $offre = null, Request $request, ObjectManager $em)
+  public function formulaireOffre(Offres $offre = null, Request $request, EntityManagerInterface $em)
   {
     $editMode = true;
 
@@ -112,7 +112,7 @@ class OffresController extends AbstractController
     /**
      * @Route("/offre/supprimer/{id}", name="offre_supprimer")
     */
-    public function supprimerOffre(Offres $offre, Request $request, ObjectManager $em)
+    public function supprimerOffre(Offres $offre, Request $request, EntityManagerInterface $em)
     {
 
         //Si le formulaire à été soumis
