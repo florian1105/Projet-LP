@@ -14,10 +14,8 @@
 
     {{ form_row(form_create_entreprise.ville) }}
 
-    {{ form_row(form_create_entreprise.rue) }}
-
-    {% if editMode %}
-        <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
             Modifier l'entreprise
         </button>
     {% else %}

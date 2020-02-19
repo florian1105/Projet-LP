@@ -60,11 +60,6 @@ class Entreprises
      */
     private $numSiret;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $rue;
-
 
     public function __toString()
     {
@@ -200,18 +195,6 @@ class Entreprises
     public function setNumSiret(?string $numSiret): self
     {
         $this->numSiret = $numSiret;
-
-        return $this;
-    }
-
-    public function getRue(): ?string
-    {
-        return $this->rue;
-    }
-
-    public function setRue(string $rue): self
-    {
-        $this->rue = $rue;
 
         return $this;
     }
