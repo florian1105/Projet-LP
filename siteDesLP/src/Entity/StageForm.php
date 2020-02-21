@@ -159,6 +159,11 @@ class StageForm
      */
     private $etatStages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Professeurs", inversedBy="stageForms")
+     */
+    private $tuteurIUT;
+
 
 
     public function __construct()
@@ -459,6 +464,18 @@ class StageForm
                 $etatStage->setStage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTuteurIUT(): ?Professeurs
+    {
+        return $this->tuteurIUT;
+    }
+
+    public function setTuteurIUT(?Professeurs $tuteurIUT): self
+    {
+        $this->tuteurIUT = $tuteurIUT;
 
         return $this;
     }

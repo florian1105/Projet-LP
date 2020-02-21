@@ -46,6 +46,12 @@
             <th scope="row"><i class=""></i>&nbsp;&nbsp;Mail personnel</th>
             <td>{{ stageForm.mailPersoEtudiant }}</td>
         </tr>
+        {%  if etat=="Commencer"  %}
+            <tr>
+                <th scope="row"><i class=""></i>&nbsp;&nbsp;Tuteur IUT</th>
+                <td>{{ stageForm.TuteurIUT }}</td>
+            </tr>
+        {% endif %}
         <tr>
             <th scope="row"><i class=""></i>&nbsp;&nbsp;Nom de l'entreprise</th>
             <td> {{ stageForm.nomEntreprise }}</td>
@@ -102,15 +108,49 @@
     </table>
 
     {% if is_granted('ROLE_SECRETAIRE') %}
-        <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
-            Valider la convention
-        </a>
-        <a type="button" class="btn btn-success" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
+        {% if etat=="Envoyer" %}
+            <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
+                Valider la convention
+            </a>
+        {% endif %}
+        <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
             Editer la convention
         </a>
-        <button type="button" class="btn btn-danger">
-            Supprimer la demande
-        </button>
+        {% if etat=="Valider" %}
+            <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
+                Valider les signatures
+            </a>
+        {% endif %}
+
+        {% if etat=="Signer" %}
+            <a type="button" class="btn btn-success" href="{{ path('stage_affecter',{'id' : stageForm.id}) }}">
+                Affecter un tuteur
+            </a>
+        {% endif %}
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: relative ;">Supprimer</button>
     {% endif %}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Choisir une option</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <h7>Voulez vous vraiment supprimer le stage ? </h7>
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-success" href="{{ path('stage_supprimer',{'id' : stageForm.id}) }}">
+                       Valider
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

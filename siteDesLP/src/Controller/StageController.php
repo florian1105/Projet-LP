@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\ContactEntreprise;
 use App\Entity\Entreprises;
+use App\Entity\EtatStage;
+use App\Entity\Professeurs;
 use App\Entity\StageForm;
 use App\Entity\Ville;
 use App\Repository\ContactEntrepriseRepository;
@@ -15,6 +17,7 @@ use App\Services\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -118,6 +121,7 @@ class StageController extends AbstractController
         elseif ($stageForm){
             return $this->render('stage/informations.html.twig',[
                 'stageForm' => $stageForm,
+                'etat' => $stageForm->getEtatStages()->getNomEtat(),
             ]);
         }
         return null ;
@@ -140,8 +144,15 @@ class StageController extends AbstractController
      * Afficher la liste des stages selon l'utilisateur.
      * @Route("/stage/supprimer/{id}", name="stage_supprimer")
      */
-    public function supprimer(StageFormRepository $stageFormRepository)
+    public function supprimer(StageForm $stageForm ,StageFormRepository $stageFormRepository)
     {
+        if($stageForm!=null){
+            $em=$this->getDoctrine()->getManager();
+            $em->remove($stageForm);
+            $em->flush();
+            $this->addFlash("success","La demande de convention à bien été supprimer");
+
+        }
         return $this->render('stage/recherche.html.twig', [
             'stageForms' => $stageFormRepository->findAll()
         ]);
@@ -169,7 +180,7 @@ class StageController extends AbstractController
     /**
      * Responsable des stages
      *
-     * ! A voir si faisable dans afficher avec button valider !
+     * ! A voir si faisable dans affichmer avec button valider !
      *
      * Valide un stage.
      * @Route("/stage/valider/{id}", name="stage_valider")
@@ -192,7 +203,7 @@ class StageController extends AbstractController
                 $entreprise->setNom($stageForm->getNomEntreprise());
                 $entreprise->setVille($ville);
                 $entreprise->setNumSiret($stageForm->getNumSIRET());
-                $entreprise->setRue($stageForm->getAddresseSiegeEntreprise());
+                //$entreprise->setRue($stageForm->getAddresseSiegeEntreprise());
                 $entreprise->setValide(true);
             }else{
                 $entreprise->setNumSiret($stageForm->getNumSIRET());
@@ -303,10 +314,19 @@ class StageController extends AbstractController
      * les signatures ont bien été reçues.
      * @Route("/stage/valider_signatures/{id}", name="stage_valider_signature")
      */
-    public function validerSignature(Stage $stage)
+    public function validerSignature(StageForm $stageForm = null, EntityManagerInterface $manager, EtatStageRepository $etatRepo)
     {
-        return $this->render('stage/index.html.twig', [
-            'controller_name' => 'StageController',
+
+
+        if($stageForm->getEtatStages()->getNomEtat()=="Valider") {
+            $etatEnvoyer = $etatRepo->findOneBy(["id" => "3"]);
+            $stageForm->setEtatStages($etatEnvoyer);
+            $manager->persist($stageForm);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('stage_informations',[
+            'id' => $stageForm->getId(),
         ]);
     }
 
@@ -318,11 +338,35 @@ class StageController extends AbstractController
      * Affiche le formulaire d'affectation d'un tuteurIUT au stage.
      * @Route("/stage/affecter_tuteur/{id}", name="stage_affecter")
      */
-    public function affecterTuteurIUT(Stage $stage)
+    public function affecterTuteurIUT(StageForm $stageForm = null, EtatStageRepository $etatRepo,EntityManagerInterface $manager , Request $request)
     {
-        return $this->render('stage/index.html.twig', [
-            'controller_name' => 'StageController',
+        $form = $this->createFormBuilder($stageForm)
+            ->add('tuteurIUT',EntityType::class, [
+                'class' => Professeurs::class,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+            $etatEnvoyer = $etatRepo->findOneBy(["id"=>"4"]);
+            $stageForm->setEtatStages($etatEnvoyer);
+            $manager->persist($stageForm);
+            $manager->flush();
+
+            $this->addFlash('success','Le Tuteur à bien été enregistrer ');
+
+            $this->redirectToRoute('stage_rechercher');
+
+        }
+
+        return $this->render('stage/affectation_tuteur.html.twig',[
+            'stageForm' => $stageForm,
+            'form' => $form->createView(),
         ]);
+
     }
 
     /**

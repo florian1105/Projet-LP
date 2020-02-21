@@ -104,10 +104,16 @@ class Professeurs implements UserInterface
      */
     private $dossiersCours;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StageForm", mappedBy="tuteurIUT")
+     */
+    private $stageForms;
+
     public function __construct()
     {
         $this->classes = new ArrayCollection();
         $this->dossiersCours = new ArrayCollection();
+        $this->stageForms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -313,6 +319,37 @@ class Professeurs implements UserInterface
             // set the owning side to null (unless already changed)
             if ($dossiersCour->getProf() === $this) {
                 $dossiersCour->setProf(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StageForm[]
+     */
+    public function getStageForms(): Collection
+    {
+        return $this->stageForms;
+    }
+
+    public function addStageForm(StageForm $stageForm): self
+    {
+        if (!$this->stageForms->contains($stageForm)) {
+            $this->stageForms[] = $stageForm;
+            $stageForm->setTuteurIUT($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStageForm(StageForm $stageForm): self
+    {
+        if ($this->stageForms->contains($stageForm)) {
+            $this->stageForms->removeElement($stageForm);
+            // set the owning side to null (unless already changed)
+            if ($stageForm->getTuteurIUT() === $this) {
+                $stageForm->setTuteurIUT(null);
             }
         }
 
