@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\InformationsGlobales;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InformationsGlobalesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class InformationsGlobalesController extends AbstractController
     /**
      * @Route("/information/globale/modifier/{id}", name="information_globale_modifier")
      */
-    public function formulaireInformationGlobale(InformationsGlobales $info, Request $request, ObjectManager $manager)
+    public function formulaireInformationGlobale(InformationsGlobales $info, Request $request, EntityManagerInterface $manager)
     {
 
 			$form = $this->createFormBuilder($info)

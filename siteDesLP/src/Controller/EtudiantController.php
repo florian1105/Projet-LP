@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use App\Entity\Classes;
 use App\Entity\Contacts;
@@ -18,7 +19,6 @@ use App\Repository\EtudiantsRepository;
 use App\Repository\SecretaireRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -62,7 +62,7 @@ class EtudiantController extends AbstractController
 	* @Route("/etudiant/nouveau", name="etudiant_nouveau")
 	* @Route("/etudiant/modifier/{id}", name="etudiant_modifier")
 	*/
-	public function formulaireEtudiant(Etudiants $etudiant = null, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+	public function formulaireEtudiant(Etudiants $etudiant = null, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$classe = "";
 		$editMode = true;
@@ -89,9 +89,6 @@ class EtudiantController extends AbstractController
 				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
-				->add('ville')
-				->add('rue')
-
 				->getForm();
 
 				$form->handleRequest($request);
@@ -136,8 +133,6 @@ class EtudiantController extends AbstractController
 				->add('date_naissance', DateType::class, [
 					'widget' => 'single_text'
 				])
-				->add('ville')
-				->add('rue')
 
 				->getForm();
 
@@ -186,8 +181,6 @@ class EtudiantController extends AbstractController
 			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
-			->add('ville')
-			->add('rue')
 			->add('classe', EntityType::class, [
 				'class' => Classes::class,
 				'choice_label' => 'nomClasse',
@@ -198,7 +191,7 @@ class EtudiantController extends AbstractController
 
 			$prenomLogin = strtolower($this->str_to_noaccent($form['prenom']->getData()));
 			$prenomLogin1 = substr($prenomLogin, 0,1);
-			$login = strtolower($form['prenom']->getData()).$prenomLogin1;
+			$login = strtolower($form['nom']->getData()).$prenomLogin1;
 			$mailAcademique = $prenomLogin.".".strtolower($form['nom']->getData());
 
 			$i = "";
@@ -231,8 +224,6 @@ class EtudiantController extends AbstractController
 			->add('date_naissance', DateType::class, [
 				'widget' => 'single_text'
 			])
-			->add('ville')
-			->add('rue')
 			->add('classe', EntityType::class, [
 				'class' => Classes::class,
 				'choice_label' => 'nomClasse',
@@ -364,7 +355,7 @@ class EtudiantController extends AbstractController
 	/**
 	 * @Route("etudiant/transformer_contact/{id}", name="etudiant_transformer_contact")
 	 */
-	public function transformerEtudiantEnContact(Etudiants $etudiant, Request $request, ObjectManager $manager)
+	public function transformerEtudiantEnContact(Etudiants $etudiant, Request $request, EntityManagerInterface $manager)
 	{
 		if (!$etudiant->isAncienEtudiant()) {
 			$this->addFlash('error', 'Cette étudiant n\' a pas été détecté comme étant un ancien étudiant. Procédure annulée.');
@@ -430,59 +421,59 @@ class EtudiantController extends AbstractController
 			]);
 	}
 
-		/**
-		 * @Route("etudiant/compte/changer_mdp", name="etudiant_changer_mdp")
-		 */
-		public function changerMdp(UserInterface $etudiant, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
-		{
-				$etudiant = $this->getUser();
+	/**
+	 * @Route("etudiant/compte/changer_mdp", name="etudiant_changer_mdp")
+	 */
+	public function changerMdp(UserInterface $etudiant, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	{
+			$etudiant = $this->getUser();
 
-				$form = $this->createFormBuilder($etudiant)
-				->add('password', PasswordType::class, array('mapped' => false))
-				->add('new_password', PasswordType::class)
-				->add('confirm_password', PasswordType::class)
-
-
-				->getForm();
+			$form = $this->createFormBuilder($etudiant)
+			->add('password', PasswordType::class, array('mapped' => false))
+			->add('new_password', PasswordType::class)
+			->add('confirm_password', PasswordType::class)
 
 
-				$form->handleRequest($request);
+			->getForm();
 
-				$mdpNonChange = "";
 
-				if($form->isSubmitted() && $form->isValid())
+			$form->handleRequest($request);
+
+			$mdpNonChange = "";
+
+			if($form->isSubmitted() && $form->isValid())
+			{
+				$match = $encoder->isPasswordValid($etudiant, $form['password']->getData());
+				//si password valide
+				if($match)
 				{
-					$match = $encoder->isPasswordValid($etudiant, $form['password']->getData());
-					//si password valide
-					if($match)
-					{
-						$hash = $encoder->encodePassword($etudiant, $form['new_password']->getData());
-						$etudiant->setPassword($hash);
-						$em->persist($etudiant);
-						$em->flush();
-						$this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-						return $this->redirectToRoute('etudiant_account');
-					}
-					else {
-						$mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
-					}
+					$hash = $encoder->encodePassword($etudiant, $form['new_password']->getData());
+					$etudiant->setPassword($hash);
+					$em->persist($etudiant);
+					$em->flush();
+					$this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
+					return $this->redirectToRoute('etudiant_account');
 				}
+				else {
+					$mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
+				}
+			}
 
 
 
-				return $this->render('etudiant/changepassword.html.twig', [
-						'etudiant' => $etudiant,
-						'form_change_password' => $form->createView(),
-						'error' => $mdpNonChange,
-				]);
-		}
+			return $this->render('etudiant/changepassword.html.twig', [
+					'etudiant' => $etudiant,
+					'form_change_password' => $form->createView(),
+					'error' => $mdpNonChange,
+			]);
+	}
 
 
 
-		 /**
+		/**
 		 * @Route("etudiant/compte/changer_mail", name="etudiant_changer_mail")
 		 */
-		public function changerMail(UserInterface $etudiant, Request $request, ObjectManager $em)
+		public function changerMail(UserInterface $etudiant, Request $request, EntityManagerInterface $em)
 		{
 				$etudiant = $this->getUser();
 
@@ -516,7 +507,7 @@ class EtudiantController extends AbstractController
 		 * @Route("/etudiant/importer_csv",name="etudiant_importer_csv")
 		 *
 		 */
-		public function importerCsv(UserInterface $profResp,Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+		public function importerCsv(UserInterface $profResp,Etudiantsrepository $repoE, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
 		{
 				$classe=$this->getUser()->getClasseResponsable();
 				if(isset($_POST['sub']) && $_FILES['importEtu']!=null){
@@ -555,7 +546,8 @@ class EtudiantController extends AbstractController
 		}
 
 
-		public function creerEtudiant($nom,$prenom,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+		public function creerEtudiant($nom,$prenom,$mdpEtudiant,$mail,$date, Etudiantsrepository $repoE, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+		{
 
 				$etudiant = new Etudiants();
 				$prenomLogin = strtolower($this->str_to_noaccent($prenom));

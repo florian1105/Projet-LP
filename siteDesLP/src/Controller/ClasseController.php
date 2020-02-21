@@ -10,11 +10,11 @@ use App\Repository\DateRepository;
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
 use App\Repository\EtudiantsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormBuilder;
 use App\Repository\PromotionsRepository;
 use App\Repository\ProfesseursRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,13 +24,18 @@ class ClasseController extends AbstractController
 {
   /**
   * @Route("/classe/nouveau", name="classe_nouveau")
-  * @Route("/classe//modifier/{id}", name="classe_modifier")
+  * @Route("/classe/modifier/{id}", name="classe_modifier")
   */
-  public function formulaireClasse(Classes $classe = null, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, ObjectManager $manager)
+  public function formulaireClasse(Classes $classe = null, ProfesseursRepository $repoProf, PromotionsRepository $repoP, ClassesRepository $repoC, Request $request, EntityManagerInterface $manager)
   {
     $editMode = true;
     if(!$classe)
     {
+      if(sizeof($repoProf->findAll()) <= sizeof($repoC->findAll()))
+      {
+        $this->addFlash('erreurProfDisponible','Pas assez de professeur disponible pour créer une nouvelle classe');
+        return $this->redirectToRoute('classe_rechercher');
+      }
       $classe = new Classes();
       $editMode = false;
     }
@@ -225,7 +230,7 @@ class ClasseController extends AbstractController
         /**
         * @Route("classe/purger/{id}", name="classe_purger")
         */
-        public function purgerClasse(Classes $classe, EtudiantsRepository $repoE, ObjectManager $em, PromotionsRepository $repoPr, Request $req, DateRepository $repoD)
+        public function purgerClasse(Classes $classe, EtudiantsRepository $repoE, EntityManagerInterface $em, PromotionsRepository $repoPr, Request $req, DateRepository $repoD)
         {
           if($req->isMethod('POST'))
           {

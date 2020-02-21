@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\InformationsClasses;
 use App\Repository\ClassesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InformationsClassesRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -18,29 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InformationsClassesController extends AbstractController
 {
-
-  /**
-  * @Route("/information/classe/afficher/{id}", name="information_classe_afficher")
-  */
-  public function afficherInformationClasse(InformationsClasses $info)
-  {
-    return $this->render('informations_classes/info.html.twig', [
-      'info' => $info,
-    ]);
-  }
-
-  /**
-  * @Route("/information/classe/afficher", name="informations_classes_afficher")
-  */
-  public function afficherClasse(ClassesRepository $repoC)
-  {
-    $classes = $repoC->findAll();
-
-    return $this->render('informations_classes/lesclasses.html.twig', [
-      'classes' => $classes,
-      'nbClasse' => sizeof($classes)
-    ]);
-  }
 
   /**
   * @Route("/information/classe/afficher/modifiable", name="information_classe_afficher_modifiable")
@@ -58,10 +35,34 @@ class InformationsClassesController extends AbstractController
   }
 
   /**
+  * @Route("/information/classe/afficher/{id}", name="information_classe_afficher")
+  */
+  public function afficherInformationClasse(InformationsClasses $info)
+  {
+    return $this->render('informations_classes/info.html.twig', [
+      'info' => $info,
+    ]);
+  }
+
+
+  /**
+  * @Route("/information/classe/afficher", name="informations_classes_afficher")
+  */
+  public function afficherClasse(ClassesRepository $repoC)
+  {
+    $classes = $repoC->findAll();
+
+    return $this->render('informations_classes/lesclasses.html.twig', [
+      'classes' => $classes,
+      'nbClasse' => sizeof($classes)
+    ]);
+  }
+
+  /**
   * @Security("is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/information/classe/modifier/{id}", name="informations_classes_modifier")
   */
-  public function formulaireInformationClasse(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, ObjectManager $manager)
+  public function formulaireInformationClasse(InformationsClasses $info, InformationsClassesRepository $repoI, Request $request, EntityManagerInterface $manager)
   {
     $classe = $this->getUser()->getClasseResponsable();
 

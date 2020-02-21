@@ -31,7 +31,8 @@
         "symfony/validator": "4.3.*",
         "symfony/web-link": "4.3.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "4.3.*"
+        "symfony/yaml": "4.3.*",
+        "dompdf/dompdf": "~0.7"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.2",

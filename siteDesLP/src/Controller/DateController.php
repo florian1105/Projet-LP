@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Date;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +14,7 @@ class DateController extends AbstractController
     /**
      * @Route("/date/modifier/{id}", name="date_modifier")
      */
-    public function formulaire(Date $date, Request $request, ObjectManager $em)
+    public function formulaire(Date $date, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createFormBuilder($date)
             ->add('date', DateType::class, [

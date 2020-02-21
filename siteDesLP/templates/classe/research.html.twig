@@ -47,6 +47,13 @@
             </button>
         </div>
     {% endfor %}
+    {% for msg in app.session.flashBag.get('erreurProfDisponible') %}
+        <div class="alert alert-danger" role="alert">
+            {{ msg }}<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
     {% for msg in app.session.flashBag.get('success') %}
         <div class="alert alert-success" role="alert">
             {{ msg }}

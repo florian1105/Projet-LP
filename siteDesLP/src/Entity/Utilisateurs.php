@@ -6,11 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateursRepository")
  * @InheritanceType("JOINED")
  * @ORM\Table(name="utilisateurs")
+ * @UniqueEntity("mail", message="ce mail est déjà utilisé")
  *
  */
 abstract class Utilisateurs

@@ -9,7 +9,7 @@ use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
 use App\Repository\SecretaireRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -31,7 +31,7 @@ class ProfesseurController extends AbstractController
      * @Route("/professeur/nouveau", name="prof_ajouter")
      * @Route("/professeur/modifier/{id}", name="prof_modifier")
      */
-    public function form(Professeurs $prof = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function form(Professeurs $prof = null, ProfesseursRepository $repoP, SecretaireRepository $repoS, EtudiantsRepository $repoE, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
 		$editMode = true;
 		if(!$prof)
@@ -223,7 +223,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	 /**
-     * @Route("/professeur_compte", name="professeur_compte")
+     * @Route("/professeur/compte", name="professeur_compte")
      */
     public function monCompte(UserInterface $prof)
     {
@@ -241,9 +241,9 @@ class ProfesseurController extends AbstractController
 	}
 
 	/**
-     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdr")
+     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdp")
      */
-    public function changePassword(UserInterface $prof, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(UserInterface $prof, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
 
         $prof = $this->getUser();

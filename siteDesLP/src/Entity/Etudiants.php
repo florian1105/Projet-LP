@@ -50,20 +50,14 @@ class Etudiants extends Utilisateurs implements UserInterface
     private $promotion;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="etudiants")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ville;
-
-    /**
-     * @ORM\Column(type="string", length=64, nullable=true)
-     */
-    private $rue;
-
-    /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $telephone;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Stage", mappedBy="etudiant", cascade={"persist", "remove"})
+     */
+    private $stage;
 
     public function getNomEtudiant(): ?string
     {
@@ -243,30 +237,6 @@ class Etudiants extends Utilisateurs implements UserInterface
         //return $repoE->isAncienEtudiant($this);
     }
 
-    public function getVille(): ?Ville
-    {
-        return $this->ville;
-    }
-
-    public function setVille(?Ville $ville): self
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getRue(): ?string
-    {
-        return $this->rue;
-    }
-
-    public function setRue(?string $rue): self
-    {
-        $this->rue = $rue;
-
-        return $this;
-    }
-
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -275,6 +245,23 @@ class Etudiants extends Utilisateurs implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getStage(): ?Stage
+    {
+        return $this->stage;
+    }
+
+    public function setStage(Stage $stage): self
+    {
+        $this->stage = $stage;
+
+        // set the owning side of the relation if necessary
+        if ($stage->getEtudiant() !== $this) {
+            $stage->setEtudiant($this);
+        }
 
         return $this;
     }

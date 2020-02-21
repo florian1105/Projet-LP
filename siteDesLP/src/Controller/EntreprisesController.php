@@ -5,10 +5,10 @@ namespace App\Controller;
 
 
 use App\Entity\Entreprises;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Repository\EntreprisesRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -30,7 +30,7 @@ class EntreprisesController extends AbstractController
      * @Route("/entreprise/nouveau", name="entreprise_nouveau")
      * @Route("/entreprise/modifier/{id}", name="entreprise_modifier")
      */
-    public function form(Entreprises $entreprise = null, EntreprisesRepository $repoE, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function form(Entreprises $entreprise = null, EntreprisesRepository $repoE, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
 
@@ -43,7 +43,6 @@ class EntreprisesController extends AbstractController
         $form = $this->createFormBuilder($entreprise)
             ->add('nom')
             ->add('ville')
-            ->add('rue')
             ->getForm();
 
         $form->handleRequest($request);
@@ -114,7 +113,7 @@ class EntreprisesController extends AbstractController
     /**
      * @Route("/entreprise/valider/{id}", name="entreprise_valider")
      */
-    public function valide(Entreprises $entreprise=null,  ObjectManager $manager,EntreprisesRepository $repo){
+    public function valide(Entreprises $entreprise=null,  EntityManagerInterface $manager,EntreprisesRepository $repo){
         if(!$entreprise)
         {
             $entreprise = new Entreprises();

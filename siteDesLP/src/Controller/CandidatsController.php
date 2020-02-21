@@ -9,7 +9,7 @@ use App\Repository\CandidatsRepository;
 use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
 use App\Repository\SecretaireRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class CandidatsController extends AbstractController
      * @Route("/candidats_nouveau", name="candidat_ajouter")
      * @Route("/candidats_modifier/{id}", name="candidat_modifier")
      */
-    public function form(Candidats $Candidat = null, Candidatsrepository $repoC, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function form(Candidats $Candidat = null, Candidatsrepository $repoC, Etudiantsrepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
 
         $editMode = true;
@@ -215,7 +215,7 @@ class CandidatsController extends AbstractController
         ]);
     }
 
-//    public function createCandidat($nomCandidat,$prenomCandidat,$mdpCandidat,$mail,$date, Candidatsrepository $repoE, ObjectManager $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
+//    public function createCandidat($nomCandidat,$prenomCandidat,$mdpCandidat,$mail,$date, Candidatsrepository $repoE, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, ProfesseursRepository $repoP, SecretaireRepository $repoS){
 //
 //        $candidat = new Candidats();
 //
@@ -248,7 +248,7 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidat_compte/changer_mdp", name="candidat_changer_mdp")
      */
-    public function changePassword(UserInterface $candidat, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder)
+    public function changePassword(UserInterface $candidat, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         $candidat = $this->getUser();
 
@@ -295,7 +295,7 @@ class CandidatsController extends AbstractController
     /**
      * @Route("candidat_compte/changer_mail", name="candidat_changer_mail")
      */
-    public function changeMail(UserInterface $candidat, Request $request, ObjectManager $em)
+    public function changeMail(UserInterface $candidat, Request $request, EntityManagerInterface $em)
     {
         $candidat = $this->getUser();
 

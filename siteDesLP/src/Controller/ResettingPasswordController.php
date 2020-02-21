@@ -6,7 +6,7 @@ use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
@@ -25,7 +25,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("requete_reinitialiser_mot_de_passe", name="requete_reinitialiser_mot_de_passe")
    */
-    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, ObjectManager $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, EntityManagerInterface $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       $form = $this->createFormBuilder()
       ->add('email', EmailType::class)
@@ -101,7 +101,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("reinitialiser_mot_de_passe/{id}/{token}", name="reinitialiser_mot_de_passe")
    */
-    public function reinitialiserMotDePasse($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,ObjectManager $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function reinitialiserMotDePasse($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,EntityManagerInterface $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
     {
       // interdit l'accès à la page si:
         // le token associé au membre est null

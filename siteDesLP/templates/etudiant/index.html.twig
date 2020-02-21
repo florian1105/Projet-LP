@@ -31,23 +31,23 @@
 
 {{ form_row(form_create_etudiant.mail, {'attr' : {'placeholder' : "Mail de l'étudiant" }}) }}
 {{ form_row(form_create_etudiant.date_naissance, {'attr' : {'placeholder' : "Date de naissance de l'étudiant" }}) }}
-{{ form_row(form_create_etudiant.ville) }}
-{{ form_row(form_create_etudiant.rue) }}
 {% if not is_granted('ROLE_PROFESSEURRESPONSABLE') %}
 {{ form_row(form_create_etudiant.classe,{'label': 'Classe'}) }}
 {% endif %}
 
 <button type="submit" class="btn btn-success">
     {% if editMode %}
-        Modifier l'<étudiant></étudiant>
+        Modifier l'étudiant
     {% else %}
         Créer l'étudiant
     {% endif %}
 </button>
 
-{% if editMode and etudiant.isAncienEtudiant %}
-<a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white">Transformer en contact</a>
-{% endif %}
+    {% if editMode and etudiant.isAncienEtudiant %}
+        <a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger text-white">Transformer en contact</a>
+    {% endif %}
 
-{{ form_end(form_create_etudiant) }}
+    {{ form_end(form_create_etudiant) }}
+
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

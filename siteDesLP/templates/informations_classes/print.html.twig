@@ -25,6 +25,6 @@
     <p>Cliquez ici afin de voir la plaquette de la licence pro <a target="_blank" href="{{ asset('uploads/plaquette/' ~ info.cheminPlaquette) }}">Voir la plaquette(PDF)</a>
 {% endif %}
 
-<a  href={{ path('informations_classes_modifier', {'id' : info.id}) }}><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
+<a  href="{{ path('informations_classes_modifier', {'id' : info.id}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
 
 {% endblock %}

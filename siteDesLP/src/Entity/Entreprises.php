@@ -25,11 +25,11 @@ class Entreprises
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,!?\\'\x22]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nom;
 
@@ -59,11 +59,6 @@ class Entreprises
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $numSiret;
-
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $rue;
 
 
     public function __toString()
@@ -200,18 +195,6 @@ class Entreprises
     public function setNumSiret(?string $numSiret): self
     {
         $this->numSiret = $numSiret;
-
-        return $this;
-    }
-
-    public function getRue(): ?string
-    {
-        return $this->rue;
-    }
-
-    public function setRue(string $rue): self
-    {
-        $this->rue = $rue;
 
         return $this;
     }

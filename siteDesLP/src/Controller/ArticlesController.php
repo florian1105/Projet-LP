@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Classes;
 use App\Entity\Articles;
 use App\Repository\ArticlesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,7 +25,7 @@ class ArticlesController extends AbstractController
   * @Route("/article/nouveau", name="article_nouveau")
   * @Route("/article/modifier/{id}", name="article_modifier")
   */
-  public function formulaireArticle(Articles $article = null,Request $request, ObjectManager $em)
+  public function formulaireArticle(Articles $article = null,Request $request, EntityManagerInterface $em)
   {
     $classe = null; //Classe du prof responsable
     $nbClasses = null; //nb de classes de l'article en edit mode
@@ -176,7 +176,7 @@ class ArticlesController extends AbstractController
   * @Security("is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_PROFESSEURRESPONSABLE')")
   * @Route("/article/supprimer/{id}", name="article_supprimer")
   */
-  public function supprimerArticle(Articles $article, Request $request, ObjectManager $em)
+  public function supprimerArticle(Articles $article, Request $request, EntityManagerInterface $em)
   {
 
     //Si le formulaire à été soumis
@@ -188,8 +188,9 @@ class ArticlesController extends AbstractController
         $em->remove($article);
         $em->flush();
         $this->addFlash('delete',"Cet article a été supprimé avec succès");
-        return $this->redirectToRoute('article_rechercher');
       }
+
+      return $this->redirectToRoute('article_rechercher');
 
     }
     else
