@@ -92,7 +92,7 @@ class CandidatsController extends AbstractController
                 $em->flush();
 
 
-                return $this->redirectToRoute('research_candidat');
+                return $this->redirectToRoute('candidat_rechercher');
 
             }
         }
@@ -158,7 +158,7 @@ class CandidatsController extends AbstractController
             $em->flush();
 
 
-            return $this->redirectToRoute('research_candidat');
+            return $this->redirectToRoute('candidat_rechercher');
 
         }
 
