@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations de Convention de Stage{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    <h1>Informations de convention de stage </h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"><i class=""></i>&nbsp;&nbsp;Informations Stage</th>
+            <th scope="col" >Etat de la convention : {{ stageForm.etatStages.nomEtat }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp;&nbsp;Etudiant</th>
+            <td>    {{ stageForm.etudiant }} -  {{ stageForm.etudiant.classe }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp;&nbsp;NumINE</th>
+            <td>    {{ stageForm.numINE }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp;&nbsp;Mail personnel</th>
+            <td>{{ stageForm.mailPersoEtudiant }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp;&nbsp;Nom de l'entreprise</th>
+            <td> {{ stageForm.nomEntreprise }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp;&nbsp;Sujet</th>
+            <td>{{ stageForm.sujetStage }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class=""></i>&nbsp Informations </th>
+            <td>{{ stageForm.informationSupp }}</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+    {{ form_start(form) }}
+
+    {{ form_row(form.tuteurIUT, {'label': 'Tuteur'}) }}
+
+    <button type="submit" class="btn btn-success">
+        Valider
+    </button>
+
+    {{ form_end(form) }}
+
+
+
+
+{% endblock %}
