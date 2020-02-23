@@ -15,13 +15,12 @@
     {{ form_row(form_create_entreprise.ville) }}
 
     <button type="submit" class="btn btn-success">
-        {% if editMode %}
-            Modifier l'entreprise
-        </button>
+    {% if editMode %}
+        Modifier l'entreprise
     {% else %}
-        <button type="submit" class="btn btn-success">Créer l'entreprise</button>
+        Créer l'entreprise
     {% endif %}
-
+    </button>
     {{ form_end(form_create_entreprise) }}
 
     <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>

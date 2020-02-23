@@ -32,12 +32,11 @@ class CandidatsController extends AbstractController
 
         $editMode = true;
 
-        if(!$Candidat)
-        {
+        if (!$Candidat) {
             $Candidat = new Candidats();
             $editMode = false;
         }
-        if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
+        if ($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
         {
             if ($editMode == false) {
                 $form = $this->createFormBuilder($Candidat)
@@ -81,10 +80,8 @@ class CandidatsController extends AbstractController
             $classe = $this->getUser()->getClasseResponsable();
             $Candidat->setClasse($classe);
 
-            if($form->isSubmitted() && $form->isValid())
-            {
-                if($editMode == false)
-                {
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($editMode == false) {
                     $hash = $encoder->encodePassword($Candidat, $Candidat->getNewPassword());
                     $Candidat->setPassword($hash);
                 }
@@ -96,7 +93,7 @@ class CandidatsController extends AbstractController
 
             }
         }
-        else if($editMode == false) //Sinon si l'utilisateur n'est pas prof responsable
+        else if ($editMode == false) //Sinon si l'utilisateur n'est pas prof responsable
         {
             $form = $this->createFormBuilder($Candidat)
                 ->add('nom')
@@ -111,14 +108,11 @@ class CandidatsController extends AbstractController
                 ->add('date_Naissance', DateType::class, [
                     'widget' => 'single_text'
                 ])
-
                 ->getForm();
 
             $form->handleRequest($request);
 
-        }
-        else
-        {
+        } else {
             $form = $this->createFormBuilder($Candidat)
                 ->add('nom')
                 ->add('prenom')
@@ -126,7 +120,6 @@ class CandidatsController extends AbstractController
                 ->add('date_Naissance', DateType::class, [
                     'widget' => 'single_text'
                 ])
-
                 ->getForm();
 
             $form->handleRequest($request);
@@ -142,17 +135,13 @@ class CandidatsController extends AbstractController
         $Candidat->setPrenom($prenom);
 
 
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($editMode == false)
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($editMode == false) {
                 $hash = $encoder->encodePassword($Candidat, $Candidat->getNewPassword());
                 $Candidat->setPassword($hash);
-                $this->addFlash('success','le candidat a bien été créé');
-            }
-            else{
-                $this->addFlash('success_modifie','les changements on biens été pris en compte');
+                $this->addFlash('success', 'le candidat a bien été créé');
+            } else {
+                $this->addFlash('success_modifie', 'les changements on biens été pris en compte');
             }
             $em->persist($Candidat);
             $em->flush();
@@ -176,22 +165,22 @@ class CandidatsController extends AbstractController
     public function deleteCandidat(Candidats $candi, Request $req)
     {
         //Si le formulaire à été soumis
-        if($req->isMethod('POST')){
+        if ($req->isMethod('POST')) {
             // En cas de validation on supprime et on redirige
-            if($req->request->has('oui')) {
-                $em=$this->getDoctrine()->getManager();
+            if ($req->request->has('oui')) {
+                $em = $this->getDoctrine()->getManager();
                 $em->remove($candi);
                 $em->flush();
             }
             // Sinon on redirige simplement
-            $this->addFlash('delete','Candidat supprimé');
+            $this->addFlash('delete', 'Candidat supprimé');
             return $this->redirectToRoute('research_candidat');
         } else {
             //Si le formulaire n'a pas été soumis alors on l'affiche
             $title = 'Êtes-vous sûr(e) de vouloir supprimer ce candidat ?';
 
-            $message = 'N°'.$candi->getId().' : '.
-                $candi->getPrenom().' '.
+            $message = 'N°' . $candi->getId() . ' : ' .
+                $candi->getPrenom() . ' ' .
                 $candi->getNom();
 
 
@@ -256,8 +245,6 @@ class CandidatsController extends AbstractController
             ->add('password', PasswordType::class, array('mapped' => false))
             ->add('new_password', PasswordType::class)
             ->add('confirm_password', PasswordType::class)
-
-
             ->getForm();
 
 
@@ -265,24 +252,20 @@ class CandidatsController extends AbstractController
 
         $mdpNonChange = "";
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $match = $encoder->isPasswordValid($candidat, $form['password']->getData());
             //si password valide
-            if($match)
-            {
+            if ($match) {
                 $hash = $encoder->encodePassword($candidat, $form['new_password']->getData());
                 $candidat->setPassword($hash);
                 $em->persist($candidat);
                 $em->flush();
-                $this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
+                $this->addFlash('mdp_change', 'Votre mot de passe a été modifié avec succès');
                 return $this->redirectToRoute('candidat_compte');
-            }
-            else {
+            } else {
                 $mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
             }
         }
-
 
 
         return $this->render('candidats/changepassword.html.twig', [
@@ -301,18 +284,15 @@ class CandidatsController extends AbstractController
 
         $form = $this->createFormBuilder($candidat)
             ->add('mail')
-
-
             ->getForm();
 
         $form->handleRequest($request);
 
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($candidat);
             $em->flush();
-            $this->addFlash('mail_change','Votre mail a été modifié avec succès');
+            $this->addFlash('mail_change', 'Votre mail a été modifié avec succès');
             return $this->redirectToRoute('candidat_compte');
 
         }

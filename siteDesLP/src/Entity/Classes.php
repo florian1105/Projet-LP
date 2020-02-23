@@ -23,7 +23,7 @@ class Classes
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank(message="Veuillez renseigner un nom pour cette classe")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés au début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a la fin.")
@@ -56,7 +56,7 @@ class Classes
     private $informationsClasses;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=128)
      */
     private $nomComplet;
 
