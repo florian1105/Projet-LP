@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Les stages en attentes</h1>
+
+    <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
+        <thead>
+        <tr>
+            <th scope="col">Nom et prénom étudiant</th>
+            <th scope="col">Entreprise</th>
+            <th scope="col">Afficher</th>
+            <th scope="col">Refuser</th>
+        </tr>
+        </thead>
+        <tbody>{##}
+        {% for unStage in lesStagesEnAttente %}
+            <tr class="ligne">
+                <td>{{unStage.nomPrenomSignataire}}</td>
+                <td>{{unStage.nomEntreprise}}</td>
+                <td><a href="{{ path('stage_informations', {'id' : unStage.id}) }}" class="edit-btn btn btn-warning active invisible">Afficher plus</a></td>
+                <td><a href="" class="edit-btn btn btn-danger active invisible">Refuser</a></td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-success" href="" role="button">Créer un candidat</a>
+
+{% endblock %}
+{%  block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('data-tables') }}
+{% endblock %}

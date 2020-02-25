@@ -103,6 +103,10 @@
 					{{ this.boutonMenu( path('home') , '<i class="fas fa-home mr-2"></i>Accueil') }}
 				{% endif %}
 
+				{% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
+				{{ this.boutonMenu( path('stage_afficher_attente') , "Demande de stage en attente") }}
+				{% endif %}
+
 				{# A propos #}
 				{% if aPropos %}
 					<li class="nav-item dropdown">
@@ -204,6 +208,8 @@
 							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>Contacts en attente</a>
 							{# Contacts #}
 							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Contacts validés</a>
+							{# Responsable des stages #}
+							<a class="dropdown-item" href={{ path('responsable_des_stages_rechercher') }}>Responsable des stages</a>
 						</div>
 					</li>
 				{% endif %}

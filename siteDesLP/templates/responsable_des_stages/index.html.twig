@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% if editMode %}
+        <h1>Modification du/de la responsable des stages {{ responsable_des_stages.nom }} {{ responsable_des_stages.prenom}}</h1>
+    {% else %}
+        <h1>Création d'un(e) responsable des stages</h1>
+    {% endif %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.nom, {
+        'label':'Nom de famille',
+        'attr' : {
+            'placeholder' : "Nom de famille"
+        }
+    }) }}
+    {{ form_row(form.prenom, {
+        'label':'Prénom',
+        'attr' : {
+            'placeholder' : "Prénom"
+        }
+    }) }}
+
+    {% if editMode %}
+        {{ form_row(form.login, {
+            'label':'Login de connexion',
+            'attr' : {
+                'placeholder' : "Login"
+            }
+        }) }}
+        {{ form_row(form.mailAcademique, {
+            'label':'Mail académique',
+            'attr' : {
+                'placeholder' : "Mail académique"
+            }
+        }) }}
+    {% endif %}
+
+
+    {% if editMode==false %}
+        {{ form_row(form.new_password, {
+            'label':'Mot de passe',
+            'attr' : {
+                'placeholder' : "Mot de passe"
+            }
+        }) }}
+        {{ form_row(form.confirmPassword, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe" }}) }}
+    {% endif %}
+
+    {# Bonton de création #}
+    <button type="submit" class="btn btn-success mb-5">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Créer le/la responsable des stages
+        {% endif %}
+    </button>
+    {{ form_end(form) }}
+
+
+{% endblock %}

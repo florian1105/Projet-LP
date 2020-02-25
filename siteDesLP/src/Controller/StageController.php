@@ -82,7 +82,6 @@ class StageController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
-
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
@@ -111,19 +110,22 @@ class StageController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function afficherInformationsStage(StageForm $stageForm=null,StageFormRepository $stageFormRepository){
-        if(!$stageForm && $this->getUser()->getRoles()=="ROLE_ETUDIANT"){
+        if(!$stageForm && $this->getUser()->getRoles()=="ROLE_ETUDIANT")
+        {
             $etudiant=$this->getUser();
             $id=$etudiant->getId();
             $stageForm=$stageFormRepository->findOneBy([
                 'etudiant' =>$id,
             ]);
         }
-        elseif ($stageForm){
+        elseif ($stageForm)
+        {
             return $this->render('stage/informations.html.twig',[
                 'stageForm' => $stageForm,
                 'etat' => $stageForm->getEtatStages()->getNomEtat(),
             ]);
         }
+
         return null ;
     }
 
@@ -413,5 +415,16 @@ class StageController extends AbstractController
             'controller_name' => 'StageController',
         ]);
     }
+
+    /**
+     * @Route("stage/afficher/attente", name="stage_afficher_attente")
+     */
+     public function afficherLesStagesEnAttente(StageFormRepository $repoS)
+     {
+       $lesStagesEnAttente = $repoS->findBy(['etatStages'=>'1']);
+       return $this->render('stage/afficherLesStagesEnAttente.html.twig',[
+         'lesStagesEnAttente' => $lesStagesEnAttente
+       ]);
+     }
 
 }

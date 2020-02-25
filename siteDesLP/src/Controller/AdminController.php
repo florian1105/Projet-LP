@@ -13,16 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminController extends AbstractController
 {
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function index()
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
-
+  
     /**
      * @Route("/admin/changer_mdp", name="admin_changer_mdp")
      */
