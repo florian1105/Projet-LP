@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -27,6 +28,10 @@ class Articles
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      max = 5000,
+     *      maxMessage = "Votre description ne peut pas dépasser 5000 caractères"
+     * )
      */
     private $description;
 
