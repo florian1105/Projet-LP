@@ -20,8 +20,9 @@ class Etudiants extends Utilisateurs implements UserInterface
 {
 
 
+
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private $mailAcademique;
 
@@ -220,7 +221,7 @@ class Etudiants extends Utilisateurs implements UserInterface
         return $this;
     }
 
-    public function getDernierePromo($classe):Promotions
+    public function getDernierePromo(?Classes $classe):Promotions
     {
       $lastPromo = null;
       if(!$classe->getPromotions()->isEmpty())

@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("mail", message="ce mail est déjà utilisé")
  *
  */
-abstract class Utilisateurs
+class Utilisateurs
 {
     /**
      * @ORM\Id()
@@ -25,7 +25,7 @@ abstract class Utilisateurs
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=24)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
      *
      * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
@@ -37,7 +37,7 @@ abstract class Utilisateurs
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=24)
      * @Assert\NotBlank(message="Veuillez renseigner un prénom")
      * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés au début.")
