@@ -71,14 +71,16 @@ class ContactsController extends AbstractController
         // Réception du form valide -> add/update
         if($form->isSubmitted() && $form->isValid())
         {
+            $contact->setMail(strtolower($contact->getMail()));
+
+            if($uRepo->mailExiste($contact->getMail(), $registry))
+            {
+                    $this->addFlash('mailExiste','Ce mail est déjà utilisé');
+                    if(!$editMode) return $this->redirectToRoute("contact_nouveau");
+                    else return $this->redirectToRoute("contact_modifier", ['id' => $contact->getId()]);
+            }
             if(!$editMode)
             {
-                $contact->setMail(strtolower($contact->getMail()));
-                if($uRepo->mailExiste($contact->getMail(), $registry))
-                {
-                    $this->addFlash('mailExiste','Ce mail est déjà utilisé');
-                    return $this->redirectToRoute("contact_nouveau");
-                }
                 $contact->setNom(strtoupper($contact->getNom()));
                 $contact->setPrenom(ucfirst(strtolower($contact->getPrenom())));
 
