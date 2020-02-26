@@ -3,19 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Contacts;
+use App\Services\Mailer;
 use App\Entity\Entreprises;
 use App\Repository\ContactRepository;
-use App\Services\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UtilisateursRepository;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\DependencyInjection\Tests\Compiler\C;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class ContactsController extends AbstractController
@@ -25,7 +27,7 @@ class ContactsController extends AbstractController
      * @Route("/contact/nouveau", name="contact_nouveau")
      * @Route("/contact/modifier/{id}", name="contact_modifier")
      */
-    public function formulaireContact(Contacts $contact = null, ContactRepository $repoS, Request $request, EntityManagerInterface $manager, Mailer $mailer, UserPasswordEncoderInterface $encoder)
+    public function formulaireContact(Contacts $contact = null, ManagerRegistry $registry, UtilisateursRepository $uRepo, ContactRepository $repoS, Request $request, EntityManagerInterface $manager, Mailer $mailer, UserPasswordEncoderInterface $encoder)
     {
         $editMode = true;
         if(!$contact)
@@ -71,9 +73,14 @@ class ContactsController extends AbstractController
         {
             if(!$editMode)
             {
+                $contact->setMail(strtolower($contact->getMail()));
+                if($uRepo->mailExiste($contact->getMail(), $registry))
+                {
+                    $this->addFlash('mailExiste','Ce mail est déjà utilisé');
+                    return $this->redirectToRoute("contact_nouveau");
+                }
                 $contact->setNom(strtoupper($contact->getNom()));
                 $contact->setPrenom(ucfirst(strtolower($contact->getPrenom())));
-                $this->addFlash('success','Le contact a bien été créé');
 
                 $bodyMail = $mailer->createBodyMail('contacts/mail_new_contact.html.twig', [
                     'contact' => $contact
@@ -200,7 +207,7 @@ class ContactsController extends AbstractController
     /**
      * @Route("contact_compte/changer_mdp/{id}", name="contact_changer_mdp")
      */
-    public function changePassword(Contacts $contact=null, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function changMdp(Contacts $contact=null, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         if($contact->getPassword()==null){
             $firstConnexion=true;

@@ -3,6 +3,15 @@
 
 {% block body %}
 
+    {% for msg in app.session.flashBag.get('mailExiste') %}
+        <div class="alert alert-danger" role="alert">
+            {{ msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
     {% if editMode %}
         <h1>Modification d'un contact {{ contacts.nom }} {{ contacts.prenom }}</h1>
     {% else %}
