@@ -104,7 +104,7 @@
 				{% endif %}
 
 				{% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
-				{{ this.boutonMenu( path('stage_afficher_attente') , "Demande de stage en attente") }}
+				{{ this.boutonMenu( path('stage_rechercher') , "Demande de stage en attente") }}
 				{% endif %}
 
 				{# A propos #}

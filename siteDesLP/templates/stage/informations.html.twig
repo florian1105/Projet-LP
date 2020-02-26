@@ -107,7 +107,7 @@
         </tbody>
     </table>
 
-    {% if is_granted('ROLE_RESPONSABLE_DES_STAGE') %}
+    {% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
         {% if etat=="Envoyer" %}
             <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
                 Valider la convention
@@ -125,9 +125,6 @@
     {% if is_granted('ROLE_SECRETAIRE') %}
 
         {% if etat=="Valider" %}
-            <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
-                Editer la convention
-            </a>
 
             <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
                 Valider les signatures

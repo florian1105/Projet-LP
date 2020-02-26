@@ -273,11 +273,14 @@ class StageController extends AbstractController
      * @param Options $options
      * @return string
      */
-    public function genererConvention(Stage $stage, \Swift_Mailer $mailer)
+    public function genererConvention(Stage $stage = null, \Swift_Mailer $mailer)
     {
 
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf();
+
+
+        $dompdf->setPaper('A4', 'portrait');
 
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView('stage/convention.html.twig', [
@@ -294,7 +297,6 @@ class StageController extends AbstractController
 
         $pdf = new \Swift_Attachment($dompdf->output(),'convention.pdf');
 
-
         $message = (new \Swift_Message())
             ->setSubject('convention de stage')
             ->setFrom('sitedeslp@gmail.com')
@@ -307,6 +309,25 @@ class StageController extends AbstractController
 
         $this->addFlash('success','La convention à bien été générer et envoyer à l\'étudiant');
         return $this->redirectToRoute('stage_rechercher');
+
+
+    }
+
+    /**
+     * Secretaire
+     *
+     * Affiche le formulaire de validation que toutes
+     * les signatures ont bien été reçues.
+     * @Route("/stage/afficher/{id}", name="stage_afficher_convention")
+     */
+    public function afiicherConvention(Stage $stage = null, EntityManagerInterface $manager, EtatStageRepository $etatRepo)
+    {
+
+
+        // Retrieve the HTML generated in our twig file
+        return $this->renderView('stage/convention.html.twig', [
+            'stage' => $stage
+        ]);
 
 
     }
@@ -355,14 +376,14 @@ class StageController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
 
-            $etatEnvoyer = $etatRepo->findOneBy(["id"=>"4"]);
-            $stageForm->setEtatStages($etatEnvoyer);
+            $etatCommencer = $etatRepo->findOneBy(["id"=>"4"]);
+            $stageForm->setEtatStages($etatCommencer);
             $manager->persist($stageForm);
             $manager->flush();
 
             $this->addFlash('success','Le Tuteur à bien été enregistrer ');
 
-            $this->redirectToRoute('stage_rechercher');
+            return $this->redirectToRoute('stage_rechercher');
 
         }
 

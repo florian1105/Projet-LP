@@ -64,6 +64,7 @@ class Stage
      */
     private $etudiant;
 
+
     public function __construct()
     {
         $this->tuteurEntrprise = new ArrayCollection();
