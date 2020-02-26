@@ -1,422 +1,436 @@
+
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
     <style type="text/css">
         <!--
-        span.cls_002{font-family:Times,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_002{font-family:Times,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_003{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_003{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_004{font-family:Times,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_004{font-family:Times,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_005{font-family:Times,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_005{font-family:Times,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_006{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        div.cls_006{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        span.cls_007{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_007{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_008{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_008{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_009{font-family:Times,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
-        div.cls_009{font-family:Times,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_010{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_010{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_011{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
-        div.cls_011{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
-        span.cls_012{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        div.cls_012{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        span.cls_015{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
-        div.cls_015{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
-        span.cls_013{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
-        div.cls_013{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
-        span.cls_019{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_019{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_014{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
-        div.cls_014{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_016{font-family:Times,serif;font-size:7.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        div.cls_016{font-family:Times,serif;font-size:7.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        span.cls_017{font-family:Times,serif;font-size:7.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        div.cls_017{font-family:Times,serif;font-size:7.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
-        span.cls_020{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: underline}
-        div.cls_020{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        span.cls_018{font-family:Times,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        div.cls_018{font-family:Times,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        span.cls_021{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
-        div.cls_021{font-family:Times,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_015{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_015{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_016{font-family:Arial,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_016{font-family:Arial,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_004{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_004{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_005{font-family:Times,serif;font-size:11.6px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_005{font-family:Times,serif;font-size:11.6px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_041{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
+        div.cls_041{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_006{font-family:"Calibri",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_006{font-family:"Calibri",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_007{font-family:"Calibri Italic",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+        div.cls_007{font-family:"Calibri Italic",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+        span.cls_008{font-family:"Calibri Bold",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_008{font-family:"Calibri Bold",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_010{font-family:Times,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_010{font-family:Times,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_011{font-family:Times,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_011{font-family:Times,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_042{font-family:"Calibri Bold",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: line-through}
+        div.cls_042{font-family:"Calibri Bold",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_012{font-family:"Calibri",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_012{font-family:"Calibri",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_013{font-family:"Calibri Bold Italic",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        div.cls_013{font-family:"Calibri Bold Italic",serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        span.cls_002{font-family:"Calibri",serif;font-size:7.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_002{font-family:"Calibri",serif;font-size:7.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_014{font-family:"Calibri",serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_014{font-family:"Calibri",serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_017{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_017{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_018{font-family:"Calibri Bold",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_018{font-family:"Calibri Bold",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_023{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_023{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_024{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_024{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_019{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_019{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_021{font-family:"Calibri",serif;font-size:6.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_021{font-family:"Calibri",serif;font-size:6.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_043{font-family:"Calibri",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: underline}
+        div.cls_043{font-family:"Calibri",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_022{font-family:"Calibri Bold Italic",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        div.cls_022{font-family:"Calibri Bold Italic",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        span.cls_026{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_026{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_027{font-family:Times,serif;font-size:18.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_027{font-family:Times,serif;font-size:18.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_028{font-family:Times,serif;font-size:16.0px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        div.cls_028{font-family:Times,serif;font-size:16.0px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        span.cls_044{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
+        div.cls_044{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_029{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_029{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_031{font-family:Times,serif;font-size:8.9px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_031{font-family:Times,serif;font-size:8.9px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_032{font-family:"Calibri Bold",serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_032{font-family:"Calibri Bold",serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_034{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_034{font-family:Times,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_035{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_035{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_045{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
+        div.cls_045{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_037{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        div.cls_037{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+        span.cls_038{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+        div.cls_038{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+        span.cls_036{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_036{font-family:Times,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_039{font-family:Times,serif;font-size:7.6px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_039{font-family:Times,serif;font-size:7.6px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_020{font-family:"Calibri Italic",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+        div.cls_020{font-family:"Calibri Italic",serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
         -->
     </style>
+    <script type="text/javascript" src="d80be0c4-58a0-11ea-8b25-0cc47a792c0a_id_d80be0c4-58a0-11ea-8b25-0cc47a792c0a_files/wz_jsgraphics.js"></script>
 </head>
 <body>
-<div style="position:absolute;left:50%;margin-left:-288px;top:0px;width:576px;height:842px;border-style:outset;overflow:hidden">
-    <div style="position:absolute;left:165.60px;top:40.96px" class="cls_002"><span class="cls_002">Année universitaire 2019 / 2020</span></div>
-    <div style="position:absolute;left:179.52px;top:65.76px" class="cls_003"><span class="cls_003">Convention de stage obligatoire</span></div>
-    <div style="position:absolute;left:251.76px;top:88.32px" class="cls_003"><span class="cls_003">entre :</span></div>
-    <div style="position:absolute;left:49.92px;top:114.08px" class="cls_005"><span class="cls_005">1- L'ETABLISSEMENT D'ENSEIGNEMENT :</span></div>
-    <div style="position:absolute;left:290.88px;top:114.56px" class="cls_005"><span class="cls_005">2- L'ORGANISME D'ACCUEIL :</span></div>
-    <div style="position:absolute;left:50.40px;top:129.24px" class="cls_006"><span class="cls_006">Nom : </span><span class="cls_007">Universite de Montpellier</span></div>
-    <div style="position:absolute;left:290.88px;top:129.72px" class="cls_007"><span class="cls_007">Nom : </span><span class="cls_006">Credit Agricole Technologies et Services</span></div>
-    <div style="position:absolute;left:49.68px;top:144.60px" class="cls_006"><span class="cls_006">Adresse : </span><span class="cls_007">163 rue Auguste Broussonet 34090</span></div>
-    <div style="position:absolute;left:290.40px;top:144.60px" class="cls_006"><span class="cls_006">Adresse : Avenue du Montpellieret</span></div>
-    <div style="position:absolute;left:50.40px;top:158.08px" class="cls_007"><span class="cls_007">Montpellier</span></div>
-    <div style="position:absolute;left:290.40px;top:159.24px" class="cls_006"><span class="cls_006">34973 Maurin ( Lattes Cedex)</span></div>
-    <div style="position:absolute;left:50.40px;top:171.96px" class="cls_006"><span class="cls_006">N° SIRET </span><span class="cls_007">: 130 020 548 000 17 </span><span class="cls_006">Code APE : </span><span class="cls_007">8542 Z</span></div>
-    <div style="position:absolute;left:290.64px;top:173.88px" class="cls_007"><span class="cls_007">N° </span><span class="cls_006">SIRET : 52132040800037</span></div>
-    <div style="position:absolute;left:50.64px;top:187.08px" class="cls_006"><span class="cls_006">Représenté par : </span><span class="cls_007">Philippe AUGE</span></div>
-    <div style="position:absolute;left:290.16px;top:188.76px" class="cls_006"><span class="cls_006">Code APE : .........................................</span></div>
-    <div style="position:absolute;left:50.40px;top:202.20px" class="cls_006"><span class="cls_006">Qualité du représentant : </span><span class="cls_007">President</span></div>
-    <div style="position:absolute;left:290.40px;top:203.64px" class="cls_006"><span class="cls_006">Représenté par : Khentous Anissa</span></div>
-    <div style="position:absolute;left:50.16px;top:217.32px" class="cls_006"><span class="cls_006">Composante : </span><span class="cls_007">IUT de Montpellier-Sete</span></div>
-    <div style="position:absolute;left:290.16px;top:218.04px" class="cls_006"><span class="cls_006">Qualité du représentant : Stagiaire developpeur informatique.</span></div>
-    <div style="position:absolute;left:50.40px;top:232.44px" class="cls_006"><span class="cls_006">Représenté par : </span><span class="cls_007">Matteo VALENZA</span></div>
-    <div style="position:absolute;left:289.92px;top:233.40px" class="cls_006"><span class="cls_006">Service d'affectation du stagiaire : ................................</span></div>
-    <div style="position:absolute;left:50.16px;top:247.08px" class="cls_006"><span class="cls_006">Qualité du représentant : </span><span class="cls_007">Directeur</span></div>
-    <div style="position:absolute;left:289.68px;top:248.04px" class="cls_006"><span class="cls_006">Adresse du lieu de stage (si differente) : identique</span></div>
-    <div style="position:absolute;left:49.92px;top:261.96px" class="cls_006"><span class="cls_006">Assisté de M. Francis GARCIA</span></div>
-    <div style="position:absolute;left:289.68px;top:263.64px" class="cls_006"><span class="cls_006">Téléphone : 0499510257</span></div>
-    <div style="position:absolute;left:50.16px;top:276.60px" class="cls_006"><span class="cls_006">Chef de departement Informatique</span></div>
-    <div style="position:absolute;left:289.68px;top:278.28px" class="cls_006"><span class="cls_006">Courriel : marine.m.roig@ca-ts.fr</span></div>
-    <div style="position:absolute;left:49.92px;top:291.96px" class="cls_006"><span class="cls_006">Adresse : </span><span class="cls_007">99 avenue d'Occitanie 34296 Montpellier</span></div>
-    <div style="position:absolute;left:290.16px;top:293.88px" class="cls_006"><span class="cls_006">Fax :</span></div>
-    <div style="position:absolute;left:49.92px;top:304.96px" class="cls_007"><span class="cls_007">cedex5</span></div>
-    <div style="position:absolute;left:49.68px;top:319.08px" class="cls_006"><span class="cls_006">Téléphone : 04.99.58.51.80</span></div>
-    <div style="position:absolute;left:49.44px;top:333.96px" class="cls_006"><span class="cls_006">Courriel : iutms-info@umontpellier.fr</span></div>
-    <div style="position:absolute;left:49.68px;top:348.84px" class="cls_006"><span class="cls_006">Fax : 04.99.58.51.76</span></div>
-    <div style="position:absolute;left:49.44px;top:370.64px" class="cls_008"><span class="cls_008">3</span><span class="cls_007">- </span><span class="cls_005">LE STAGIAIRE :</span></div>
-    <div style="position:absolute;left:50.16px;top:383.40px" class="cls_006"><span class="cls_006">Nom : MARIE</span></div>
-    <div style="position:absolute;left:132.48px;top:383.40px" class="cls_006"><span class="cls_006">Prenom : Florian</span></div>
-    <div style="position:absolute;left:50.16px;top:395.64px" class="cls_006"><span class="cls_006">N° etudiant : 0209023035b</span></div>
-    <div style="position:absolute;left:49.92px;top:407.88px" class="cls_006"><span class="cls_006">Sexe : M</span></div>
-    <div style="position:absolute;left:100.08px;top:407.88px" class="cls_006"><span class="cls_006">Ne(e) le :</span></div>
-    <div style="position:absolute;left:139.20px;top:407.88px" class="cls_006"><span class="cls_006">11/05/1999</span></div>
-    <div style="position:absolute;left:49.44px;top:419.88px" class="cls_006"><span class="cls_006">Adresse : 13 rue cite bousquet - 34090 MONTPELLIER</span></div>
-    <div style="position:absolute;left:48.96px;top:432.36px" class="cls_006"><span class="cls_006">Téléphone : 0673568650</span></div>
-    <div style="position:absolute;left:48.96px;top:444.36px" class="cls_006"><span class="cls_006">Courriel : florian110599@gmail.com</span></div>
-    <div style="position:absolute;left:307.92px;top:460.00px" class="cls_007"><span class="cls_007">— Developpement E.Business (API-Dae)</span></div>
-    <div style="position:absolute;left:48.96px;top:459.76px" class="cls_007"><span class="cls_007">LICENCE PROFESSIONNELLE ASSISTANT PROJET INFORMATIQUE</span></div>
-    <div style="position:absolute;left:48.48px;top:481.04px" class="cls_005"><span class="cls_005">SUJET DE STAGE : </span><span class="cls_006">Preparer l'outil « PSI CAT's » pourle prochain PSI ( Plan de Sauvegarde de L'information) pour</span></div>
-    <div style="position:absolute;left:296.64px;top:492.84px" class="cls_006"><span class="cls_006">travaux des 10 et 11 novembre).</span></div>
-    <div style="position:absolute;left:48.48px;top:492.84px" class="cls_006"><span class="cls_006">lequel des evolutions sont demandees (suite a l'observation des</span></div>
-    <div style="position:absolute;left:299.76px;top:507.00px" class="cls_006"><span class="cls_006">PHP, My SQL et Vue JS.</span></div>
-    <div style="position:absolute;left:48.00px;top:507.00px" class="cls_006"><span class="cls_006">Avec comme environnement technique : HTML, CSS, J Query,</span></div>
-    <div style="position:absolute;left:48.48px;top:535.56px" class="cls_006"><span class="cls_006">Dates du 16 mars 2020 au 26 juin 2020 - Representant une duree totale de : 15 semaines</span></div>
-    <div style="position:absolute;left:48.24px;top:551.40px" class="cls_006"><span class="cls_006">Et correspondant à ..........</span></div>
-    <div style="position:absolute;left:143.52px;top:550.68px" class="cls_006"><span class="cls_006">jours de présence dans l'organisme d'acceuil.</span></div>
-    <div style="position:absolute;left:48.24px;top:564.88px" class="cls_007"><span class="cls_007">NATURE DU STAGE :</span></div>
-    <div style="position:absolute;left:164.88px;top:563.40px" class="cls_006"><span class="cls_006">DUT</span></div>
-    <div style="position:absolute;left:220.80px;top:564.16px" class="cls_007"><span class="cls_007">Licence Professionnelle</span></div>
-    <div style="position:absolute;left:326.88px;top:563.40px" class="cls_006"><span class="cls_006">(rayer mentions inutiles)</span></div>
-    <div style="position:absolute;left:48.00px;top:582.12px" class="cls_007"><span class="cls_007">Nombre </span><span class="cls_006">d'heures par semaine : 35 heures.</span></div>
-    <div style="position:absolute;left:48.24px;top:609.92px" class="cls_009"><span class="cls_009">ENCADREMENT DU STAGIAIRE PAR</span></div>
-    <div style="position:absolute;left:303.60px;top:610.16px" class="cls_009"><span class="cls_009">ENCADREMENT DU STAGIAIRE PAR</span></div>
-    <div style="position:absolute;left:48.24px;top:621.44px" class="cls_009"><span class="cls_009">L'ETABLISSEMENT D'ENSEIGNEMENT :</span></div>
-    <div style="position:absolute;left:303.36px;top:622.16px" class="cls_009"><span class="cls_009">L'ORGANISME D'ACCUEIL :</span></div>
-    <div style="position:absolute;left:48.24px;top:637.36px" class="cls_007"><span class="cls_007">Nom et prenom de <l></l>l'enseignant référent :</span></div>
-    <div style="position:absolute;left:303.36px;top:638.56px" class="cls_007"><span class="cls_007">Nom et prenom du tuteur de stage :</span></div>
-    <div style="position:absolute;left:48.48px;top:651.24px" class="cls_006"><span class="cls_006">PALLEJA Nathalie</span></div>
-    <div style="position:absolute;left:303.36px;top:651.96px" class="cls_006"><span class="cls_006">SOUEF Laurent</span></div>
-    <div style="position:absolute;left:48.48px;top:665.88px" class="cls_006"><span class="cls_006">Fonction ou discipline : Responsable des Stages LP</span></div>
-    <div style="position:absolute;left:303.12px;top:665.88px" class="cls_006"><span class="cls_006">Fonction ou discipline : Ingenieur Concepteur Developpeur</span></div>
-    <div style="position:absolute;left:48.00px;top:680.28px" class="cls_006"><span class="cls_006">Téléphone : 04.99.58.51.92</span></div>
-    <div style="position:absolute;left:302.88px;top:678.36px" class="cls_006"><span class="cls_006">confirms.</span></div>
-    <div style="position:absolute;left:48.24px;top:694.92px" class="cls_006"><span class="cls_006">Courriel : nathalie.palleja@umontpellier.fr</span></div>
-    <div style="position:absolute;left:302.64px;top:692.28px" class="cls_006"><span class="cls_006">Téléphone : 0499510364</span></div>
-    <div style="position:absolute;left:302.64px;top:706.68px" class="cls_006"><span class="cls_006">Courriel : Laurent.SOUEF@ca-ts.fr</span></div>
-    <div style="position:absolute;left:48.00px;top:735.24px" class="cls_006"><span class="cls_006">Caisse Primaire d'assurance maladie à contacter en cas d'accident (lieu du domicile du stagiaire sauf exception) :</span></div>
-    <div style="position:absolute;left:47.28px;top:748.12px" class="cls_010"><span class="cls_010">A </span><span class="cls_011">completer par l'étudlant</span></div>
-    <div style="position:absolute;left:30.72px;top:808.80px" class="cls_004"><span class="cls_004">Convention de stage UM / IUTMS version 19/09/2016</span></div>
-    <div style="position:absolute;left:461.28px;top:809.76px" class="cls_004"><span class="cls_004">1/4</span></div>
+<div style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
+    <div style="position:absolute;left:0px;top:0px">
+        <img src="d80be0c4-58a0-11ea-8b25-0cc47a792c0a_id_d80be0c4-58a0-11ea-8b25-0cc47a792c0a_files/background1.jpg" width=595 height=841></div>
+    <div style="position:absolute;left:169.61px;top:40.84px" class="cls_015"><span class="cls_015">Année universitaire 2019 / 2020</span></div>
+    <div style="position:absolute;left:183.77px;top:65.70px" class="cls_016"><span class="cls_016">Convention de stage obligatoire</span></div>
+    <div style="position:absolute;left:257.69px;top:85.62px" class="cls_016"><span class="cls_016">entre :</span></div>
+    <div style="position:absolute;left:52.58px;top:112.26px" class="cls_004"><span class="cls_004">1-</span><span class="cls_005"> </span><span class="cls_041">L’ETABLISSEMENT D’ENSEIGNEMENT :</span></div>
+    <div style="position:absolute;left:298.03px;top:113.82px" class="cls_004"><span class="cls_004">2-</span><span class="cls_041"> L’ORGANISME D’ACCUEIL :</span></div>
+    <div style="position:absolute;left:52.58px;top:127.98px" class="cls_006"><span class="cls_006">Nom</span><span class="cls_007"> </span><span class="cls_006">:</span><span class="cls_008"> Université de Montpellier</span></div>
+    <div style="position:absolute;left:298.03px;top:127.98px" class="cls_006"><span class="cls_006">Nom : </span><span class="cls_010">Crédit Agricole Technologies et Services</span></div>
+    <div style="position:absolute;left:52.58px;top:142.74px" class="cls_006"><span class="cls_006">Adresse :</span><span class="cls_008"> 163 rue Auguste Broussonet 34090</span></div>
+    <div style="position:absolute;left:298.03px;top:142.74px" class="cls_006"><span class="cls_006">Adresse : </span><span class="cls_010">Avenue du Montpellieret</span></div>
+    <div style="position:absolute;left:52.58px;top:154.98px" class="cls_008"><span class="cls_008">Montpellier</span></div>
+    <div style="position:absolute;left:298.03px;top:157.02px" class="cls_010"><span class="cls_010">34973 Maurin ( Lattes Cedex)</span></div>
+    <div style="position:absolute;left:52.58px;top:169.62px" class="cls_006"><span class="cls_006">N° SIRET : </span><span class="cls_008">130 020 548 000 17</span><span class="cls_006"> Code APE : </span><span class="cls_008">8542 Z</span></div>
+    <div style="position:absolute;left:298.03px;top:171.42px" class="cls_006"><span class="cls_006">N° SIRET : </span><span class="cls_010">52132040800037</span></div>
+    <div style="position:absolute;left:52.58px;top:184.38px" class="cls_006"><span class="cls_006">Représenté par</span><span class="cls_008"> : Philippe AUGÉ</span></div>
+    <div style="position:absolute;left:298.03px;top:186.18px" class="cls_006"><span class="cls_006">Code APE :͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙</span></div>
+    <div style="position:absolute;left:52.58px;top:199.02px" class="cls_006"><span class="cls_006">Qualité du représentant :</span><span class="cls_008"> Président</span></div>
+    <div style="position:absolute;left:298.03px;top:200.82px" class="cls_006"><span class="cls_006">Représenté par : </span><span class="cls_010">Khentous Anissa</span></div>
+    <div style="position:absolute;left:52.58px;top:213.78px" class="cls_006"><span class="cls_006">Composante :</span><span class="cls_008"> IUT de Montpellier-Sète</span></div>
+    <div style="position:absolute;left:298.03px;top:215.58px" class="cls_006"><span class="cls_006">Qualité du représentant : </span><span class="cls_010">Stagiaire développeur informatique.</span></div>
+    <div style="position:absolute;left:52.58px;top:228.57px" class="cls_006"><span class="cls_006">Représenté par :</span><span class="cls_008"> Mattéo VALENZA</span></div>
+    <div style="position:absolute;left:298.03px;top:230.25px" class="cls_006"><span class="cls_006">Service d’affectation du stagiaire :͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙</span></div>
+    <div style="position:absolute;left:52.58px;top:243.21px" class="cls_006"><span class="cls_006">Qualité du représentant :</span><span class="cls_008"> Directeur</span></div>
+    <div style="position:absolute;left:298.03px;top:245.01px" class="cls_006"><span class="cls_006">Adresse du lieu de stage (si différente) : </span><span class="cls_010">identique</span></div>
+    <div style="position:absolute;left:52.58px;top:257.97px" class="cls_006"><span class="cls_006">Assisté de M. Francis GARCIA</span></div>
+    <div style="position:absolute;left:298.03px;top:259.77px" class="cls_006"><span class="cls_006">Téléphone : </span><span class="cls_010">0499510257</span></div>
+    <div style="position:absolute;left:52.58px;top:272.61px" class="cls_006"><span class="cls_006">Chef de département Informatique</span></div>
+    <div style="position:absolute;left:298.03px;top:274.41px" class="cls_006"><span class="cls_006">Courriel : </span><span class="cls_010">marine.m.roig@ca-ts.fr</span></div>
+    <div style="position:absolute;left:52.58px;top:287.37px" class="cls_006"><span class="cls_006">Adresse : </span><span class="cls_008">99 avenue d’Occitanie 34296 Montpellier</span></div>
+    <div style="position:absolute;left:298.03px;top:287.61px" class="cls_006"><span class="cls_006">Fax :͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙.</span></div>
+    <div style="position:absolute;left:52.58px;top:299.49px" class="cls_008"><span class="cls_008">cedex5</span></div>
+    <div style="position:absolute;left:52.58px;top:314.25px" class="cls_006"><span class="cls_006">Téléphone : 04.99.58.51.80</span></div>
+    <div style="position:absolute;left:52.58px;top:329.01px" class="cls_006"><span class="cls_006">Courriel : iutms-info@umontpellier.fr</span></div>
+    <div style="position:absolute;left:52.58px;top:342.09px" class="cls_006"><span class="cls_006">Fax : 04.99.58.51.76</span></div>
+    <div style="position:absolute;left:52.58px;top:366.33px" class="cls_041"><span class="cls_041">3- LE STAGIAIRE :</span></div>
+    <div style="position:absolute;left:52.58px;top:377.97px" class="cls_006"><span class="cls_006">Nom</span><span class="cls_008"> : </span><span class="cls_010">MARIE</span></div>
+    <div style="position:absolute;left:136.82px;top:377.97px" class="cls_006"><span class="cls_006">Prénom</span><span class="cls_008"> : </span><span class="cls_010">Florian</span></div>
+    <div style="position:absolute;left:52.58px;top:390.21px" class="cls_006"><span class="cls_006">N° étudiant</span><span class="cls_008"> :</span><span class="cls_006"> </span><span class="cls_010">0209023035b</span></div>
+    <div style="position:absolute;left:52.58px;top:402.35px" class="cls_006"><span class="cls_006">Sexe : </span><span class="cls_010">M</span><span class="cls_006">       Né(e) le : </span><span class="cls_010">11/05/1999</span></div>
+    <div style="position:absolute;left:52.58px;top:414.59px" class="cls_006"><span class="cls_006">Adresse : </span><span class="cls_010">13 rue cité bousquet</span><span class="cls_006"> - </span><span class="cls_010">34090</span><span class="cls_006"> </span><span class="cls_010">MONTPELLIER</span></div>
+    <div style="position:absolute;left:52.58px;top:426.83px" class="cls_006"><span class="cls_006">Téléphone : </span><span class="cls_010">0673568650</span></div>
+    <div style="position:absolute;left:52.58px;top:438.95px" class="cls_006"><span class="cls_006">Courriel : </span><span class="cls_010">florian110599@gmail.com</span></div>
+    <div style="position:absolute;left:52.58px;top:452.15px" class="cls_008"><span class="cls_008">LICENCE PROFESSIONNELLE ASSISTANT PROJET INFORMATIQUE - Développement E.Business (API-Dae)</span></div>
+    <div style="position:absolute;left:52.58px;top:476.15px" class="cls_041"><span class="cls_041">SUJET DE STAGE</span><span class="cls_011"> : </span><span class="cls_010">Préparer l’outil « PSI CAT’s ª pour le prochain PSI ( Plan de Sauvegarde de L’information) pour</span></div>
+    <div style="position:absolute;left:52.58px;top:487.55px" class="cls_010"><span class="cls_010">lequel des évolutions sont demandées (suite à l'observation des travaux des 10 et 11 novembre).</span></div>
+    <div style="position:absolute;left:52.58px;top:501.59px" class="cls_010"><span class="cls_010">Avec comme environnement technique : HTML, CSS, J Query, PHP, My SQL et Vue JS.</span></div>
+    <div style="position:absolute;left:52.58px;top:530.03px" class="cls_006"><span class="cls_006">Dates du 16 mars 2020 au 26 juin 2020 -   Représentant une durée totale de : 15 semaines</span></div>
+    <div style="position:absolute;left:52.58px;top:544.79px" class="cls_006"><span class="cls_006">Et corresƉondant ă ͙͙..jours de Ɖrésence dans l’organisme d’accueil.</span></div>
+    <div style="position:absolute;left:52.58px;top:557.06px" class="cls_008"><span class="cls_008">NATURE DU STAGE :</span></div>
+    <div style="position:absolute;left:172.73px;top:557.06px" class="cls_042"><span class="cls_042">DUT</span></div>
+    <div style="position:absolute;left:229.13px;top:557.06px" class="cls_008"><span class="cls_008">Licence Professionnelle</span></div>
+    <div style="position:absolute;left:338.11px;top:557.06px" class="cls_012"><span class="cls_012">(rayer mentions inutiles)</span></div>
+    <div style="position:absolute;left:52.58px;top:575.30px" class="cls_006"><span class="cls_006">Nombre d’heures Ɖar semaine : 35 heures.</span></div>
+    <div style="position:absolute;left:52.58px;top:604.10px" class="cls_041"><span class="cls_041">ENCADREMENT DU STAGIAIRE PAR</span></div>
+    <div style="position:absolute;left:314.47px;top:604.10px" class="cls_041"><span class="cls_041">ENCADREMENT DU STAGIAIRE PAR</span></div>
+    <div style="position:absolute;left:52.58px;top:615.62px" class="cls_041"><span class="cls_041">L’ETABLISSEMENT D’ENSEIGNEMENT :</span></div>
+    <div style="position:absolute;left:314.47px;top:615.62px" class="cls_041"><span class="cls_041">L’ORGANISME D’ACCUEIL :</span></div>
+    <div style="position:absolute;left:52.58px;top:629.78px" class="cls_008"><span class="cls_008">Nom et prénom de l’enseignant référent :</span></div>
+    <div style="position:absolute;left:314.47px;top:629.78px" class="cls_008"><span class="cls_008">Nom et prénom du tuteur de stage :</span></div>
+    <div style="position:absolute;left:52.58px;top:644.54px" class="cls_006"><span class="cls_006">PALLEJA Nathalie</span></div>
+    <div style="position:absolute;left:314.47px;top:644.06px" class="cls_010"><span class="cls_010">SOUEF Laurent</span></div>
+    <div style="position:absolute;left:52.58px;top:659.18px" class="cls_006"><span class="cls_006">Fonction ou discipline : Responsable des Stages LP</span></div>
+    <div style="position:absolute;left:314.47px;top:658.46px" class="cls_006"><span class="cls_006">Fonction ou discipline : </span><span class="cls_010">Ingénieur Concepteur Développeur</span></div>
+    <div style="position:absolute;left:314.47px;top:670.22px" class="cls_010"><span class="cls_010">confirmé.</span></div>
+    <div style="position:absolute;left:52.58px;top:673.94px" class="cls_006"><span class="cls_006">Téléphone : 04.99.58.51.92</span></div>
+    <div style="position:absolute;left:314.47px;top:684.74px" class="cls_006"><span class="cls_006">Téléphone : </span><span class="cls_010">0499510364</span></div>
+    <div style="position:absolute;left:52.58px;top:688.58px" class="cls_006"><span class="cls_006">Courriel : nathalie.palleja@umontpellier.fr</span></div>
+    <div style="position:absolute;left:314.47px;top:699.38px" class="cls_006"><span class="cls_006">Courriel : </span><span class="cls_010">Laurent.SOUEF@ca-ts.fr</span></div>
+    <div style="position:absolute;left:52.58px;top:728.68px" class="cls_006"><span class="cls_006">Caisse Primaire d’assurance maladie ă contacter en cas d’accident (lieu du domicile du stagiaire sauf exceƉtion) :</span></div>
+    <div style="position:absolute;left:52.58px;top:743.32px" class="cls_013"><span class="cls_013">À compléter par l’étudiant</span><span class="cls_006">  ͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙.</span></div>
+    <div style="position:absolute;left:36.00px;top:801.52px" class="cls_002"><span class="cls_002">Convention de stage UM / IUTMS version 19/09/2016</span></div>
+    <div style="position:absolute;left:478.54px;top:800.44px" class="cls_014"><span class="cls_014">1/4</span></div>
 </div>
-
-
-<div style="position:absolute;left:50%;margin-left:-288px;top:852px;width:576px;height:842px;border-style:outset;overflow:hidden">
-    <div style="position:absolute;left:58.80px;top:28.48px" class="cls_007"><span class="cls_007">Article 1 : Objet de la convention</span></div>
-    <div style="position:absolute;left:314.64px;top:31.12px" class="cls_012"><span class="cls_012">dont la duree est inferieure ou egale a deux mois.</span></div>
-    <div style="position:absolute;left:314.40px;top:41.44px" class="cls_012"><span class="cls_012">En cas de suspension ou </span><span class="cls_015">de </span><span class="cls_012">resiliation </span><span class="cls_015">de </span><span class="cls_012">la presente convention, le</span></div>
-    <div style="position:absolute;left:57.60px;top:46.24px" class="cls_012"><span class="cls_012">La presente convention regle les rapports de ('organisme d'accuell</span></div>
-    <div style="position:absolute;left:313.92px;top:55.12px" class="cls_012"><span class="cls_012">montant de la gratification due au (a la) stagiaire est prorat</span></div>
-    <div style="position:absolute;left:525.84px;top:53.92px" class="cls_012"><span class="cls_012">ise en</span></div>
-    <div style="position:absolute;left:57.12px;top:58.96px" class="cls_012"><span class="cls_012">(entreprise, organisme public, association...) avec l'etablissement</span></div>
-    <div style="position:absolute;left:313.20px;top:68.32px" class="cls_012"><span class="cls_012">fonction </span><span class="cls_015">de </span><span class="cls_012">la duree du stage effectue.</span></div>
-    <div style="position:absolute;left:56.64px;top:71.20px" class="cls_012"><span class="cls_012">d'enseignement superieur et le (Ia) stagiaire.</span></div>
-    <div style="position:absolute;left:313.20px;top:79.36px" class="cls_012"><span class="cls_012">La duree donnant droit a gratification s'apprecie compte tenu de la</span></div>
-    <div style="position:absolute;left:55.44px;top:89.68px" class="cls_007"><span class="cls_007">Article 2 : ObJectif du stage</span></div>
-    <div style="position:absolute;left:312.96px;top:91.84px" class="cls_012"><span class="cls_012">presente convention et de ses avenants eventuels, ainsi que du</span></div>
-    <div style="position:absolute;left:55.44px;top:107.44px" class="cls_012"><span class="cls_012">Le stage de formation a pour objet de permettre a l'etudiant(e) de</span></div>
-    <div style="position:absolute;left:312.48px;top:104.56px" class="cls_012"><span class="cls_012">nombre  de  jours  de  presence  effective  du  stagiaire dans</span></div>
-    <div style="position:absolute;left:54.96px;top:119.92px" class="cls_012"><span class="cls_012">mettre en pratique les outils theoriques et methodologiques acquis</span></div>
-    <div style="position:absolute;left:312.00px;top:118.24px" class="cls_012"><span class="cls_012">('organisme.</span></div>
-    <div style="position:absolute;left:54.24px;top:132.64px" class="cls_012"><span class="cls_012">au cours de sa formation, d'identlfier ses competences et de</span></div>
-    <div style="position:absolute;left:311.76px;top:129.28px" class="cls_007"><span class="cls_007">Le montant horaire legal et minimal de Ia gratification est fixe</span></div>
-    <div style="position:absolute;left:53.76px;top:144.88px" class="cls_012"><span class="cls_012">conforter son objectif professionnel.</span></div>
-    <div style="position:absolute;left:310.80px;top:142.96px" class="cls_007"><span class="cls_007">3.90 euros/heure.</span></div>
-    <div style="position:absolute;left:310.80px;top:154.24px" class="cls_007"><span class="cls_007">L'entreprise peut choisir le lissage mensuel de Ia gratification sur</span></div>
-    <div style="position:absolute;left:53.28px;top:163.60px" class="cls_012"><span class="cls_012">Le stage a ainsi pour but de preparer l'etudlant(e) a l'entrée dans la</span></div>
-    <div style="position:absolute;left:310.32px;top:166.72px" class="cls_007"><span class="cls_007">Ia duree totale du stage, ou le reel mensuel en fonction de la</span></div>
-    <div style="position:absolute;left:52.56px;top:175.84px" class="cls_012"><span class="cls_012">vie active par une meilleure connaissance de ('organisme d'accuell.</span></div>
-    <div style="position:absolute;left:309.84px;top:179.92px" class="cls_007"><span class="cls_007">presence </span><span class="cls_013">effective </span><span class="cls_007">de l'etudiant :</span></div>
-    <div style="position:absolute;left:52.32px;top:188.56px" class="cls_012"><span class="cls_012">Le stage s'inscrit dans le cadre de Ia formation et </span><span class="cls_015">du </span><span class="cls_012">projet</span></div>
-    <div style="position:absolute;left:326.16px;top:192.64px" class="cls_019"><span class="cls_019">❑</span><span class="cls_007">  LISSAGE :</span></div>
-    <div style="position:absolute;left:51.84px;top:200.80px" class="cls_012"><span class="cls_012">personnel et professionnel de l'etudiant(e). II entre dans son cursus</span></div>
-    <div style="position:absolute;left:309.36px;top:202.48px" class="cls_012"><span class="cls_012">Le montant de la gratification est fixe a</span></div>
-    <div style="position:absolute;left:490.32px;top:201.76px" class="cls_012"><span class="cls_012">€ par mois.</span></div>
-    <div style="position:absolute;left:51.12px;top:213.76px" class="cls_012"><span class="cls_012">peclagogique.</span></div>
-    <div style="position:absolute;left:308.88px;top:214.24px" class="cls_012"><span class="cls_012">Modalites de versement de la gratification : </span><span class="cls_007">Virement bancaire.</span></div>
-    <div style="position:absolute;left:324.96px;top:228.16px" class="cls_019"><span class="cls_019">❑</span><span class="cls_007">   REEL:</span></div>
-    <div style="position:absolute;left:50.16px;top:232.00px" class="cls_012"><span class="cls_012">Le programme du stage est eta bli par l'etablissement et ('organisme</span></div>
-    <div style="position:absolute;left:49.44px;top:244.48px" class="cls_012"><span class="cls_012">d'accueil en fonction du programme general de Ia formation</span></div>
-    <div style="position:absolute;left:431.52px;top:248.08px" class="cls_013"><span class="cls_013">Nbre</span></div>
-    <div style="position:absolute;left:490.08px;top:247.36px" class="cls_007"><span class="cls_007">Montant</span></div>
-    <div style="position:absolute;left:48.96px;top:257.20px" class="cls_012"><span class="cls_012">dispensee.</span></div>
-    <div style="position:absolute;left:355.68px;top:254.08px" class="cls_012"><span class="cls_012">Mois</span></div>
-    <div style="position:absolute;left:430.08px;top:258.40px" class="cls_014"><span class="cls_014">jours</span></div>
-    <div style="position:absolute;left:479.52px;top:257.44px" class="cls_014"><span class="cls_014">gratification E</span></div>
-    <div style="position:absolute;left:47.76px;top:275.44px" class="cls_007"><span class="cls_007">Article 3: Modalite du stage</span></div>
-    <div style="position:absolute;left:47.28px;top:293.44px" class="cls_012"><span class="cls_012">La duree hebdomadaire maximale de presence du (de la) stagiaire</span></div>
-    <div style="position:absolute;left:46.80px;top:305.92px" class="cls_012"><span class="cls_012">dans l'entreprise sera de 35.00 heures. Le stage est a temps plein.</span></div>
-    <div style="position:absolute;left:306.00px;top:311.20px" class="cls_012"><span class="cls_012">Moda Res de versement de Ia gratification : </span><span class="cls_007">Virement bancaire.</span></div>
-    <div style="position:absolute;left:45.60px;top:318.64px" class="cls_016"><span class="cls_016">Si </span><span class="cls_012">le (Ia) stagiaire dolt etre present(e) dans l'organisme d'accueil Ia</span></div>
-    <div style="position:absolute;left:45.36px;top:331.36px" class="cls_012"><span class="cls_012">nuit, le dimanche ou un jour ferie,</span></div>
-    <div style="position:absolute;left:182.64px;top:331.84px" class="cls_012"><span class="cls_012">('organisme dolt indiquer ci-</span></div>
-    <div style="position:absolute;left:44.88px;top:344.08px" class="cls_012"><span class="cls_012">dessous les </span><span class="cls_015">cas </span><span class="cls_012">particuliers :</span></div>
-    <div style="position:absolute;left:304.56px;top:339.76px" class="cls_007"><span class="cls_007">Article 5 bls  Acces aux droits des salaries</span></div>
-    <div style="position:absolute;left:304.32px;top:364.24px" class="cls_012"><span class="cls_012">(Organisme  de droit prive en France sauf en cas de</span></div>
-    <div style="position:absolute;left:520.08px;top:364.24px" class="cls_012"><span class="cls_012">*les</span></div>
-    <div style="position:absolute;left:42.96px;top:375.28px" class="cls_007"><span class="cls_007">Article 4 : Statut du stagiaire </span><span class="cls_017">- </span><span class="cls_007">Accueil et encadrement</span></div>
-    <div style="position:absolute;left:303.84px;top:376.72px" class="cls_012"><span class="cls_012">particulieres applicables dans certaines collectivites d'outre-mer</span></div>
-    <div style="position:absolute;left:41.76px;top:392.80px" class="cls_012"><span class="cls_012">L'etudiant(e) pendant Ia duree </span><span class="cls_015">de </span><span class="cls_012">son stage dans</span></div>
-    <div style="position:absolute;left:240.48px;top:392.56px" class="cls_012"><span class="cls_012">('organisme</span></div>
-    <div style="position:absolute;left:303.12px;top:389.44px" class="cls_012"><span class="cls_012">frangaises) :</span></div>
-    <div style="position:absolute;left:40.56px;top:405.28px" class="cls_012"><span class="cls_012">d'accueil,  conserve son statut anterieur; it</span></div>
-    <div style="position:absolute;left:216.00px;top:405.04px" class="cls_012"><span class="cls_012">(elle) est suivi(e)</span></div>
-    <div style="position:absolute;left:303.12px;top:401.68px" class="cls_012"><span class="cls_012">Le (Ia) stagiaire beneficie des protections et droits mentionnes </span><span class="cls_015">aux</span></div>
-    <div style="position:absolute;left:40.80px;top:417.76px" class="cls_012"><span class="cls_012">regulierement  par  l'enseignant  referent  designs  par  cette</span></div>
-    <div style="position:absolute;left:302.64px;top:414.40px" class="cls_012"><span class="cls_012">articles L.1121-1, L.1152-1 et L.1153-1 du code du travail, dans les</span></div>
-    <div style="position:absolute;left:39.84px;top:430.24px" class="cls_012"><span class="cls_012">convention. L'organisme nomme un tuteur organisme d'accueil</span></div>
-    <div style="position:absolute;left:302.40px;top:427.12px" class="cls_012"><span class="cls_012">memes conditions que les salaries.</span></div>
-    <div style="position:absolute;left:39.36px;top:442.72px" class="cls_012"><span class="cls_012">chargé d'assurer le suivi et d'optimiser les conditions de realisation</span></div>
-    <div style="position:absolute;left:302.16px;top:439.60px" class="cls_012"><span class="cls_012">Le (Ia) stagiaire a acces au restaurant d'entreprise ou aux titres-</span></div>
-    <div style="position:absolute;left:301.68px;top:452.32px" class="cls_012"><span class="cls_012">restaurants prevus a l'article L.3262-1 du code du travail, dans les</span></div>
-    <div style="position:absolute;left:39.12px;top:455.44px" class="cls_015"><span class="cls_015">du </span><span class="cls_012">stage. L'etudiant(e) pourra revenir a l'etablissement pendant Ia</span></div>
-    <div style="position:absolute;left:301.44px;top:464.80px" class="cls_012"><span class="cls_012">merles conditions que les salaries de ('organisme d'accueil. II (elle)</span></div>
-    <div style="position:absolute;left:38.40px;top:468.16px" class="cls_012"><span class="cls_012">duree  du  stage,  pour  y  suivre  certains  cours  demandes</span></div>
-    <div style="position:absolute;left:300.96px;top:477.76px" class="cls_012"><span class="cls_012">beneficie egalement de la prise en charge des frais de transport</span></div>
-    <div style="position:absolute;left:37.44px;top:480.88px" class="cls_012"><span class="cls_012">explicitement </span><span class="cls_015">par </span><span class="cls_012">le programme, participer a des reunions, les</span></div>
-    <div style="position:absolute;left:36.96px;top:494.32px" class="cls_012"><span class="cls_012">dates  etant  portees  a  la connaissance de</span></div>
-    <div style="position:absolute;left:219.36px;top:493.60px" class="cls_012"><span class="cls_012">('organisme par</span></div>
-    <div style="position:absolute;left:300.72px;top:490.48px" class="cls_012"><span class="cls_012">prevue a Particle L.3261-2 du meme code.</span></div>
-    <div style="position:absolute;left:300.24px;top:503.44px" class="cls_012"><span class="cls_012">Le</span></div>
-    <div style="position:absolute;left:314.40px;top:503.44px" class="cls_012"><span class="cls_012">(la) stagiaire  accede  aux  activites  sociales et culturelles</span></div>
-    <div style="position:absolute;left:36.72px;top:506.80px" class="cls_012"><span class="cls_012">l'etablissement et etre autorise(e), le cas echeant, a se deplacer.</span></div>
-    <div style="position:absolute;left:300.00px;top:516.16px" class="cls_012"><span class="cls_012">mentionnees a</span></div>
-    <div style="position:absolute;left:360.00px;top:516.16px" class="cls_012"><span class="cls_012">('article 1.2323-83 du code du travail dans les</span></div>
-    <div style="position:absolute;left:36.48px;top:526.72px" class="cls_007"><span class="cls_007">Article 5 </span><span class="cls_017">- </span><span class="cls_007">Gratification </span><span class="cls_017">- </span><span class="cls_007">Avantages</span></div>
-    <div style="position:absolute;left:299.52px;top:529.36px" class="cls_012"><span class="cls_012">memes conditions que les salaries.</span></div>
-    <div style="position:absolute;left:36.00px;top:551.20px" class="cls_012"><span class="cls_012">En France, lorsque la </span><span class="cls_015">duree </span><span class="cls_012">du stage est superieure a deux mois</span></div>
-    <div style="position:absolute;left:298.32px;top:554.56px" class="cls_007"><span class="cls_007">Article 5ter </span><span class="cls_017">- </span><span class="cls_007">Acces aux drolts des agents</span></div>
-    <div style="position:absolute;left:35.04px;top:564.16px" class="cls_012"><span class="cls_012">consecutifs ou non (au-dela de la 3091eme heure de presence), celui-</span></div>
-    <div style="position:absolute;left:34.80px;top:577.60px" class="cls_012"><span class="cls_012">ci fait obligatoirement ('objet d'une gratification, sauf en cas de</span></div>
-    <div style="position:absolute;left:298.08px;top:578.80px" class="cls_012"><span class="cls_012">(Organisme de droit public en France sauf en cas de regles</span></div>
-    <div style="position:absolute;left:34.56px;top:590.32px" class="cls_012"><span class="cls_012">regles particulieres applicables dans certaines collectivites d'outre-</span></div>
-    <div style="position:absolute;left:297.84px;top:591.28px" class="cls_012"><span class="cls_012">particulieres applicables dans certaines collectivites d'outre-mer</span></div>
-    <div style="position:absolute;left:34.08px;top:603.52px" class="cls_012"><span class="cls_012">mer frangaises et pour les stages relevant de ('article L4381-1 du</span></div>
-    <div style="position:absolute;left:297.36px;top:605.44px" class="cls_012"><span class="cls_012">frangaises) :</span></div>
-    <div style="position:absolute;left:33.60px;top:617.68px" class="cls_012"><span class="cls_012">code de Ia sante publique.</span></div>
-    <div style="position:absolute;left:297.12px;top:617.44px" class="cls_012"><span class="cls_012">Les trajets effectues par le (la) stagiaire d'un organisme de droit</span></div>
-    <div style="position:absolute;left:33.12px;top:629.92px" class="cls_012"><span class="cls_012">Le montant horaire de Ia gratification est fixe a</span></div>
-    <div style="position:absolute;left:216.96px;top:629.68px" class="cls_012"><span class="cls_012">15% du plafond</span></div>
-    <div style="position:absolute;left:296.64px;top:630.40px" class="cls_012"><span class="cls_012">public entre son domicile et son lieu de stage sont pris en charge</span></div>
-    <div style="position:absolute;left:32.88px;top:642.40px" class="cls_012"><span class="cls_012">horaire de la securite sociale Mini en application </span><span class="cls_015">de </span><span class="cls_012">('article L.241-</span></div>
-    <div style="position:absolute;left:296.16px;top:643.60px" class="cls_012"><span class="cls_012">clans les conditions fixees par le decret n*2010-676 du 21 juin 2010</span></div>
-    <div style="position:absolute;left:32.40px;top:655.36px" class="cls_012"><span class="cls_012">3 du code de Ia securite sociale. Une convention de branche ou un</span></div>
-    <div style="position:absolute;left:295.92px;top:656.56px" class="cls_012"><span class="cls_012">instituant  une  prise  en  charge  partielle du  prix des titres</span></div>
-    <div style="position:absolute;left:31.92px;top:668.32px" class="cls_012"><span class="cls_012">accord professionnel peut deflnir un montant superieur a ce taux.</span></div>
-    <div style="position:absolute;left:295.44px;top:669.76px" class="cls_012"><span class="cls_012">d'abonnement correspondant aux deplacements effectues par les</span></div>
-    <div style="position:absolute;left:31.68px;top:681.28px" class="cls_012"><span class="cls_012">La gratification due par un organisme de droit public ne peut etre</span></div>
-    <div style="position:absolute;left:294.96px;top:682.72px" class="cls_012"><span class="cls_012">agents publics entre leur residence ha bitue Ile et leur lieu de travail.</span></div>
-    <div style="position:absolute;left:30.96px;top:694.24px" class="cls_012"><span class="cls_012">cumulee avec </span><span class="cls_015">une </span><span class="cls_012">remuneration versee par ce merne organisme au</span></div>
-    <div style="position:absolute;left:294.96px;top:695.92px" class="cls_012"><span class="cls_012">Le (la) stagiaire accueilli(e) dans un organisme de droit public et qui</span></div>
-    <div style="position:absolute;left:30.48px;top:707.92px" class="cls_015"><span class="cls_015">cours </span><span class="cls_012">de la perlode concernee.</span></div>
-    <div style="position:absolute;left:294.24px;top:708.88px" class="cls_012"><span class="cls_012">effectue une mission dans ce cadre beneficie de la prise en charge</span></div>
-    <div style="position:absolute;left:30.00px;top:720.40px" class="cls_012"><span class="cls_012">La gratification est due sans prejudice du remboursement des frals</span></div>
-    <div style="position:absolute;left:294.00px;top:721.84px" class="cls_012"><span class="cls_012">de ses frais de deplacement temporaire selon Ia reglementation en</span></div>
-    <div style="position:absolute;left:29.04px;top:734.32px" class="cls_012"><span class="cls_012">engages </span><span class="cls_015">par le</span></div>
-    <div style="position:absolute;left:93.12px;top:733.36px" class="cls_012"><span class="cls_012">(Ia) stagiaire pour effectuer son stage et des</span></div>
-    <div style="position:absolute;left:293.28px;top:735.04px" class="cls_012"><span class="cls_012">vigueur.</span></div>
-    <div style="position:absolute;left:28.56px;top:746.32px" class="cls_012"><span class="cls_012">avantages  offerts,  le  cas  echeant,  pour  la  restauration,</span></div>
-    <div style="position:absolute;left:28.08px;top:759.76px" class="cls_012"><span class="cls_012">l'hebergement, et le transport.</span></div>
-    <div style="position:absolute;left:293.04px;top:760.96px" class="cls_012"><span class="cls_012">Est considers comme sa residence administrative le lieu du stage</span></div>
-    <div style="position:absolute;left:292.56px;top:774.16px" class="cls_012"><span class="cls_012">indique dans Ia presente convention.</span></div>
-    <div style="position:absolute;left:26.88px;top:784.96px" class="cls_012"><span class="cls_012">L'organisme peut decider de verser une gratification pour les stages</span></div>
-    <div style="position:absolute;left:298.56px;top:787.12px" class="cls_020"><span class="cls_020">AUTRES AVANTAGES ACCORDES</span></div>
-    <div style="position:absolute;left:18.96px;top:801.36px" class="cls_018"><span class="cls_018">Convention de stage UM / IUTMS version 19/09/2016</span></div>
-    <div style="position:absolute;left:461.28px;top:801.52px" class="cls_012"><span class="cls_012">2/4</span></div>
+<div style="position:absolute;left:50%;margin-left:-297px;top:851px;width:595px;height:841px;border-style:outset;overflow:hidden">
+    <div style="position:absolute;left:0px;top:0px">
+        <img src="d80be0c4-58a0-11ea-8b25-0cc47a792c0a_id_d80be0c4-58a0-11ea-8b25-0cc47a792c0a_files/background2.jpg" width=595 height=841></div>
+    <div style="position:absolute;left:49.68px;top:34.48px" class="cls_017"><span class="cls_017">Article 1 : Objet de la convention</span></div>
+    <div style="position:absolute;left:315.19px;top:34.60px" class="cls_012"><span class="cls_012">dont la durée est inférieure ou égale à deux mois.</span></div>
+    <div style="position:absolute;left:315.19px;top:47.20px" class="cls_012"><span class="cls_012">En cas de suspension ou de résiliation de la présente convention, le</span></div>
+    <div style="position:absolute;left:48.60px;top:52.60px" class="cls_012"><span class="cls_012">La présente convention règle les rapports de l'organisme d'accueil</span></div>
+    <div style="position:absolute;left:315.19px;top:59.92px" class="cls_012"><span class="cls_012">montant de la gratification due au (à la) stagiaire est proratisé en</span></div>
+    <div style="position:absolute;left:48.60px;top:65.20px" class="cls_012"><span class="cls_012">(entreprise, organisme public, association...) avec l'établissement</span></div>
+    <div style="position:absolute;left:315.19px;top:72.54px" class="cls_012"><span class="cls_012">fonction de la durée du stage effectué.</span></div>
+    <div style="position:absolute;left:48.60px;top:77.82px" class="cls_012"><span class="cls_012">d'enseignement supérieur et le (la) stagiaire.</span></div>
+    <div style="position:absolute;left:315.19px;top:85.14px" class="cls_012"><span class="cls_012">La durée donnant droit à gratification s'apprécie compte tenu de la</span></div>
+    <div style="position:absolute;left:48.60px;top:96.42px" class="cls_017"><span class="cls_017">Article 2 : Objectif du stage</span></div>
+    <div style="position:absolute;left:315.19px;top:97.74px" class="cls_012"><span class="cls_012">présente convention et de ses avenants éventuels, ainsi que du</span></div>
+    <div style="position:absolute;left:315.19px;top:110.46px" class="cls_012"><span class="cls_012">nombre  de  jours  de  présence  effective  du  stagiaire  dans</span></div>
+    <div style="position:absolute;left:48.60px;top:114.42px" class="cls_012"><span class="cls_012">Le stage de formation a pour objet de permettre à l'étudiant(e) de</span></div>
+    <div style="position:absolute;left:315.19px;top:123.06px" class="cls_012"><span class="cls_012">l'organisme.</span></div>
+    <div style="position:absolute;left:48.60px;top:127.14px" class="cls_012"><span class="cls_012">mettre en pratique les outils théoriques et méthodologiques acquis</span></div>
+    <div style="position:absolute;left:315.19px;top:135.66px" class="cls_018"><span class="cls_018">Le montant horaire légal et minimal de la gratification est fixé à</span></div>
+    <div style="position:absolute;left:48.60px;top:139.74px" class="cls_012"><span class="cls_012">au cours de sa formation, d'identifier ses compétences et de</span></div>
+    <div style="position:absolute;left:315.19px;top:148.38px" class="cls_018"><span class="cls_018">3.90 euros/heure.</span></div>
+    <div style="position:absolute;left:48.60px;top:152.34px" class="cls_012"><span class="cls_012">conforter son objectif professionnel.</span></div>
+    <div style="position:absolute;left:315.19px;top:160.98px" class="cls_018"><span class="cls_018">L’entreprise peut choisir le lissage mensuel de la gratification sur</span></div>
+    <div style="position:absolute;left:48.60px;top:171.06px" class="cls_012"><span class="cls_012">Le stage a ainsi pour but de préparer l'étudiant(e) à l'entrée dans la</span></div>
+    <div style="position:absolute;left:315.19px;top:173.58px" class="cls_018"><span class="cls_018">la durée totale du stage,  ou le réel mensuel en fonction de la</span></div>
+    <div style="position:absolute;left:48.60px;top:183.66px" class="cls_012"><span class="cls_012">vie active par une meilleure connaissance de l'organisme d'accueil.</span></div>
+    <div style="position:absolute;left:315.19px;top:186.18px" class="cls_018"><span class="cls_018">présence effective de l’étudiant :</span></div>
+    <div style="position:absolute;left:48.60px;top:196.26px" class="cls_012"><span class="cls_012">Le stage s'inscrit dans le cadre de la formation et du projet</span></div>
+    <div style="position:absolute;left:333.19px;top:198.78px" class="cls_023"><span class="cls_023"></span><span class="cls_024"> </span><span class="cls_019">  LISSAGE :</span></div>
+    <div style="position:absolute;left:48.60px;top:208.86px" class="cls_012"><span class="cls_012">personnel et professionnel de l'étudiant(e). Il entre dans son cursus</span></div>
+    <div style="position:absolute;left:315.19px;top:209.22px" class="cls_012"><span class="cls_012">Le montant de la gratification est fixé à͙͙͙͙.͙͙͙€ Ɖar mois.</span></div>
+    <div style="position:absolute;left:48.60px;top:221.58px" class="cls_012"><span class="cls_012">pédagogique.</span></div>
+    <div style="position:absolute;left:315.19px;top:221.82px" class="cls_012"><span class="cls_012">Modalités de versement de la gratification : </span><span class="cls_018">Virement bancaire.</span></div>
+    <div style="position:absolute;left:333.19px;top:234.45px" class="cls_023"><span class="cls_023"></span><span class="cls_024"> </span><span class="cls_019">  REEL :</span></div>
+    <div style="position:absolute;left:48.48px;top:240.21px" class="cls_012"><span class="cls_012">Le programme du stage est établi par l'établissement et l'organisme</span></div>
+    <div style="position:absolute;left:48.48px;top:252.81px" class="cls_012"><span class="cls_012">d'accueil  en  fonction  du  programme  général  de  la  formation</span></div>
+    <div style="position:absolute;left:443.86px;top:255.57px" class="cls_019"><span class="cls_019">Nbre</span></div>
+    <div style="position:absolute;left:504.24px;top:255.57px" class="cls_019"><span class="cls_019">Montant</span></div>
+    <div style="position:absolute;left:365.35px;top:260.73px" class="cls_019"><span class="cls_019">Mois</span></div>
+    <div style="position:absolute;left:48.48px;top:265.53px" class="cls_012"><span class="cls_012">dispensée.</span></div>
+    <div style="position:absolute;left:443.50px;top:265.89px" class="cls_019"><span class="cls_019">jours</span></div>
+    <div style="position:absolute;left:493.78px;top:265.89px" class="cls_019"><span class="cls_019">gratification €</span></div>
+    <div style="position:absolute;left:48.60px;top:284.01px" class="cls_017"><span class="cls_017">Article 3: Modalité du stage</span></div>
+    <div style="position:absolute;left:48.60px;top:302.13px" class="cls_012"><span class="cls_012">La durée hebdomadaire maximale de présence du (de la) stagiaire</span></div>
+    <div style="position:absolute;left:48.60px;top:314.73px" class="cls_012"><span class="cls_012">dans l'entreprise sera de 35.00 heures. Le stage est à temps plein.</span></div>
+    <div style="position:absolute;left:315.19px;top:320.25px" class="cls_012"><span class="cls_012">Modalités de versement de la gratification : </span><span class="cls_018">Virement bancaire.</span></div>
+    <div style="position:absolute;left:48.60px;top:327.33px" class="cls_012"><span class="cls_012">Si le (la) stagiaire doit être présent(e) dans l'organisme d'accueil la</span></div>
+    <div style="position:absolute;left:48.60px;top:340.05px" class="cls_012"><span class="cls_012">nuit, le dimanche ou un jour férié, l'organisme doit indiquer ci-</span></div>
+    <div style="position:absolute;left:315.19px;top:348.69px" class="cls_017"><span class="cls_017">Article 5 bis - Accès aux droits des salariés</span></div>
+    <div style="position:absolute;left:48.60px;top:352.65px" class="cls_012"><span class="cls_012">dessous les cas particuliers :</span></div>
+    <div style="position:absolute;left:48.60px;top:365.25px" class="cls_012"><span class="cls_012">͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙..</span></div>
+    <div style="position:absolute;left:315.19px;top:373.41px" class="cls_012"><span class="cls_012">(Organisme  de  droit  privé  en  France  sauf  en  cas  de  règles</span></div>
+    <div style="position:absolute;left:48.60px;top:383.73px" class="cls_017"><span class="cls_017">Article 4 : Statut du stagiaire - Accueil et encadrement</span></div>
+    <div style="position:absolute;left:315.19px;top:386.01px" class="cls_012"><span class="cls_012">particulières applicables dans certaines collectivités d'outre-mer</span></div>
+    <div style="position:absolute;left:315.19px;top:398.75px" class="cls_012"><span class="cls_012">françaises) :</span></div>
+    <div style="position:absolute;left:48.60px;top:401.87px" class="cls_012"><span class="cls_012">L'étudiant(e) pendant la durée de son stage dans l'organisme</span></div>
+    <div style="position:absolute;left:315.19px;top:411.35px" class="cls_012"><span class="cls_012">Le (la) stagiaire bénéficie des protections et droits mentionnés aux</span></div>
+    <div style="position:absolute;left:48.60px;top:414.59px" class="cls_012"><span class="cls_012">d'accueil,  conserve  son  statut  antérieur;  il</span></div>
+    <div style="position:absolute;left:225.12px;top:414.59px" class="cls_012"><span class="cls_012">(elle)  est  suivi(e)</span></div>
+    <div style="position:absolute;left:315.19px;top:423.95px" class="cls_012"><span class="cls_012">articles L.1121-1, L.1152-1 et L.1153-1 du code du travail, dans les</span></div>
+    <div style="position:absolute;left:48.60px;top:427.19px" class="cls_012"><span class="cls_012">régulièrement   par   l'enseignant   référent   désigné   par   cette</span></div>
+    <div style="position:absolute;left:315.19px;top:436.67px" class="cls_012"><span class="cls_012">mêmes conditions que les salariés.</span></div>
+    <div style="position:absolute;left:48.60px;top:439.79px" class="cls_012"><span class="cls_012">convention. L'organisme nomme un tuteur organisme d'accueil</span></div>
+    <div style="position:absolute;left:315.19px;top:449.27px" class="cls_012"><span class="cls_012">Le (la) stagiaire a accès au restaurant d'entreprise ou aux titres-</span></div>
+    <div style="position:absolute;left:48.60px;top:452.39px" class="cls_012"><span class="cls_012">chargé d'assurer le suivi et d'optimiser les conditions de réalisation</span></div>
+    <div style="position:absolute;left:315.19px;top:461.87px" class="cls_012"><span class="cls_012">restaurants prévus à l'article L.3262-1 du code du travail, dans les</span></div>
+    <div style="position:absolute;left:48.60px;top:465.11px" class="cls_012"><span class="cls_012">du stage. L'étudiant(e) pourra revenir à l'établissement pendant la</span></div>
+    <div style="position:absolute;left:315.19px;top:474.47px" class="cls_012"><span class="cls_012">mêmes conditions que les salariés de l'organisme d'accueil. Il (elle)</span></div>
+    <div style="position:absolute;left:48.60px;top:477.71px" class="cls_012"><span class="cls_012">durée   du   stage,   pour   y   suivre   certains   cours   demandés</span></div>
+    <div style="position:absolute;left:315.19px;top:487.19px" class="cls_012"><span class="cls_012">bénéficie également de la prise en charge des frais de transport</span></div>
+    <div style="position:absolute;left:48.60px;top:490.31px" class="cls_012"><span class="cls_012">explicitement par le programme, participer à des réunions, les</span></div>
+    <div style="position:absolute;left:315.19px;top:499.79px" class="cls_012"><span class="cls_012">prévue à l'article L.3261-2 du même code.</span></div>
+    <div style="position:absolute;left:48.60px;top:503.03px" class="cls_012"><span class="cls_012">dates   étant   portées   à  la  connaissance  de  l'organisme  par</span></div>
+    <div style="position:absolute;left:315.19px;top:512.39px" class="cls_012"><span class="cls_012">Le</span></div>
+    <div style="position:absolute;left:329.59px;top:512.39px" class="cls_012"><span class="cls_012">(la)  stagiaire  accède  aux  activités  sociales  et  culturelles</span></div>
+    <div style="position:absolute;left:48.60px;top:515.63px" class="cls_012"><span class="cls_012">l'établissement et être autorisé(e), le cas échéant, à se déplacer.</span></div>
+    <div style="position:absolute;left:315.19px;top:525.11px" class="cls_012"><span class="cls_012">mentionnées à l'article L.2323-83 du code du travail dans les</span></div>
+    <div style="position:absolute;left:49.68px;top:534.11px" class="cls_017"><span class="cls_017">Article 5 - Gratification - Avantages</span></div>
+    <div style="position:absolute;left:315.19px;top:537.71px" class="cls_012"><span class="cls_012">mêmes conditions que les salariés.</span></div>
+    <div style="position:absolute;left:49.68px;top:558.86px" class="cls_012"><span class="cls_012">En France, lorsque la durée du stage est supérieure à deux mois</span></div>
+    <div style="position:absolute;left:315.19px;top:562.22px" class="cls_017"><span class="cls_017">Article 5ter - Accès aux droits des agents</span></div>
+    <div style="position:absolute;left:49.68px;top:571.46px" class="cls_012"><span class="cls_012">consécutifs ou non (au-delà de la 309</span><span class="cls_021"><sup>ième</sup></span><span class="cls_012"> heure de présence), celui-</span></div>
+    <div style="position:absolute;left:49.68px;top:584.18px" class="cls_012"><span class="cls_012">ci fait obligatoirement l'objet d'une gratification, sauf en cas de</span></div>
+    <div style="position:absolute;left:315.19px;top:586.34px" class="cls_012"><span class="cls_012">(Organisme de droit public en France sauf en cas de règles</span></div>
+    <div style="position:absolute;left:49.68px;top:596.78px" class="cls_012"><span class="cls_012">règles particulières applicables dans certaines collectivités d'outre-</span></div>
+    <div style="position:absolute;left:315.19px;top:598.94px" class="cls_012"><span class="cls_012">particulières applicables dans certaines collectivités d'outre-mer</span></div>
+    <div style="position:absolute;left:49.68px;top:609.38px" class="cls_012"><span class="cls_012">mer françaises et pour les stages relevant de l'article L4381-1 du</span></div>
+    <div style="position:absolute;left:315.19px;top:611.54px" class="cls_012"><span class="cls_012">françaises) :</span></div>
+    <div style="position:absolute;left:49.68px;top:622.10px" class="cls_012"><span class="cls_012">code de la santé publique.</span></div>
+    <div style="position:absolute;left:315.19px;top:624.14px" class="cls_012"><span class="cls_012">Les trajets effectués par le (la) stagiaire d'un organisme de droit</span></div>
+    <div style="position:absolute;left:49.68px;top:634.70px" class="cls_012"><span class="cls_012">Le montant horaire de la gratification est fixé à 15% du plafond</span></div>
+    <div style="position:absolute;left:315.19px;top:636.86px" class="cls_012"><span class="cls_012">public entre son domicile et son lieu de stage sont pris en charge</span></div>
+    <div style="position:absolute;left:49.68px;top:647.30px" class="cls_012"><span class="cls_012">horaire de la sécurité sociale défini en application de l'article L.241-</span></div>
+    <div style="position:absolute;left:315.19px;top:649.46px" class="cls_012"><span class="cls_012">dans les conditions fixées par le décret n°2010-676 du 21 juin 2010</span></div>
+    <div style="position:absolute;left:49.68px;top:659.90px" class="cls_012"><span class="cls_012">3 du code de la sécurité sociale. Une convention de branche ou un</span></div>
+    <div style="position:absolute;left:315.19px;top:662.06px" class="cls_012"><span class="cls_012">instituant  une  prise  en  charge  partielle  du  prix  des  titres</span></div>
+    <div style="position:absolute;left:49.68px;top:672.62px" class="cls_012"><span class="cls_012">accord professionnel peut définir un montant supérieur à ce taux.</span></div>
+    <div style="position:absolute;left:315.19px;top:674.78px" class="cls_012"><span class="cls_012">d'abonnement correspondant aux déplacements effectués par les</span></div>
+    <div style="position:absolute;left:49.68px;top:685.22px" class="cls_012"><span class="cls_012">La gratification due par un organisme de droit public ne peut être</span></div>
+    <div style="position:absolute;left:315.19px;top:687.38px" class="cls_012"><span class="cls_012">agents publics entre leur résidence habituelle et leur lieu de travail.</span></div>
+    <div style="position:absolute;left:49.68px;top:697.82px" class="cls_012"><span class="cls_012">cumulée avec une rémunération versée par ce même organisme au</span></div>
+    <div style="position:absolute;left:315.19px;top:699.98px" class="cls_012"><span class="cls_012">Le (la) stagiaire accueilli(e) dans un organisme de droit public et qui</span></div>
+    <div style="position:absolute;left:49.68px;top:710.54px" class="cls_012"><span class="cls_012">cours de la période concernée.</span></div>
+    <div style="position:absolute;left:315.19px;top:712.58px" class="cls_012"><span class="cls_012">effectue une mission dans ce cadre bénéficie de la prise en charge</span></div>
+    <div style="position:absolute;left:49.68px;top:723.16px" class="cls_012"><span class="cls_012">La gratification est due sans préjudice du remboursement des frais</span></div>
+    <div style="position:absolute;left:315.19px;top:725.32px" class="cls_012"><span class="cls_012">de ses frais de déplacement temporaire selon la réglementation en</span></div>
+    <div style="position:absolute;left:49.68px;top:735.76px" class="cls_012"><span class="cls_012">engagés par le (la) stagiaire pour effectuer son stage et des</span></div>
+    <div style="position:absolute;left:315.19px;top:737.92px" class="cls_012"><span class="cls_012">vigueur.</span></div>
+    <div style="position:absolute;left:49.68px;top:748.36px" class="cls_012"><span class="cls_012">avantages   offerts,   le   cas   échéant,   pour   la   restauration,</span></div>
+    <div style="position:absolute;left:49.68px;top:761.08px" class="cls_012"><span class="cls_012">l'hébergement, et le transport.</span></div>
+    <div style="position:absolute;left:315.19px;top:763.24px" class="cls_012"><span class="cls_012">Est considéré comme sa résidence administrative le lieu du stage</span></div>
+    <div style="position:absolute;left:315.19px;top:775.84px" class="cls_012"><span class="cls_012">indiqué dans la présente convention.</span></div>
+    <div style="position:absolute;left:49.68px;top:786.28px" class="cls_012"><span class="cls_012">L'organisme peut décider de verser une gratification pour les stages</span></div>
+    <div style="position:absolute;left:322.27px;top:788.44px" class="cls_043"><span class="cls_043">AUTRES AVANTAGES ACCORDÉS</span><span class="cls_012"> </span><span class="cls_022">:</span></div>
+    <div style="position:absolute;left:42.60px;top:801.52px" class="cls_002"><span class="cls_002">Convention de stage UM / IUTMS version 19/09/2016</span></div>
+    <div style="position:absolute;left:485.14px;top:800.44px" class="cls_014"><span class="cls_014">2/4</span></div>
 </div>
-<div style="position:absolute;left:50%;margin-left:-292px;top:1704px;width:585px;height:842px;border-style:outset;overflow:hidden">
-    <div style="position:absolute;left:310.08px;top:28.72px" class="cls_012"><span class="cls_012">Toute difficulte survenue dans le deroulement du stage devra etre</span></div>
-    <div style="position:absolute;left:310.80px;top:45.04px" class="cls_012"><span class="cls_012">portee a la connaissance de tous les interesses afin d</span></div>
-    <div style="position:absolute;left:507.36px;top:42.88px" class="cls_012"><span class="cls_012">'être reso</span></div>
-    <div style="position:absolute;left:543.84px;top:41.92px" class="cls_012"><span class="cls_012">lue</span></div>
-    <div style="position:absolute;left:46.80px;top:58.00px" class="cls_007"><span class="cls_007">Article 6 : Protection soolele</span></div>
-    <div style="position:absolute;left:310.32px;top:58.96px" class="cls_012"><span class="cls_012">au plus vite.</span></div>
-    <div style="position:absolute;left:310.32px;top:76.48px" class="cls_007"><span class="cls_007">Article 9-1 : Interruption temporaire</span></div>
-    <div style="position:absolute;left:47.52px;top:82.72px" class="cls_007"><span class="cls_007">Article 6-1 : Regime de protection socials :</span></div>
-    <div style="position:absolute;left:48.00px;top:93.76px" class="cls_012"><span class="cls_012">Pendant la duree de son stage, le</span></div>
-    <div style="position:absolute;left:191.04px;top:93.52px" class="cls_012"><span class="cls_012">(la) stagiaire continue de</span></div>
-    <div style="position:absolute;left:310.08px;top:91.36px" class="cls_012"><span class="cls_012">Au cours du stage, le (la) stagiaire pourra beneficier </span><span class="cls_013">de </span><span class="cls_012"><sup>conges sous</sup></span></div>
-    <div style="position:absolute;left:48.24px;top:106.72px" class="cls_012"><span class="cls_012">beneficier de son regime securite sociale etudiante.</span></div>
-    <div style="position:absolute;left:310.32px;top:104.56px" class="cls_012"><span class="cls_012">reserve d'accord de l'organisme d'accueil et que la duree du stage</span></div>
-    <div style="position:absolute;left:310.08px;top:120.16px" class="cls_012"><span class="cls_012">soit respectee.</span></div>
-    <div style="position:absolute;left:47.76px;top:124.96px" class="cls_007"><span class="cls_007">Article 8-2 : Accidents du travail</span></div>
-    <div style="position:absolute;left:48.24px;top:142.72px" class="cls_012"><span class="cls_012">Pendant la durde de son stage, le</span></div>
-    <div style="position:absolute;left:182.64px;top:142.48px" class="cls_012"><span class="cls_012">(la) stagiaire beneficie de la</span></div>
-    <div style="position:absolute;left:310.32px;top:137.68px" class="cls_012"><span class="cls_012">Pour toute autre interruption temporaire du stage</span></div>
-    <div style="position:absolute;left:512.64px;top:136.72px" class="cls_012"><span class="cls_012">(maladie,</span></div>
-    <div style="position:absolute;left:48.00px;top:155.20px" class="cls_012"><span class="cls_012">legislation sur les accidents du travail au titre de l'article L412-8 du</span></div>
-    <div style="position:absolute;left:310.08px;top:150.40px" class="cls_012"><span class="cls_012">maternite, absence injustifiee.,.) I'organisme d'accuei</span></div>
-    <div style="position:absolute;left:504.96px;top:149.68px" class="cls_012"><span class="cls_012">l avertira le</span></div>
-    <div style="position:absolute;left:47.76px;top:167.92px" class="cls_012"><span class="cls_012">code de la securite sociale.</span></div>
-    <div style="position:absolute;left:310.08px;top:163.84px" class="cls_012"><span class="cls_012">responsable de l'etablissement par courrier.</span></div>
-    <div style="position:absolute;left:47.76px;top:187.12px" class="cls_012"><span class="cls_012">En cas d'accident survenant a l'etudiant(e), solt au cours des</span></div>
-    <div style="position:absolute;left:309.60px;top:182.08px" class="cls_007"><span class="cls_007">Article 9-2 : Interruption definitive</span></div>
-    <div style="position:absolute;left:47.28px;top:199.84px" class="cls_012"><span class="cls_012">travaux dans I'organisme, soit au cours du trajet, solt sur les lieux</span></div>
-    <div style="position:absolute;left:309.84px;top:198.40px" class="cls_012"><span class="cls_012">En cas de volonte d'une des trois parties (organisme, etablissement,</span></div>
-    <div style="position:absolute;left:47.52px;top:212.56px" class="cls_012"><span class="cls_012">rendus utiles pour les besoins de son stage, I'organisme d'accueil</span></div>
-    <div style="position:absolute;left:309.60px;top:211.60px" class="cls_012"><span class="cls_012">etudiant(e)) d'interrompre definitivement le stage, celle-ci devra</span></div>
-    <div style="position:absolute;left:47.04px;top:225.28px" class="cls_012"><span class="cls_012">envoie la declaration a la Caisse Primaire d'Assurance Maladie (voir</span></div>
-    <div style="position:absolute;left:309.60px;top:224.56px" class="cls_012"><span class="cls_012">immediatement en informer les deux autres parties par ecrit. Les</span></div>
-    <div style="position:absolute;left:46.56px;top:238.24px" class="cls_012"><span class="cls_012">adresse  en  premiere  page)  en  mentionnant  l'etablissement</span></div>
-    <div style="position:absolute;left:309.60px;top:237.28px" class="cls_012"><span class="cls_012">raisons invoquees seront examinees en etroite concertation. La</span></div>
-    <div style="position:absolute;left:46.56px;top:250.96px" class="cls_012"><span class="cls_012">d'enseignement comme employeur.</span></div>
-    <div style="position:absolute;left:309.36px;top:250.24px" class="cls_012"><span class="cls_012">decision definitive d'interruption du stage ne sera prise qu'a ('issue</span></div>
-    <div style="position:absolute;left:46.32px;top:269.68px" class="cls_012"><span class="cls_012">Si la gratification est superieure a 15 % du plafond horaire de la</span></div>
-    <div style="position:absolute;left:309.36px;top:264.64px" class="cls_012"><span class="cls_012">de cette phase de concertation.</span></div>
-    <div style="position:absolute;left:46.08px;top:282.40px" class="cls_012"><span class="cls_012">securite sociale, le stagiaire beneficie de la couverture legale en</span></div>
-    <div style="position:absolute;left:308.88px;top:287.88px" class="cls_008"><span class="cls_008">Article 10 : Devoir de reserve et confidentialite</span></div>
-    <div style="position:absolute;left:46.08px;top:295.12px" class="cls_012"><span class="cls_012">application des dispositions de l'article L411-1 du code de la securite</span></div>
-    <div style="position:absolute;left:45.84px;top:308.08px" class="cls_012"><span class="cls_012">sociale. L'organisme d'accueil devra alors assumer le paiernent des</span></div>
-    <div style="position:absolute;left:309.12px;top:306.88px" class="cls_012"><span class="cls_012">Le devoir de reserve est de rigueur absolue. Les etudia nt(e)s</span></div>
-    <div style="position:absolute;left:45.60px;top:321.04px" class="cls_012"><span class="cls_012">cotisations et effectuer egalement toutes les dernarches necessaires</span></div>
-    <div style="position:absolute;left:308.88px;top:320.08px" class="cls_012"><span class="cls_012">stagiaires prennent donc ('engagement de n'utiliser en aucun cas les</span></div>
-    <div style="position:absolute;left:45.60px;top:333.76px" class="cls_012"><span class="cls_012">aupres de la CPAM.</span></div>
-    <div style="position:absolute;left:308.88px;top:332.80px" class="cls_012"><span class="cls_012">informations recueillies ou obtenues par eux pour en faire ('objet de</span></div>
-    <div style="position:absolute;left:45.36px;top:346.72px" class="cls_012"><span class="cls_012">Dans les organism es publics, toute gratification superieure a 15 % du</span></div>
-    <div style="position:absolute;left:308.88px;top:346.00px" class="cls_012"><span class="cls_012">publication, communication a des tiers sans accord prealable de</span></div>
-    <div style="position:absolute;left:45.36px;top:359.44px" class="cls_012"><span class="cls_012">plafond horaire de la securite sociale transforme de fait le stage en</span></div>
-    <div style="position:absolute;left:308.88px;top:358.96px" class="cls_012"><span class="cls_012">I'organisme, y compris le rapport de stage. Cet engagement vaudra</span></div>
-    <div style="position:absolute;left:45.12px;top:372.40px" class="cls_012"><span class="cls_012">COD.</span></div>
-    <div style="position:absolute;left:308.64px;top:371.92px" class="cls_012"><span class="cls_012">non seulement pour la duree du stage mais egalement apres son</span></div>
-    <div style="position:absolute;left:308.64px;top:384.88px" class="cls_012"><span class="cls_012">expiration. L'etudiant(e) s'engage a ne conserver, emporter, ou</span></div>
-    <div style="position:absolute;left:45.36px;top:390.36px" class="cls_008"><span class="cls_008">Article 7 : Responsabilite civile et assurances</span></div>
-    <div style="position:absolute;left:308.64px;top:397.60px" class="cls_012"><span class="cls_012">prendre copie d'aucun document ou logiciel, de quelque nature que</span></div>
-    <div style="position:absolute;left:44.88px;top:409.12px" class="cls_012"><span class="cls_012">L'organisme d'accueil et l'etudiant(e) declarent etre garantis au titre</span></div>
-    <div style="position:absolute;left:308.40px;top:410.08px" class="cls_012"><span class="cls_012">ce soit, appartenant a I'organisme, sauf accord de ce dernier.</span></div>
-    <div style="position:absolute;left:43.92px;top:421.84px" class="cls_012"><span class="cls_012">de la responsabilite civile. Quelle que soit la nature du stage et le</span></div>
-    <div style="position:absolute;left:308.64px;top:426.88px" class="cls_012"><span class="cls_012">Nota</span></div>
-    <div style="position:absolute;left:331.92px;top:426.88px" class="cls_012"><span class="cls_012">: Dans  le  cadre  de  la  confidentialite  des  informations</span></div>
-    <div style="position:absolute;left:43.92px;top:434.80px" class="cls_012"><span class="cls_012">pays de destination, le</span></div>
-    <div style="position:absolute;left:133.20px;top:434.32px" class="cls_012"><span class="cls_012">(la) stagiaire s'engage a se couvrir par un</span></div>
-    <div style="position:absolute;left:308.16px;top:439.60px" class="cls_012"><span class="cls_012">contenues  dans  le  rapport,  I'organisme  peut  demander une</span></div>
-    <div style="position:absolute;left:43.44px;top:447.76px" class="cls_012"><span class="cls_012">contrat d'assistance</span></div>
-    <div style="position:absolute;left:123.12px;top:447.52px" class="cls_012"><span class="cls_012">(rapatriement sanitaire, assistance juridique</span></div>
-    <div style="position:absolute;left:308.40px;top:452.56px" class="cls_012"><span class="cls_012">restriction de la diffusion du rapport, voire le retrait de certains</span></div>
-    <div style="position:absolute;left:43.20px;top:460.00px" class="cls_012"><span class="cls_012">etc.) et par un contrat d'assurance individuel accident.</span></div>
-    <div style="position:absolute;left:308.16px;top:465.04px" class="cls_012"><span class="cls_012">elements tres confidentie Is.</span></div>
-    <div style="position:absolute;left:43.44px;top:475.36px" class="cls_012"><span class="cls_012">Lorsque I'organisme met un vehicule a la disposition du</span></div>
-    <div style="position:absolute;left:264.48px;top:475.36px" class="cls_012"><span class="cls_012">(de la)</span></div>
-    <div style="position:absolute;left:308.16px;top:477.76px" class="cls_012"><span class="cls_012">Les personnel amenees a en connaitre le contenu sont contraintes</span></div>
-    <div style="position:absolute;left:42.72px;top:488.08px" class="cls_012"><span class="cls_012">stagiaire, it lui incombe de verifier prealablement que la police</span></div>
-    <div style="position:absolute;left:308.16px;top:490.48px" class="cls_012"><span class="cls_012">par le secret  professionnel, a  n'utiliser  ni  ne  divulguer  les</span></div>
-    <div style="position:absolute;left:43.20px;top:500.80px" class="cls_012"><span class="cls_012">d'assurance du vehicule couvre son utilisation par un(e) etudiant(e).</span></div>
-    <div style="position:absolute;left:308.16px;top:503.44px" class="cls_012"><span class="cls_012">informations du rapport.</span></div>
-    <div style="position:absolute;left:43.20px;top:516.40px" class="cls_012"><span class="cls_012">Lorsque dans le cadre de son stage, l'etudiant(e) utilise son propre</span></div>
-    <div style="position:absolute;left:307.68px;top:521.40px" class="cls_008"><span class="cls_008">Article 11</span></div>
-    <div style="position:absolute;left:352.32px;top:521.64px" class="cls_008"><span class="cls_008">: Propriete intellectuelle</span></div>
-    <div style="position:absolute;left:42.96px;top:529.36px" class="cls_012"><span class="cls_012">vehicule ou  un vehicule prete  par un tiers, it</span></div>
-    <div style="position:absolute;left:236.64px;top:529.36px" class="cls_012"><span class="cls_012">(elle) declare</span></div>
-    <div style="position:absolute;left:42.96px;top:542.08px" class="cls_012"><span class="cls_012">expressement a I'assureur dudit vehicule cette utilisation gull (elle)</span></div>
-    <div style="position:absolute;left:307.68px;top:540.64px" class="cls_012"><span class="cls_012">Conformement au code de la propriete intellectuelle, si le travail</span></div>
-    <div style="position:absolute;left:42.72px;top:555.04px" class="cls_012"><span class="cls_012">est amene(e) a faire et le cas echeant s'acquitte de la prime y</span></div>
-    <div style="position:absolute;left:307.68px;top:553.36px" class="cls_012"><span class="cls_012">du (de la) stagiaire donne lieu a la creation d'une oeuvre protegee</span></div>
-    <div style="position:absolute;left:42.72px;top:568.72px" class="cls_012"><span class="cls_012">afferente.</span></div>
-    <div style="position:absolute;left:307.92px;top:566.32px" class="cls_012"><span class="cls_012">par le droit d'auteur ou la propriete industrielle</span></div>
-    <div style="position:absolute;left:494.88px;top:567.28px" class="cls_012"><span class="cls_012">(y compris un</span></div>
-    <div style="position:absolute;left:307.92px;top:579.28px" class="cls_012"><span class="cls_012">logiciel), si I'organisme d'accueil souhaite</span></div>
-    <div style="position:absolute;left:465.60px;top:580.00px" class="cls_012"><span class="cls_012">('utiliser et que le (la)</span></div>
-    <div style="position:absolute;left:43.68px;top:592.44px" class="cls_008"><span class="cls_008">Article 8 : Discipline</span></div>
-    <div style="position:absolute;left:307.44px;top:592.00px" class="cls_012"><span class="cls_012">stagiaire en est d'accord, un contrat devra etre signe entre le (la)</span></div>
-    <div style="position:absolute;left:307.44px;top:604.96px" class="cls_012"><span class="cls_012">stagiaire (auteur) et I'organisme d'accueil.</span></div>
-    <div style="position:absolute;left:43.92px;top:611.20px" class="cls_012"><span class="cls_012">Durant son stage, l'etudiant(e) est soumis(e) a la discipline et au</span></div>
-    <div style="position:absolute;left:43.92px;top:624.64px" class="cls_012"><span class="cls_012">reglement interieur</span></div>
-    <div style="position:absolute;left:122.40px;top:624.16px" class="cls_012"><span class="cls_012">(qui doit etre pone a la connaissance de</span></div>
-    <div style="position:absolute;left:307.68px;top:623.92px" class="cls_012"><span class="cls_012">Devront notamment etre precises l'etendue des droits cedes,</span></div>
-    <div style="position:absolute;left:43.92px;top:637.12px" class="cls_012"><span class="cls_012">l'etudiant(e) de I'organisme, notamment en </span><span class="cls_013">ce </span><span class="cls_012">qui concerne les</span></div>
-    <div style="position:absolute;left:307.68px;top:637.36px" class="cls_012"><span class="cls_012">l'eventuelle exclusivite, Ia destination, les supports utilises et la</span></div>
-    <div style="position:absolute;left:43.92px;top:650.08px" class="cls_012"><span class="cls_012">horaires, et les regles d'hygione et de securite en vigueur dans</span></div>
-    <div style="position:absolute;left:307.44px;top:650.08px" class="cls_012"><span class="cls_012">duree de la cession, ainsi que, le cas echeant, le montant de la</span></div>
-    <div style="position:absolute;left:43.92px;top:662.80px" class="cls_012"><span class="cls_012">I'organisme d'accueil.</span></div>
-    <div style="position:absolute;left:307.68px;top:663.04px" class="cls_012"><span class="cls_012">remuneration due a l'etudiant(e) au titre de la cession.</span></div>
-    <div style="position:absolute;left:43.44px;top:681.76px" class="cls_012"><span class="cls_012">Toute sanction disciplinaire ne peut etre decIdee</span></div>
-    <div style="position:absolute;left:249.84px;top:682.24px" class="cls_012"><span class="cls_012">que   par</span></div>
-    <div style="position:absolute;left:307.44px;top:688.72px" class="cls_013"><span class="cls_013">Cette clause s'applique egalement dons le cas des stages dons les</span></div>
-    <div style="position:absolute;left:43.92px;top:694.48px" class="cls_012"><span class="cls_012">l'etablissement. Dans ce cas, I'organisme Informe l'enseignant</span></div>
-    <div style="position:absolute;left:306.96px;top:701.44px" class="cls_013"><span class="cls_013">organismes publics.</span></div>
-    <div style="position:absolute;left:43.92px;top:706.72px" class="cls_012"><span class="cls_012">referent. et  l'etablissement des manquements et lui fournit</span></div>
-    <div style="position:absolute;left:43.68px;top:719.68px" class="cls_012"><span class="cls_012">eventuellement les elements constitutifs. En cas de manquement</span></div>
-    <div style="position:absolute;left:43.92px;top:732.40px" class="cls_012"><span class="cls_012">particulierement grave a Ia discipline, l'organisme se reserve le</span></div>
-    <div style="position:absolute;left:306.72px;top:739.32px" class="cls_008"><span class="cls_008">Article 12 : Recrutement</span></div>
-    <div style="position:absolute;left:43.92px;top:745.36px" class="cls_012"><span class="cls_012">droit de men re fin au stage de l'etudiant(e) tout en respectant les</span></div>
-    <div style="position:absolute;left:43.92px;top:758.08px" class="cls_012"><span class="cls_012">dispositions threes a l'article 9 de la presente convention.</span></div>
-    <div style="position:absolute;left:305.52px;top:758.56px" class="cls_012"><span class="cls_012">S'll advenalt qu'un contrat de travail prenant effet avant la date de</span></div>
-    <div style="position:absolute;left:305.52px;top:771.52px" class="cls_012"><span class="cls_012">fin du stage soft signe avec I'organisme d'accueil, la presente</span></div>
-    <div style="position:absolute;left:43.44px;top:782.04px" class="cls_008"><span class="cls_008">Article 9 : Absence et Interruption du stage</span></div>
-    <div style="position:absolute;left:305.28px;top:784.24px" class="cls_012"><span class="cls_012">convention deviendrait caduque ;</span></div>
-    <div style="position:absolute;left:433.92px;top:784.24px" class="cls_012"><span class="cls_012">« etudiant(e) » ne releverait plus</span></div>
-    <div style="position:absolute;left:36.00px;top:810.48px" class="cls_018"><span class="cls_018">Convention de stage UM / IUTMS version 19/09/2016</span></div>
-    <div style="position:absolute;left:475.20px;top:811.16px" class="cls_016"><span class="cls_016">3/4</span></div>
+<div style="position:absolute;left:50%;margin-left:-297px;top:1702px;width:595px;height:841px;border-style:outset;overflow:hidden">
+    <div style="position:absolute;left:0px;top:0px">
+        <img src="d80be0c4-58a0-11ea-8b25-0cc47a792c0a_id_d80be0c4-58a0-11ea-8b25-0cc47a792c0a_files/background3.jpg" width=595 height=841></div>
+    <div style="position:absolute;left:56.78px;top:34.60px" class="cls_012"><span class="cls_012">͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙͙.</span></div>
+    <div style="position:absolute;left:315.19px;top:34.60px" class="cls_012"><span class="cls_012">Toute difficulté survenue dans le déroulement du stage devra être</span></div>
+    <div style="position:absolute;left:315.19px;top:47.20px" class="cls_012"><span class="cls_012">portée à la connaissance de tous les intéressés afin d'être résolue</span></div>
+    <div style="position:absolute;left:49.68px;top:59.08px" class="cls_017"><span class="cls_017">Article 6 : Protection sociale</span></div>
+    <div style="position:absolute;left:315.19px;top:59.92px" class="cls_012"><span class="cls_012">au plus vite.</span></div>
+    <div style="position:absolute;left:315.19px;top:78.42px" class="cls_026"><span class="cls_026">Article 9-1 : Interruption temporaire</span></div>
+    <div style="position:absolute;left:49.68px;top:83.10px" class="cls_026"><span class="cls_026">Article 6-1 : Régime de protection sociale :</span></div>
+    <div style="position:absolute;left:49.68px;top:93.78px" class="cls_012"><span class="cls_012">Pendant la durée de son stage, le</span></div>
+    <div style="position:absolute;left:194.09px;top:93.78px" class="cls_012"><span class="cls_012">(la) stagiaire continue de</span></div>
+    <div style="position:absolute;left:315.19px;top:95.22px" class="cls_012"><span class="cls_012">Au cours du stage, le (la) stagiaire pourra bénéficier de congés sous</span></div>
+    <div style="position:absolute;left:49.68px;top:106.50px" class="cls_012"><span class="cls_012">bénéficier de son régime sécurité sociale étudiante.</span></div>
+    <div style="position:absolute;left:315.19px;top:107.82px" class="cls_012"><span class="cls_012">réserve d'accord de l'organisme d'accueil et que la durée du stage</span></div>
+    <div style="position:absolute;left:315.19px;top:120.42px" class="cls_012"><span class="cls_012">soit respectée.</span></div>
+    <div style="position:absolute;left:49.68px;top:124.98px" class="cls_026"><span class="cls_026">Article 6-2 : Accidents du travail</span></div>
+    <div style="position:absolute;left:49.68px;top:141.78px" class="cls_012"><span class="cls_012">Pendant la durée de son stage, le (la) stagiaire bénéficie de la</span></div>
+    <div style="position:absolute;left:315.19px;top:139.02px" class="cls_012"><span class="cls_012">Pour toute autre interruption temporaire du stage (maladie,</span></div>
+    <div style="position:absolute;left:315.19px;top:151.74px" class="cls_012"><span class="cls_012">maternité, absence injustifiée...) l'organisme d'accueil avertira le</span></div>
+    <div style="position:absolute;left:49.68px;top:154.38px" class="cls_012"><span class="cls_012">législation sur les accidents du travail au titre de l’article L412-8 du</span></div>
+    <div style="position:absolute;left:49.68px;top:166.98px" class="cls_012"><span class="cls_012">code de la sécurité sociale.</span></div>
+    <div style="position:absolute;left:315.19px;top:164.34px" class="cls_012"><span class="cls_012">responsable de l'établissement par courrier.</span></div>
+    <div style="position:absolute;left:315.19px;top:182.82px" class="cls_026"><span class="cls_026">Article 9-2 : Interruption définitive</span></div>
+    <div style="position:absolute;left:49.68px;top:185.70px" class="cls_012"><span class="cls_012">En cas d'accident survenant à l'étudiant(e), soit au cours des</span></div>
+    <div style="position:absolute;left:49.68px;top:198.30px" class="cls_012"><span class="cls_012">travaux dans l'organisme, soit au cours du trajet, soit sur les lieux</span></div>
+    <div style="position:absolute;left:315.19px;top:199.62px" class="cls_012"><span class="cls_012">En cas de volonté d'une des trois parties (organisme, établissement,</span></div>
+    <div style="position:absolute;left:49.68px;top:210.90px" class="cls_012"><span class="cls_012">rendus utiles pour les besoins de son stage, l'organisme d'accueil</span></div>
+    <div style="position:absolute;left:315.19px;top:212.22px" class="cls_012"><span class="cls_012">étudiant(e)) d'interrompre définitivement le stage, celle-ci devra</span></div>
+    <div style="position:absolute;left:49.68px;top:223.50px" class="cls_012"><span class="cls_012">envoie la déclaration à la Caisse Primaire d'Assurance Maladie (voir</span></div>
+    <div style="position:absolute;left:315.19px;top:224.94px" class="cls_012"><span class="cls_012">immédiatement en informer les deux autres parties par écrit. Les</span></div>
+    <div style="position:absolute;left:49.68px;top:236.25px" class="cls_012"><span class="cls_012">adresse  en  première  page)  en  mentionnant  l'établissement</span></div>
+    <div style="position:absolute;left:315.19px;top:237.57px" class="cls_012"><span class="cls_012">raisons invoquées seront examinées en étroite concertation. La</span></div>
+    <div style="position:absolute;left:49.68px;top:248.85px" class="cls_012"><span class="cls_012">d’enseignement comme employeur.</span></div>
+    <div style="position:absolute;left:315.19px;top:250.17px" class="cls_012"><span class="cls_012">décision définitive d'interruption du stage ne sera prise qu'à l'issue</span></div>
+    <div style="position:absolute;left:315.19px;top:262.77px" class="cls_012"><span class="cls_012">de cette phase de concertation.</span></div>
+    <div style="position:absolute;left:49.68px;top:267.45px" class="cls_012"><span class="cls_012">Si la gratification est supérieure à 15 % du plafond horaire de la</span></div>
+    <div style="position:absolute;left:49.68px;top:280.17px" class="cls_012"><span class="cls_012">sécurité sociale, le stagiaire bénéficie de la couverture légale en</span></div>
+    <div style="position:absolute;left:315.19px;top:287.37px" class="cls_017"><span class="cls_017">Article 10 : Devoir de réserve et confidentialité</span></div>
+    <div style="position:absolute;left:49.68px;top:292.77px" class="cls_012"><span class="cls_012">aƉƉlication des disƉositions de l’article L411-1 du code de la sécurité</span></div>
+    <div style="position:absolute;left:49.68px;top:305.37px" class="cls_012"><span class="cls_012">sociale. L'organisme d'accueil devra alors assumer le paiement des</span></div>
+    <div style="position:absolute;left:315.19px;top:305.49px" class="cls_012"><span class="cls_012">Le devoir de réserve est de rigueur absolue. Les étudiant(e)s</span></div>
+    <div style="position:absolute;left:49.68px;top:317.97px" class="cls_012"><span class="cls_012">cotisations et effectuer également toutes les démarches nécessaires</span></div>
+    <div style="position:absolute;left:315.19px;top:318.09px" class="cls_012"><span class="cls_012">stagiaires prennent donc l'engagement de n'utiliser en aucun cas les</span></div>
+    <div style="position:absolute;left:49.68px;top:330.69px" class="cls_012"><span class="cls_012">auprès de la CPAM.</span></div>
+    <div style="position:absolute;left:315.19px;top:330.69px" class="cls_012"><span class="cls_012">informations recueillies ou obtenues par eux pour en faire l'objet de</span></div>
+    <div style="position:absolute;left:49.68px;top:343.29px" class="cls_012"><span class="cls_012">Dans les organismes publics, toute gratification supérieure à 15 % du</span></div>
+    <div style="position:absolute;left:315.19px;top:343.29px" class="cls_012"><span class="cls_012">publication, communication à des tiers sans accord préalable de</span></div>
+    <div style="position:absolute;left:49.68px;top:355.89px" class="cls_012"><span class="cls_012">plafond horaire de la sécurité sociale transforme de fait le stage en</span></div>
+    <div style="position:absolute;left:315.19px;top:356.01px" class="cls_012"><span class="cls_012">l'organisme, y compris le rapport de stage. Cet engagement vaudra</span></div>
+    <div style="position:absolute;left:49.68px;top:368.61px" class="cls_012"><span class="cls_012">CDD.</span></div>
+    <div style="position:absolute;left:315.19px;top:368.61px" class="cls_012"><span class="cls_012">non seulement pour la durée du stage mais également après son</span></div>
+    <div style="position:absolute;left:315.19px;top:381.21px" class="cls_012"><span class="cls_012">expiration. L'étudiant(e) s'engage à ne conserver, emporter, ou</span></div>
+    <div style="position:absolute;left:49.68px;top:387.09px" class="cls_017"><span class="cls_017">Article 7 : Responsabilité civile et assurances</span></div>
+    <div style="position:absolute;left:315.19px;top:393.95px" class="cls_012"><span class="cls_012">prendre copie d'aucun document ou logiciel, de quelque nature que</span></div>
+    <div style="position:absolute;left:48.48px;top:405.23px" class="cls_012"><span class="cls_012">L'organisme d'accueil et l'étudiant(e) déclarent être garantis au titre</span></div>
+    <div style="position:absolute;left:315.19px;top:406.55px" class="cls_012"><span class="cls_012">ce soit, appartenant à l'organisme, sauf accord de ce dernier.</span></div>
+    <div style="position:absolute;left:48.48px;top:417.83px" class="cls_012"><span class="cls_012">de la responsabilité civile. Quelle que soit la nature du stage et le</span></div>
+    <div style="position:absolute;left:315.19px;top:422.87px" class="cls_012"><span class="cls_012">Nota</span></div>
+    <div style="position:absolute;left:338.81px;top:422.87px" class="cls_012"><span class="cls_012">:  Dans  le  cadre  de  la  confidentialité  des  informations</span></div>
+    <div style="position:absolute;left:48.48px;top:430.43px" class="cls_012"><span class="cls_012">pays de destination, le (la) stagiaire s'engage à se couvrir par un</span></div>
+    <div style="position:absolute;left:315.19px;top:435.47px" class="cls_012"><span class="cls_012">contenues  dans  le  rapport,  l'organisme  peut  demander  une</span></div>
+    <div style="position:absolute;left:48.48px;top:443.15px" class="cls_012"><span class="cls_012">contrat d'assistance (rapatriement sanitaire, assistance juridique</span></div>
+    <div style="position:absolute;left:315.19px;top:448.19px" class="cls_012"><span class="cls_012">restriction  de  la  diffusion  du  rapport,  voire  le  retrait  de certains</span></div>
+    <div style="position:absolute;left:48.48px;top:455.75px" class="cls_012"><span class="cls_012">etc.) et par un contrat d'assurance individuel accident.</span></div>
+    <div style="position:absolute;left:315.19px;top:460.79px" class="cls_012"><span class="cls_012">éléments très confidentiels.</span></div>
+    <div style="position:absolute;left:48.48px;top:470.99px" class="cls_012"><span class="cls_012">Lorsque l'organisme met un véhicule à la disposition du (de la)</span></div>
+    <div style="position:absolute;left:315.19px;top:473.39px" class="cls_012"><span class="cls_012">Les personnes amenées à en connaître le contenu sont contraintes</span></div>
+    <div style="position:absolute;left:48.48px;top:483.71px" class="cls_012"><span class="cls_012">stagiaire, il lui incombe de vérifier préalablement que la police</span></div>
+    <div style="position:absolute;left:315.19px;top:485.99px" class="cls_012"><span class="cls_012">par le secret  professionnel, à  n'utiliser  ni  ne  divulguer  les</span></div>
+    <div style="position:absolute;left:48.48px;top:496.31px" class="cls_012"><span class="cls_012">d'assurance du véhicule couvre son utilisation par un(e) étudiant(e).</span></div>
+    <div style="position:absolute;left:315.19px;top:498.71px" class="cls_012"><span class="cls_012">informations du rapport.</span></div>
+    <div style="position:absolute;left:48.48px;top:511.55px" class="cls_012"><span class="cls_012">Lorsque dans le cadre de son stage, l'étudiant(e) utilise son propre</span></div>
+    <div style="position:absolute;left:315.19px;top:517.19px" class="cls_017"><span class="cls_017">Article 11 : Propriété intellectuelle</span></div>
+    <div style="position:absolute;left:48.48px;top:524.27px" class="cls_012"><span class="cls_012">véhicule  ou  un  véhicule  prêté  par  un  tiers,  il</span></div>
+    <div style="position:absolute;left:242.81px;top:524.27px" class="cls_012"><span class="cls_012">(elle)  déclare</span></div>
+    <div style="position:absolute;left:48.48px;top:536.99px" class="cls_012"><span class="cls_012">expressément à l'assureur dudit véhicule cette utilisation qu'il (elle)</span></div>
+    <div style="position:absolute;left:315.19px;top:535.31px" class="cls_012"><span class="cls_012">Conformément au code de la propriété intellectuelle, si le travail</span></div>
+    <div style="position:absolute;left:48.48px;top:549.59px" class="cls_012"><span class="cls_012">est amené(e) à faire et le cas échéant s'acquitte de la prime y</span></div>
+    <div style="position:absolute;left:315.19px;top:547.91px" class="cls_012"><span class="cls_012">du (de la) stagiaire donne lieu ă la création d'une œuvre Ɖrotégée</span></div>
+    <div style="position:absolute;left:48.48px;top:562.22px" class="cls_012"><span class="cls_012">afférente.</span></div>
+    <div style="position:absolute;left:315.19px;top:560.54px" class="cls_012"><span class="cls_012">par le droit d'auteur ou la propriété industrielle (y compris un</span></div>
+    <div style="position:absolute;left:315.19px;top:573.26px" class="cls_012"><span class="cls_012">logiciel), si l'organisme d'accueil souhaite l'utiliser et que le (la)</span></div>
+    <div style="position:absolute;left:49.68px;top:586.70px" class="cls_017"><span class="cls_017">Article 8 : Discipline</span></div>
+    <div style="position:absolute;left:315.19px;top:585.86px" class="cls_012"><span class="cls_012">stagiaire en est d'accord, un contrat devra être signé entre le (la)</span></div>
+    <div style="position:absolute;left:315.19px;top:598.46px" class="cls_012"><span class="cls_012">stagiaire (auteur) et l'organisme d'accueil.</span></div>
+    <div style="position:absolute;left:49.68px;top:604.82px" class="cls_012"><span class="cls_012">Durant son stage, l'étudiant(e) est soumis(e) à la discipline et au</span></div>
+    <div style="position:absolute;left:49.68px;top:617.42px" class="cls_012"><span class="cls_012">règlement intérieur (qui doit être porté à la connaissance de</span></div>
+    <div style="position:absolute;left:315.19px;top:617.06px" class="cls_012"><span class="cls_012">Devront notamment être précisés l'étendue des droits cédés,</span></div>
+    <div style="position:absolute;left:49.68px;top:630.14px" class="cls_012"><span class="cls_012">l'étudiant(e) de l'organisme, notamment en ce qui concerne les</span></div>
+    <div style="position:absolute;left:315.19px;top:629.78px" class="cls_012"><span class="cls_012">l'éventuelle exclusivité, la destination, les supports utilisés et la</span></div>
+    <div style="position:absolute;left:49.68px;top:642.74px" class="cls_012"><span class="cls_012">horaires, et les règles d'hygiène et de sécurité en vigueur dans</span></div>
+    <div style="position:absolute;left:315.19px;top:642.38px" class="cls_012"><span class="cls_012">durée de la cession, ainsi que, le cas échéant, le montant de la</span></div>
+    <div style="position:absolute;left:49.68px;top:655.34px" class="cls_012"><span class="cls_012">l'organisme d'accueil.</span></div>
+    <div style="position:absolute;left:315.19px;top:654.98px" class="cls_012"><span class="cls_012">rémunération due à l'étudiant(e) au titre de la cession.</span></div>
+    <div style="position:absolute;left:49.68px;top:674.06px" class="cls_012"><span class="cls_012">Toute sanction  disciplinaire ne  peut être décidée   que   par</span></div>
+    <div style="position:absolute;left:315.19px;top:680.30px" class="cls_022"><span class="cls_022">Cette clause s'applique également dans le cas des stages dans les</span></div>
+    <div style="position:absolute;left:49.68px;top:686.66px" class="cls_012"><span class="cls_012">l'établissement. Dans ce cas, l'organisme informe l’enseignant</span></div>
+    <div style="position:absolute;left:315.19px;top:692.90px" class="cls_022"><span class="cls_022">organismes publics.</span></div>
+    <div style="position:absolute;left:49.68px;top:699.26px" class="cls_012"><span class="cls_012">référent  et  l'établissement  des  manquements  et  lui  fournit</span></div>
+    <div style="position:absolute;left:49.68px;top:711.86px" class="cls_012"><span class="cls_012">éventuellement les éléments constitutifs. En cas de manquement</span></div>
+    <div style="position:absolute;left:49.68px;top:724.60px" class="cls_012"><span class="cls_012">particulièrement grave à la discipline, l'organisme se réserve le</span></div>
+    <div style="position:absolute;left:315.19px;top:730.72px" class="cls_017"><span class="cls_017">Article 12 : Recrutement</span></div>
+    <div style="position:absolute;left:49.68px;top:737.20px" class="cls_012"><span class="cls_012">droit de mettre fin au stage de l'étudiant(e) tout en respectant les</span></div>
+    <div style="position:absolute;left:49.68px;top:749.80px" class="cls_012"><span class="cls_012">dispositions fixées à l'article 9 de la présente convention.</span></div>
+    <div style="position:absolute;left:313.99px;top:748.84px" class="cls_012"><span class="cls_012">S'il advenait qu'un contrat de travail prenant effet avant la date de</span></div>
+    <div style="position:absolute;left:313.99px;top:761.44px" class="cls_012"><span class="cls_012">fin du stage soit signé avec l'organisme d'accueil, la présente</span></div>
+    <div style="position:absolute;left:49.68px;top:774.40px" class="cls_017"><span class="cls_017">Article 9 : Absence et Interruption du stage</span></div>
+    <div style="position:absolute;left:313.99px;top:774.04px" class="cls_012"><span class="cls_012">convention deviendrait caduque ; l' « étudiant(e) » ne relèverait plus</span></div>
+    <div style="position:absolute;left:42.60px;top:801.52px" class="cls_002"><span class="cls_002">Convention de stage UM / IUTMS version 19/09/2016</span></div>
+    <div style="position:absolute;left:485.14px;top:800.44px" class="cls_014"><span class="cls_014">3/4</span></div>
 </div>
-<div style="position:absolute;left:50%;margin-left:-297px;top:2556px;width:595px;height:838px;border-style:outset;overflow:hidden">
-    <div style="position:absolute;left:45.36px;top:26.56px" class="cls_007"><span class="cls_007">de la responsabilite de l'etablissement d'enseignement. Ce dernier</span></div>
-    <div style="position:absolute;left:316.56px;top:25.60px" class="cls_007"><span class="cls_007">Le (la) stagialre deposera a i'IUT un rapport de stage (ou compte</span></div>
-    <div style="position:absolute;left:45.36px;top:39.52px" class="cls_007"><span class="cls_007">devrait imperativement en etre averts avant la signature du contrat.</span></div>
-    <div style="position:absolute;left:316.56px;top:39.76px" class="cls_007"><span class="cls_007">rendu...)  vise  par  l'organisme  d</span></div>
-    <div style="position:absolute;left:453.84px;top:38.56px" class="cls_007"><span class="cls_007">'accueil  et  le  responsable</span></div>
-    <div style="position:absolute;left:316.56px;top:53.20px" class="cls_007"><span class="cls_007">pedagogique qui aura assure le suiv</span></div>
-    <div style="position:absolute;left:450.72px;top:51.76px" class="cls_007"><span class="cls_007">i de retudiant. Ce rapport fera</span></div>
-    <div style="position:absolute;left:46.32px;top:57.48px" class="cls_008"><span class="cls_008">Article 13 : Fin de stage </span><span class="cls_007">- </span><span class="cls_008">Rapport </span><span class="cls_007">- </span><span class="cls_008">Evaluation</span></div>
-    <div style="position:absolute;left:316.56px;top:64.96px" class="cls_007"><span class="cls_007">('objet dune presentation orate et dune notation.</span></div>
-    <div style="position:absolute;left:45.60px;top:76.72px" class="cls_007"><span class="cls_007">A ('issue du stage, l'organisme d'accuell dellvre au (a la) stagialre une</span></div>
-    <div style="position:absolute;left:316.32px;top:83.92px" class="cls_007"><span class="cls_007">Les modalltes de validation du stage sont definies dans le cadre des</span></div>
-    <div style="position:absolute;left:45.84px;top:89.92px" class="cls_007"><span class="cls_007">attestation de stage et remplit une fiche d'evaluation de l'activite du</span></div>
-    <div style="position:absolute;left:46.32px;top:102.40px" class="cls_007"><span class="cls_007">(de  la)  stagiaire</span></div>
-    <div style="position:absolute;left:123.12px;top:102.88px" class="cls_007"><span class="cls_007">(annexe)</span></div>
-    <div style="position:absolute;left:188.16px;top:104.32px" class="cls_007"><span class="cls_007">retourne  a  retablissement</span></div>
-    <div style="position:absolute;left:316.32px;top:97.36px" class="cls_007"><span class="cls_007">modalltes du contrale des connalssances du DUT/L.P.</span></div>
-    <div style="position:absolute;left:46.08px;top:115.36px" class="cls_007"><span class="cls_007">d'enseignement superieur.</span></div>
-    <div style="position:absolute;left:315.84px;top:115.32px" class="cls_008"><span class="cls_008">Article 14 : Drolt applicable </span><span class="cls_007">- </span><span class="cls_008">Tribunaux competents</span></div>
-    <div style="position:absolute;left:46.08px;top:128.08px" class="cls_007"><span class="cls_007">Les modalltes de validation du stage sont definies dans le cadre des</span></div>
-    <div style="position:absolute;left:317.28px;top:134.80px" class="cls_007"><span class="cls_007">La presente convention est regle exclusivement par le droit</span></div>
-    <div style="position:absolute;left:46.08px;top:140.20px" class="cls_007"><span class="cls_007">modalites de controle des connaissances de </span><span class="cls_021">nisr.</span></div>
-    <div style="position:absolute;left:317.04px;top:147.76px" class="cls_007"><span class="cls_007">frangais. Tout litige non resolu par vole amiable sera soumis a la</span></div>
-    <div style="position:absolute;left:46.32px;top:153.76px" class="cls_007"><span class="cls_007">LlactivIte du (de la) stagiaire fera ('objet dune evaluation. Une fiche</span></div>
-    <div style="position:absolute;left:317.28px;top:161.68px" class="cls_007"><span class="cls_007">competence de la juridiction frangaise competente.</span></div>
-    <div style="position:absolute;left:46.32px;top:166.72px" class="cls_007"><span class="cls_007">devaluation est remplie par l'organisme d'accuell (maitre de stage)</span></div>
-    <div style="position:absolute;left:46.32px;top:179.92px" class="cls_007"><span class="cls_007">et remise a l'IUT.</span></div>
-    <div style="position:absolute;left:39.84px;top:223.84px" class="cls_007"><span class="cls_007">Fait en trots exemplaires originaux,</span></div>
-    <div style="position:absolute;left:40.08px;top:237.52px" class="cls_007"><span class="cls_007">Le 29 janvier 2020 a Montpellier</span></div>
-    <div style="position:absolute;left:40.32px;top:278.80px" class="cls_007"><span class="cls_007">Pour l'organisme d'accueil :</span></div>
-    <div style="position:absolute;left:312.24px;top:279.76px" class="cls_007"><span class="cls_007">Par delegation du President de l'Universite de Montpellier:</span></div>
-    <div style="position:absolute;left:40.32px;top:292.96px" class="cls_007"><span class="cls_007">Nom et signature du representant</span></div>
-    <div style="position:absolute;left:319.20px;top:294.40px" class="cls_007"><span class="cls_007">Le chef de departement - Nom et signature</span></div>
-    <div style="position:absolute;left:318.72px;top:323.48px" class="cls_017"><span class="cls_017">Francis GARCIA</span></div>
-    <div style="position:absolute;left:39.60px;top:402.40px" class="cls_007"><span class="cls_007">Le tuteur de stage de l'organisme d'accuell :</span></div>
-    <div style="position:absolute;left:314.40px;top:402.88px" class="cls_007"><span class="cls_007">-L'enseignant referent :</span></div>
-    <div style="position:absolute;left:38.88px;top:416.32px" class="cls_007"><span class="cls_007">Nom et signature du tuteur</span></div>
-    <div style="position:absolute;left:318.72px;top:417.04px" class="cls_007"><span class="cls_007">Nom et signature</span></div>
-    <div style="position:absolute;left:318.96px;top:444.88px" class="cls_007"><span class="cls_007">Nathalie PALLE1A</span></div>
-    <div style="position:absolute;left:41.28px;top:567.04px" class="cls_007"><span class="cls_007">Le/la stagiaire (ou son representant legal) :</span></div>
-    <div style="position:absolute;left:41.04px;top:581.20px" class="cls_007"><span class="cls_007">Nom et signature</span></div>
-    <div style="position:absolute;left:41.04px;top:610.00px" class="cls_007"><span class="cls_007">Florian MARIE</span></div>
-    <div style="position:absolute;left:38.88px;top:802.56px" class="cls_004"><span class="cls_004">Convention de stage UM / IUTMS version 19/09/2016</span></div>
-    <div style="position:absolute;left:490.80px;top:798.92px" class="cls_017"><span class="cls_017">4/4</span></div>
+<div style="position:absolute;left:50%;margin-left:-297px;top:2553px;width:595px;height:841px;border-style:outset;overflow:hidden">
+    <div style="position:absolute;left:0px;top:0px">
+        <img src="d80be0c4-58a0-11ea-8b25-0cc47a792c0a_id_d80be0c4-58a0-11ea-8b25-0cc47a792c0a_files/background4.jpg" width=595 height=841></div>
+    <div style="position:absolute;left:48.48px;top:34.60px" class="cls_012"><span class="cls_012">de la responsabilité de l'établissement d'enseignement. Ce dernier</span></div>
+    <div style="position:absolute;left:314.11px;top:34.60px" class="cls_012"><span class="cls_012">Le (la) stagiaire déƉosera ă l’IUT un raƉƉort de stage (ou comƉte</span></div>
+    <div style="position:absolute;left:48.48px;top:47.20px" class="cls_012"><span class="cls_012">devrait impérativement en être averti avant la signature du contrat.</span></div>
+    <div style="position:absolute;left:314.11px;top:47.20px" class="cls_012"><span class="cls_012">rendu͙)   visé   Ɖar   l’organisme   d’accueil   et   le   resƉonsable</span></div>
+    <div style="position:absolute;left:314.11px;top:59.92px" class="cls_012"><span class="cls_012">pédagogique qui aura assuré le suivi de l'étudiant. Ce rapport fera</span></div>
+    <div style="position:absolute;left:49.68px;top:65.80px" class="cls_017"><span class="cls_017">Article 13 : Fin de stage - Rapport - Évaluation</span></div>
+    <div style="position:absolute;left:314.11px;top:72.54px" class="cls_012"><span class="cls_012">l'objet d'une présentation orale et d'une notation.</span></div>
+    <div style="position:absolute;left:48.60px;top:83.82px" class="cls_012"><span class="cls_012">À l'issue du stage, l'organisme d'accueil délivre au (à la) stagiaire une</span></div>
+    <div style="position:absolute;left:314.11px;top:91.14px" class="cls_012"><span class="cls_012">Les modalités de validation du stage sont définies dans le cadre des</span></div>
+    <div style="position:absolute;left:48.60px;top:96.54px" class="cls_012"><span class="cls_012">attestation de stage et remplit une fiche d'évaluation de l'activité du</span></div>
+    <div style="position:absolute;left:314.11px;top:103.74px" class="cls_012"><span class="cls_012">modalités du contrôle des connaissances du DUT/L.P.</span></div>
+    <div style="position:absolute;left:48.60px;top:109.14px" class="cls_012"><span class="cls_012">(de   la)   stagiaire</span></div>
+    <div style="position:absolute;left:124.09px;top:109.14px" class="cls_012"><span class="cls_012">(annexe)  qu'il  retourne  à   l'établissement</span></div>
+    <div style="position:absolute;left:48.60px;top:121.74px" class="cls_012"><span class="cls_012">d'enseignement supérieur.</span></div>
+    <div style="position:absolute;left:314.11px;top:122.34px" class="cls_017"><span class="cls_017">Article 14 : Droit applicable - Tribunaux compétents</span></div>
+    <div style="position:absolute;left:48.60px;top:134.46px" class="cls_012"><span class="cls_012">Les modalités de validation du stage sont définies dans le cadre des</span></div>
+    <div style="position:absolute;left:315.19px;top:140.46px" class="cls_012"><span class="cls_012">La présente convention est régie exclusivement par le droit</span></div>
+    <div style="position:absolute;left:48.60px;top:147.06px" class="cls_012"><span class="cls_012">modalités de contrôle des connaissances de l’IUT.</span></div>
+    <div style="position:absolute;left:315.19px;top:153.06px" class="cls_012"><span class="cls_012">français. Tout litige non résolu par voie amiable sera soumis à la</span></div>
+    <div style="position:absolute;left:48.60px;top:159.66px" class="cls_012"><span class="cls_012">L'activité du (de la) stagiaire fera l'objet d'une évaluation. Une fiche</span></div>
+    <div style="position:absolute;left:315.19px;top:165.66px" class="cls_012"><span class="cls_012">compétence de la juridiction française compétente.</span></div>
+    <div style="position:absolute;left:48.60px;top:172.26px" class="cls_012"><span class="cls_012">d’évaluation est remƉlie Ɖar l’organisme d’accueil (maître de stage)</span></div>
+    <div style="position:absolute;left:48.60px;top:184.98px" class="cls_012"><span class="cls_012">et remise ă l’IUT.</span></div>
+    <div style="position:absolute;left:41.88px;top:228.18px" class="cls_018"><span class="cls_018">Fait en trois exemplaires originaux,</span></div>
+    <div style="position:absolute;left:41.88px;top:241.89px" class="cls_018"><span class="cls_018">Le 25 février 2020   à Montpellier</span></div>
+    <div style="position:absolute;left:41.88px;top:282.09px" class="cls_006"><span class="cls_006">Pour l’organisme d’accueil :</span></div>
+    <div style="position:absolute;left:309.67px;top:281.61px" class="cls_006"><span class="cls_006">Par délégation du Président de l’Université de MontƉellier:</span></div>
+    <div style="position:absolute;left:41.88px;top:296.73px" class="cls_012"><span class="cls_012">Nom et signature du représentant</span></div>
+    <div style="position:absolute;left:316.75px;top:295.29px" class="cls_006"><span class="cls_006">Le chef de département</span><span class="cls_018">  - </span><span class="cls_012">Nom et signature</span></div>
+    <div style="position:absolute;left:316.75px;top:323.73px" class="cls_012"><span class="cls_012">Francis GARCIA</span></div>
+    <div style="position:absolute;left:41.88px;top:405.35px" class="cls_006"><span class="cls_006">Le tuteur de stage de l’organisme d’accueil :</span></div>
+    <div style="position:absolute;left:316.75px;top:404.75px" class="cls_006"><span class="cls_006">L’enseignant référent :</span></div>
+    <div style="position:absolute;left:41.88px;top:420.11px" class="cls_012"><span class="cls_012">Nom et signature du tuteur</span></div>
+    <div style="position:absolute;left:316.75px;top:419.99px" class="cls_012"><span class="cls_012">Nom et signature</span></div>
+    <div style="position:absolute;left:316.75px;top:448.31px" class="cls_012"><span class="cls_012">Nathalie PALLEJA</span></div>
+    <div style="position:absolute;left:43.08px;top:569.78px" class="cls_006"><span class="cls_006">Le/la stagiaire (ou son représentant légal) :</span></div>
+    <div style="position:absolute;left:43.08px;top:584.42px" class="cls_012"><span class="cls_012">Nom et signature</span></div>
+    <div style="position:absolute;left:42.84px;top:612.26px" class="cls_006"><span class="cls_006">Florian MARIE</span></div>
+    <div style="position:absolute;left:42.60px;top:801.52px" class="cls_002"><span class="cls_002">Convention de stage UM / IUTMS version 19/09/2016</span></div>
+    <div style="position:absolute;left:485.14px;top:800.44px" class="cls_014"><span class="cls_014">4/4</span></div>
 </div>
 
 </body>

@@ -107,18 +107,10 @@
         </tbody>
     </table>
 
-    {% if is_granted('ROLE_SECRETAIRE') %}
+    {% if is_granted('ROLE_RESPONSABLE_DES_STAGE') %}
         {% if etat=="Envoyer" %}
             <a type="button" class="btn btn-success" href="{{ path('stage_valider',{'id' : stageForm.id}) }}">
                 Valider la convention
-            </a>
-        {% endif %}
-        <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
-            Editer la convention
-        </a>
-        {% if etat=="Valider" %}
-            <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
-                Valider les signatures
             </a>
         {% endif %}
 
@@ -127,6 +119,22 @@
                 Affecter un tuteur
             </a>
         {% endif %}
+
+    {% endif %}
+
+    {% if is_granted('ROLE_SECRETAIRE') %}
+
+        {% if etat=="Valider" %}
+            <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
+                Editer la convention
+            </a>
+
+            <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
+                Valider les signatures
+            </a>
+        {% endif %}
+
+
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: relative ;">Supprimer</button>
     {% endif %}
 
@@ -140,11 +148,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                <h7>Voulez vous vraiment supprimer le stage ? </h7>
+                    <h7>Voulez vous vraiment supprimer le stage ? </h7>
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-success" href="{{ path('stage_supprimer',{'id' : stageForm.id}) }}">
-                       Valider
+                        Valider
                     </a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                 </div>
