@@ -113,24 +113,28 @@
                 Valider la convention
             </a>
         {% endif %}
-    {% endif %}
-
-    {% if is_granted('ROLE_SECRETAIRE') %}
-
-        <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
-            Editer la convention
-        </a>
-        {% if etat=="Valider" %}
-            <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
-                Valider les signatures
-            </a>
-        {% endif %}
 
         {% if etat=="Signer" %}
             <a type="button" class="btn btn-success" href="{{ path('stage_affecter',{'id' : stageForm.id}) }}">
                 Affecter un tuteur
             </a>
         {% endif %}
+
+    {% endif %}
+
+    {% if is_granted('ROLE_SECRETAIRE') %}
+
+        {% if etat=="Valider" %}
+            <a type="button" class="btn btn-primary" href="{{ path('stage_generer_convention',{'id' : stageForm.id}) }}">
+                Editer la convention
+            </a>
+
+            <a type="button" class="btn btn-success" href="{{ path('stage_valider_signature',{'id' : stageForm.id}) }}">
+                Valider les signatures
+            </a>
+        {% endif %}
+
+
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: relative ;">Supprimer</button>
     {% endif %}
 

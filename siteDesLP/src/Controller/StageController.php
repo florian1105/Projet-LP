@@ -95,7 +95,8 @@ class StageController extends AbstractController
 
             $this->addFlash('success','La demande de convention a bien été envoyé');
             return $this->redirectToRoute('stage_afficher',[
-                'stageForm' => $stageForm
+                'stageForm' => $stageForm,
+                'etat' => $etatEnvoyer,
             ]);
         }
 
@@ -176,6 +177,7 @@ class StageController extends AbstractController
         }
         return $this->render('stage/informations.html.twig', [
             'stageForm' => $stageForm,
+            'etat' => $stageForm->getEtatStages()->getNomEtat(),
         ]);
     }
 
