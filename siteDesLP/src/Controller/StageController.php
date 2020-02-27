@@ -61,7 +61,6 @@ class StageController extends AbstractController
                 ],
             ])
             ->add('numero_tel_etudiant')
-            ->add('mail_perso_etudiant')
             ->add('nom_entreprise')
             ->add('num_siret')
             ->add('addresse_siege_entreprise')
@@ -89,7 +88,6 @@ class StageController extends AbstractController
             $stageForm->setEtudiant($this->getUser());
             $etatEnvoyer = $etatRepo->findOneBy(["id"=>"1"]);
             $stageForm->setEtatStages($etatEnvoyer);
-
             $manager->persist($stageForm);
             $manager->flush();
 
