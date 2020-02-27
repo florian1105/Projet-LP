@@ -36,13 +36,6 @@ class StageForm
      */
     private $numeroTelEtudiant;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner un mail")
-     * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
-     */
-    private $mailPersoEtudiant;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -213,17 +206,6 @@ class StageForm
         return $this;
     }
 
-    public function getMailPersoEtudiant(): ?string
-    {
-        return $this->mailPersoEtudiant;
-    }
-
-    public function setMailPersoEtudiant(string $mailPersoEtudiant): self
-    {
-        $this->mailPersoEtudiant = $mailPersoEtudiant;
-
-        return $this;
-    }
 
     public function getNomEntreprise(): ?string
     {
