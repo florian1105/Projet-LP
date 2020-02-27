@@ -42,7 +42,6 @@ class EntreprisesController extends AbstractController
 
         $form = $this->createFormBuilder($entreprise)
             ->add('nom')
-            ->add('ville')
             ->getForm();
 
         $form->handleRequest($request);

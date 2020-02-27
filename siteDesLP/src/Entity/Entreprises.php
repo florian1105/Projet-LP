@@ -50,12 +50,6 @@ class Entreprises
     private $offres;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="entreprise")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ville;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $numSiret;
@@ -171,18 +165,6 @@ class Entreprises
                 $offre->setEntreprise(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getVille(): ?Ville
-    {
-        return $this->ville;
-    }
-
-    public function setVille(?Ville $ville): self
-    {
-        $this->ville = $ville;
 
         return $this;
     }
