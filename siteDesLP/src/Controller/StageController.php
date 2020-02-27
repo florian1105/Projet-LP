@@ -249,7 +249,7 @@ class StageController extends AbstractController
             $manager->flush();
 
             return $this->redirectToRoute('stage_generer_convention',[
-                'id'=>$stage->getId()
+                'id'=>$stageForm->getId()
             ]);
 
         }else{
@@ -273,7 +273,7 @@ class StageController extends AbstractController
      * @param Options $options
      * @return string
      */
-    public function genererConvention(Stage $stage = null, \Swift_Mailer $mailer)
+    public function genererConvention(StageForm $stageForm = null, \Swift_Mailer $mailer)
     {
 
         // Instantiate Dompdf with our options
@@ -281,10 +281,10 @@ class StageController extends AbstractController
 
 
         $dompdf->setPaper('A4', 'portrait');
-
+        $dompdf->setOptions(new Options(['isRemoteEnabled' =>true] ));
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView('stage/convention.html.twig', [
-            'stage' => $stage
+            'stageForm' => $stageForm
         ]);
 
         // Load HTML to Dompdf
@@ -300,7 +300,7 @@ class StageController extends AbstractController
         $message = (new \Swift_Message())
             ->setSubject('convention de stage')
             ->setFrom('sitedeslp@gmail.com')
-            ->setTo([$stage->getEtudiant()->getMail()])
+            ->setTo([$stageForm->getEtudiant()->getMail()])
             ->setBody($this->renderView('stage/mail_convention.html.twig'))
             ->attach($pdf);
 
