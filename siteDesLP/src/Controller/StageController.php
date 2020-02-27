@@ -395,6 +395,19 @@ class StageController extends AbstractController
     }
 
     /**
+     * @Route("/stage/gestion",name="stage_gestion")
+     */
+    public function gestionStage(){
+        if($this->getUser()->getStage()!=null){
+            return $this->redirectToRoute('stage_afficher');
+        }else{
+            return $this->redirectToRoute('stage_nouveau');
+
+        }
+
+    }
+
+    /**
      * TuteurIUT
      *
      * Affiche le formulaire de compte rendu de la visite de stage.
