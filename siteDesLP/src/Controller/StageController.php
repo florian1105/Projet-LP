@@ -53,31 +53,31 @@ class StageController extends AbstractController
         $stageForm=new StageForm();
 
         $form = $this->createFormBuilder($stageForm)
-            ->add('num_ine')
+            ->add('numINE')
             ->add('sex', ChoiceType::class, [
                 'choices'  => [
                     'F' => true,
                     'M' => false,
                 ],
             ])
-            ->add('numero_tel_etudiant')
-            ->add('nom_entreprise')
-            ->add('num_siret')
-            ->add('addresse_siege_entreprise')
-            ->add('code_postal')
+            ->add('numeroTelEtudiant')
+            ->add('nomEntreprise')
+            ->add('numSIRET')
+            ->add('addresseSiegeEntreprise')
+            ->add('codePostal')
             ->add('ville')
-            ->add('addresse_stage')
-            ->add('nom_prenom_signataire')
-            ->add('fonction_signataire')
-            ->add('num_tel_signataire')
-            ->add('mail_signataire')
-            ->add('sujet_stage')
-            ->add('nom_tuteur')
-            ->add('prenom_tuteur')
-            ->add('num_tel_tuteur')
-            ->add('mail_tuteur')
-            ->add('fonction_tuteur')
-            ->add('information_supp')
+            ->add('addresseStage')
+            ->add('nomPrenomSignataire')
+            ->add('fonctionSignataire')
+            ->add('numTelSignataire')
+            ->add('mailSignataire')
+            ->add('sujetStage')
+            ->add('nomTuteur')
+            ->add('prenomTuteur')
+            ->add('numTelTuteur')
+            ->add('mailTuteur')
+            ->add('fonctionTuteur')
+            ->add('informationSupp')
             ->getForm();
 
         $form->handleRequest($request);
