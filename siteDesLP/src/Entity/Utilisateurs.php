@@ -27,7 +27,6 @@ class Utilisateurs
     /**
      * @ORM\Column(type="string", length=24)
      * @Assert\NotBlank(message="Veuillez renseigner un nom")
-     *
      * @Assert\Regex(pattern="/[[:digit:]]/", match=false, message="Les chiffres ne sont pas autorisés")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")

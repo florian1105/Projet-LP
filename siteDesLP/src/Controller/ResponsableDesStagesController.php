@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EtudiantsRepository;
+use App\Repository\SecretaireRepository;
+use App\Repository\ProfesseursRepository;
 use App\Repository\ResponsableDesStagesRepository;
 
 
@@ -21,7 +24,7 @@ class ResponsableDesStagesController extends AbstractController
   * @Route("/responsable_des_stages/nouveau", name="responsable_des_stages_nouveau")
   * @Route("/responsable_des_stages/modifier/{id}", name="responsable_des_stages_modifier")
   */
-  public function formulaire(ResponsableDesStages $responsableDesStages = null, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder,Request $request)
+  public function formulaire(ResponsableDesStages $responsableDesStages = null, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder,Request $request, ResponsableDesStagesRepository $repoR, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
   {
     $editMode = true;
     if(!$responsableDesStages)
@@ -58,17 +61,17 @@ class ResponsableDesStagesController extends AbstractController
       $i = "";
       $j = "";
 
-      // while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]))
-      // {
-      //   if($i == "") $i = 0;
-      //   $i++;
-      // }
-      //
-      // while($repoS->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]) || $repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
-      // {
-      //   if($j == "") $j = 0;
-      //   $j++;
-      // }
+      while($repoE->findBy(['login' => $login.$i]) || $repoP->findBy(['login' => $login.$i]) || $repoS->findBy(['login' => $login.$i]) || $repoR->findBy(['login' => $login.$i]))
+      {
+        if($i == "") $i = 0;
+        $i++;
+      }
+
+      while($repoS->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]) || $repoP->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]) || $repoR->findBy(['mailAcademique' => $mailAcademique.$j."@umontpellier.fr"]))
+      {
+        if($j == "") $j = 0;
+        $j++;
+      }
 
       $responsableDesStages->setLogin($login.$i);
       $responsableDesStages->setMailAcademique($mailAcademique.$j."@umontpellier.fr");
@@ -231,7 +234,7 @@ class ResponsableDesStagesController extends AbstractController
 			]);
 	}
 
-  
+
 
 
 

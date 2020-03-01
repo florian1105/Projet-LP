@@ -4,6 +4,23 @@
 
 {% block body %}
 
+{% for message in app.flashes('mdp_change') %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('mdp_non_change') %}
+    <div class="alert alert-warning" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
 
 
   <div class="btn-group" role="group" aria-label="Basic example">
