@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Repository\EtudiantsRepository;
 use App\Repository\ProfesseursRepository;
+use App\Repository\ResponsableDesStagesRepository;
 use App\Repository\SecretaireRepository;
 use App\Services\Mailer;
 use App\Form\ResettingPasswordType;
@@ -25,7 +26,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("requete_reinitialiser_mot_de_passe", name="requete_reinitialiser_mot_de_passe")
    */
-    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, EntityManagerInterface $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, EntityManagerInterface $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, ResponsableDesStagesRepository $repoR)
     {
       $form = $this->createFormBuilder()
       ->add('email', EmailType::class)
@@ -36,36 +37,39 @@ class ResettingPasswordController extends AbstractController
 
       if($form->isSubmitted() && $form->isValid())
       {
-        //On teste si il existe un utilisateur avec ce mail
-        $user = $repoE->findOneBy(['mailAcademique' => $form['email']->getData()]);
-        if(!$user)
-        {
+        $etudiant = $repoE->findOneBy(['mailAcademique' => $form['email']->getData()]);
+        $secretaire = $repoS->findOneBy(['mailAcademique' => $form['email']->getData()]);
+        $professeur = $repoP->findOneBy(['mailAcademique' => $form['email']->getData()]);
+        $responsableDesStages = $repoR->findOneBy(['mailAcademique' => $form['email']->getData()]);
 
-          $user = $repoP->findOneBy(['mailAcademique' => $form['email']->getData()]);
-        }
-        elseif(!$user)
-        {
-          $user = $repoS->findOneBy(['mailAcademique'=> $form['email']->getData()]);
-        }
+        $lesUtilisateurs = array($etudiant,$secretaire,$professeur, $responsableDesStages);
+
+        $user = $this->getUserNonNull($lesUtilisateurs);
+
         //si il n'existe pas d'utilisateur avec ce mail on redirige sur la même page avec un message erreur
-        if(!$user)
+        if($user == null)
         {
           $this->addFlash('badMail',"Cet email n'existe pas, veuillez réessayer");
           return $this->redirectToRoute('requete_reinitialiser_mot_de_passe');
         }
-        //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
-        $user->setToken($tokenGenerator->generateToken());
-        $user->setPasswordRequestedAt(new \Datetime());
-        $em->flush();
 
-        //Crée le corps du mail en utilisant le template mail_reset_password
-        $bodyMail = $mailer->createBodyMail('resetting_password/mail_reset_password.html.twig', [
-          'user' => $user
-        ]);
-        //envoie du mai
-        $mailer->sendMessage('sitedeslp@gmail.com', $user->getMailAcademique(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
-        $this->addFlash('goodMail',"Un mail va vous être envoyé afin que vous puissez renouveller votre mot de passe, le lien que vous recevrez sera valide 24h.");
-        return $this->redirectToRoute('connexion');
+        else
+        {
+          //On affecte un token et une date de demande de mot de passe(correspond à maintenant)
+          $user->setToken($tokenGenerator->generateToken());
+          $user->setPasswordRequestedAt(new \Datetime());
+          $em->flush();
+
+          //Crée le corps du mail en utilisant le template mail_reset_password
+          $bodyMail = $mailer->createBodyMail('resetting_password/mail_reset_password.html.twig', [
+            'user' => $user
+          ]);
+          //envoie du mail
+          $mailer->sendMessage('sitedeslp@gmail.com', $user->getMailAcademique(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
+          $this->addFlash('goodMail',"Un mail va vous être envoyé afin que vous puissez renouveller votre mot de passe, le lien que vous recevrez sera valide 24h.");
+          return $this->redirectToRoute('connexion');
+        }
+
 
       }
 
@@ -101,7 +105,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("reinitialiser_mot_de_passe/{id}/{token}", name="reinitialiser_mot_de_passe")
    */
-    public function reinitialiserMotDePasse($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,EntityManagerInterface $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS)
+    public function reinitialiserMotDePasse($user = null, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder,ContactRepository $repoC,EntityManagerInterface $em,  EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, ResponsableDesStagesRepository $repoR)
     {
       // interdit l'accès à la page si:
         // le token associé au membre est null
@@ -122,6 +126,11 @@ class ResettingPasswordController extends AbstractController
         if($user==null)
         {
             $user = $repoS->findOneBy(['token' => $token]);
+        }
+
+        if($user==null)
+        {
+            $user = $repoR->findOneBy(['token' => $token]);
         }
         if(!$user){
             throw new AccessDeniedHttpException("Utilisateur non trouvé");
@@ -159,7 +168,19 @@ class ResettingPasswordController extends AbstractController
           'form' => $form->createView()
         ]);
 
+    }
 
+    public function getUserNonNull(array $tab)
+    {
+      $userNonNull = "";
+      foreach ($tab as $unUser )
+      {
+        if($unUser !=null )
+        {
+          $userNonNull = $unUser;
+        }
+      }
+      return $userNonNull;
     }
 
 }

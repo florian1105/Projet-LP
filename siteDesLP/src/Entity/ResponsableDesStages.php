@@ -66,6 +66,17 @@ class ResponsableDesStages implements UserInterface
      */
     private $mailAcademique;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $passwordRequestedAt;
+
+    /**
+    *
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $token;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +153,28 @@ class ResponsableDesStages implements UserInterface
     {
         $this->confirmPassword = $confirmPassword;
 
+        return $this;
+    }
+
+    public function getPasswordRequestedAt(): ?\DateTimeInterface
+    {
+      return $this->passwordRequestedAt;
+    }
+
+    public function setPasswordRequestedAt($passwordRequestedAt)
+   {
+       $this->passwordRequestedAt = $passwordRequestedAt;
+       return $this;
+   }
+
+    public function getToken()
+    {
+      return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
         return $this;
     }
 

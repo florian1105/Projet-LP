@@ -142,8 +142,8 @@ class StageForm
     private $informationSupp;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $etudiant;
 
