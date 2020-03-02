@@ -197,6 +197,11 @@ class Secretaire implements UserInterface
         $this->mailAcademique = $mailAcademique;
     }
 
+    public function getContactMail()
+    {
+      return $this->mailAcademique;
+    }
+
 
     public function eraseCredentials()
     {

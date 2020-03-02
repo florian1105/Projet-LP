@@ -148,6 +148,11 @@ class Contacts implements UserInterface {
         return $this;
     }
 
+    public function getContactMail()
+    {
+      return $this->mail;
+    }
+
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -269,4 +274,6 @@ class Contacts implements UserInterface {
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+
 }

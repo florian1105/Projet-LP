@@ -159,6 +159,11 @@ class Professeurs implements UserInterface
         return $this;
     }
 
+    public function getContactMail()
+    {
+      return $this->mailAcademique;
+    }
+
     public function getLogin(): ?string
     {
         return $this->login;

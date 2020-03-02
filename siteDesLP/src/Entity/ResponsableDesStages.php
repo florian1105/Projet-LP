@@ -190,6 +190,11 @@ class ResponsableDesStages implements UserInterface
         return $this;
     }
 
+    public function getContactMail()
+    {
+      return $this->mailAcademique;
+    }
+
     public function eraseCredentials()
     {
 
