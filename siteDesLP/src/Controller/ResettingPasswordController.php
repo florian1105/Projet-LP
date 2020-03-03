@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use App\Repository\EtudiantsRepository;
+use App\Repository\CandidatsRepository;
 use App\Repository\ProfesseursRepository;
 use App\Repository\ResponsableDesStagesRepository;
 use App\Repository\SecretaireRepository;
@@ -26,7 +27,7 @@ class ResettingPasswordController extends AbstractController
     /**
    * @Route("requete_reinitialiser_mot_de_passe", name="requete_reinitialiser_mot_de_passe")
    */
-    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, EntityManagerInterface $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, ResponsableDesStagesRepository $repoR)
+    public function demandeReinitialisationMotDePasse($user = null, Request $request, Mailer $mailer, TokengeneratorInterface $tokenGenerator, EntityManagerInterface $em, EtudiantsRepository $repoE, ProfesseursRepository $repoP, SecretaireRepository $repoS, ResponsableDesStagesRepository $repoR, ContactRepository $repoC)
     {
       $form = $this->createFormBuilder()
       ->add('email', EmailType::class)
@@ -41,8 +42,9 @@ class ResettingPasswordController extends AbstractController
         $secretaire = $repoS->findOneBy(['mailAcademique' => $form['email']->getData()]);
         $professeur = $repoP->findOneBy(['mailAcademique' => $form['email']->getData()]);
         $responsableDesStages = $repoR->findOneBy(['mailAcademique' => $form['email']->getData()]);
+        $contact = $repoC->findOneBy(['mail' => $form['email']->getData()]);
 
-        $lesUtilisateurs = array($etudiant,$secretaire,$professeur, $responsableDesStages);
+        $lesUtilisateurs = array($etudiant,$secretaire,$professeur, $responsableDesStages, $contact);
 
         $user = $this->getUserNonNull($lesUtilisateurs);
 
@@ -65,7 +67,7 @@ class ResettingPasswordController extends AbstractController
             'user' => $user
           ]);
           //envoie du mail
-          $mailer->sendMessage('sitedeslp@gmail.com', $user->getMailAcademique(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
+          $mailer->sendMessage('sitedeslp@gmail.com', $user->getContactMail(), 'Renouvellement de votre mot de passe sur le site des LP', $bodyMail);
           $this->addFlash('goodMail',"Un mail va vous être envoyé afin que vous puissez renouveller votre mot de passe, le lien que vous recevrez sera valide 24h.");
           return $this->redirectToRoute('connexion');
         }

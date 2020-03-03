@@ -92,6 +92,11 @@ class Etudiants extends Utilisateurs implements UserInterface
         return $this;
     }
 
+    public function getContactMail()
+    {
+      return $this->mailAcademique;
+    }
+
     public function getMail(): ?string
     {
         return parent::getMail();
@@ -196,7 +201,7 @@ class Etudiants extends Utilisateurs implements UserInterface
     {
         if($this->getMailAcademique() != null) return ['ROLE_ETUDIANT'];
         else return ['ROLE_ANCIENETUDIANT'];
-      
+
     }
 
     public function getUsername()
