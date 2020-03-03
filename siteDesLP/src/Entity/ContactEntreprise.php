@@ -44,9 +44,10 @@ class ContactEntreprise
     private $fonction;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="tuteurEntreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="signataire")
      */
     private $stages;
+    
 
 
 

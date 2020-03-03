@@ -282,18 +282,20 @@ class EtudiantController extends AbstractController
 	/**
 	 * @Route("etudiant/supprimer/{id}", name="etudiant_supprimer")
 	 */
-	public function supprimerEtudiant(Etudiants $etu, Request $req)
+	public function supprimerEtudiant(Etudiants $etudiant, Request $req)
 	{
 		//Si le formulaire à été soumis
-		if($req->isMethod('POST')){
+		if($req->isMethod('POST'))
+		{
 		// En cas de validation on supprime et on redirige
-			if($req->request->has('oui')) {
-			$em=$this->getDoctrine()->getManager();
-			$em->remove($etu);
-			$em->flush();
+			if($req->request->has('oui')) 
+			{
+				$em=$this->getDoctrine()->getManager();
+				$em->remove($etudiant);
+				$em->flush();
+				$this->addFlash('delete','Étudiant supprimé');
 			}
 			// Sinon on redirige simplement
-				$this->addFlash('delete','Étudiant supprimé');
 			return $this->redirectToRoute('etudiant_rechercher');
 		}
 		else
@@ -301,10 +303,10 @@ class EtudiantController extends AbstractController
 			//Si le formulaire n'a pas été soumis alors on l'affiche
 			$title = 'Êtes-vous sûr(e) de vouloir supprimer cet étudiant ?';
 
-			$message = 'N°'.$etu->getId().' : '.
-			$etu->getPrenom().' '.
-			$etu->getnom(). ' ('.
-			$etu->getLogin().')';
+			$message = 'N°'.$etudiant->getId().' : '.
+			$etudiant->getPrenom().' '.
+			$etudiant->getnom(). ' ('.
+			$etudiant->getLogin().')';
 
 
 			return $this->render('confirmation.html.twig', [
@@ -318,22 +320,30 @@ class EtudiantController extends AbstractController
 	/**
 	 * @Route("etudiant/rechercher", name="etudiant_rechercher")
 	 */
-	public function rechercherEtudiant(EtudiantsRepository $repoE, DateRepository $repoD)
+	public function rechercherEtudiant(EtudiantsRepository $repoE)
 	{
 		if($this->getUser()->getRoles()[0] == "ROLE_PROFESSEURRESPONSABLE") //Si l'utilisateur est un professeur responsable
 		{
-			$classe = $this->getUser()->getClasseResponsable();
-			$etudiants = $repoE->getEtudiantsByClasse($classe);
-			//$mois = date('n');
+			$classe = $this->getUser()->getClasseResponsable(); //Récupère la classe courante du professeur responsable
+
+			$etudiants = $repoE->getEtudiantsByClasse($classe); //Récupère les étudiants de la classe du professeur
+
 			return $this->render('etudiant/research.html.twig', [
 					'etudiants' => $etudiants,
 					'classeID' => $classe->getId(),
-					'mois' => $repoD->find(1)->getDate()->format('n'),
-					'clique' => $repoD->find(1)->getClique()
+					'mois' => date('n')
 			]);
 		}
-		else $etudiants = $repoE->findAll();
+		else
+		{
+			$etudiants = $repoE->findAll(); //Récupère tous les étudiants
 
+			for ($i= 0 ; $i < sizeof($etudiants); $i++) //Pour chaque étudiant
+        	{ 
+            	if($etudiants[$i]->getMailAcademique() == null) unset($etudiants[$i]); //Si il n'a pas de mail académique on le supprime
+			}
+		
+		}
 			return $this->render('etudiant/research.html.twig', [
 					'etudiants' => $etudiants,
 

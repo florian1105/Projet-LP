@@ -184,7 +184,7 @@
 				{# Admin #}
 				{% if menuAdmin %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestion</a>
+						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tasks mr-2"></i> Gestion</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							{# Étudiants #}
 							<a class="dropdown-item" href={{ path('etudiant_rechercher') }}>Étudiants</a>
@@ -211,7 +211,7 @@
 
 				{# Informations globales #}
 				{% if infosGlobales %}
-					{{ this.boutonMenu( path('information_globale_modifier', {'id' : 1}) , "Informations globales") }}
+					{{ this.boutonMenu( path('information_globale_modifier', {'id' : 1}) , "<i class='fas fa-info-circle mr-2'></i>Informations globales") }}
 				{% endif %}
 
 				{# Anciens Etudiants #}
@@ -228,9 +228,6 @@
 				{% if coursEtudiant %}
 					{{ this.boutonMenu( path('cours_afficher') , "Mes cours") }}
 				{% endif %}
-
-				{# Test date #}
-					{{ this.boutonMenu( path('date_modifier',{'id': 1}) , "TEST DATE POUR LES BRAVES") }}
 			</ul>
 
 			{# Connexion #}

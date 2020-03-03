@@ -21,7 +21,19 @@ class EtudiantsRepository extends ServiceEntityRepository
         parent::__construct($registry, Etudiants::class);
     }
 
-    /**
+    public function getEtudiantsByClasse(Classes $classe)
+    {
+        $etudiants = $this->findBy(['classe' => $classe]);
+
+        for ($i= 0 ; $i < sizeof($etudiants); $i++) 
+        { 
+            if($etudiants[$i]->getMailAcademique() == null) unset($etudiants[$i]);
+        }
+
+        return $etudiants;
+    }
+
+     /**
      * Recupère les anciens étudiants.
      * @return Etudiants[] Returns an array of Etudiants objects
      */
@@ -48,18 +60,6 @@ class EtudiantsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    }
-
-    public function getEtudiantsByClasse(Classes $classe)
-    {
-        $etudiants = $this->findBy(['classe' => $classe]);
-
-        for ($i= 0 ; $i < sizeof($etudiants); $i++) 
-        { 
-            if($etudiants[$i]->getMailAcademique() == null) unset($etudiants[$i]);
-        }
-
-        return $etudiants;
     }
 
     public function isAncienEtudiant(Etudiants $etu)

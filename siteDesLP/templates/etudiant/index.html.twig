@@ -42,6 +42,7 @@
             Créer l'étudiant
         {% endif %}
     </button>
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 
     {% if editMode and etudiant.isAncienEtudiant %}
         <a href={{ path('etudiant_transformer_contact', {'id' : etudiant.id}) }} class="btn btn-danger
@@ -49,6 +50,4 @@
     {% endif %}
 
     {{ form_end(form_create_etudiant) }}
-
-    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

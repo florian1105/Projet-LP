@@ -62,13 +62,14 @@
 
 
     {# Bonton de création #}
-    <button type="submit" class="btn btn-success mb-5">
+    <button type="submit" class="btn btn-success">
         {% if editMode %}
             Modifier
         {% else %}
             Envoyer ma demande
         {% endif %}
     </button>
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 
     {# Affichage du buton supprimer
        si on est en mode édition #}
@@ -76,6 +77,4 @@
         <a href="{{ path('contact_supprimer',{id:contacts.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
     {% endif %}
     {{ form_end(form) }}
-
-    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
 {% endblock %}

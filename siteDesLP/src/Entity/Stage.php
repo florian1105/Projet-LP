@@ -42,7 +42,7 @@ class Stage
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="stage_id", referencedColumnName="id")}
      */
     private $tuteurEntreprise;
 
@@ -67,7 +67,7 @@ class Stage
 
     public function __construct()
     {
-        $this->tuteurEntrprise = new ArrayCollection();
+        $this->tuteurEntreprise = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,13 +116,13 @@ class Stage
      */
     public function getTuteurEntrprise(): Collection
     {
-        return $this->tuteurEntrprise;
+        return $this->tuteurEntreprise;
     }
 
     public function addContactsEntreprise(ContactEntreprise $contactsEntreprise): self
     {
-        if (!$this->tuteurEntrprise->contains($contactsEntreprise)) {
-            $this->tuteurEntrprise[] = $contactsEntreprise;
+        if (!$this->tuteurEntreprise->contains($contactsEntreprise)) {
+            $this->tuteurEntreprise[] = $contactsEntreprise;
             $contactsEntreprise->addStage($this);
         }
 
@@ -131,8 +131,8 @@ class Stage
 
     public function removeContactsEntreprise(ContactEntreprise $contactsEntreprise): self
     {
-        if ($this->tuteurEntrprise->contains($contactsEntreprise)) {
-            $this->tuteurEntrprise->removeElement($contactsEntreprise);
+        if ($this->tuteurEntreprise->contains($contactsEntreprise)) {
+            $this->tuteurEntreprise->removeElement($contactsEntreprise);
             $contactsEntreprise->removeStage($this);
         }
 
