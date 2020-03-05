@@ -59,7 +59,7 @@ class Stage
     private $entreprise;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", inversedBy="stage", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Etudiants", inversedBy="stage", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $etudiant;
