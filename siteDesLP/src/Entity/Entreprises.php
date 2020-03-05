@@ -59,12 +59,7 @@ class Entreprises
      */
     private $ville;
 
-
-
-    public function __construct()
-    {
-        $this->ville = new ArrayCollection();
-    }
+    
 
 
     public function __toString()
