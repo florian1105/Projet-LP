@@ -56,7 +56,7 @@ class Etudiants extends Utilisateurs implements UserInterface
     private $telephone;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Stage", mappedBy="etudiant", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\StageForm", mappedBy="etudiant", cascade={"persist", "remove"})
      */
     private $stage;
 
@@ -255,12 +255,12 @@ class Etudiants extends Utilisateurs implements UserInterface
         return $this;
     }
 
-    public function getStage(): ?Stage
+    public function getStage(): ?StageForm
     {
         return $this->stage;
     }
 
-    public function setStage(Stage $stage): self
+    public function setStage(StageForm $stage): self
     {
         $this->stage = $stage;
 
