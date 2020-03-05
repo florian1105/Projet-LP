@@ -43,6 +43,11 @@ class Ville
      */
     private $entreprise;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="ville")
+     */
+    private $entreprises;
+
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
@@ -175,5 +180,17 @@ class Ville
     public function __toString()
     {
         return $this->codePostal . ' ' . $this->nom;
+    }
+
+    public function getEntreprises(): ?Entreprises
+    {
+        return $this->entreprises;
+    }
+
+    public function setEntreprises(?Entreprises $entreprises): self
+    {
+        $this->entreprises = $entreprises;
+
+        return $this;
     }
 }

@@ -54,6 +54,16 @@ class Entreprises
      */
     private $numSiret;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ville", mappedBy="entreprises")
+     */
+    private $ville;
+
+    public function __construct()
+    {
+        $this->ville = new ArrayCollection();
+    }
+
 
     public function __toString()
     {
@@ -177,6 +187,37 @@ class Entreprises
     public function setNumSiret(?string $numSiret): self
     {
         $this->numSiret = $numSiret;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ville[]
+     */
+    public function getVille(): Collection
+    {
+        return $this->ville;
+    }
+
+    public function addVille(Ville $ville): self
+    {
+        if (!$this->ville->contains($ville)) {
+            $this->ville[] = $ville;
+            $ville->setEntreprises($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVille(Ville $ville): self
+    {
+        if ($this->ville->contains($ville)) {
+            $this->ville->removeElement($ville);
+            // set the owning side to null (unless already changed)
+            if ($ville->getEntreprises() === $this) {
+                $ville->setEntreprises(null);
+            }
+        }
 
         return $this;
     }
