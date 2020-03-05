@@ -55,9 +55,11 @@ class Entreprises
     private $numSiret;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ville", mappedBy="entreprises")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ville")
      */
     private $ville;
+
+
 
     public function __construct()
     {
@@ -191,34 +193,17 @@ class Entreprises
         return $this;
     }
 
-    /**
-     * @return Collection|Ville[]
-     */
-    public function getVille(): Collection
+    public function getVille(): ?Ville
     {
         return $this->ville;
     }
 
-    public function addVille(Ville $ville): self
+    public function setVille(?Ville $ville): self
     {
-        if (!$this->ville->contains($ville)) {
-            $this->ville[] = $ville;
-            $ville->setEntreprises($this);
-        }
+        $this->ville = $ville;
 
         return $this;
     }
 
-    public function removeVille(Ville $ville): self
-    {
-        if ($this->ville->contains($ville)) {
-            $this->ville->removeElement($ville);
-            // set the owning side to null (unless already changed)
-            if ($ville->getEntreprises() === $this) {
-                $ville->setEntreprises(null);
-            }
-        }
 
-        return $this;
-    }
 }
