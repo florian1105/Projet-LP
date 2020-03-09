@@ -462,7 +462,7 @@ class EtudiantController extends AbstractController
 					$em->persist($etudiant);
 					$em->flush();
 					$this->addFlash('mdp_change','Votre mot de passe a été modifié avec succès');
-					return $this->redirectToRoute('etudiant_compte');
+					return $this->redirectToRoute('etudiant_account');
 				}
 				else {
 					$mdpNonChange = "Le mot de passe entré n'est pas votre mot de passe actuel";
@@ -501,7 +501,7 @@ class EtudiantController extends AbstractController
 					$em->persist($etudiant);
 					$em->flush();
 					$this->addFlash('mail_change','Votre mail a été modifié avec succès');
-					return $this->redirectToRoute('etudiant_compte');
+					return $this->redirectToRoute('etudiant_account');
 
 			}
 

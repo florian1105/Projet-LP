@@ -241,7 +241,7 @@ class ProfesseurController extends AbstractController
 	}
 
 	/**
-     * @Route("professeur_compte/changer_mdp", name="professeur_changer_mdp")
+     * @Route("professeur/compte/changer_mdp", name="professeur_changer_mdp")
      */
     public function changePassword(UserInterface $prof, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {

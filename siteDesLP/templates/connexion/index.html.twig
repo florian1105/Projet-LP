@@ -2,17 +2,6 @@
 
 {% block title %}Connexion{% endblock %}
 
-{% block stylesheets %}
-    {{parent()}}
-          <style>
-            body{
-                    background-image: url("../build/images/code.jpg");    
-                    background-size: 100%;    
-                    color:#fff;
-                }
-          </style>
-{% endblock %}
-
 {% block body %}
     <h1 class="connexion"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</h1>
 
@@ -56,4 +45,3 @@
         <a href={{ path('requete_reinitialiser_mot_de_passe') }} class="edit-btn btn btn-danger">Mot de passe oublié ? &nbsp;<i class="fas fa-key"></i></a>
     </form>
 {% endblock %}
-
