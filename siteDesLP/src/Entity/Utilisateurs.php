@@ -31,7 +31,7 @@ class Utilisateurs
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés a début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a fin.")
      * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
-     * @Assert\Regex(pattern="/[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,.'-]+$u/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,!?\\'\x]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $nom;
 
@@ -42,7 +42,7 @@ class Utilisateurs
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés au début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a la fin.")
      * @Assert\Regex(pattern="/[[:blank:]]/", match=false, message="les espaces ne sont pas autorisés")
-     * @Assert\Regex(pattern="/[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,.'-]+$u/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,!?\\'\x]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $prenom;
 
@@ -50,7 +50,6 @@ class Utilisateurs
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank(message="Veuillez renseigner un mail")
      * @Assert\Email(message = "Veuillez saisir un mail valide s'il vous plait")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     private $mail;
 
@@ -62,7 +61,7 @@ class Utilisateurs
 
     /**
      * @Assert\Length(max = 64, min = 6, minMessage = "Mot de passe trop court, veuillez saisir un mot de passe d'au moins {{ limit }} caractères", maxMessage="Mot de passe trop long il est impossible d'avoir un mot de passe supérieur à {{ limit }} caractères")
-     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
+     * @Assert\Regex(pattern="/[☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲@#▼&{}*$£%``¨^%+=.;,!?\\'\x]/", match=false, message="les caractéres spéciaux ne sont pas autorisés")
      */
     public $new_password;
 
