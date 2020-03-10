@@ -176,12 +176,6 @@ class ResponsableDesStagesController extends AbstractController
    */
   public function monCompte(UserInterface $responsableDesStages)
   {
-      // if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
-      // {
-      //     // Sinon on déclenche une exception « Accès interdit »
-      //     throw new AccessDeniedException("L'administrateur n'a pas accès à ceci.");
-      // }
-
       $responsableDesStages = $this->getUser();
 
       return $this->render('responsable_des_stages/moncompte.html.twig', [

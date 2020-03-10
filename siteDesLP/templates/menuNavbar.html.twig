@@ -109,7 +109,7 @@
 				{% endif %}
 
 				{% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
-				{{ this.boutonMenu( path('stage_rechercher') , "Demande de stage en attente") }}
+					{{ this.boutonMenu( path('stage_rechercher') , "<i class='fas fa-hourglass-start mr-2'></i>Demande de stage en attente") }}
 				{% endif %}
 
 				{# A propos #}
@@ -267,6 +267,8 @@
 											{{ path('candidat_compte') }}
 										{% elseif is_granted('ROLE_CONTACT') %}
 											{{ path('contact_compte') }}
+										{% elseif is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
+											{{ path('responsable_des_stages_compte') }}
 										{% else %}
 											"#"
 										{% endif %}
