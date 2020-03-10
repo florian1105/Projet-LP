@@ -2,6 +2,26 @@
 
 {% block title %}Licences Pro Informatique Montpellier{% endblock %}
 
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+    body{
+        background-image: url('https://www.fg-a.com/wallpapers/2018-white-texture-background-image.jpg');
+        background-size: 100%;
+        color:white;
+		color:black;
+    }
+	.blog-post{
+		background-color: rgba(0,0,0,0.6);
+		color:white;
+	}
+	.blog-post a{
+		
+		color:white;
+	}
+    </style>
+{% endblock %}
+
 {% block body %}
 
 	{% if not app.user %}
@@ -19,7 +39,6 @@
 			<ol class="carousel-indicators">
 				<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
 				<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-				<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
 			</ol>
 			<div class="carousel-inner">
 
@@ -32,13 +51,6 @@
 					<img src="{{ asset('build/images/slide2.png') }}" class="d-block w-100" alt="...">
 				</a>
 				</div>
-
-				<div class="carousel-item">
-				<a href="{{ path('entreprises') }}">
-					<img src="{{ asset('build/images/slide3.png') }}" class="d-block w-100" alt="...">
-				</a>
-				</div>
-
 			</div>
 			<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>

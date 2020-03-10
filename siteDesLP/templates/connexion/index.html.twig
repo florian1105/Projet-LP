@@ -2,6 +2,17 @@
 
 {% block title %}Connexion{% endblock %}
 
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+    body{
+        background-image: url('../build/images/code.jpg');
+        background-size: 100%;
+        color:white;
+    }
+    </style>
+{% endblock %}
+
 {% block body %}
     <h1 class="connexion"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</h1>
 
