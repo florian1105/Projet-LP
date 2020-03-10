@@ -103,6 +103,11 @@
 					{{ this.boutonMenu( path('home') , '<i class="fas fa-home mr-2"></i>Accueil') }}
 				{% endif %}
 
+				{# Affichage cours etudiant #}
+				{% if coursEtudiant %}
+					{{ this.boutonMenu( path('cours_afficher') , "<i class='far fa-folder-open mr-2'></i>Mes cours") }}
+				{% endif %}
+
 				{% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
 				{{ this.boutonMenu( path('stage_rechercher') , "Demande de stage en attente") }}
 				{% endif %}
@@ -127,38 +132,39 @@
 
 				{# Offres - Modification #}
 				{% if offresEmploiEdit %}
-					{{ this.boutonMenu( path('offre_rechercher') , "Mes offres d'emploi") }}
+					{{ this.boutonMenu( path('offre_rechercher') , "<i class='fas fa-file-contract mr-2'></i>Mes offres d'emploi") }}
 				{% endif %}
 
 				{# Offres - Liste #}
 				{% if offresEmploiListe %}
-					{{ this.boutonMenu( path('type_offre') , "Offres d'emploi") }}
-				{% endif %}
-
-				{# Articles #}
-				{% if articles %}
-					{{ this.boutonMenu( path('article_rechercher') , "Articles") }}
+					{{ this.boutonMenu( path('type_offre') , "<i class='fas fa-file-contract mr-2'></i>Offres d'emploi") }}
 				{% endif %}
 
 				{# Classe du prof #}
 				{% if maClasse %}
-					{{ this.boutonMenu( path('etudiant_rechercher') , "Ma classe") }}
+					{{ this.boutonMenu( path('etudiant_rechercher') , "<i class='fas fa-users mr-2'></i>Ma classe") }}
+				{% endif %}
+
+				{# Gestion cours prof #}
+				{% if gestionCours %}
+					{{ this.boutonMenu( path('cours_gerer') , "<i class='far fa-folder-open mr-2'></i>Gestion des cours") }}
+				{% endif %}
+
+				{# Articles #}
+				{% if articles %}
+					{{ this.boutonMenu( path('article_rechercher') , "<i class='far fa-newspaper mr-2'></i>Articles") }}
 				{% endif %}
 
 				{# Info licence du prof #}
 				{% if infoLicenceProf %}
-					{{ this.boutonMenu( path('information_classe_afficher_modifiable') , "Informations licence") }}
+					{{ this.boutonMenu( path('information_classe_afficher_modifiable') , "<i class='fas fa-info-circle mr-2'></i>Informations licence") }}
 				{% endif %}
-
-				{#Candidat#}
-				{% if candidats %}
-					{{ this.boutonMenu( path('candidat_rechercher') , "Candidats") }}
-				{% endif %}
+				
 
 				{# Contact #}
 				{% if contactsProf %}
 					<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-paper-plane mr-2"></i>Contacts</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>En attente</a>
 							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Validés</a>
@@ -168,17 +174,25 @@
 
 				{# Stage Etudiant #}
 				{% if etudiant %}
-					{{ this.boutonMenu( path('stage_gestion') , "Stage") }}
+					{{ this.boutonMenu( path('stage_gestion') , "<i class='fas fa-book mr-2'></i>Stage") }}
 				{% endif %}
+				
+				
 
 				{# Stage secretaire #}
 				{% if articles %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</a>
+						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book mr-2"></i>Stages</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href={{ path('stage_rechercher') }}>Demandes de convention</a>
 						</div>
 					</li>
+				{% endif %}
+
+
+				{#Candidat#}
+				{% if candidats %}
+					{{ this.boutonMenu( path('candidat_rechercher') , "<i class='fas fa-user-tie mr-2'></i>Candidats") }}
 				{% endif %}
 
 				{# Admin #}
@@ -216,18 +230,9 @@
 
 				{# Anciens Etudiants #}
 				{% if anciensEtudiants %}
-					{{ this.boutonMenu( path('ancien_etudiant_rechercher') , "Anciens étudiants") }}
+					{{ this.boutonMenu( path('ancien_etudiant_rechercher') , "<i class='fas fa-user-slash mr-2'></i>Anciens étudiants") }}
 				{% endif %}
 
-				{# Gestion cours prof #}
-				{% if gestionCours %}
-					{{ this.boutonMenu( path('cours_gerer') , "Gestion des cours") }}
-				{% endif %}
-
-				{# Affichage cours etudiant #}
-				{% if coursEtudiant %}
-					{{ this.boutonMenu( path('cours_afficher') , "Mes cours") }}
-				{% endif %}
 			</ul>
 
 			{# Connexion #}
