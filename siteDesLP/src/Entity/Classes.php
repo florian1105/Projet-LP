@@ -23,7 +23,8 @@ class Classes
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=30)
+     * @Assert\Length(max = "24" , maxMessage = "Le nom de la classe ne peut pas contenir plus de 24 caractères")
      * @Assert\NotBlank(message="Veuillez renseigner un nom pour cette classe")
      * @Assert\Regex(pattern="/^-/", match=false, message="les - ne sont pas autorisés au début.")
      * @Assert\Regex(pattern="/-$/", match=false, message="les - ne sont pas autorisés a la fin.")
