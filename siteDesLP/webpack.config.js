@@ -36,6 +36,7 @@ Encore
     .addEntry('treeStructure', './assets/js/treeStructure.js')
     .addEntry('gestionCours', './assets/js/gestionCours.js')
     .addEntry('alert', './assets/js/alert.js')
+    .addEntry('404error','./assets/css/404.css')
 
 
     //.addEntry('page1', './assets/js/page1.js')
