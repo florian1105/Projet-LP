@@ -284,7 +284,8 @@ class Professeurs implements UserInterface
 
     public function getUsername()
     {
-      return $this->login;
+        if($this->getClasseResponsable() == null) return $this->nomProfesseur." ".$this->prenomProfesseur." (Professeur)";
+        else return $this->nomProfesseur." ".$this->prenomProfesseur." (Professeur responsable ".$this->getClasseResponsable().")";
     }
 
     public function __toString()

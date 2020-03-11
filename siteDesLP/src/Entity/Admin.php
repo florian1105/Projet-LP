@@ -112,7 +112,7 @@ class Admin implements UserInterface
 
     public function getUsername()
     {
-        return $this->login;
+        return $this->login." (Administrateur)";
     }
 
     public function __toString()

@@ -15,10 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Candidats extends Utilisateurs implements UserInterface
 {
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Promotions", inversedBy="candidats")
-     */
-    private $promotions;
 
     public function __construct()
     {
@@ -121,7 +117,7 @@ class Candidats extends Utilisateurs implements UserInterface
 
     public function getUsername()
     {
-        return parent::getPrenom().parent::getNom();
+        return parent::getNom()." ".parent::getPrenom()." (Candidat ".$this->getClasse().")";
     }
 
     public function eraseCredentials()
@@ -133,31 +129,4 @@ class Candidats extends Utilisateurs implements UserInterface
     {
         return parent::getNom()." ".parent::getPrenom();
     }
-
-    /**
-     * @return Collection|Promotions[]
-     */
-    public function getPromotions(): Collection
-    {
-        return $this->promotions;
-    }
-
-    public function addPromotion(Promotions $promotion): self
-    {
-        if (!$this->promotions->contains($promotion)) {
-            $this->promotions[] = $promotion;
-        }
-
-        return $this;
-    }
-
-    public function removePromotion(Promotions $promotion): self
-    {
-        if ($this->promotions->contains($promotion)) {
-            $this->promotions->removeElement($promotion);
-        }
-
-        return $this;
-    }
-
 }

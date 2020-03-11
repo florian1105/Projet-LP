@@ -1,6 +1,11 @@
 {# Pour plus de clarté #}
 {% import _self as this %}
-{% set UTILISATEUR_CONNECTE = app.user %}
+
+{% if app.user != null %}
+	{% set UTILISATEUR_CONNECTE = app.user.getUserName %}
+{% else %}
+	{% set UTILISATEUR_CONNECTE = app.user %}
+{% endif %}
 
 {# Boutons du menu #}
 {% set accueil = true %}
@@ -45,7 +50,6 @@
 
 {% if is_granted('ROLE_CANDIDAT') %}
 	{% set offresEmploiListe = true %}
-	{% set coursEtudiant = true %}
 {% endif %}
 
 {% if is_granted('ROLE_SECRETAIRE') %}
@@ -53,7 +57,6 @@
 {% endif %}
 
 {% if is_granted('ROLE_PROFESSEUR') %}
-	{% set anciensEtudiants = true %}
 	{% set gestionCours = true %}
 {% endif %}
 

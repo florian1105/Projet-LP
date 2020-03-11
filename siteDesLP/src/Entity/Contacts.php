@@ -267,7 +267,7 @@ class Contacts implements UserInterface {
     }
     public function getUsername()
     {
-        return $this->nom." ".$this->prenom;
+        return $this->nom." ".$this->prenom." (".$this->entreprise.")";
     }
 
     public function eraseCredentials()

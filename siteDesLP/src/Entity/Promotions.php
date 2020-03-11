@@ -63,7 +63,7 @@ class Promotions
     private $etudiants;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Candidats", mappedBy="promotions")
+     * @ORM\OneToMany(targetEntity="App\Entity\Candidats", mappedBy="promotions")
      */
     private $candidats;
 

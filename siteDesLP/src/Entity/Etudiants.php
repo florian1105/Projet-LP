@@ -206,7 +206,8 @@ class Etudiants extends Utilisateurs implements UserInterface
 
     public function getUsername()
     {
-      return $this->login;
+        if($this->getMailAcademique() != null) return parent::getNom()." ".parent::getPrenom()." (Étudiant ".parent::getClasse().")";
+        else return parent::getNom()." ".$this->prenom." (Ancien étudiant ".parent::getPrenom().")";
     }
 
     public function __toString()

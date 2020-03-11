@@ -220,7 +220,7 @@ class Secretaire implements UserInterface
 
     public function getUsername()
     {
-        return $this->login;
+        return $this->nomSecretaire." ".$this->prenomSecretaire." (Secrétaire)";
     }
 
     public function __toString()

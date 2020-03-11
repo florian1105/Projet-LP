@@ -212,7 +212,7 @@ class ResponsableDesStages implements UserInterface
 
     public function getUsername()
     {
-        return $this->login;
+        return $this->nom." ".$this->prenom." (Responsable des stages)";
     }
 
     public function __toString()
