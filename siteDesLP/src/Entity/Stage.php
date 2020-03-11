@@ -33,28 +33,26 @@ class Stage
      */
     private $commentaire;
 
-
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="stages")
      */
     private $ville;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages")
-     * @ORM\JoinColumn(nullable=false, name="stage_id", referencedColumnName="id")}
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages",cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $tuteurEntreprise;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEntreprise", inversedBy="stages", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $signataire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises",cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $entreprise;
 
@@ -64,11 +62,6 @@ class Stage
      */
     private $etudiant;
 
-
-    public function __construct()
-    {
-        $this->tuteurEntreprise = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

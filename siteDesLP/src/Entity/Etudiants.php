@@ -56,7 +56,7 @@ class Etudiants extends Utilisateurs implements UserInterface
     private $telephone;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StageForm", mappedBy="etudiant", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\StageForm", mappedBy="etudiant", cascade={"persist"})
      */
     private $stage;
 

@@ -59,7 +59,7 @@ class Entreprises
      */
     private $ville;
 
-    
+
 
 
     public function __toString()

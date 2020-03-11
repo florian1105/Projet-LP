@@ -241,6 +241,7 @@ class StageController extends AbstractController
             $stage->setEtudiant($stageForm->getEtudiant());
             $etatValider = $etatRepo->findOneBy(["id"=>"2"]);
             $stageForm=$stageForm->setEtatStages($etatValider);
+            $stageForm->setStage($stage);
             $manager->persist($stageForm);
             $manager->persist($stage);
 

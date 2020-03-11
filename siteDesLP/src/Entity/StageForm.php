@@ -85,7 +85,7 @@ class StageForm
     private $fonctionSignataire;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=10)
      * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numTelSignataire;
@@ -117,7 +117,7 @@ class StageForm
     private $prenomTuteur;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=10)
      * @Assert\NotBlank(message="Veuillez renseigner un numéro")
      */
     private $numTelTuteur;
@@ -157,12 +157,12 @@ class StageForm
      */
     private $tuteurIUT;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Stage", cascade={"remove"} )
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private $stage;
 
-
-    public function __construct()
-    {
-
-    }
 
 
     public function getId(): ?int
@@ -458,6 +458,18 @@ class StageForm
     public function setTuteurIUT(?Professeurs $tuteurIUT): self
     {
         $this->tuteurIUT = $tuteurIUT;
+
+        return $this;
+    }
+
+    public function getStage(): ?Stage
+    {
+        return $this->stage;
+    }
+
+    public function setStage(?Stage $stage): self
+    {
+        $this->stage = $stage;
 
         return $this;
     }
