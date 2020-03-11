@@ -188,7 +188,7 @@ class ClasseController extends AbstractController
             {
               if(sizeof($classe->getEtudiants()) != 0)
               {
-                $this->addFlash('errorSuppressionClasse',"Cette classe ne peut pas être supprimé car elle contient des étudiants");
+                $this->addFlash('errorSuppressionClasse',"Cette classe ne peut pas être supprimée car elle contient des étudiants");
               }
               else
               {

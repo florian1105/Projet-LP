@@ -49,14 +49,10 @@ class EntreprisesController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) 
         {
-            if ($editMode == false) 
-            {
-                $this->addFlash('success', 'L\'entreprise a bien été créé');
-            } 
-            else 
+            if ($editMode) 
             {
                 $this->addFlash('success_modifie', 'Les changements on biens été pris en compte');
-            }
+            } 
 
             $nom = strtoupper($form['nom']->getData());
             $entreprise->setNom($nom);

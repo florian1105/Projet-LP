@@ -1,5 +1,28 @@
 {% extends 'base.html.twig' %}
 {% block title %}Espace entreprises{% endblock %}
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+    body{
+        background-image: url('https://bel-india.com/wp-content/uploads/2020/03/stage-company.jpg');
+        background-size: 100%;
+        color:white;
+        background-color: rgba(0, 0 , 0 ,0.5);
+
+    }
+    .espace
+    {
+        margin-left: 15%;
+        margin-right: 15%;
+        background-color: rgba(0, 0 , 0 ,0.5);
+        padding: 5%;
+    }
+    .btn-group
+    {
+        margin-bottom: 2%;
+    }
+    </style>
+{% endblock %}
 
 {% block body %}
     {% for message in app.flashes('success_contact') %}
@@ -10,7 +33,7 @@
             </button>
         </div>
     {% endfor %}
-    <div class="actu">
+    <div class="espace">
         <div class="btn-group" role="group" aria-label="Basic example">
             <a href="{{ path('connexion') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</button></a>
             <a href="{{ path('contact_nouveau') }}">  <button type="button" class="btn btn-secondary">Faire une demande de contact&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button></a>

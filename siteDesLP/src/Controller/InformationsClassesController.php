@@ -126,7 +126,7 @@ class InformationsClassesController extends AbstractController
             $manager->flush();
 
             $this->addFlash('validModificationInformationsClasses',"Les informations ont été modifié avec succès");
-            return $this->redirectToRoute('informations_classes_print');
+            return $this->redirectToRoute('information_classe_afficher_modifiable');
           }
 
 
@@ -139,7 +139,7 @@ class InformationsClassesController extends AbstractController
         {
           $this->addFlash('errorModificationInformationsClasses',"Vous n'êtes pas responsable de cette licence");
 
-          return $this->redirectToRoute('informations_classes_print');
+          return $this->redirectToRoute('information_classe_afficher_modifiable');
 
         }
       }
