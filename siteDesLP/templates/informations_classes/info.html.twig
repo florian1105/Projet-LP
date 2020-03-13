@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations sur la {{ info.classe }}{% endblock %}
+
+{% block body %}
+
+	<div class="info-globales">
+		<div class="col">
+			<h3 class="pb-3 mb-4 font-italic border-bottom">Informations sur la {{ info.classe }}</h3>
+			{{ info.description|raw}}
+		</div>
+	</div>
+
+{% endblock %}

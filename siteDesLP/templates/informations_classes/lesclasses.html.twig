@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les LP de l'IUT{% endblock %}
+
+{% block body %}
+
+  <div class="info-globales">
+    <div class="col">
+      <div class="lesClasses">
+        <h3 style="text-align:center;margin-bottom:2%;">Nos licences</h3>
+        <p>L'IUT de Montpellier possède {{ nbClasse }} différentes licences professionnelles en informatique, chacune possédant des enseignements différents tous plus riches les uns que les autres.</p>
+        {% for classe in classes %}
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">{{ classe.nomClasse }}</h5>
+              <p class="card-text">{{ classe.nomComplet }}</p>
+              <a href="{{ path('information_classe_afficher', {'id' : classe.informationsClasses.id }) }}" class="btn btn-primary">Découvrir</a>
+            </div>
+          </div>
+        {% endfor %}
+        <br>
+        <br>
+        <p>Procédure d’inscription en ligne et pour une durée limitée : <a href="ecandidat.umontpellier.fr">ecandidat.umontpellier.fr</a>.</p>
+
+        <p>Profils adaptés : Étudiants titulaires d’un Bac+2 en informatique.
+
+        Formation continue :
+        Profils adaptés : Personnes titulaires d’un bac +2 pouvant justifier d’une expérience professionnelle en informatique de 3 ans (sélection sur dossier et entretien).
+        L’admission est prononcée par un jury après examen des dossiers.</p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

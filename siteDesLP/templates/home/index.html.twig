@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Licences Pro Informatique Montpellier{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+    body{
+        background-image: url('https://www.fg-a.com/wallpapers/2018-white-texture-background-image.jpg');
+        background-size: 100%;
+        color:white;
+		color:black;
+    }
+	.blog-post{
+		background-color: rgba(0,0,0,0.6);
+		color:white;
+	}
+	.blog-post a{
+		
+		color:white;
+	}
+    </style>
+{% endblock %}
+
+{% block body %}
+
+	{% if not app.user %}
+		<h1 class="title">Licences Pro Informatique Montpellier</h1>
+		{% for msg in app.session.flashBag.get('info') %}
+			<div class="alert alert-success" role="alert">
+				{{ msg }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+
+		<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+			</ol>
+			<div class="carousel-inner">
+
+				<div class="carousel-item active">
+				<img src="{{ asset('build/images/slide1.png') }}" class="d-block w-100" alt="...">
+				</div>
+				
+				<div class="carousel-item">
+				<a href="{{ path('informations_classes_afficher') }}">
+					<img src="{{ asset('build/images/slide2.png') }}" class="d-block w-100" alt="...">
+				</a>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+	{% endif %}
+
+
+
+	<div class="actu">
+		<h3><i class="fas fa-newspaper"></i>&nbsp;&nbsp;Actualités</h3>
+		{% for article in articles %}
+			<div class="blog-post">
+				<a class="blog-title" href="{{ path('article_afficher', {'id': article.id})}}"><h2>{{ article.titre}}</h2></a>
+				<p class="blog-post-meta font-italic"><i class="far fa-calendar-alt"></i> &nbsp;Publié le : {{article.date | date('d/m/Y') }}</p>
+				{{ article.description|slice(0, 500)|raw }}[...]
+				<p><a href="{{ path('article_afficher', {'id': article.id})}}">Lire la suite &nbsp;<i class="fas fa-arrow-right"></i></a></p>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

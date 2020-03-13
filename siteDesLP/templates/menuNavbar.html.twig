@@ -1,0 +1,290 @@
+{# Pour plus de clarté #}
+{% import _self as this %}
+
+{% if app.user != null %}
+	{% set UTILISATEUR_CONNECTE = app.user.getUserName %}
+{% else %}
+	{% set UTILISATEUR_CONNECTE = app.user %}
+{% endif %}
+
+{# Boutons du menu #}
+{% set accueil = true %}
+{% set aPropos = false %}
+{% set entreprise = false %}
+{% set offresEmploiEdit = false %}
+{% set offresEmploiListe = false %}
+{% set articles = false %}
+{% set maClasse = false %}
+{% set infoLicenceProf = false %}
+{% set candidats = false %}
+{% set contactsProf = false %}
+{% set menuAdmin = false %}
+{% set infosGlobales = false %}
+{% set anciensEtudiants = false %}
+{% set gestionCours = false %}
+{% set coursEtudiant = false %}
+{% set connexion = false %}
+{% set modifMdp = false %}
+{% set etudiant = false %}
+
+{# Gestion de l'affichage #}
+{% if not UTILISATEUR_CONNECTE %}
+	{% set aPropos = true %}
+	{% set entreprise = true %}
+	{% set connexion = true %}
+{% endif %}
+
+{% if is_granted('ROLE_CONTACT') %}
+	{% set offresEmploiEdit = true %}
+{% endif %}
+
+{% if is_granted('ROLE_ETUDIANT') %}
+	{% set offresEmploiListe = true %}
+	{% set coursEtudiant = true %}
+	{% set etudiant = true %}
+{% endif %}
+
+{% if is_granted('ROLE_ANCIENETUDIANT') %}
+	{% set offresEmploiListe = true %}
+{% endif %}
+
+{% if is_granted('ROLE_CANDIDAT') %}
+	{% set offresEmploiListe = true %}
+{% endif %}
+
+{% if is_granted('ROLE_SECRETAIRE') %}
+	{% set articles = true %}
+{% endif %}
+
+{% if is_granted('ROLE_PROFESSEUR') %}
+	{% set gestionCours = true %}
+{% endif %}
+
+{% if is_granted('ROLE_PROFESSEURRESPONSABLE') %}
+	{% set articles = true %}
+	{% set maClasse = true %}
+	{% set infoLicenceProf = true %}
+	{% set candidats = true %}
+	{% set contactsProf = true %}
+	{% set anciensEtudiants = true %}
+	{% set gestionCours = true %}
+{% endif %}
+
+{% if is_granted('ROLE_ADMIN') %}
+	{% set infosGlobales = true %}
+	{% set menuAdmin = true %}
+	{% set modifMdp = true %}
+{% endif %}
+
+{# Boutons du menus #}
+{% macro boutonMenu(url, title) %}
+	<li class="nav-item active">
+		<a class="nav-link text-white" href={{ url }}>
+			{{ title|raw }}<span class="sr-only"></span>
+		</a>
+	</li>
+{% endmacro %}
+
+
+{# ===== MENU ===== #}
+<nav class="navbar navbar-expand-lg navbar-light my_nav">
+
+		{# Logo #}
+		<img src="{{ asset('build/images/logo.png') }}" width="60" height="60" alt="Logo des licences professionnelles" />
+
+		{# Bouton menu déroulant #}
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuDeroulant" aria-controls="menuDeroulant" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		{# Menu déroulant #}
+		<div class="collapse navbar-collapse" id="menuDeroulant">
+			<ul class="navbar-nav mr-auto">
+
+				{# Accueil #}
+				{% if accueil %}
+					{{ this.boutonMenu( path('home') , '<i class="fas fa-home mr-2"></i>Accueil') }}
+				{% endif %}
+
+				{# Affichage cours etudiant #}
+				{% if coursEtudiant %}
+					{{ this.boutonMenu( path('cours_afficher') , "<i class='far fa-folder-open mr-2'></i>Mes cours") }}
+				{% endif %}
+
+				{% if is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
+					{{ this.boutonMenu( path('stage_rechercher') , "<i class='fas fa-hourglass-start mr-2'></i>Demande de stage en attente") }}
+				{% endif %}
+
+				{# A propos #}
+				{% if aPropos %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-info-circle mr-2"></i>À propos</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							{# Informations #}
+							<a class="dropdown-item" href={{ path('information_globale_afficher') }}>L'IUT</a>
+							<a class="dropdown-item" href={{ path('informations_classes_afficher') }}>Les licences</a>
+						</div>
+					</li>
+				{% endif %}
+
+				{# Entreprises #}
+				{% if entreprise %}
+					{{ this.boutonMenu( path('entreprises') , '<i class="far fa-building mr-2"></i>Espace entreprises') }}
+				{% endif %}
+
+				{# Offres - Modification #}
+				{% if offresEmploiEdit %}
+					{{ this.boutonMenu( path('offre_rechercher') , "<i class='fas fa-file-contract mr-2'></i>Mes offres d'emploi") }}
+				{% endif %}
+
+				{# Offres - Liste #}
+				{% if offresEmploiListe %}
+					{{ this.boutonMenu( path('type_offre') , "<i class='fas fa-file-contract mr-2'></i>Offres d'emploi") }}
+				{% endif %}
+
+				{# Classe du prof #}
+				{% if maClasse %}
+					{{ this.boutonMenu( path('etudiant_rechercher') , "<i class='fas fa-users mr-2'></i>Ma classe") }}
+				{% endif %}
+
+				{# Gestion cours prof #}
+				{% if gestionCours %}
+					{{ this.boutonMenu( path('cours_gerer') , "<i class='far fa-folder-open mr-2'></i>Gestion des cours") }}
+				{% endif %}
+
+				{# Articles #}
+				{% if articles %}
+					{{ this.boutonMenu( path('article_rechercher') , "<i class='far fa-newspaper mr-2'></i>Articles") }}
+				{% endif %}
+
+				{# Info licence du prof #}
+				{% if infoLicenceProf %}
+					{{ this.boutonMenu( path('information_classe_afficher_modifiable') , "<i class='fas fa-info-circle mr-2'></i>Informations licence") }}
+				{% endif %}
+				
+
+				{# Contact #}
+				{% if contactsProf %}
+					<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-paper-plane mr-2"></i>Contacts</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>En attente</a>
+							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Validés</a>
+							</div>
+					</li>
+				{% endif %}
+
+				{# Stage Etudiant #}
+				{% if etudiant %}
+					{{ this.boutonMenu( path('stage_gestion') , "<i class='fas fa-book mr-2'></i>Stage") }}
+				{% endif %}
+				
+				
+
+				{# Stage secretaire #}
+				{% if articles %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-white" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-book mr-2"></i>Stages</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href={{ path('stage_rechercher') }}>Demandes de convention</a>
+						</div>
+					</li>
+				{% endif %}
+
+
+				{#Candidat#}
+				{% if candidats %}
+					{{ this.boutonMenu( path('candidat_rechercher') , "<i class='fas fa-user-tie mr-2'></i>Candidats") }}
+				{% endif %}
+
+				{# Admin #}
+				{% if menuAdmin %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tasks mr-2"></i> Gestion</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{# Étudiants #}
+							<a class="dropdown-item" href={{ path('etudiant_rechercher') }}>Étudiants</a>
+							{# Anciens Étudiants #}
+							<a class="dropdown-item" href={{ path('ancien_etudiant_rechercher') }}>Anciens étudiants</a>
+							{# Classes #}
+							<a class="dropdown-item" href={{ path('classe_rechercher') }}>Classes</a>
+							{# Profs #}
+							<a class="dropdown-item" href={{ path('prof_rechercher') }}>Professeurs</a>
+							{# Secrétaires #}
+							<a class="dropdown-item" href={{ path('secretaire_rechercher') }}>Secrétaires</a>
+							{# Entreprises #}
+							<a class="dropdown-item" href={{ path('entreprise_rechercher') }}>Entreprises</a>
+							{# Contacts #}
+							<a class="dropdown-item" href={{ path('contact_rechercher_invalide') }}>Contacts en attente</a>
+							{# Contacts #}
+							<a class="dropdown-item" href={{ path('contact_rechercher') }}>Contacts validés</a>
+							{# Responsable des stages #}
+							<a class="dropdown-item" href={{ path('responsable_des_stages_rechercher') }}>Responsable des stages</a>
+						</div>
+					</li>
+				{% endif %}
+
+
+				{# Informations globales #}
+				{% if infosGlobales %}
+					{{ this.boutonMenu( path('information_globale_modifier', {'id' : 1}) , "<i class='fas fa-info-circle mr-2'></i>Informations globales") }}
+				{% endif %}
+
+				{# Anciens Etudiants #}
+				{% if anciensEtudiants %}
+					{{ this.boutonMenu( path('ancien_etudiant_rechercher') , "<i class='fas fa-user-slash mr-2'></i>Anciens étudiants") }}
+				{% endif %}
+
+			</ul>
+
+			{# Connexion #}
+			<ul class="nav navbar-nav ml-auto">
+				{% if connexion %}
+					{{ this.boutonMenu( path('connexion') , '<i class="fas fa-sign-in-alt mr-2"></i>Connexion') }}
+
+				{# Connecté #}
+				{% else %}
+					<div class="dropdown dropleft float-right">
+							<button type="button" class="btn btn-primary dropdown-toggle" id="userItem" data-toggle="dropdown">
+								<i class="far fa-user mr-2"></i>{{ UTILISATEUR_CONNECTE }}
+							</button>
+							<div class="dropdown-menu">
+								<h6 class="dropdown-header">{{ UTILISATEUR_CONNECTE }}</h6>
+
+								{# Modifier Mot de passe #}
+								{% if modifMdp %}
+									<a class="dropdown-item" href={{ path('admin_changer_mdp') }}><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a>
+
+								{% elseif UTILISATEUR_CONNECTE %}
+
+									{# Compte #}
+									<a href=
+										{% if is_granted('ROLE_ETUDIANT') %}
+											{{ path('etudiant_compte') }}
+										{% elseif is_granted('ROLE_PROFESSEUR') %}
+											{{ path('professeur_compte') }}
+										{% elseif is_granted('ROLE_SECRETAIRE') %}
+											{{ path('secretaire_compte') }}
+										{% elseif is_granted('ROLE_CANDIDAT') %}
+											{{ path('candidat_compte') }}
+										{% elseif is_granted('ROLE_CONTACT') %}
+											{{ path('contact_compte') }}
+										{% elseif is_granted('ROLE_RESPONSABLE_DES_STAGES') %}
+											{{ path('responsable_des_stages_compte') }}
+										{% else %}
+											"#"
+										{% endif %}
+									class="dropdown-item">
+										<i class="fas fa-user-circle mr-2"></i>Mon compte<span class="sr-only"></span>
+									</a>
+								{% endif %}
+
+								{# Déconnexion #}
+								<a class="dropdown-item" href={{ path('deconnexion') }} data-toggle="modal" data-target="#deconnexionModal" id="deconnect" ><i class="fas fa-sign-out-alt mr-2"></i>Déconnexion <span class="sr-only"></span></a>
+							</div>
+					</div>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>

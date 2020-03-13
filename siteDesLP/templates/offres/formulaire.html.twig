@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion de mes offres{% endblock %}
+
+{% block body %}
+
+  {% if editMode == false %}
+      <h1>Nouvelle offre d'emploi</h1>
+  {% else %}
+      <h1>Modification offre d'emploi</h1>
+  {% endif %}
+
+  {{form_start(form_offre) }}
+  {{ form_row(form_offre.typeOffre,{'label': 'Type d\'offre'}) }}
+  <div class="hidden type-contrat">
+    {{ form_row(form_offre.ContratAlternance,{'label': 'Type de contrat d\'alternance'}) }}
+  </div>
+  <div class="hidden duree">
+    {{ form_row(form_offre.dateDuree,{'attr' : {'placeholder' : "Exemple : 12 février au 12 juin" }}, {'label': 'Date début / date fin'}) }}
+  </div>
+  {{ form_row(form_offre.remuneration,{'attr' : {'placeholder' : "Exemple : 550 euros par mois" }},{'label': 'Rémunération'}) }}
+  {{ form_row(form_offre.mailContact,{'label': 'Mail de la personne à contacter'}) }}
+  {{ form_row(form_offre.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'offre" }}) }}
+  {{ form_row(form_offre.description, {'label': 'Description de l\'offre'}) }}
+      <br>
+    <button type="submit" class="btn btn-success mb-5">
+        {% if editMode %}
+            Modifier l'offre
+        {% else %}
+            Créer l'offre
+        {% endif %}
+    </button>
+
+  {{ form_end(form_offre) }}
+  
+   {% block javascripts %}
+   {{parent()}}
+  <script>
+  {% if offre.ContratAlternance != null %}
+    $(".type-contrat").show(700);
+    $(".duree").show(700);
+  {% elseif offre.dateDuree != null %}
+    $(".duree").show(700);
+  {% endif %}
+  
+  $('#form_typeOffre').on('change', function() 
+  {
+    if(this.value == 3)
+    {
+      $(".type-contrat").show(700);
+      $(".duree").show(700);
+    } 
+    else if(this.value == 2)
+    {
+      $(".type-contrat").hide(700);
+      $(".duree").show(700);
+    }
+    else 
+    {
+        $("#form_contratAlternance").prop("selectedIndex", 0);
+        $("#form_dateDuree").val(null);
+        $(".hidden").hide(700);
+    }
+  });
+  </script>
+  {% endblock %}
+
+{% endblock %}

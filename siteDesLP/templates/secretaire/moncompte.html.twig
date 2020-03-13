@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% for msg in app.session.flashBag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ msg }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            {% endfor %}
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <a href="{{ path('secretaire_changer_mdp') }}"><button type="button" class="btn btn-secondary">Modifier mon mot de passe</button></a>
+</div>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Informations utilisateur</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Nom</th>
+      <td>{{ secretaire.nomSecretaire }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Prénom</th>
+      <td>{{ secretaire.prenomSecretaire }}</td>
+    </tr>
+      <th scope="row">Mail académique</th>
+      <td>{{ secretaire.mailAcademique }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Login</th>
+      <td>{{ secretaire.login }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

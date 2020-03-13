@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Rechercher une entreprise</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('notDelete') %}
+        <div class="alert alert-primary">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('delete') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('success_modifie') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    <table id="tab" class="table table-striped table-bordered table-hover tableau-donnees" style="width:100%">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Modifier</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entreprise in entreprises %}
+            <tr class="ligne">
+                <th id="{{ entreprise.nom }}" >{{entreprise.nom}}</th>
+                <td><a href="{{ path('entreprise_modifier', {'id' : entreprise.id}) }}" class="edit-btn btn btn-warning active invisible">✎</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+{%  block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    {{ encore_entry_script_tags('data-tables') }}
+{% endblock %}

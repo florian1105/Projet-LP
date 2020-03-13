@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire de Convention de Stage{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    <h1>Formulaire de convention de stage </h1>
+    {{ form_start(form) }}
+
+    {{ form_row(form.numINE, {'label': 'Numéro INE','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.sex, {'label': 'Sexe'}) }}
+    {{ form_row(form.numeroTelEtudiant, {'label': 'Numéro telephone étudiant','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.nomEntreprise, {'label': 'Nom de l\'entreprise','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.numSIRET, {'label': 'Numéro SIRET','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.addresseSiegeEntreprise, {'label': 'Addresse du siège sociale','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.codePostal, {'label': 'Code Postal','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.ville, {'label': 'Ville','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.addresseStage, {'label': 'Addresse du lieu du stage (si différente de l\'entreprise)','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.nomPrenomSignataire, {'label': 'NOM et Prenom du signataire','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.fonctionSignataire, {'label': 'Fonction du signataire','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.numTelSignataire, {'label': 'Numéro de téléphone du signataire','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.mailSignataire, {'label': 'Mail du signataire','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.sujetStage, {'label': 'Sujet du stage  (les sujets qui ne sont pas assez précis ne seront pas validés)','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.nomTuteur, {'label': 'NOM du tuteur en entreprise','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.prenomTuteur, {'label': 'Prenom du tuteur en entreprise','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.numTelTuteur, {'label': 'Numéro de téléphone du tuteur en entreprise','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.mailTuteur, {'label': 'Mail du tuteur en entreprise','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.fonctionTuteur, {'label': 'Fonction du tuteur ','attr' : {'placeholder' : "Votre réponse" }}) }}
+    {{ form_row(form.informationSupp, {'label': 'Informations complèmentaires (dates de stage à modifier...) ','attr' : {'placeholder' : "Votre réponse" }}) }}
+
+    <button type="submit" class="btn btn-success">
+        Valider la demande
+    </button>
+
+
+    {{ form_end(form) }}
+{% endblock %}

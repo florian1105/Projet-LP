@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion informations LP{% endblock %}
+
+{% block body %}
+{% for msg in app.session.flashBag.get('errorModificationInformationsClasses') %}
+  <div class="alert alert-primary" role="alert">
+    {{ msg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+{% endfor %}
+{% for msg in app.session.flashBag.get('validModificationInformationsClasses') %}
+  <div class="alert alert-success" role="alert">
+    {{ msg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<h1>Informations actuelles : </h1>
+<p>{{ info.description|raw }}</p>
+{% if info.cheminPlaquette != "" %}
+    <p>Cliquez ici afin de voir la plaquette de la licence pro <a target="_blank" href="{{ asset('uploads/plaquette/' ~ info.cheminPlaquette) }}">Voir la plaquette(PDF)</a>
+{% endif %}
+
+<a  href="{{ path('informations_classes_modifier', {'id' : info.id}) }}"><button  type="button" class="btn btn-secondary btn-lg btn-block">Modifier les informations relatives à la {{ classe.nomClasse }}</button></a>
+
+{% endblock %}

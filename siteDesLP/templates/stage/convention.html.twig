@@ -1,0 +1,627 @@
+
+<html lang="fr">
+<head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+    <style>
+        @page{
+            margin: 5px;
+        }
+        header {
+            position: fixed;
+            top: -60px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
+
+            /** Extra personal styles **/
+            background-color: #03a9f4;
+            color: white;
+            text-align: center;
+            line-height: 35px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: -60px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
+
+            /** Extra personal styles **/
+            background-color: #03a9f4;
+            color: white;
+            text-align: center;
+            line-height: 35px;
+        }
+    </style>
+    <style type="text/css" >
+        #table1 {
+            border-collapse: collapse;
+            margin-bottom : 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        h4{
+            font-weight: bold;
+            font-size: medium;
+            margin:0px;
+            text-decoration: underline;
+
+        }
+        p{
+            font-size:small ;
+            margin: 0px;
+        }
+        h2{
+            margin:10px;
+        }
+        h4{
+            margin-top:5px;
+            margin-bottom : 5px;
+        }
+
+    </style>
+    <title></title>
+</head>
+<body>
+<main>
+    <div style="page-break-after: always">
+
+        <h2 style="text-align: center;">Année universitaire 2019 / 2020<br>
+            Convention de stage obligatoire<br>
+            entre :</h2>
+
+        <table style="height:200px" id="table1">
+            <tbody>
+            <tr>
+                <td style="width: 50% ; " >
+                    <h4>1-L'ETABLISSEMENT D'ENSEIGNEMENT :</h4>
+                    <p>
+                        Nom : Université de Montpellier<br />
+                        Adresse : 163 rue Auguste Broussonet 34090<br />
+                        Montpellier<br />
+                        N&deg; SIRET : 130 020 548 000 17 <br/>
+                        Code APE : 8542 Z<br />
+                        Représenté par : Philippe AUG&Eacute;<br />
+                        Qualité du représentant : Président<br />
+                        Composante : IUT de Montpellier-S&egrave;te<br />
+                        Représenté par : Mattéo VALENZA<br />
+                        Qualité du représentant : Directeur<br />
+                        Assisté de M. Francis GARCIA<br />
+                        Chef de département Informatique<br />
+                        Adresse : 99 avenue d'Occitanie 34296 Montpellier<br />
+                        cedex5<br />
+                        Téléphone : 04.99.58.51.80<br />
+                        Courriel : iutms-info@umontpellier.fr<br />
+                        Fax : 04.99.58.51.76
+                    </p>
+                </td>
+                <td style="width: 50%">
+                    <h4>2- L'ORGANISME D'ACCUEIL :</h4>
+                    <p>
+                        Nom :{{ stageForm.nomEntreprise}}<br />
+                        Adresse : {{stageForm.addresseSiegeEntreprise }}<br />
+                        N&deg; SIRET : {{stageForm.numSIRET}}<br />
+                        {{ stageForm.codePostal }}  {{ stageForm.ville }} <br/>
+                        Code APE :...........................................................<br />
+                        Représenté par : {{stageForm.nomPrenomSignataire}}<br />
+                        Qualité du représentant : Stagiaire développeur informatique.<br />
+                        Service d'affectation du stagiaire :....................................<br />
+                        Adresse du lieu de stage (si différente) : {{stageForm.addresseStage}}<br />
+                        Téléphone : {{stageForm.numTelSignataire}}<br />
+                        Courriel : {{stageForm.mailSignataire}}<br />
+                        Fax :..............................................
+                    </p>
+                    <br/>
+                    <br/>
+                    <br/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table style="width: 100%" id="table1">
+            <tbody>
+            <tr>
+                <td style="">
+                    <h4>3- LE STAGIAIRE :</h4>
+                    <p>
+                        Nom : {{stageForm.etudiant.nom}} Prénom : {{stageForm.etudiant.prenom}}<br />
+                        N&deg; étudiant : {{stageForm.numINE}}<br />
+                        Sexe : {% if stageForm.sex  %} F {% else %} M {% endif %} Né(e) le : {{stageForm.etudiant.dateNaissance | date('d/m/Y')}}<br />
+                        Adresse : 13 rue cité bousquet - 34090 MONTPELLIER<br />
+                        Téléphone : {{stageForm.etudiant.telephone}}<br />
+                        Courriel : {{stageForm.etudiant.mail}}<br />
+                        {{stageForm.etudiant.classe.nomComplet}}
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table style="width: 100%" id="table1">
+            <tbody>
+            <tr>
+                <td>
+                    <h4>SUJET DE STAGE :</h4>
+                    <p>
+                        {{stageForm.sujetStage}}<br>
+                        {{ stageForm.informationSupp }}
+                        Dates du 16 mars 2020 au 26 juin 2020 - Représentant une durée totale de : 15 semaines<br />
+                        Et correspondant à ........jours de présence dans l'organisme d'accueil.<br />
+                        NATURE DU STAGE : DUT Licence Professionnelle (rayer mentions inutiles)<br />
+                        Nombre d'heures par semaine : 35 heures.
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table style=" margin-bottom : 2px;" id="table1">
+            <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h4>
+                        ENCADREMENT DU STAGIAIRE PAR
+                        L'ETABLISSEMENT D'ENSEIGNEMENT :</h4>
+                    <p>
+                        Nom et prénom de l'enseignant référent :<br />
+                        PALLEJA Nathalie<br />
+                        Fonction ou discipline : Responsable des Stages LP<br />
+                        Téléphone : 04.99.58.51.92<br />
+                        Courriel : nathalie.palleja@umontpellier.fr
+                    </p>
+                    <br/>
+                </td>
+                <td style="width: 50%;">
+                    <h4>
+                        ENCADREMENT DU STAGIAIRE PAR
+                        L'ORGANISME D'ACCUEIL :</h4>
+                    <p>
+                        Nom et prénom du tuteur de stage :<br />
+                        {{stageForm.nomTuteur}} {{stageForm.prenomTuteur}}<br />
+                        Fonction ou discipline : {{stageForm.fonctionTuteur }}<br />
+                        Téléphone : {{stageForm.numTelTuteur}}<br />
+                        Courriel : {{ stageForm.mailTuteur }}
+                    </p>
+                    <br>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table id="table1">
+            <tbody>
+            <tr>
+                <td>Caisse Primaire d'assurance maladie à contacter en cas d'accident (lieu du domicile du stagiaire sauf exception) :<br />&Agrave; compléter par l'étudiant .........................................................................................................................................................................</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div style="page-break-after: always;">
+        <table style="margin:20px ;  border: none;">
+            <tbody>
+            <tr>
+                <td style="width: 60% ;border: none; " >
+                    <h4>Article 1 : Objet de la convention</h4>
+                    <p style="font-size: smaller">La présente convention règle les rapports de l'organisme d'accueil
+                        (entreprise, organisme public, association...) avec l'établissement
+                        d'enseignement supérieur et le (la) stagiaire.
+                    </p>
+                    <h4>Article 2 : Objectif du stage</h4>
+                    <p style="font-size: smaller">
+                        Le stage de formation a pour objet de permettre à l'étudiant(e) de
+                        mettre en pratique les outils théoriques et méthodologiques acquis
+                        au cours de sa formation, d'identifier ses compétences et de
+                        conforter son objectif professionnel.
+                        Le stage a ainsi pour but de préparer l'étudiant(e) à l'entrée dans la
+                        vie active par une meilleure connaissance de l'organisme d'accueil.
+                        Le stage s'inscrit dans le cadre de la formation et du projet
+                        personnel et professionnel de l'étudiant(e). Il entre dans son cursus
+                        pédagogique.
+                        Le programme du stage est établi par l'établissement et l'organisme
+                        d'accueil en fonction du programme général de la formation
+                        dispensée.</p>
+                    <h4>Article 3: Modalité du stage</h4>
+                    <p style="font-size: smaller">
+                        La durée hebdomadaire maximale de présence du (de la) stagiaire
+                        dans l'entreprise sera de 35.00 heures. Le stage est à temps plein.
+                        Si le (la) stagiaire doit être présent(e) dans l'organisme d'accueil la
+
+                        nuit, le dimanche ou un jour férié, l'organisme doit indiquer ci-
+                        dessous les cas particuliers :
+                    </p>
+                    ........................................................................
+                    <h4>Article 4 : Statut du stagiaire - Accueil et encadrement</h4>
+                    <p style="font-size: smaller">
+                        L'étudiant(e) pendant la durée de son stage dans l'organisme
+                        d'accueil, conserve son statut antérieur; il (elle) est suivi(e)
+                        régulièrement par l'enseignant référent désigné par cette
+                        convention. L'organisme nomme un tuteur organisme d'accueil
+                        chargé d'assurer le suivi et d'optimiser les conditions de réalisation
+                        du stage. L'étudiant(e) pourra revenir à l'établissement pendant la
+                        durée du stage, pour y suivre certains cours demandés
+                        explicitement par le programme, participer à des réunions, les
+                        dates étant portées à la connaissance de l'organisme par
+                        l'établissement et être autorisé(e), le cas échéant, à se déplacer.</p>
+                    <h4>Article 5 - Gratification - Avantages</h4>
+                    <p style="font-size: smaller">
+                        En France, lorsque la durée du stage est supérieure à deux mois
+
+                        consécutifs ou non (au-delà de la 309ième heure de présence), celui-
+                        ci fait obligatoirement l'objet d'une gratification, sauf en cas de
+
+                        règles particulières applicables dans certaines collectivités d'outre-
+                        mer françaises et pour les stages relevant de l'article L4381-1 du
+
+                        code de la santé publique.
+                        Le montant horaire de la gratification est fixé à 15% du plafond
+                        horaire de la sécurité sociale défini en application de l'article L.241-
+                        3 du code de la sécurité sociale. Une convention de branche ou un
+                        accord professionnel peut définir un montant supérieur à ce taux.
+                        La gratification due par un organisme de droit public ne peut être
+                        cumulée avec une rémunération versée par ce même organisme au
+                        cours de la période concernée.
+                        La gratification est due sans préjudice du remboursement des frais
+                        engagés par le (la) stagiaire pour effectuer son stage et des
+                        avantages offerts, le cas échéant, pour la restauration,
+                        l'hébergement, et le transport.
+                        L'organisme peut décider de verser une gratification pour les stages :</p>
+                </td>
+                <td style="width: 60%;border: none;">
+                    <p style="font-size: smaller">
+                        dont la durée est inférieure ou égale à deux mois.
+                        En cas de suspension ou de résiliation de la présente convention, le
+                        montant de la gratification due au (à la) stagiaire est proratisé en
+                        fonction de la durée du stage effectué.
+                        La durée donnant droit à gratification s'apprécie compte tenu de la
+                        présente convention et de ses avenants éventuels, ainsi que du
+                        nombre de jours de présence effective du stagiaire dans
+                        l'organisme.
+                        Le montant horaire légal et minimal de la gratification est fixé à
+                        3.90 euros/heure.
+                        L’entreprise peut choisir le lissage mensuel de la gratification sur
+                        la durée totale du stage, ou le réel mensuel en fonction de la
+                        présence effective de l’étudiant :</p>
+
+                    <h4>LISSAGE :</h4>
+                    <p style="font-size: smaller">
+                        Le montant de la gratification est fixé à......................€ par mois.
+                        Modalités de versement de la gratification : Virement bancaire.
+                        </p>
+                    <h4>REEL :</h4>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <br>
+
+                    <table style=" border-collapse: collapse; display: table">
+                        <tbody>
+                        <tr>
+                            <td>Mois</td>
+                            <td>Nbre Jours</td>
+                            <td>Montant gratifiction</td>
+                        </tr>
+                        <tr>
+                            <td><br></td>
+                            <td><br></td>
+                            <td><br></td>
+                        </tr>
+                        <tr>
+                            <td><br></td>
+                            <td><br></td>
+                            <td><br></td>
+                        </tr>
+                        <tr>
+                            <td><br></td>
+                            <td><br></td>
+                            <td><br></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: smaller">
+                        Modalités de versement de la gratification : Virement bancaire.</p>
+                    <h4>Article 5 bis - Accès aux droits des salariés</h4>
+                    <p style="font-size: smaller">
+                        (Organisme de droit privé en France sauf en cas de règles
+                        particulières applicables dans certaines collectivités d'outre-mer
+                        françaises) :
+                        Le (la) stagiaire bénéficie des protections et droits mentionnés aux
+                        articles L.1121-1, L.1152-1 et L.1153-1 du code du travail, dans les
+                        mêmes conditions que les salariés.
+
+                        Le (la) stagiaire a accès au restaurant d'entreprise ou aux titres-
+                        restaurants prévus à l'article L.3262-1 du code du travail, dans les
+
+                        mêmes conditions que les salariés de l'organisme d'accueil. Il (elle)
+                        bénéficie également de la prise en charge des frais de transport
+                        prévue à l'article L.3261-2 du même code.
+                        Le (la) stagiaire accède aux activités sociales et culturelles
+                        mentionnées à l'article L.2323-83 du code du travail dans les
+                        mêmes conditions que les salariés.</p>
+                    <h4>Article 5ter - Accès aux droits des agents</h4>
+                    <p style="font-size: smaller">
+                        (Organisme de droit public en France sauf en cas de règles
+                        particulières applicables dans certaines collectivités d'outre-mer
+                        françaises) :
+                        Les trajets effectués par le (la) stagiaire d'un organisme de droit
+                        public entre son domicile et son lieu de stage sont pris en charge
+                        dans les conditions fixées par le décret n°2010-676 du 21 juin 2010
+                        instituant une prise en charge partielle du prix des titres
+                        d'abonnement correspondant aux déplacements effectués par les
+                        agents publics entre leur résidence habituelle et leur lieu de travail.
+                        Le (la) stagiaire accueilli(e) dans un organisme de droit public et qui
+                        effectue une mission dans ce cadre bénéficie de la prise en charge
+                        de ses frais de déplacement temporaire selon la réglementation en
+                        vigueur.
+                        Est considéré comme sa résidence administrative le lieu du stage
+                        indiqué dans la présente convention.
+                        AUTRES AVANTAGES ACCORDÉS :</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="page-break-after: always">
+        <table style="margin : 20px ;  border: none;">
+            <tbody>
+            <tr>
+                <td style="width: 60% ;border: none; " >
+                    ......................................................................
+                    <h4>Article 6 : Protection sociale</h4>
+                    <h4> Article 6-1 : Régime de protection sociale :</h4>
+                    <p style="font-size: smaller">
+                        Pendant la durée de son stage, le (la) stagiaire continue de
+                        bénéficier de son régime sécurité sociale étudiante.</p>
+                    <h4>Article 6-2 : Accidents du travail</h4>
+                    <p style="font-size: smaller">
+                        Pendant la durée de son stage, le (la) stagiaire bénéficie de la
+                        législation sur les accidents du travail au titre de l’article L412-8 du
+                        code de la sécurité sociale.</p> <p style="font-size: smaller">
+                        En cas d'accident survenant à l'étudiant(e), soit au cours des
+                        travaux dans l'organisme, soit au cours du trajet, soit sur les lieux
+                        rendus utiles pour les besoins de son stage, l'organisme d'accueil
+                        envoie la déclaration à la Caisse Primaire d'Assurance Maladie (voir
+                        adresse en première page) en mentionnant l'établissement
+                        d’enseignement comme employeur.</p> <p style="font-size: smaller">
+                        Si la gratification est supérieure à 15 % du plafond horaire de la
+                        sécurité sociale, le stagiaire bénéficie de la couverture légale en
+                        application des dispositions de l’article L411-1 du code de la sécurité
+                        sociale. L'organisme d'accueil devra alors assumer le paiement des
+                        cotisations et effectuer également toutes les démarches nécessaires
+                        auprès de la CPAM.</p> <p style="font-size: smaller">
+                        Dans les organismes publics, toute gratification supérieure à 15 % du
+                        plafond horaire de la sécurité sociale transforme de fait le stage en
+                        CDD.</p>
+                    <h4> Article 7 : Responsabilité civile et assurances</h4>
+                    <p style="font-size: smaller">
+                        L'organisme d'accueil et l'étudiant(e) déclarent être garantis au titre
+                        de la responsabilité civile. Quelle que soit la nature du stage et le
+                        pays de destination, le (la) stagiaire s'engage à se couvrir par un
+                        contrat d'assistance (rapatriement sanitaire, assistance juridique
+                        etc.) et par un contrat d'assurance individuel accident.
+                        Lorsque l'organisme met un véhicule à la disposition du (de la)
+                        stagiaire, il lui incombe de vérifier préalablement que la police
+                        d'assurance du véhicule couvre son utilisation par un(e) étudiant(e).
+                        Lorsque dans le cadre de son stage, l'étudiant(e) utilise son propre
+                        véhicule ou un véhicule prêté par un tiers, il (elle) déclare
+                        expressément à l'assureur dudit véhicule cette utilisation qu'il (elle)
+                        est amené(e) à faire et le cas échéant s'acquitte de la prime y
+                        afférente.</p>
+                    <h4>Article 8 : Discipline</h4>
+                    <p style="font-size: smaller">
+                        Durant son stage, l'étudiant(e) est soumis(e) à la discipline et au
+                        règlement intérieur (qui doit être porté à la connaissance de
+                        l'étudiant(e) de l'organisme, notamment en ce qui concerne les
+                        horaires, et les règles d'hygiène et de sécurité en vigueur dans
+                        l'organisme d'accueil.</p>
+                    <p style="font-size: smaller">
+                        Toute sanction disciplinaire ne peut être décidée que par
+                        l'établissement. Dans ce cas, l'organisme informe l’enseignant
+                        référent et l'établissement des manquements et lui fournit
+                        éventuellement les éléments constitutifs. En cas de manquement
+                        particulièrement grave à la discipline, l'organisme se réserve le
+                        droit de mettre fin au stage de l'étudiant(e) tout en respectant les
+                        dispositions fixées à l'article 9 de la présente convention.</p>
+
+                    <h4>Article 9 : Absence et Interruption du stage</h4>
+
+                </td>
+                <td style="width: 60%; border: none;">
+                    <p>
+                        Toute difficulté survenue dans le déroulement du stage devra être
+                        portée à la connaissance de tous les intéressés afin d'être résolue
+                        au plus vite.
+                    <h4>Article 9-1 : Interruption temporaire</h4>
+                    <p style="font-size: smaller">
+                        Au cours du stage, le (la) stagiaire pourra bénéficier de congés sous
+                        réserve d'accord de l'organisme d'accueil et que la durée du stage
+                        soit respectée.</p> <p style="font-size: smaller">
+                        Pour toute autre interruption temporaire du stage (maladie,
+                        maternité, absence injustifiée...) l'organisme d'accueil avertira le
+                        responsable de l'établissement par courrier.</p>
+                    <h4>Article 9-2 : Interruption définitive</h4>
+                    <p style="font-size: smaller">
+                        En cas de volonté d'une des trois parties (organisme, établissement,
+                        étudiant(e)) d'interrompre définitivement le stage, celle-ci devra
+                        immédiatement en informer les deux autres parties par écrit. Les
+                        raisons invoquées seront examinées en étroite concertation. La
+                        décision définitive d'interruption du stage ne sera prise qu'à l'issue
+                        de cette phase de concertation.</p>
+                    <h4>Article 10 : Devoir de réserve et confidentialité</h4>
+                    <p style="font-size: smaller">
+                        Le devoir de réserve est de rigueur absolue. Les étudiant(e)s
+                        stagiaires prennent donc l'engagement de n'utiliser en aucun cas les
+                        informations recueillies ou obtenues par eux pour en faire l'objet de
+                        publication, communication à des tiers sans accord préalable de
+                        l'organisme, y compris le rapport de stage. Cet engagement vaudra
+                        non seulement pour la durée du stage mais également après son
+                        expiration. L'étudiant(e) s'engage à ne conserver, emporter, ou
+                        prendre copie d'aucun document ou logiciel, de quelque nature que
+                        ce soit, appartenant à l'organisme, sauf accord de ce dernier.
+                        Nota : Dans le cadre de la confidentialité des informations
+                        contenues dans le rapport, l'organisme peut demander une
+                        restriction de la diffusion du rapport, voire le retrait de certains
+                        éléments très confidentiels.</p>
+                    <p style="font-size: smaller">
+                        Les personnes amenées à en connaître le contenu sont contraintes
+                        par le secret professionnel, à n'utiliser ni ne divulguer les
+                        informations du rapport.</p>
+                    <h4>Article 11 : Propriété intellectuelle</h4>
+                    <p style="font-size: smaller">
+                        Conformément au code de la propriété intellectuelle, si le travail
+                        du (de la) stagiaire donne lieu à la création d'une œuvre protégée
+                        par le droit d'auteur ou la propriété industrielle (y compris un
+                        logiciel), si l'organisme d'accueil souhaite l'utiliser et que le (la)
+                        stagiaire en est d'accord, un contrat devra être signé entre le (la)
+                        stagiaire (auteur) et l'organisme d'accueil.</p>
+                    <p style="font-size: smaller">
+                        Devront notamment être précisés l'étendue des droits cédés,
+                        l'éventuelle exclusivité, la destination, les supports utilisés et la
+                        durée de la cession, ainsi que, le cas échéant, le montant de la
+                        rémunération due à l'étudiant(e) au titre de la cession.
+                        Cette clause s'applique également dans le cas des stages dans les
+                        organismes publics.</p>
+
+                    <h4>Article 12 : Recrutement</h4>
+                    <p style="font-size: smaller">
+                        S'il advenait qu'un contrat de travail prenant effet avant la date de
+                        fin du stage soit signé avec l'organisme d'accueil, la présente
+                        convention deviendrait caduque ; l' « étudiant(e) » ne relèverait plus</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="">
+        <table style="margin : 20px ;  border: none;">
+            <tbody>
+            <tr>
+                <td style="width: 60%; border: none;">
+                    <p style="font-size: smaller">de la responsabilité de l'établissement d'enseignement. Ce dernier
+                        devrait impérativement en être averti avant la signature du contrat.</p>
+                    <h4>Article 13 : Fin de stage - Rapport - Évaluation</h4>
+                    <p style="font-size: smaller">
+                        À l'issue du stage, l'organisme d'accueil délivre au (à la)stagiaire une
+                        attestation de stage et remplit une fiche d'évaluation de l'activité du
+                        (de la) stagiaire (annexe) qu'il retourne à l'établissement
+                        d'enseignement supérieur.</p> <p style="font-size: smaller">
+                        Les modalités de validation du stage sont définies dans le cadre des
+                        modalités de contrôle des connaissances de l’IUT.</p> <p style="font-size: smaller">
+                        L'activité du (de la) stagiaire fera l'objet d'une évaluation. Une fiche
+                        d’évaluation est remplie par l’organisme d’accueil (maître de stage)
+                        et remise à l’IUT.</p>
+                    <br>
+                    <br>
+                    <br>
+                    <p>   Fait en trois exemplaires originaux,<br>
+                        Le 25 février 2020 à Montpellier </p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p>
+                        Pour l’organisme d’accueil :<br>
+                        Nom et signature du représentant</p>
+                    <br>
+                    <br>
+                    {{ stageForm.nomPrenomSignataire }}
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p> Le tuteur de stage de l’organisme d’accueil :<br>
+                        Nom et signature du tuteur</p>
+                    <br>
+                    <br>
+                    {{ stageForm.nomTuteur }}  {{ stageForm.prenomTuteur }}
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p>
+                        Le/la stagiaire (ou son représentant légal) :<br>
+                        Nom et signature<br><br>
+                        {{stageForm.etudiant}}
+                    </p>
+                </td>
+                <td style="width: 60%; border: none;">
+                    <p style="font-size: smaller">
+                        Le (la) stagiaire déposera à l’IUT un rapport de stage (ou compte
+                        rendu...) visé par l’organisme d’accueil et le responsable
+                        pédagogique qui aura assuré le suivi de l'étudiant. Ce rapport fera
+                        l'objet d'une présentation orale et d'une notation.</p>
+                    <br>
+                    <p style="font-size: smaller">
+                        Les modalités de validation du stage sont définies dans le cadre des
+                        modalités du contrôle des connaissances du DUT/L.P.</p>
+                    <h4>Article 14 : Droit applicable - Tribunaux compétents</h4>
+                    <p style="font-size: smaller">
+                        La présente convention est régie exclusivement par le droit
+                        français. Tout litige non résolu par voie amiable sera soumis à la
+                        compétence de la juridiction française compétente.</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p>
+                        Par délégation du Président de l’Université de Montpellier:<br>
+                        Le chef de département - Nom et signature
+                        <br>
+                        <br>
+                        <br>
+                        Francis GARCIA
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        L’enseignant référent :
+                        <br>
+                        Nom et signature
+                        <br>
+                        <br>
+                        <br>
+                        Nathalie PALLEJA
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </p>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>

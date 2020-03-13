@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion informations{% endblock %}
+
+{% block body %}
+<h1>Informations globales IUT</h1>
+{% for msg in app.session.flashBag.get('validModificationInformationsGlobales') %}
+  <div class="alert alert-success" role="alert">
+    {{ msg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{{ form_start(form) }}
+
+{{ form_row(form.description , {'label': 'Description'}) }}
+<button type="submit" class="btn btn-success">Modifier les informations</button>
+<a class="btn btn-primary" href="{{ path('home') }}" role="button">Annuler</a>
+{{ form_end(form) }}
+{% endblock %}

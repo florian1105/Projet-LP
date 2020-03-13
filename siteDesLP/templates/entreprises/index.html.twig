@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% form_theme form_create_entreprise 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    {% if editMode %}
+        <h1>Modification de l'entreprise {{ entreprise.nom }}</h1>
+    {% else %}
+        <h1>Création d'une entreprise</h1>
+    {% endif %}
+
+    {{ form_start(form_create_entreprise) }}
+
+    {{ form_row(form_create_entreprise.nom , {'label': 'Nom','attr' : {'placeholder' : "Nom de l'entreprise" }}) }}
+
+    <button type="submit" class="btn btn-success">
+    {% if editMode %}
+        Modifier l'entreprise
+    {% else %}
+        Créer l'entreprise
+    {% endif %}
+    </button>
+    <button class="btn btn-primary" onclick="window.history.go(-1); return false;">Annuler</button>
+    {{ form_end(form_create_entreprise) }}
+{% endblock %}

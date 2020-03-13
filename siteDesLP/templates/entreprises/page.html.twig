@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}Espace entreprises{% endblock %}
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+    body{
+        background-image: url('https://bel-india.com/wp-content/uploads/2020/03/stage-company.jpg');
+        background-size: 119.5%;
+        color:white;
+        background-color: rgba(0, 0 , 0 ,0.5);
+
+    }
+    .espace
+    {
+        margin-left: 15%;
+        margin-right: 15%;
+        background-color: rgba(0, 0 , 0 ,0.5);
+        padding: 5%;
+    }
+    .btn-group
+    {
+        margin-bottom: 2%;
+    }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success_contact') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    <div class="espace">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{ path('connexion') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Connexion</button></a>
+            <a href="{{ path('contact_nouveau') }}">  <button type="button" class="btn btn-secondary">Faire une demande de contact&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button></a>
+        </div>
+        <h1>Espace entreprises</h1>
+        <p>Cet espace a pour objectif de mettre en liaison les étudiants de licence professionelle informatique de l'IUT de Montpellier ansi que des entreprises avec une certaine demande de recrutement pour tous types de contrats,
+        des alternaces, des CDI, des stages ou encore des CDD.</p>
+        <p>L'intérêt est réellement partagé que ce soit pour les étudiants ou pour les entreprises.</p>
+        <p>Les entreprises possédant un compte ont accès à une interface sur laquelle elles peuvent poster des offres d'emploi qui seront directement accessibles par les étudiants sur leur compte.</p>
+        <img src="{{ asset('build/images/company.png') }}" class="d-block w-100" alt="...">
+    </div>
+
+{% endblock %}

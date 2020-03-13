@@ -1,0 +1,8 @@
+swiftmailer:
+    transport: gmail
+    auth_mode: login
+    port: 465
+    host: smtp.gmail.com
+    username: 'sitedeslp@gmail.com'
+    password: 'agiletour'
+    spool: { type: 'memory' }

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('mdp_change') %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('mdp_non_change') %}
+    <div class="alert alert-warning" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="{{ path('responsable_des_stages_changer_mdp') }}"><button type="button" class="btn btn-secondary"><i class="fas fa-key"></i>&nbsp;&nbsp;Modifier mon mot de passe</button></a>
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col"><i class="far fa-address-card"></i>&nbsp;&nbsp;Informations utilisateur</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"><i class="fas fa-id-badge"></i>&nbsp;&nbsp;Nom</th>
+        <td>{{ responsable_des_stages.nom}}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="far fa-id-badge"></i>&nbsp;&nbsp;Prénom</th>
+        <td>{{ responsable_des_stages.prenom}}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="far fa-paper-plane"></i>&nbsp;&nbsp;Mail académique</th>
+        <td>{{ responsable_des_stages.mailAcademique }}</td>
+      </tr>
+      <tr>
+        <th scope="row"><i class="fas fa-clipboard-check"></i>&nbsp;&nbsp;Login</th>
+        <td>{{ responsable_des_stages.login }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% if editMode %}
+        <h1>Modification du/de la secrétaire {{ secretaire.nomSecretaire }} {{ secretaire.prenomSecretaire }}</h1>
+    {% else %}
+        <h1>Création d'un(e) secrétaire</h1>
+    {% endif %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.nomSecretaire, {
+        'label':'Nom de famille',
+        'attr' : {
+            'placeholder' : "Nom de famille"
+        }
+    }) }}
+    {{ form_row(form.prenomSecretaire, {
+        'label':'Prénom',
+        'attr' : {
+            'placeholder' : "Prénom"
+        }
+    }) }}
+
+    {% if editMode %}
+        {{ form_row(form.login, {
+            'label':'Login de connexion',
+            'attr' : {
+                'placeholder' : "Login"
+            }
+        }) }}
+        {{ form_row(form.mailAcademique, {
+            'label':'Mail académique',
+            'attr' : {
+                'placeholder' : "Mail académique"
+            }
+        }) }}
+    {% endif %}
+
+
+    {% if editMode==false %}
+        {{ form_row(form.new_password, {
+            'label':'Mot de passe',
+            'attr' : {
+                'placeholder' : "Mot de passe"
+            }
+        }) }}
+        {{ form_row(form.confirm_password, {'label': 'Confirmer mot de passe','attr' : {'placeholder' : "Confirmer le mot de passe" }}) }}
+    {% endif %}
+
+    {# Bonton de création #}
+    <button type="submit" class="btn btn-success mb-5">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Créer le/la secrétaire
+        {% endif %}
+    </button>
+    <button class="btn btn-primary mb-5" onclick="window.history.go(-1); return false;">Annuler</button>
+    {# Affichage du buton supprimer
+       si on est en mode édition #}
+    {% if editMode %}
+        <a href="{{ path('secretaire_supprimer',{id:secretaire.id}) }}" class="btn btn-danger mb-5"> Supprimer </a>
+    {% endif %}
+    {{ form_end(form) }}
+{% endblock %}

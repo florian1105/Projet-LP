@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations IUT Montpellier{% endblock %}
+
+{% block body %}
+
+	<div class="info-globales">
+		<div class="col">
+			<h3 class="pb-3 mb-4 font-italic border-bottom">Informations sur l'IUT de Montpellier</h3>
+			{{ info.description|raw}}
+		</div>
+	</div>
+
+{% endblock %}

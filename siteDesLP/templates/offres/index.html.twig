@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres d'emploi{% endblock %}
+
+{% block body %}
+	<div class="actu">
+		<h3>Les offres ({{ typeOffre }})</h3>
+		{% for offre in offres %}
+			<div class="blog-post">
+				<a class="blog-title" href="{{ path('offre_afficher', {'id': offre.id})}}"><h2>{{ offre.titre }}</h2></a>
+				<p class="blog-post-meta font-italic"><i class="far fa-calendar-alt"></i> &nbsp;Publié le : {{ offre.date | date('d/m/Y') }}</p>
+                <p class="blog-post-meta"><i class="far fa-building"></i> &nbsp;Par : {{ offre.entreprise }}</p>
+				{% if offre.ContratAlternance != null %}
+				<p class="blog-post-meta"><i class="fas fa-info-circle"></i> &nbsp;Type de contrat : {{ offre.ContratAlternance }}</p>
+				{% endif %}
+				{% if offre.dateDuree != null %}
+				<p class="blog-post-meta"><i class="far fa-hourglass"></i> &nbsp;Durée : {{ offre.dateDuree }}</p>
+				{% endif %}
+				<p class="blog-post-meta"><i class="fas fa-euro-sign"></i> &nbsp;Remunération : {{ offre.remuneration }}</p>
+				<p class="blog-post-meta"><i class="far fa-envelope"></i> &nbsp;Contact : {{ offre.mailContact }}</p>
+				{{ offre.description|slice(0, 500)|raw }}[...]
+				<p><a href="{{ path('offre_afficher', {'id': offre.id})}}">Lire la suite &nbsp;<i class="fas fa-arrow-right"></i></a></p>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

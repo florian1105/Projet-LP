@@ -1,0 +1,128 @@
+security:
+    encoders:
+        App\Entity\Professeurs:
+            algorithm: 'auto'
+        App\Entity\Etudiants:
+            algorithm: 'auto'
+        App\Entity\Secretaire:
+            algorithm: 'auto'
+        App\Entity\Admin:
+            algorithm: 'auto'
+        App\Entity\Candidats:
+            algorithm: 'auto'
+        App\Entity\Utilisateurs:
+            algorithm: 'auto'
+        App\Entity\Contacts:
+            algorithm: 'auto'
+        Symfony\Component\Security\Core\User\User:
+            algorithm: 'auto'
+        App\Entity\ResponsableDesStages:
+              algorithm: 'auto'
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        chain_provider:
+                chain:
+                    providers: [in_database_admin_login, in_database_candidat_mail, in_database_etudiant_login, in_database_etudiant_mail, in_database_secretaire_login, in_database_secretaire_mail, in_database_professeur_login, in_database_professeur_mail, in_database_contact_mail, in_database_responsable_des_stages_login, in_database_responsable_des_stages_mailAcademique]
+        in_database_admin_login:
+            entity:
+                class: App\Entity\Admin
+                property: login
+
+        in_database_etudiant_mail:
+            entity:
+                class: App\Entity\Etudiants
+                property: mailAcademique
+
+        in_database_candidat_mail:
+            entity:
+                class: App\Entity\Candidats
+                property: mail
+
+        in_database_etudiant_login:
+            entity:
+                class: App\Entity\Etudiants
+                property: login
+
+        in_database_professeur_mail:
+            entity:
+                class: App\Entity\Professeurs
+                property: mailAcademique
+
+        in_database_professeur_login:
+            entity:
+                class: App\Entity\Professeurs
+                property: login
+
+        in_database_secretaire_mail:
+            entity:
+                class: App\Entity\Secretaire
+                property: mailAcademique
+
+        in_database_secretaire_login:
+            entity:
+                class: App\Entity\Secretaire
+                property: login
+
+        in_database_contact_mail:
+            entity:
+                class: App\Entity\Contacts
+                property: mail
+
+        in_database_responsable_des_stages_login:
+            entity:
+                class: App\Entity\ResponsableDesStages
+                property: login
+
+        in_database_responsable_des_stages_mailAcademique:
+            entity:
+                class: App\Entity\ResponsableDesStages
+                property: mailAcademique
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            provider: chain_provider
+            form_login:
+                login_path: connexion
+                check_path: connexion
+
+            logout:
+                path: deconnexion
+                target: /
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    role_hierarchy:
+        ROLE_CANDIDAT: ROLE_USER
+        ROLE_ETUDIANT: ROLE_USER
+        ROLE_ANCIENETUDIANT: ROLE_USER
+        ROLE_PROFESSEUR: ROLE_USER
+        ROLE_SECRETAIRE: ROLE_USER
+        ROLE_PROFESSEURRESPONSABLE: [ROLE_PROFESSEUR, ROLE_USER]
+        ROLE_CONTACT: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+        ROLE_RESPONSABLE_DES_STAGES: ROLE_USER
+
+
+    access_control:
+        - { path: ^/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/informations/globales, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/informations/classes, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/candidat/compte, role: ROLE_CANDIDAT }
+        - { path: ^/etudiant/compte, role: ROLE_ETUDIANT }
+        - { path: ^/professeur/compte, role: ROLE_PROFESSEUR }
+        - { path: ^/secretaire/compte, role: ROLE_SECRETAIRE }
+        - { path: ^/etudiant, role: [ROLE_PROFESSEURRESPONSABLE, ROLE_ADMIN] }
+        - { path: ^/secretaire, role: [ROLE_ADMIN] }
+        - { path: ^/professeur, role: [ROLE_ADMIN] }
+        - { path: ^/classe/purger, role: ROLE_PROFESSEURRESPONSABLE }
+        - { path: ^/classe, role: [ROLE_ADMIN] }
+        - { path: ^/contact/compte, role: ROLE_CONTACT }
+        - { path: ^/offre/nouveau, role: [ROLE_CONTACT, ROLE_SECRETAIRE] }

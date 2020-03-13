@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des articles{% endblock %}
+
+{% block body %}
+
+  {% if classe != null %}
+    {% if nbClasses == 1 %}
+      <p>* Cet article concerne uniquement la {{ classe }} </p>
+    {% elseif nbClasses > 1 %}
+      <p>* Cet article concerne également {{ nbClasses - 1 }} autre(s) classe(s)</p>
+    {% endif %}
+  {% endif %}
+
+  {{form_start(form_article) }}
+  {{ form_row(form_article.titre, {'label': 'Titre','attr' : {'placeholder' : "Titre de l'article" }}) }}
+  {{ form_row(form_article.description, {'label': 'Contenu','attr' : {'placeholder' : "Contenu de l'article" }}) }}
+
+  {% if classe == null %}
+    {{ form_row(form_article.classes,{'label': 'Classe(s) concernée(s) par l\'article'}) }}
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" name="article_public" type="checkbox" value="">
+          Public
+      </label>
+    </div>
+  {% endif %}
+  <br>
+  {{ form_row(form_article.important,{'label': 'IMPORTANT'}) }}
+      <br>
+    <button type="submit" class="btn btn-success mb-5">
+  	    {% if editMode %}
+  	        Modifier
+  	    {% else %}
+  	        Créer l'article
+  	    {% endif %}
+    </button>
+  {{ form_end(form_article) }}
+
+
+  {% if classe == null %}
+    {% block javascripts %}
+    {{ parent() }}
+      {{ encore_entry_script_tags('checkbox') }}
+
+    {% endblock %}
+  {% endif %}
+
+{% endblock %}
